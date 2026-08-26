@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - DIPLOMA HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .search-page {
+            padding: 100px 20px 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .search-box-large {
+            display: flex;
+            align-items: center;
+            background: var(--glass);
+            border: 2px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 5px;
+            transition: var(--transition);
+            margin-bottom: 30px;
+        }
+        .search-box-large:focus-within {
+            border-color: var(--cyan-400);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.1);
+        }
+        .search-box-large i {
+            padding: 0 15px;
+            color: var(--gray-500);
+            font-size: 1.1rem;
+        }
+        .search-box-large input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 0;
+            color: var(--white);
+            font-size: 1.1rem;
+            outline: none;
+        }
+        .search-box-large input::placeholder {
+            color: var(--gray-500);
+        }
+        .search-box-large button {
+            background: var(--cyan-500);
+            border: none;
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        .search-box-large button:hover {
+            background: var(--cyan-600);
+        }
+        .result-stats {
+            color: var(--gray-400);
+            margin-bottom: 20px;
+        }
+        .result-group {
+            margin-bottom: 25px;
+        }
+        .result-group h3 {
+            font-size: 1rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 8px;
+        }
+        .result-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            background: var(--glass);
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .result-item:hover {
+            border-color: var(--cyan-400);
+            transform: translateX(5px);
+        }
+        .result-item .icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+        .result-item .info {
+            flex: 1;
+        }
+        .result-item .info .title {
+            font-weight: 500;
+        }
+        .result-item .info .desc {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+        .result-item .badge {
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--cyan-400);
+        }
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-400);
+        }
+        .no-results i {
+            font-size: 4rem;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+        }
+        .no-results h2 {
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .filters button {
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass);
+            color: var(--gray-400);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+        .filters button:hover,
+        .filters button.active {
+            border-color: var(--cyan-400);
+            color: var(--cyan-400);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>DIPLOMA<span class="highlight">HUB</span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="courses.html">Courses</a>
+                <a href="equipment.html">Equipment</a>
+                <a href="practicals.html">Practicals</a>
+                <a href="quizzes.html">Quizzes</a>
+            </div>
+            <div class="nav-right">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-page" id="searchPage">
+        <div class="search-box-large">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search subjects, concepts, equipment, practicals..." id="searchInput" onkeydown="if(event.key==='Enter') performSearch()">
+            <button onclick="performSearch()">Search</button>
+        </div>
+
+        <div id="searchResults">
+            <div style="text-align: center; padding: 60px 20px; color: var(--gray-400);">
+                <i class="fas fa-search" style="font-size: 4rem; color: var(--gray-500); margin-bottom: 20px;"></i>
+                <h2 style="color: var(--white);">Search for Anything</h2>
+                <p>Search across courses, equipment, practicals, and quizzes</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>DIPLOMA HUB</h3>
+                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="courses.html">Courses</a>
+                    <a href="equipment.html">Equipment</a>
+                    <a href="practicals.html">Practicals</a>
+                    <a href="quizzes.html">Quizzes</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // ============================================
+        // GLOBAL SEARCH ENGINE
+        // ============================================
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const results = document.getElementById('searchResults');
+            
+            if (!query) {
+                results.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: var(--gray-400);">
+                        <i class="fas fa-search" style="font-size: 4rem; color: var(--gray-500); margin-bottom: 20px;"></i>
+                        <h2 style="color: var(--white);">Enter a Search Term</h2>
+                        <p>Type something to start searching</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Search across all data
+            const matches = {
+                equipment: EQUIPMENT.filter(e => 
+                    e.name.toLowerCase().includes(query) ||
+                    e.category.toLowerCase().includes(query) ||
+                    e.purpose.toLowerCase().includes(query)
+                ),
+                courses: COURSES.filter(c => 
+                    c.name.toLowerCase().includes(query) ||
+                    c.description.toLowerCase().includes(query)
+                )
+            };
+
+            const totalResults = matches.equipment.length + matches.courses.length;
+
+            if (totalResults === 0) {
+                results.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h2>No Results Found</h2>
+                        <p>We couldn't find anything matching "${query}"</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Try searching for: oscilloscope, lathe, programming, civil engineering</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `<div class="result-stats">Found ${totalResults} results for "${query}"</div>`;
+
+            // Equipment results
+            if (matches.equipment.length > 0) {
+                html += `
+                    <div class="result-group">
+                        <h3><i class="fas fa-microscope" style="color: var(--cyan-400);"></i> Equipment (${matches.equipment.length})</h3>
+                        ${matches.equipment.map(e => `
+                            <div class="result-item" onclick="window.location.href='equipment-detail.html?slug=${e.slug}'">
+                                <div class="icon">🔧</div>
+                                <div class="info">
+                                    <div class="title">${e.name}</div>
+                                    <div class="desc">${e.category} • ${e.purpose.substring(0, 80)}...</div>
+                                </div>
+                                <span class="badge">${e.category}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Course results
+            if (matches.courses.length > 0) {
+                html += `
+                    <div class="result-group">
+                        <h3><i class="fas fa-graduation-cap" style="color: var(--cyan-400);"></i> Courses (${matches.courses.length})</h3>
+                        ${matches.courses.map(c => `
+                            <div class="result-item" onclick="window.location.href='course-detail.html?course=${c.slug}'">
+                                <div class="icon">${c.icon}</div>
+                                <div class="info">
+                                    <div class="title">${c.name}</div>
+                                    <div class="desc">${c.description}</div>
+                                </div>
+                                <span class="badge">Course</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            results.innerHTML = html;
+        }
+
+        // Check if there's a query in URL
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('q');
+        if (q) {
+            document.getElementById('searchInput').value = q;
+            performSearch();
+        }
+    </script>
+</body>
+</html>
