@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - DIPLOMA HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>DIPLOMA<span class="highlight">HUB</span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="courses.html" class="active">Courses</a>
+                <a href="equipment.html">Equipment</a>
+            </div>
+            <div class="nav-right">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>All <span class="gradient-text">Courses</span></h1>
+            <p>Choose your engineering discipline and start your journey</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="course-grid" id="courseGrid"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>DIPLOMA HUB</h3>
+                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="courses.html">Courses</a>
+                    <a href="equipment.html">Equipment</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
