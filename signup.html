@@ -6,21 +6,83 @@
     <title>Sign Up - DIPLOMA HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- ✅ SUPABASE CDN ADDED -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* Same styles as login.html */
-        .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 20px 60px; }
-        .auth-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 50px 40px; max-width: 420px; width: 100%; }
-        .auth-card h1 { text-align: center; font-size: 2rem; margin-bottom: 8px; }
-        .auth-card p { text-align: center; color: var(--gray-400); margin-bottom: 30px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: var(--gray-300); }
-        .form-group input { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--white); font-size: 1rem; transition: var(--transition); }
-        .form-group input:focus { outline: none; border-color: var(--cyan-400); box-shadow: 0 0 20px rgba(6, 182, 212, 0.1); }
-        .form-group input::placeholder { color: var(--gray-500); }
-        .btn-block { width: 100%; justify-content: center; margin-top: 10px; }
-        .auth-footer { text-align: center; margin-top: 20px; color: var(--gray-400); }
-        .auth-footer a { color: var(--cyan-400); font-weight: 500; }
-        .auth-footer a:hover { text-decoration: underline; }
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 60px;
+        }
+        .auth-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 50px 40px;
+            max-width: 420px;
+            width: 100%;
+        }
+        .auth-card h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .auth-card p {
+            text-align: center;
+            color: var(--gray-400);
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--gray-300);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass);
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--cyan-400);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+        }
+        .form-group input::placeholder {
+            color: var(--gray-500);
+        }
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray-400);
+        }
+        .auth-footer a {
+            color: var(--cyan-400);
+            font-weight: 500;
+        }
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        .password-hint {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -28,39 +90,88 @@
         <div class="auth-card">
             <h1>Create Account</h1>
             <p>Start your diploma engineering journey today</p>
-            
+
             <form onsubmit="handleSignup(event)">
                 <div class="form-group">
                     <label for="signupName">Full Name</label>
                     <input type="text" id="signupName" placeholder="Your full name" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="signupEmail">Email Address</label>
                     <input type="email" id="signupEmail" placeholder="you@example.com" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="signupPassword">Password</label>
                     <input type="password" id="signupPassword" placeholder="Create a password" required>
+                    <div class="password-hint">Password must be at least 6 characters</div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="signupConfirm">Confirm Password</label>
                     <input type="password" id="signupConfirm" placeholder="Confirm your password" required>
                 </div>
-                
+
                 <button type="submit" class="btn btn-primary btn-block">
                     <i class="fas fa-user-plus"></i> Create Account
                 </button>
             </form>
-            
+
             <div class="auth-footer">
                 Already have an account? <a href="login.html">Sign In</a>
             </div>
         </div>
     </div>
-    
+
     <script src="js/auth.js"></script>
+    <script>
+        // ✅ INITIALIZE SUPABASE WHEN PAGE LOADS
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initSupabase === 'function') {
+                initSupabase();
+            } else {
+                console.warn('⚠️ initSupabase not found. Make sure auth.js is loaded.');
+            }
+        });
+
+        // ✅ HANDLE SIGNUP WITH SUPABASE
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const fullName = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+            
+            // Validation
+            if (!fullName) {
+                alert('Please enter your full name');
+                return;
+            }
+            
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+            
+            if (password !== confirm) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // Call signUp from auth.js
+            if (typeof signUp === 'function') {
+                await signUp(email, password, fullName);
+            } else {
+                alert('❌ Authentication not loaded. Please refresh.');
+            }
+        }
+    </script>
 </body>
 </html>
