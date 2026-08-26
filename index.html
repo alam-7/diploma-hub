@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIPLOMA HUB - Understand Engineering. Learn Practically.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- ============================================
+    NAVBAR
+    ============================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>DIPLOMA<span class="highlight">HUB</span></span>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="active">Home</a>
+                <a href="courses.html">Courses</a>
+                <a href="equipment.html">Equipment</a>
+                <a href="#practicals">Practicals</a>
+                <a href="#quizzes">Quizzes</a>
+                <a href="#about">About</a>
+            </div>
+
+            <div class="nav-right">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================
+    HERO SECTION
+    ============================================ -->
+    <section class="hero">
+        <div class="hero-pattern"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">DIPLOMA HUB</span>
+                </h1>
+                <p class="hero-tagline">"Understand Engineering. Learn Practically. Build the Future."</p>
+                <p class="hero-description">
+                    Your digital companion for Diploma Engineering — curriculum, concepts, 
+                    practicals, equipment, notes, lab resources and exam preparation.
+                </p>
+                <div class="hero-buttons">
+                    <a href="courses.html" class="btn btn-primary btn-lg">
+                        <i class="fas fa-book-open"></i> EXPLORE COURSES
+                    </a>
+                    <a href="dashboard.html" class="btn btn-outline btn-lg">
+                        <i class="fas fa-rocket"></i> START LEARNING
+                    </a>
+                </div>
+                <div class="hero-search">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search subjects, concepts, equipment, practicals..." id="globalSearch">
+                        <button onclick="performSearch()"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+    COURSES SECTION
+    ============================================ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Explore <span class="gradient-text">Courses</span></h2>
+                <p>Choose your engineering discipline and start learning</p>
+            </div>
+            <div class="course-grid" id="courseGrid">
+                <!-- Courses loaded from JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+    FEATURES SECTION
+    ============================================ -->
+    <section class="section bg-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>What You'll <span class="gradient-text">Discover</span></h2>
+                <p>Everything you need for your diploma engineering journey</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-microscope"></i></div>
+                    <h3>Equipment Library</h3>
+                    <p>200+ engineering equipment with detailed explanations, parts, and safety</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-flask"></i></div>
+                    <h3>Practicals & Labs</h3>
+                    <p>Step-by-step practical guides with viva questions and observations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-question-circle"></i></div>
+                    <h3>Quizzes & Exams</h3>
+                    <p>Practice quizzes, mock tests, and exam preparation tools</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+                    <h3>Study Planner</h3>
+                    <p>Plan your studies, track progress, and stay organized</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                    <h3>Gamification</h3>
+                    <p>Earn XP, unlock achievements, and level up your learning</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bookmark"></i></div>
+                    <h3>My Library</h3>
+                    <p>Bookmark and organize your favorite content</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+    STATS SECTION
+    ============================================ -->
+    <section class="section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Engineering Courses</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Equipment Items</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Concepts & Lessons</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Practice Questions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+    FOOTER
+    ============================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>DIPLOMA HUB</h3>
+                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="courses.html">Courses</a>
+                    <a href="equipment.html">Equipment</a>
+                    <a href="#">Practicals</a>
+                    <a href="#">Quizzes</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="#">MSBTE Official</a>
+                    <a href="#">Lab Manuals</a>
+                    <a href="#">Question Papers</a>
+                    <a href="#">Notes</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
