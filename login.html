@@ -6,6 +6,8 @@
     <title>Sign In - DIPLOMA HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- ✅ SUPABASE CDN ADDED -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         .auth-page {
             min-height: 100vh;
@@ -83,29 +85,59 @@
         <div class="auth-card">
             <h1>Welcome Back</h1>
             <p>Sign in to continue your learning journey</p>
-            
+
             <form onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label for="loginEmail">Email Address</label>
                     <input type="email" id="loginEmail" placeholder="you@example.com" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="loginPassword">Password</label>
                     <input type="password" id="loginPassword" placeholder="Enter your password" required>
                 </div>
-                
+
                 <button type="submit" class="btn btn-primary btn-block">
                     <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
             </form>
-            
+
             <div class="auth-footer">
                 Don't have an account? <a href="signup.html">Create one now</a>
             </div>
         </div>
     </div>
-    
+
     <script src="js/auth.js"></script>
+    <script>
+        // ✅ INITIALIZE SUPABASE WHEN PAGE LOADS
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initSupabase === 'function') {
+                initSupabase();
+            } else {
+                console.warn('⚠️ initSupabase not found. Make sure auth.js is loaded.');
+            }
+        });
+
+        // ✅ HANDLE LOGIN WITH SUPABASE
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            // Call signIn from auth.js
+            if (typeof signIn === 'function') {
+                await signIn(email, password);
+            } else {
+                alert('❌ Authentication not loaded. Please refresh.');
+            }
+        }
+    </script>
 </body>
 </html>
