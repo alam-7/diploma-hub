@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - DIPLOMA HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .error-content {
+            max-width: 600px;
+        }
+        .error-content .big-icon {
+            font-size: 6rem;
+            color: var(--cyan-400);
+            margin-bottom: 20px;
+        }
+        .error-content h1 {
+            font-size: 6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan-400), #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .error-content h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        .error-content p {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .error-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 768px) {
+            .error-content h1 {
+                font-size: 4rem;
+            }
+            .error-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-page">
+        <div class="error-content">
+            <div class="big-icon"><i class="fas fa-tools"></i></div>
+            <h1>404</h1>
+            <h2>Page Not Found</h2>
+            <p>Oops! The page you're looking for doesn't exist or has been moved. But don't worry, there's plenty to explore!</p>
+            <div class="error-buttons">
+                <a href="index.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-home"></i> Go Home
+                </a>
+                <a href="courses.html" class="btn btn-outline btn-lg">
+                    <i class="fas fa-book"></i> Explore Courses
+                </a>
+                <a href="equipment.html" class="btn btn-outline btn-lg">
+                    <i class="fas fa-microscope"></i> Equipment Library
+                </a>
+            </div>
+            <div style="margin-top: 30px;">
+                <a href="search.html" style="color: var(--cyan-400);">
+                    <i class="fas fa-search"></i> Try searching instead
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
