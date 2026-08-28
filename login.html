@@ -6,7 +6,7 @@
     <title>Sign In - DIPLOMA HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- ✅ SUPABASE CDN ADDED -->
+    <!-- ✅ SUPABASE CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         .auth-page {
@@ -86,7 +86,7 @@
             <h1>Welcome Back</h1>
             <p>Sign in to continue your learning journey</p>
 
-            <form onsubmit="handleLogin(event)">
+            <form id="loginForm">
                 <div class="form-group">
                     <label for="loginEmail">Email Address</label>
                     <input type="email" id="loginEmail" placeholder="you@example.com" required>
@@ -108,22 +108,29 @@
         </div>
     </div>
 
+    <!-- ✅ AUTH.JS -->
     <script src="js/auth.js"></script>
+    
+    <!-- ✅ LOGIN LOGIC -->
     <script>
-        // ✅ INITIALIZE SUPABASE WHEN PAGE LOADS
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Login page loaded');
+            
+            // Initialize Supabase
             if (typeof initSupabase === 'function') {
                 initSupabase();
+                console.log('✅ Supabase initialized');
             } else {
-                console.warn('⚠️ initSupabase not found. Make sure auth.js is loaded.');
+                console.error('❌ initSupabase not found! Check auth.js');
+                alert('⚠️ Authentication not loaded. Please refresh.');
             }
         });
 
-        // ✅ HANDLE LOGIN WITH SUPABASE
-        async function handleLogin(event) {
-            event.preventDefault();
+        // Handle login
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             
             if (!email || !password) {
@@ -131,13 +138,15 @@
                 return;
             }
             
-            // Call signIn from auth.js
+            console.log('🔐 Attempting login for:', email);
+            
             if (typeof signIn === 'function') {
                 await signIn(email, password);
             } else {
                 alert('❌ Authentication not loaded. Please refresh.');
+                console.error('❌ signIn function not found');
             }
-        }
+        });
     </script>
 </body>
 </html>
