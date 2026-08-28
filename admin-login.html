@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - DIPLOMA HUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .admin-login {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px;
+            background: var(--darker-bg);
+        }
+        .admin-login-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 50px 40px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.03);
+        }
+        .admin-login-card .logo {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .admin-login-card h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        .admin-login-card p {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .admin-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.05);
+        }
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+        }
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: none;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.4);
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-secondary);
+        }
+        .auth-footer a {
+            color: var(--neon-blue);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .auth-footer a:hover {
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login">
+        <div class="admin-login-card">
+            <div class="logo">🔐</div>
+            <h1>Admin <span class="gradient-text">Login</span></h1>
+            <p><span class="admin-badge">Restricted Access</span></p>
+
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminEmail">Email Address</label>
+                    <input type="email" id="adminEmail" placeholder="admin@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn-primary btn-block">
+                    <i class="fas fa-shield-alt"></i> Admin Sign In
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <a href="index.html">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initSupabase === 'function') {
+                initSupabase();
+            } else {
+                console.error('❌ auth.js not loaded');
+            }
+        });
+
+        document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            // Check if auth is loaded
+            if (typeof signIn !== 'function') {
+                alert('❌ Authentication not loaded. Please refresh.');
+                return;
+            }
+            
+            try {
+                // Sign in the user
+                const result = await signIn(email, password);
+                
+                if (result) {
+                    // Get current user to check role
+                    const user = await getCurrentUser();
+                    if (user) {
+                        const profile = await getProfile(user.id);
+                        
+                        // Check if user has admin role
+                        if (profile && profile.role === 'admin') {
+                            // ✅ Admin access granted
+                            window.location.href = 'admin-dashboard.html';
+                        } else {
+                            // ❌ Not an admin
+                            alert('❌ Access denied. Admin privileges required.');
+                            await signOut();
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error('❌ Login error:', err);
+                alert('❌ Login failed: ' + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
