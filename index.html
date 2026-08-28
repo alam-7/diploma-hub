@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DIPLOMA HUB – Understand Engineering. Learn Practically.</title>
+    <meta name="description" content="Your digital companion for Diploma Engineering — curriculum, concepts, practicals, equipment, notes, lab resources and exam preparation." />
+    <meta name="theme-color" content="#0a0a1a" />
 
     <!-- ===== FONTS & ICONS ===== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -20,7 +22,7 @@
 
     <style>
         /* ============================================================
-           EXTRA STYLES (ensures everything looks perfect)
+           EXTRA STYLES - ensures everything looks perfect
            ============================================================ */
 
         /* --- Reset & Base --- */
@@ -132,6 +134,118 @@
             font-size: 0.85rem;
         }
 
+        /* --- Navbar --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 0 20px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-logo i {
+            color: var(--neon-blue, #00d4ff);
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.2));
+        }
+
+        .nav-logo .highlight {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-blue, #00d4ff);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-blue, #00d4ff);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            border-radius: 2px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary, #8888bb);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--neon-blue, #00d4ff);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-primary, #e0e0ff);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         /* --- Cards --- */
         .course-grid,
         .features-grid {
@@ -228,6 +342,129 @@
             margin-top: 4px;
         }
 
+        /* --- Hero --- */
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.3;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to top, var(--dark-bg, #0a0a1a), transparent);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -2px;
+        }
+
+        .hero-tagline {
+            font-size: 2rem;
+            color: var(--text-secondary, #8888bb);
+            font-weight: 300;
+            margin-bottom: 16px;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary, #8888bb);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .hero-search {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
+            border-radius: 50px;
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--neon-blue, #00d4ff);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
+        }
+
+        .search-box i {
+            padding: 0 15px;
+            color: var(--text-secondary, #8888bb);
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 14px 0;
+            color: var(--text-primary, #e0e0ff);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-secondary, #8888bb);
+        }
+
+        .search-box button {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            border: none;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .search-box button:hover {
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
         /* --- Footer --- */
         .footer {
             background: var(--darker-bg, #05050f);
@@ -270,6 +507,7 @@
 
         .footer-col a:hover {
             color: var(--neon-blue, #00d4ff);
+            transform: translateX(4px);
         }
 
         .social-links {
@@ -313,8 +551,59 @@
             color: #f43f5e;
         }
 
+        .external-link {
+            font-size: 0.7rem;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+
         /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.8rem;
+            }
+            .hero-tagline {
+                font-size: 1.6rem;
+            }
+        }
+
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 26, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 24px;
+                gap: 16px;
+                border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-description {
+                font-size: 1rem;
+            }
+            .hero {
+                padding: 120px 0 60px;
+                min-height: auto;
+            }
+
             .section-header h2 {
                 font-size: 2rem;
             }
@@ -323,7 +612,6 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 30px;
             }
-
             .footer-bottom {
                 flex-direction: column;
                 text-align: center;
@@ -347,6 +635,10 @@
             .features-grid {
                 grid-template-columns: 1fr;
             }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
         }
     </style>
 </head>
@@ -368,6 +660,7 @@
                 <a href="equipment.html">Equipment</a>
                 <a href="practicals.html">Practicals</a>
                 <a href="quizzes.html">Quizzes</a>
+                <a href="resources.html">Resources</a>
                 <a href="about.html">About</a>
             </div>
 
@@ -535,15 +828,21 @@
                     <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
                     <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
                     <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
+                    <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
                 </div>
 
-                <!-- Resources -->
+                <!-- MSBTE Resources -->
                 <div class="footer-col">
-                    <h4>Resources</h4>
-                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> MSBTE Official</a>
-                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Lab Manuals</a>
-                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Question Papers</a>
-                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Notes</a>
+                    <h4>MSBTE Resources</h4>
+                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
+                        <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> MSBTE Official
+                    </a>
+                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
+                        <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> Curriculum Search
+                    </a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
+                        <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> Lab Manuals
+                    </a>
                 </div>
 
                 <!-- Support -->
@@ -558,7 +857,7 @@
 
             <div class="footer-bottom">
                 <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart"></i> for engineering students</p>
+                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
             </div>
         </div>
     </footer>
@@ -635,7 +934,6 @@
                 if (!btn) return;
 
                 try {
-                    // If auth.js is loaded, try to get the user
                     if (typeof getCurrentUser === 'function') {
                         const user = await getCurrentUser();
                         if (user) {
@@ -647,7 +945,6 @@
                     }
                 } catch (_) { /* ignore */ }
 
-                // Fallback: check localStorage
                 try {
                     const stored = localStorage.getItem('user');
                     if (stored) {
@@ -659,7 +956,6 @@
                     }
                 } catch (_) { /* ignore */ }
 
-                // Default: not signed in
                 btn.innerHTML = 'Sign In';
                 btn.href = 'login.html';
             }
@@ -671,12 +967,10 @@
                 const grid = document.getElementById('courseGrid');
                 if (!grid) return;
 
-                // Use COURSES from data.js, or fallback
                 let courses = [];
                 if (typeof COURSES !== 'undefined' && Array.isArray(COURSES) && COURSES.length > 0) {
                     courses = COURSES;
                 } else {
-                    // Fallback data – should never be needed if data.js loads
                     courses = [
                         { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻',
                             description: 'Study of computers, programming, networks, and software development.' },
@@ -707,26 +1001,20 @@
             // 6. INIT
             // ----------------------------------------------------------
             document.addEventListener('DOMContentLoaded', function() {
-                // Theme
                 loadTheme();
-
-                // Auth UI
                 updateAuthUI();
-
-                // Render courses
                 renderCourses();
 
-                // Initialize Supabase if available
                 if (typeof initSupabase === 'function') {
                     try {
                         initSupabase();
-                        console.log('✅ Supabase initialized from index.html');
+                        console.log('✅ Supabase initialized');
                     } catch (e) {
                         console.warn('⚠️ Supabase init failed:', e);
                     }
                 }
 
-                console.log('✅ Diploma Hub homepage fully loaded!');
+                console.log('✅ Diploma Hub loaded!');
             });
 
         })();
