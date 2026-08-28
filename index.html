@@ -22,9 +22,9 @@
                 <a href="index.html" class="active">Home</a>
                 <a href="courses.html">Courses</a>
                 <a href="equipment.html">Equipment</a>
-                <a href="#practicals">Practicals</a>
-                <a href="#quizzes">Quizzes</a>
-                <a href="#about">About</a>
+                <a href="practicals.html">Practicals</a>
+                <a href="quizzes.html">Quizzes</a>
+                <a href="about.html">About</a>
             </div>
 
             <div class="nav-right">
@@ -65,7 +65,7 @@
                 <div class="hero-search">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search subjects, concepts, equipment, practicals..." id="globalSearch">
+                        <input type="text" placeholder="Search subjects, concepts, equipment, practicals..." id="globalSearch" onkeydown="if(event.key==='Enter') performSearch()">
                         <button onclick="performSearch()"><i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
@@ -98,32 +98,32 @@
                 <p>Everything you need for your diploma engineering journey</p>
             </div>
             <div class="features-grid">
-                <div class="feature-card">
+                <div class="feature-card" onclick="window.location.href='equipment.html'">
                     <div class="feature-icon"><i class="fas fa-microscope"></i></div>
                     <h3>Equipment Library</h3>
                     <p>200+ engineering equipment with detailed explanations, parts, and safety</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" onclick="window.location.href='practicals.html'">
                     <div class="feature-icon"><i class="fas fa-flask"></i></div>
                     <h3>Practicals & Labs</h3>
                     <p>Step-by-step practical guides with viva questions and observations</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" onclick="window.location.href='quizzes.html'">
                     <div class="feature-icon"><i class="fas fa-question-circle"></i></div>
                     <h3>Quizzes & Exams</h3>
                     <p>Practice quizzes, mock tests, and exam preparation tools</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" onclick="window.location.href='dashboard.html'">
                     <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
                     <h3>Study Planner</h3>
                     <p>Plan your studies, track progress, and stay organized</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" onclick="window.location.href='dashboard.html'">
                     <div class="feature-icon"><i class="fas fa-trophy"></i></div>
                     <h3>Gamification</h3>
                     <p>Earn XP, unlock achievements, and level up your learning</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" onclick="window.location.href='dashboard.html'">
                     <div class="feature-icon"><i class="fas fa-bookmark"></i></div>
                     <h3>My Library</h3>
                     <p>Bookmark and organize your favorite content</p>
@@ -159,11 +159,12 @@
     </section>
 
     <!-- ============================================
-    FOOTER
+    FOOTER - FULLY CLICKABLE
     ============================================ -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
+                <!-- Column 1: Brand -->
                 <div class="footer-col">
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
@@ -173,28 +174,35 @@
                         <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
+
+                <!-- Column 2: Quick Links -->
                 <div class="footer-col">
                     <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="#">Practicals</a>
-                    <a href="#">Quizzes</a>
+                    <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Courses</a>
+                    <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Equipment</a>
+                    <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Practicals</a>
+                    <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Quizzes</a>
                 </div>
+
+                <!-- Column 3: Resources -->
                 <div class="footer-col">
                     <h4>Resources</h4>
-                    <a href="#">MSBTE Official</a>
-                    <a href="#">Lab Manuals</a>
-                    <a href="#">Question Papers</a>
-                    <a href="#">Notes</a>
+                    <a href="https://msbte.ac.in/" target="_blank"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> MSBTE Official</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Lab Manuals</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Question Papers</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Notes</a>
                 </div>
+
+                <!-- Column 4: Support -->
                 <div class="footer-col">
                     <h4>Support</h4>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms</a>
+                    <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> About</a>
+                    <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Contact</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Privacy Policy</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Terms</a>
                 </div>
             </div>
+
             <div class="footer-bottom">
                 <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
                 <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
