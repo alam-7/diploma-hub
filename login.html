@@ -6,7 +6,7 @@
     <title>Sign In - DIPLOMA HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- ✅ Only 1 line added: Supabase CDN -->
+    <!-- ✅ SUPABASE CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         .auth-page {
@@ -86,7 +86,8 @@
             <h1>Welcome Back</h1>
             <p>Sign in to continue your learning journey</p>
 
-            <form onsubmit="handleLogin(event)">
+            <!-- ✅ FIXED: Using id instead of onsubmit -->
+            <form id="loginForm">
                 <div class="form-group">
                     <label for="loginEmail">Email Address</label>
                     <input type="email" id="loginEmail" placeholder="you@example.com" required>
@@ -97,6 +98,7 @@
                     <input type="password" id="loginPassword" placeholder="Enter your password" required>
                 </div>
 
+                <!-- ✅ FIXED: type="submit" works with addEventListener -->
                 <button type="submit" class="btn btn-primary btn-block">
                     <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
@@ -108,29 +110,54 @@
         </div>
     </div>
 
-    <!-- ✅ Only 1 script: auth.js -->
+    <!-- ✅ auth.js -->
     <script src="js/auth.js"></script>
 
-    <!-- ✅ Minimal, clean login handler -->
+    <!-- ✅ FIXED: Clean login handler -->
     <script>
-        // Initialize Supabase when page loads
+        // Wait for page to load
         document.addEventListener('DOMContentLoaded', function() {
-            if (typeof initSupabase === 'function') {
-                initSupabase();
+            console.log('✅ Login page loaded');
+            
+            // Check if auth.js loaded
+            if (typeof initSupabase !== 'function') {
+                alert('⚠️ Authentication not loaded. Please refresh.');
+                return;
             }
+            
+            // Initialize Supabase
+            initSupabase();
+            console.log('✅ Supabase initialized');
         });
 
-        // Clean login function
-        async function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+        // ✅ FIXED: Using addEventListener instead of onsubmit
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            // ✅ FIXED: Prevents page refresh
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
-            if (typeof signIn === 'function') {
-                await signIn(email, password);
-            } else {
-                alert('Authentication not loaded. Please refresh.');
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
             }
-        }
+            
+            console.log('🔐 Attempting login for:', email);
+            
+            // ✅ FIXED: Check if signIn exists
+            if (typeof signIn === 'function') {
+                try {
+                    await signIn(email, password);
+                } catch (err) {
+                    console.error('❌ Login error:', err);
+                    alert('❌ Login failed: ' + err.message);
+                }
+            } else {
+                alert('❌ Authentication not loaded. Please refresh.');
+                console.error('❌ signIn function not found');
+            }
+        });
     </script>
 </body>
 </html>
