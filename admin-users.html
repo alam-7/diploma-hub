@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .admin-page {
+            padding: 90px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .admin-header h1 { font-size: 2rem; }
+        .admin-header .back-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .admin-header .back-btn:hover { color: var(--neon-blue); }
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+        .user-table th {
+            background: var(--darker-bg);
+            padding: 15px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .user-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-primary);
+        }
+        .user-table tr:hover td {
+            background: rgba(0, 212, 255, 0.02);
+        }
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-delete:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+        .role-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .role-badge.admin {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+        .role-badge.user {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--neon-blue);
+        }
+        .search-box-admin {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 5px 15px;
+            flex: 1;
+            max-width: 300px;
+        }
+        .search-box-admin input {
+            background: transparent;
+            border: none;
+            padding: 10px 0;
+            color: var(--text-primary);
+            width: 100%;
+            outline: none;
+        }
+        .search-box-admin input::placeholder {
+            color: var(--text-secondary);
+        }
+        .search-box-admin i {
+            color: var(--text-secondary);
+        }
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+        @media (max-width: 768px) {
+            .user-table { font-size: 0.85rem; }
+            .user-table th, .user-table td { padding: 10px; }
+            .admin-header { flex-direction: column; align-items: stretch; }
+            .search-box-admin { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>DIPLOMA<span class="highlight">HUB</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="admin-dashboard.html" class="active">Admin</a>
+            </div>
+            <div class="nav-right">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="sign-out-btn" onclick="signOut()" style="background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3);padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:500;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-page">
+        <div class="admin-header">
+            <div>
+                <a href="admin-dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                <h1>👥 Manage <span class="gradient-text">Users</span></h1>
+            </div>
+            <div class="search-box-admin">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search users..." id="searchInput" onkeyup="filterUsers()">
+            </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>XP</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userBody">
+                    <tr><td colspan="5" class="no-data">Loading users...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        let allUsers = [];
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof initSupabase === 'function') {
+                initSupabase();
+            }
+
+            const user = await getCurrentUser();
+            if (!user) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            const profile = await getProfile(user.id);
+            if (!profile || profile.role !== 'admin') {
+                alert('❌ Access denied.');
+                await signOut();
+                window.location.href = 'index.html';
+                return;
+            }
+
+            await loadUsers();
+        });
+
+        async function loadUsers() {
+            const body = document.getElementById('userBody');
+            body.innerHTML = '<tr><td colspan="5" class="no-data">Loading...</td></tr>';
+
+            try {
+                const { data: profiles, error } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allUsers = profiles || [];
+                renderUsers(allUsers);
+            } catch (err) {
+                console.error('Error loading users:', err);
+                body.innerHTML = '<tr><td colspan="5" class="no-data">Error loading users</td></tr>';
+            }
+        }
+
+        function renderUsers(users) {
+            const body = document.getElementById('userBody');
+            
+            if (!users || users.length === 0) {
+                body.innerHTML = '<tr><td colspan="5" class="no-data">No users found</td></tr>';
+                return;
+            }
+
+            body.innerHTML = users.map(u => `
+                <tr>
+                    <td><strong>${u.full_name || 'Unknown'}</strong></td>
+                    <td>${u.username || 'N/A'}</td>
+                    <td><span class="role-badge ${u.role || 'user'}">${u.role || 'user'}</span></td>
+                    <td>${u.xp || 0}</td>
+                    <td>
+                        ${u.role !== 'admin' ? `<button class="btn-delete" onclick="deleteUser('${u.id}')"><i class="fas fa-trash"></i></button>` : '<span style="color:var(--text-secondary);font-size:0.8rem;">Protected</span>'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterUsers() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allUsers.filter(u => 
+                (u.full_name || '').toLowerCase().includes(query) ||
+                (u.username || '').toLowerCase().includes(query)
+            );
+            renderUsers(filtered);
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('⚠️ Are you sure you want to delete this user? This action cannot be undone.')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('profiles')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                alert('✅ User deleted!');
+                await loadUsers();
+            } catch (err) {
+                alert('❌ Error: ' + err.message);
+            }
+        }
+    </script>
+</body>
+</html>
