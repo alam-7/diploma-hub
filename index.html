@@ -1,23 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIPLOMA HUB - Understand Engineering. Learn Practically.</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DIPLOMA HUB – Understand Engineering. Learn Practically.</title>
+
+    <!-- ===== FONTS & ICONS ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+    <!-- ===== SUPABASE (for auth-aware navbar) ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+
+    <!-- ===== MAIN STYLESHEET ===== -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        /* ============================================================
+           EXTRA STYLES (ensures everything looks perfect)
+           ============================================================ */
+
+        /* --- Reset & Base --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg, #0a0a1a);
+            color: var(--text-primary, #e0e0ff);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- Gradient Text --- */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* --- Section --- */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary, #8888bb);
+            font-size: 1.15rem;
+            margin-top: 6px;
+        }
+
+        .bg-dark {
+            background: var(--darker-bg, #05050f);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--neon-blue, #00d4ff);
+            border: 2px solid var(--neon-blue, #00d4ff);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 212, 255, 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+        }
+
+        .btn-lg {
+            padding: 18px 40px;
+            font-size: 1.05rem;
+        }
+
+        .btn-sm {
+            padding: 8px 20px;
+            font-size: 0.85rem;
+        }
+
+        /* --- Cards --- */
+        .course-grid,
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card,
+        .feature-card {
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card:hover,
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-blue, #00d4ff);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
+        }
+
+        .course-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .course-card h3,
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .course-card p,
+        .feature-card p {
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+        }
+
+        .card-link {
+            color: var(--neon-blue, #00d4ff);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 12px;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--neon-blue, #00d4ff);
+            margin-bottom: 12px;
+        }
+
+        /* --- Stats --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 30px;
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border-radius: 16px;
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary, #8888bb);
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background: var(--darker-bg, #05050f);
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 60px 0 30px;
+            margin-top: 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            color: var(--text-secondary, #8888bb);
+            margin-bottom: 12px;
+        }
+
+        .footer-col p {
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.95rem;
+            max-width: 300px;
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-secondary, #8888bb);
+            padding: 5px 0;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-col a:hover {
+            color: var(--neon-blue, #00d4ff);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-bottom i.fa-heart {
+            color: #f43f5e;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stat-number {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 50px 0;
+            }
+
+            .course-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- ============================================
+
+    <!-- ============================================================
     NAVBAR
-    ============================================ -->
+    ============================================================ -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <i class="fas fa-graduation-cap"></i>
                 <span>DIPLOMA<span class="highlight">HUB</span></span>
             </div>
-            
+
             <div class="nav-links" id="navLinks">
                 <a href="index.html" class="active">Home</a>
                 <a href="courses.html">Courses</a>
@@ -28,20 +372,20 @@
             </div>
 
             <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
                     <i class="fas fa-moon" id="themeIcon"></i>
                 </button>
                 <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle menu">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- ============================================
+    <!-- ============================================================
     HERO SECTION
-    ============================================ -->
+    ============================================================ -->
     <section class="hero">
         <div class="hero-pattern"></div>
         <div class="container">
@@ -49,9 +393,11 @@
                 <h1 class="hero-title">
                     <span class="gradient-text">DIPLOMA HUB</span>
                 </h1>
-                <p class="hero-tagline">"Understand Engineering. Learn Practically. Build the Future."</p>
+                <p class="hero-tagline">
+                    "Understand Engineering. Learn Practically. Build the Future."
+                </p>
                 <p class="hero-description">
-                    Your digital companion for Diploma Engineering — curriculum, concepts, 
+                    Your digital companion for Diploma Engineering — curriculum, concepts,
                     practicals, equipment, notes, lab resources and exam preparation.
                 </p>
                 <div class="hero-buttons">
@@ -65,32 +411,39 @@
                 <div class="hero-search">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search subjects, concepts, equipment, practicals..." id="globalSearch" onkeydown="if(event.key==='Enter') performSearch()">
-                        <button onclick="performSearch()"><i class="fas fa-arrow-right"></i></button>
+                        <input
+                        type="text"
+                        id="globalSearch"
+                        placeholder="Search subjects, concepts, equipment, practicals..."
+                        onkeydown="if(event.key==='Enter') performSearch()"
+                        />
+                        <button onclick="performSearch()">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ============================================
+    <!-- ============================================================
     COURSES SECTION
-    ============================================ -->
-    <section class="section">
+    ============================================================ -->
+    <section class="section" id="coursesSection">
         <div class="container">
             <div class="section-header">
                 <h2>Explore <span class="gradient-text">Courses</span></h2>
                 <p>Choose your engineering discipline and start learning</p>
             </div>
             <div class="course-grid" id="courseGrid">
-                <!-- Courses loaded from JavaScript -->
+                <!-- Dynamically rendered by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- ============================================
+    <!-- ============================================================
     FEATURES SECTION
-    ============================================ -->
+    ============================================================ -->
     <section class="section bg-dark">
         <div class="container">
             <div class="section-header">
@@ -98,32 +451,32 @@
                 <p>Everything you need for your diploma engineering journey</p>
             </div>
             <div class="features-grid">
-                <div class="feature-card" onclick="window.location.href='equipment.html'">
+                <div class="feature-card" onclick="location.href='equipment.html'">
                     <div class="feature-icon"><i class="fas fa-microscope"></i></div>
                     <h3>Equipment Library</h3>
                     <p>200+ engineering equipment with detailed explanations, parts, and safety</p>
                 </div>
-                <div class="feature-card" onclick="window.location.href='practicals.html'">
+                <div class="feature-card" onclick="location.href='practicals.html'">
                     <div class="feature-icon"><i class="fas fa-flask"></i></div>
-                    <h3>Practicals & Labs</h3>
+                    <h3>Practicals &amp; Labs</h3>
                     <p>Step-by-step practical guides with viva questions and observations</p>
                 </div>
-                <div class="feature-card" onclick="window.location.href='quizzes.html'">
+                <div class="feature-card" onclick="location.href='quizzes.html'">
                     <div class="feature-icon"><i class="fas fa-question-circle"></i></div>
-                    <h3>Quizzes & Exams</h3>
+                    <h3>Quizzes &amp; Exams</h3>
                     <p>Practice quizzes, mock tests, and exam preparation tools</p>
                 </div>
-                <div class="feature-card" onclick="window.location.href='dashboard.html'">
+                <div class="feature-card" onclick="location.href='dashboard.html'">
                     <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
                     <h3>Study Planner</h3>
                     <p>Plan your studies, track progress, and stay organized</p>
                 </div>
-                <div class="feature-card" onclick="window.location.href='dashboard.html'">
+                <div class="feature-card" onclick="location.href='dashboard.html'">
                     <div class="feature-icon"><i class="fas fa-trophy"></i></div>
                     <h3>Gamification</h3>
                     <p>Earn XP, unlock achievements, and level up your learning</p>
                 </div>
-                <div class="feature-card" onclick="window.location.href='dashboard.html'">
+                <div class="feature-card" onclick="location.href='dashboard.html'">
                     <div class="feature-icon"><i class="fas fa-bookmark"></i></div>
                     <h3>My Library</h3>
                     <p>Bookmark and organize your favorite content</p>
@@ -132,9 +485,9 @@
         </div>
     </section>
 
-    <!-- ============================================
+    <!-- ============================================================
     STATS SECTION
-    ============================================ -->
+    ============================================================ -->
     <section class="section">
         <div class="container">
             <div class="stats-grid">
@@ -148,7 +501,7 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">100+</div>
-                    <div class="stat-label">Concepts & Lessons</div>
+                    <div class="stat-label">Concepts &amp; Lessons</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">1000+</div>
@@ -158,63 +511,226 @@
         </div>
     </section>
 
-    <!-- ============================================
-    FOOTER - FULLY CLICKABLE
-    ============================================ -->
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <!-- Column 1: Brand -->
+                <!-- Brand -->
                 <div class="footer-col">
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
 
-                <!-- Column 2: Quick Links -->
+                <!-- Quick Links -->
                 <div class="footer-col">
                     <h4>Quick Links</h4>
-                    <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Courses</a>
-                    <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Equipment</a>
-                    <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Practicals</a>
-                    <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Quizzes</a>
+                    <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
+                    <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
+                    <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
+                    <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
                 </div>
 
-                <!-- Column 3: Resources -->
+                <!-- Resources -->
                 <div class="footer-col">
                     <h4>Resources</h4>
-                    <a href="https://msbte.ac.in/" target="_blank"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> MSBTE Official</a>
-                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Lab Manuals</a>
-                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Question Papers</a>
-                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Notes</a>
+                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> MSBTE Official</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Lab Manuals</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Question Papers</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Notes</a>
                 </div>
 
-                <!-- Column 4: Support -->
+                <!-- Support -->
                 <div class="footer-col">
                     <h4>Support</h4>
-                    <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> About</a>
-                    <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Contact</a>
-                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Privacy Policy</a>
-                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem; margin-right:5px;"></i> Terms</a>
+                    <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
+                    <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
+                    <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
                 </div>
             </div>
 
             <div class="footer-bottom">
                 <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
+                <p>Made with <i class="fas fa-heart"></i> for engineering students</p>
             </div>
         </div>
     </footer>
 
-    <!-- ============================================
+    <!-- ============================================================
     SCRIPTS
-    ============================================ -->
+    ============================================================ -->
+
+    <!-- Core data and app logic -->
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
+
+    <!-- ============================================================
+    MAIN APPLICATION SCRIPT
+    ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ----------------------------------------------------------
+            // 1. THEME
+            // ----------------------------------------------------------
+            function loadTheme() {
+                const saved = localStorage.getItem('theme');
+                const icon = document.getElementById('themeIcon');
+                if (saved === 'light') {
+                    document.body.setAttribute('data-theme', 'light');
+                    if (icon) icon.className = 'fas fa-sun';
+                } else {
+                    document.body.removeAttribute('data-theme');
+                    if (icon) icon.className = 'fas fa-moon';
+                }
+            }
+
+            window.toggleTheme = function() {
+                const body = document.body;
+                const icon = document.getElementById('themeIcon');
+                if (body.getAttribute('data-theme') === 'light') {
+                    body.removeAttribute('data-theme');
+                    if (icon) icon.className = 'fas fa-moon';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.setAttribute('data-theme', 'light');
+                    if (icon) icon.className = 'fas fa-sun';
+                    localStorage.setItem('theme', 'light');
+                }
+            };
+
+            // ----------------------------------------------------------
+            // 2. MOBILE MENU
+            // ----------------------------------------------------------
+            window.toggleMobileMenu = function() {
+                const nav = document.getElementById('navLinks');
+                if (nav) nav.classList.toggle('open');
+            };
+
+            // ----------------------------------------------------------
+            // 3. SEARCH
+            // ----------------------------------------------------------
+            window.performSearch = function() {
+                const input = document.getElementById('globalSearch');
+                const query = input ? input.value.trim() : '';
+                if (query) {
+                    window.location.href = 'search.html?q=' + encodeURIComponent(query);
+                }
+            };
+
+            // ----------------------------------------------------------
+            // 4. AUTH-AWARE NAVBAR
+            // ----------------------------------------------------------
+            async function updateAuthUI() {
+                const btn = document.getElementById('authBtn');
+                if (!btn) return;
+
+                try {
+                    // If auth.js is loaded, try to get the user
+                    if (typeof getCurrentUser === 'function') {
+                        const user = await getCurrentUser();
+                        if (user) {
+                            const name = user.user_metadata?.full_name || user.email || 'Dashboard';
+                            btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
+                            btn.href = 'dashboard.html';
+                            return;
+                        }
+                    }
+                } catch (_) { /* ignore */ }
+
+                // Fallback: check localStorage
+                try {
+                    const stored = localStorage.getItem('user');
+                    if (stored) {
+                        const user = JSON.parse(stored);
+                        const name = user?.user_metadata?.full_name || user?.email || 'Dashboard';
+                        btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
+                        btn.href = 'dashboard.html';
+                        return;
+                    }
+                } catch (_) { /* ignore */ }
+
+                // Default: not signed in
+                btn.innerHTML = 'Sign In';
+                btn.href = 'login.html';
+            }
+
+            // ----------------------------------------------------------
+            // 5. RENDER COURSES
+            // ----------------------------------------------------------
+            function renderCourses() {
+                const grid = document.getElementById('courseGrid');
+                if (!grid) return;
+
+                // Use COURSES from data.js, or fallback
+                let courses = [];
+                if (typeof COURSES !== 'undefined' && Array.isArray(COURSES) && COURSES.length > 0) {
+                    courses = COURSES;
+                } else {
+                    // Fallback data – should never be needed if data.js loads
+                    courses = [
+                        { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻',
+                            description: 'Study of computers, programming, networks, and software development.' },
+                        { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️',
+                            description: 'Study of machines, manufacturing, thermodynamics, and mechanical systems.' },
+                        { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️',
+                            description: 'Study of construction, infrastructure, surveying, and structural design.' },
+                        { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡',
+                            description: 'Study of electrical systems, power generation, motors, and control systems.' },
+                        { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡',
+                            description: 'Study of electronic circuits, communication systems, signal processing, and IoT.' }
+                    ];
+                }
+
+                grid.innerHTML = courses.map(function(course) {
+                    return `
+                            <div class="course-card" onclick="location.href='course-detail.html?course=${encodeURIComponent(course.slug)}'">
+                                <span class="icon">${course.icon || '📘'}</span>
+                                <h3>${course.name}</h3>
+                                <p>${course.description || 'Learn more about this engineering discipline.'}</p>
+                                <span class="card-link">Explore Course <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        `;
+                }).join('');
+            }
+
+            // ----------------------------------------------------------
+            // 6. INIT
+            // ----------------------------------------------------------
+            document.addEventListener('DOMContentLoaded', function() {
+                // Theme
+                loadTheme();
+
+                // Auth UI
+                updateAuthUI();
+
+                // Render courses
+                renderCourses();
+
+                // Initialize Supabase if available
+                if (typeof initSupabase === 'function') {
+                    try {
+                        initSupabase();
+                        console.log('✅ Supabase initialized from index.html');
+                    } catch (e) {
+                        console.warn('⚠️ Supabase init failed:', e);
+                    }
+                }
+
+                console.log('✅ Diploma Hub homepage fully loaded!');
+            });
+
+        })();
+    </script>
+
 </body>
 </html>
