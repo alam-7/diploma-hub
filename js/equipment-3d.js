@@ -1,47 +1,55 @@
 // ============================================================
-// HOLOGRAPHIC 3D EQUIPMENT VIEWER
+// HOLOGRAPHIC 3D EQUIPMENT VIEWER - COMPLETE ENGINE
 // ============================================================
 
-class EquipmentViewer {
-    constructor(container, modelUrl) {
-        this.container = container;
-        this.modelUrl = modelUrl;
+class HologramViewer {
+    constructor(containerId, options = {}) {
+        this.container = document.getElementById(containerId);
+        if (!this.container) {
+            console.error('❌ Container not found:', containerId);
+            return;
+        }
+
+        // Default options
+        this.options = {
+            autoRotate: true,
+            rotateSpeed: 0.005,
+            backgroundColor: 0x0a0a1a,
+            glowColor: 0x00f5ff,
+            glowColor2: 0x7b2ffc,
+            ...options
+        };
+
+        this.model = null;
         this.scene = null;
         this.camera = null;
         this.renderer = null;
-        this.model = null;
+        this.controls = null;
         this.animationId = null;
-        this.autoRotate = true;
-        this.isDragging = false;
-        this.previousMouse = { x: 0, y: 0 };
+        this.isLoading = true;
 
-        // Colors
-        this.holoColor = '#00f5ff';
-        this.holoColor2 = '#7b2ffc';
-        this.bgColor = '#0a0a1a';
-
-        // Initialize
         this.init();
     }
 
     // ============================================================
-    // INIT THREE.JS
+    // INITIALIZE
     // ============================================================
     init() {
         const container = this.container;
-        const width = container.clientWidth;
+        const width = container.clientWidth || 500;
         const height = container.clientHeight || 400;
 
-        // Scene
+        // --- Scene ---
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(this.bgColor);
+        this.scene.background = new THREE.Color(this.options.backgroundColor);
 
-        // Camera
-        this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+        // --- Camera ---
+        const aspect = width / height;
+        this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
         this.camera.position.set(4, 3, 6);
         this.camera.lookAt(0, 0, 0);
 
-        // Renderer
+        // --- Renderer ---
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true
@@ -54,59 +62,132 @@ class EquipmentViewer {
         this.renderer.toneMappingExposure = 1.2;
         container.appendChild(this.renderer.domElement);
 
-        // Lights
+        // --- Controls ---
+        this.setupControls();
+
+        // --- Lights ---
         this.addLights();
 
-        // Ground grid (holographic effect)
-        this.addGrid();
+        // --- Environment ---
+        this.addEnvironment();
 
-        // Particles (floating dots)
+        // --- Particles ---
         this.addParticles();
 
-        // Load model
-        if (this.modelUrl) {
-            this.loadModel(this.modelUrl);
+        // --- Events ---
+        this.setupEvents();
+
+        // --- Load Model ---
+        if (this.options.modelUrl) {
+            this.loadModel(this.options.modelUrl);
+        } else {
+            this.showFallback('No model URL provided');
         }
 
-        // Controls (mouse)
-        this.addControls();
-
-        // Resize
-        this.addResize();
-
-        // Start animation
+        // --- Start Animation ---
         this.animate();
     }
 
     // ============================================================
-    // ADD LIGHTS
+    // CONTROLS
+    // ============================================================
+    setupControls() {
+        const container = this.container;
+
+        // Mouse drag to rotate
+        let isDragging = false;
+        let previousMouse = { x: 0, y: 0 };
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMouse.x = e.clientX;
+            previousMouse.y = e.clientY;
+            this.options.autoRotate = false;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging && this.model) {
+                const deltaX = e.clientX - previousMouse.x;
+                const deltaY = e.clientY - previousMouse.y;
+                this.model.rotation.y += deltaX * 0.01;
+                this.model.rotation.x += deltaY * 0.01;
+                previousMouse.x = e.clientX;
+                previousMouse.y = e.clientY;
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            setTimeout(() => { this.options.autoRotate = true; }, 3000);
+        });
+
+        // Touch support
+        let touchStart = { x: 0, y: 0 };
+        container.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            touchStart.x = touch.clientX;
+            touchStart.y = touch.clientY;
+            isDragging = true;
+            this.options.autoRotate = false;
+        }, { passive: true });
+
+        container.addEventListener('touchmove', (e) => {
+            if (isDragging && this.model) {
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - touchStart.x;
+                const deltaY = touch.clientY - touchStart.y;
+                this.model.rotation.y += deltaX * 0.01;
+                this.model.rotation.x += deltaY * 0.01;
+                touchStart.x = touch.clientX;
+                touchStart.y = touch.clientY;
+            }
+        }, { passive: true });
+
+        container.addEventListener('touchend', () => {
+            isDragging = false;
+            setTimeout(() => { this.options.autoRotate = true; }, 3000);
+        }, { passive: true });
+
+        // Zoom with wheel
+        container.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = e.deltaY * 0.01;
+            const pos = this.camera.position;
+            const distance = pos.length();
+            const newDistance = Math.max(2, Math.min(10, distance + delta));
+            pos.normalize().multiplyScalar(newDistance);
+        }, { passive: false });
+    }
+
+    // ============================================================
+    // LIGHTS
     // ============================================================
     addLights() {
-        // Ambient light (dim)
+        // Ambient
         const ambient = new THREE.AmbientLight(0x222244, 0.5);
         this.scene.add(ambient);
 
-        // Main light - blue glow
+        // Main - blue
         const light1 = new THREE.DirectionalLight(0x00f5ff, 2);
         light1.position.set(5, 10, 7);
         light1.castShadow = true;
         this.scene.add(light1);
 
-        // Secondary light - purple glow
+        // Secondary - purple
         const light2 = new THREE.DirectionalLight(0x7b2ffc, 1.5);
         light2.position.set(-5, 3, -5);
         this.scene.add(light2);
 
-        // Back light - pink glow
+        // Back - pink
         const light3 = new THREE.DirectionalLight(0xff2d95, 0.8);
         light3.position.set(0, -3, -8);
         this.scene.add(light3);
 
-        // Hemisphere light
+        // Hemisphere
         const hemi = new THREE.HemisphereLight(0x00f5ff, 0x7b2ffc, 0.6);
         this.scene.add(hemi);
 
-        // Point lights for glow
+        // Point lights
         const p1 = new THREE.PointLight(0x00f5ff, 0.5, 20);
         p1.position.set(3, 3, 3);
         this.scene.add(p1);
@@ -117,17 +198,17 @@ class EquipmentViewer {
     }
 
     // ============================================================
-    // ADD HOLOGRAPHIC GRID
+    // ENVIRONMENT
     // ============================================================
-    addGrid() {
-        // Main grid
+    addEnvironment() {
+        // Holographic grid
         const gridHelper = new THREE.GridHelper(10, 20, 0x00f5ff, 0x7b2ffc);
         gridHelper.position.y = -1.5;
         gridHelper.material.transparent = true;
         gridHelper.material.opacity = 0.3;
         this.scene.add(gridHelper);
 
-        // Secondary grid (rotated)
+        // Secondary grid
         const grid2 = new THREE.GridHelper(8, 16, 0x7b2ffc, 0x00f5ff);
         grid2.position.y = -1.5;
         grid2.rotation.x = Math.PI / 6;
@@ -148,7 +229,7 @@ class EquipmentViewer {
         ring.rotation.x = -Math.PI / 2;
         this.scene.add(ring);
 
-        // Glow ring 2
+        // Outer glow ring
         const ring2 = new THREE.RingGeometry(2.5, 2.9, 64);
         const ringMaterial2 = new THREE.MeshBasicMaterial({
             color: 0x7b2ffc,
@@ -163,7 +244,7 @@ class EquipmentViewer {
     }
 
     // ============================================================
-    // ADD PARTICLES
+    // PARTICLES
     // ============================================================
     addParticles() {
         const count = 200;
@@ -204,28 +285,17 @@ class EquipmentViewer {
     }
 
     // ============================================================
-    // LOAD 3D MODEL
+    // LOAD MODEL
     // ============================================================
     loadModel(url) {
-        const loader = new THREE.GLTFLoader();
+        this.showLoading();
 
-        // Show loading
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'model-loading';
-        loadingDiv.innerHTML = `
-            <div class="loader">
-                <div class="loader-ring"></div>
-                <p>Loading hologram...</p>
-            </div>
-        `;
-        this.container.appendChild(loadingDiv);
+        const loader = new THREE.GLTFLoader();
 
         loader.load(
             url,
             (gltf) => {
-                // Remove loading
-                if (loadingDiv) loadingDiv.remove();
-
+                this.hideLoading();
                 this.model = gltf.scene;
 
                 // Scale and center
@@ -244,33 +314,29 @@ class EquipmentViewer {
                 this.addGlowOutline(this.model);
 
                 this.scene.add(this.model);
-
-                // Trigger animation
+                this.isLoading = false;
                 this.onModelLoaded();
             },
             (xhr) => {
                 const progress = Math.round((xhr.loaded / xhr.total) * 100);
-                if (loadingDiv) {
-                    loadingDiv.querySelector('p').textContent = `Loading hologram... ${progress}%`;
-                }
+                this.updateLoadingProgress(progress);
             },
             (error) => {
-                if (loadingDiv) loadingDiv.remove();
-                console.error('Error loading model:', error);
-                this.showFallback();
+                this.hideLoading();
+                console.error('❌ Model load error:', error);
+                this.showFallback('Failed to load 3D model');
             }
         );
     }
 
     // ============================================================
-    // APPLY HOLOGRAPHIC MATERIAL
+    // HOLOGRAPHIC MATERIAL
     // ============================================================
     applyHoloMaterial(object) {
         object.traverse((child) => {
             if (child.isMesh) {
                 const originalMaterial = child.material;
 
-                // Create holographic material
                 const holoMaterial = new THREE.ShaderMaterial({
                     uniforms: {
                         uTime: { value: 0 },
@@ -302,29 +368,23 @@ class EquipmentViewer {
                         varying vec3 vPosition;
 
                         void main() {
-                            // Base color with gradient
                             float mixVal = vUv.y * 0.8 + 0.2;
                             vec3 baseColor = mix(uColor1, uColor2, mixVal);
 
-                            // Scanline effect
                             float scanline = sin(vUv.y * 200.0 + uTime * 2.0) * 0.5 + 0.5;
                             scanline = step(0.95, scanline) * 0.5;
 
-                            // Fresnel glow (edges glow more)
                             vec3 viewDir = normalize(-vPosition);
                             float fresnel = 1.0 - max(dot(viewDir, vNormal), 0.0);
                             float glow = pow(fresnel, 2.0) * uGlow * 2.0;
 
-                            // Holographic interference pattern
                             float holo = sin(vUv.x * 50.0 + uTime) * 0.3 + 0.7;
                             holo *= sin(vUv.y * 30.0 + uTime * 0.7) * 0.3 + 0.7;
 
-                            // Combine
                             vec3 color = baseColor * (0.5 + holo * 0.5);
                             color += vec3(0.5, 0.7, 1.0) * scanline;
                             color += baseColor * glow;
 
-                            // Alpha with fresnel
                             float alpha = 0.6 + glow * 0.4;
 
                             gl_FragColor = vec4(color, alpha);
@@ -343,7 +403,7 @@ class EquipmentViewer {
     }
 
     // ============================================================
-    // ADD GLOW OUTLINE
+    // GLOW OUTLINE
     // ============================================================
     addGlowOutline(object) {
         object.traverse((child) => {
@@ -366,84 +426,22 @@ class EquipmentViewer {
     }
 
     // ============================================================
-    // CONTROLS
+    // EVENTS
     // ============================================================
-    addControls() {
+    setupEvents() {
         const container = this.container;
 
-        // Mouse drag
-        container.addEventListener('mousedown', (e) => {
-            this.isDragging = true;
-            this.previousMouse.x = e.clientX;
-            this.previousMouse.y = e.clientY;
-            this.autoRotate = false;
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (this.isDragging && this.model) {
-                const deltaX = e.clientX - this.previousMouse.x;
-                const deltaY = e.clientY - this.previousMouse.y;
-                this.model.rotation.y += deltaX * 0.01;
-                this.model.rotation.x += deltaY * 0.01;
-                this.previousMouse.x = e.clientX;
-                this.previousMouse.y = e.clientY;
-            }
-        });
-
-        window.addEventListener('mouseup', () => {
-            this.isDragging = false;
-            setTimeout(() => { this.autoRotate = true; }, 3000);
-        });
-
-        // Touch
-        let touchStart = { x: 0, y: 0 };
-        container.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            touchStart.x = touch.clientX;
-            touchStart.y = touch.clientY;
-            this.isDragging = true;
-            this.autoRotate = false;
-        }, { passive: true });
-
-        container.addEventListener('touchmove', (e) => {
-            if (this.isDragging && this.model) {
-                const touch = e.touches[0];
-                const deltaX = touch.clientX - touchStart.x;
-                const deltaY = touch.clientY - touchStart.y;
-                this.model.rotation.y += deltaX * 0.01;
-                this.model.rotation.x += deltaY * 0.01;
-                touchStart.x = touch.clientX;
-                touchStart.y = touch.clientY;
-            }
-        }, { passive: true });
-
-        container.addEventListener('touchend', () => {
-            this.isDragging = false;
-            setTimeout(() => { this.autoRotate = true; }, 3000);
-        }, { passive: true });
-
-        // Zoom
-        container.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const delta = e.deltaY * 0.01;
-            const pos = this.camera.position;
-            const distance = pos.length();
-            const newDistance = Math.max(2, Math.min(10, distance + delta));
-            pos.normalize().multiplyScalar(newDistance);
-        }, { passive: false });
-    }
-
-    // ============================================================
-    // RESIZE
-    // ============================================================
-    addResize() {
-        const container = this.container;
+        // Resize
         const resizeObserver = new ResizeObserver(() => {
-            const width = container.clientWidth;
+            const width = container.clientWidth || 500;
             const height = container.clientHeight || 400;
-            this.camera.aspect = width / height;
-            this.camera.updateProjectionMatrix();
-            this.renderer.setSize(width, height);
+            if (this.camera) {
+                this.camera.aspect = width / height;
+                this.camera.updateProjectionMatrix();
+            }
+            if (this.renderer) {
+                this.renderer.setSize(width, height);
+            }
         });
         resizeObserver.observe(container);
     }
@@ -455,11 +453,11 @@ class EquipmentViewer {
         this.animationId = requestAnimationFrame(() => this.animate());
 
         // Auto rotate
-        if (this.autoRotate && this.model) {
-            this.model.rotation.y += 0.005;
+        if (this.options.autoRotate && this.model) {
+            this.model.rotation.y += this.options.rotateSpeed;
         }
 
-        // Update particle animation
+        // Animate particles
         const particles = this.scene.getObjectByName('particles');
         if (particles) {
             particles.rotation.y += 0.001;
@@ -479,32 +477,63 @@ class EquipmentViewer {
     }
 
     // ============================================================
-    // FALLBACK (if model fails to load)
+    // LOADING UI
     // ============================================================
-    showFallback() {
-        const container = this.container;
-        container.innerHTML = `
-            <div class="model-fallback" style="
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 400px;
-                background: rgba(10,10,26,0.5);
-                border: 1px dashed rgba(0,212,255,0.3);
-                border-radius: 16px;
-                color: var(--gray-400);
-                font-family: inherit;
-            ">
-                <i class="fas fa-cube" style="font-size: 4rem; color: var(--cyan-400); margin-bottom: 15px;"></i>
-                <h3 style="color: var(--white); margin-bottom: 5px;">3D Model Not Available</h3>
-                <p>Holographic view coming soon for this equipment.</p>
+    showLoading() {
+        this.container.innerHTML = `
+            <div class="holo-loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:var(--darker-bg);">
+                <div class="holo-spinner" style="width:50px;height:50px;border-radius:50%;border:3px solid var(--glass-border);border-top-color:var(--cyan-400);animation:spin 1s linear infinite;margin-bottom:15px;"></div>
+                <p style="color:var(--gray-400);font-family:inherit;">Loading hologram...</p>
+                <p class="holo-progress" style="color:var(--gray-500);font-size:0.85rem;font-family:inherit;">0%</p>
+            </div>
+            <style>
+                @keyframes spin { 100% { transform:rotate(360deg); } }
+            </style>
+        `;
+        this.isLoading = true;
+    }
+
+    updateLoadingProgress(progress) {
+        const progressEl = this.container.querySelector('.holo-progress');
+        if (progressEl) {
+            progressEl.textContent = progress + '%';
+        }
+    }
+
+    hideLoading() {
+        this.isLoading = false;
+        // Remove loading overlay but keep container
+        const loadingEl = this.container.querySelector('.holo-loading');
+        if (loadingEl) {
+            loadingEl.remove();
+        }
+    }
+
+    // ============================================================
+    // FALLBACK
+    // ============================================================
+    showFallback(message) {
+        this.container.innerHTML = `
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:var(--darker-bg);color:var(--gray-400);font-family:inherit;padding:20px;text-align:center;">
+                <i class="fas fa-cube" style="font-size:3rem;color:var(--cyan-400);margin-bottom:15px;"></i>
+                <h3 style="color:var(--white);margin-bottom:5px;">3D Hologram Unavailable</h3>
+                <p>${message || 'Model not found for this equipment.'}</p>
+                <p style="font-size:0.85rem;margin-top:8px;color:var(--gray-500);">✨ A holographic view will be added soon</p>
             </div>
         `;
     }
 
+    // ============================================================
+    // CALLBACKS
+    // ============================================================
     onModelLoaded() {
-        console.log('✅ Holographic model loaded!');
+        console.log('✅ Holographic model loaded successfully!');
+        // Remove loading text
+        const progressEl = this.container.querySelector('.holo-progress');
+        if (progressEl) {
+            progressEl.textContent = '✨ Ready';
+            progressEl.style.color = '#22c55e';
+        }
     }
 
     // ============================================================
@@ -527,7 +556,7 @@ class EquipmentViewer {
 // EXPORT
 // ============================================================
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EquipmentViewer;
+    module.exports = HologramViewer;
 } else {
-    window.EquipmentViewer = EquipmentViewer;
+    window.HologramViewer = HologramViewer;
 }
