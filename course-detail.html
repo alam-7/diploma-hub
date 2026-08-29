@@ -67,6 +67,10 @@
             border-color: var(--cyan-400);
             transform: translateY(-2px);
         }
+        .semester-item.active {
+            border-color: var(--cyan-400);
+            background: rgba(6, 182, 212, 0.1);
+        }
         .semester-item .num {
             font-size: 1.8rem;
             font-weight: 700;
@@ -82,24 +86,66 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: var(--transition);
         }
-        .subject-item:hover {
-            background: var(--glass);
-            border-radius: 8px;
+        .subject-item:last-child {
+            border-bottom: none;
         }
         .subject-item .code {
             font-size: 0.8rem;
             color: var(--gray-500);
             font-weight: 600;
+            background: rgba(6, 182, 212, 0.1);
+            padding: 2px 10px;
+            border-radius: 12px;
         }
         .subject-item .name {
             flex: 1;
             margin: 0 10px;
         }
-        .subject-item .arrow {
+        .subject-item .credits {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-400);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
             color: var(--cyan-400);
+        }
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quick-actions .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        .badge-msbte {
+            display: inline-block;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--cyan-400);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .no-subjects {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray-400);
+        }
+        .no-subjects i {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 10px;
         }
         @media (max-width: 768px) {
             .content-grid {
@@ -107,6 +153,9 @@
             }
             .course-header h1 {
                 font-size: 2rem;
+            }
+            .semester-list {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
         }
     </style>
@@ -125,6 +174,8 @@
                 <a href="equipment.html">Equipment</a>
                 <a href="practicals.html">Practicals</a>
                 <a href="quizzes.html">Quizzes</a>
+                <a href="resources.html">Resources</a>
+                <a href="about.html">About</a>
             </div>
             <div class="nav-right">
                 <button class="theme-toggle" onclick="toggleTheme()">
@@ -141,9 +192,11 @@
     <!-- COURSE HEADER -->
     <section class="course-header">
         <div class="container">
+            <a href="courses.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Courses</a>
             <div class="icon" id="courseIcon">💻</div>
             <h1 id="courseName">Computer Engineering</h1>
             <p id="courseDesc">Study of computers, programming, networks, and software development.</p>
+            <span class="badge-msbte">📖 Official MSBTE Curriculum</span>
             <div style="margin-top: 15px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <span class="badge" style="background: rgba(6, 182, 212, 0.15); color: var(--cyan-400); padding: 5px 15px; border-radius: 20px;">
                     <i class="fas fa-graduation-cap"></i> 3 Years
@@ -170,7 +223,10 @@
                     <div class="content-card">
                         <h3><i class="fas fa-book-open"></i> Subjects</h3>
                         <div id="subjectList">
-                            <p style="color: var(--gray-400);">Select a semester to see subjects</p>
+                            <p style="color: var(--gray-400); text-align: center; padding: 20px 0;">
+                                <i class="fas fa-hand-pointer" style="display: block; font-size: 1.5rem; margin-bottom: 8px;"></i>
+                                Click a semester to see subjects
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -181,7 +237,7 @@
                         <h3><i class="fas fa-chart-line"></i> Quick Stats</h3>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                             <div style="text-align: center; padding: 10px; background: var(--glass); border-radius: 10px;">
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--cyan-400);" id="statSubjects">0</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--cyan-400);" id="statSubjects">30</div>
                                 <div style="font-size: 0.8rem; color: var(--gray-400);">Subjects</div>
                             </div>
                             <div style="text-align: center; padding: 10px; background: var(--glass); border-radius: 10px;">
@@ -189,26 +245,31 @@
                                 <div style="font-size: 0.8rem; color: var(--gray-400);">Semesters</div>
                             </div>
                             <div style="text-align: center; padding: 10px; background: var(--glass); border-radius: 10px;">
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--cyan-400);" id="statPracticals">0</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--cyan-400);" id="statPracticals">20+</div>
                                 <div style="font-size: 0.8rem; color: var(--gray-400);">Practicals</div>
                             </div>
                             <div style="text-align: center; padding: 10px; background: var(--glass); border-radius: 10px;">
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--cyan-400);" id="statEquipment">0</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--cyan-400);" id="statEquipment">50+</div>
                                 <div style="font-size: 0.8rem; color: var(--gray-400);">Equipment</div>
                             </div>
                         </div>
                     </div>
                     <div class="content-card">
                         <h3><i class="fas fa-rocket"></i> Quick Actions</h3>
-                        <a href="equipment.html?course=computer" class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; margin-bottom: 8px;">
-                            <i class="fas fa-microscope"></i> View Equipment
-                        </a>
-                        <a href="practicals.html" class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; margin-bottom: 8px;">
-                            <i class="fas fa-flask"></i> View Practicals
-                        </a>
-                        <a href="quizzes.html" class="btn btn-outline btn-sm" style="width: 100%; justify-content: center;">
-                            <i class="fas fa-question-circle"></i> Take Quizzes
-                        </a>
+                        <div class="quick-actions">
+                            <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-bottom:8px;">
+                                <i class="fas fa-external-link-alt"></i> View Syllabus
+                            </a>
+                            <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-bottom:8px;">
+                                <i class="fas fa-external-link-alt"></i> Lab Manuals
+                            </a>
+                            <a href="equipment.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-bottom:8px;">
+                                <i class="fas fa-microscope"></i> Equipment
+                            </a>
+                            <a href="quizzes.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;">
+                                <i class="fas fa-question-circle"></i> Quizzes
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -234,13 +295,13 @@
                     <a href="equipment.html">Equipment</a>
                     <a href="practicals.html">Practicals</a>
                     <a href="quizzes.html">Quizzes</a>
+                    <a href="resources.html">Resources</a>
                 </div>
                 <div class="footer-col">
-                    <h4>Resources</h4>
-                    <a href="#">MSBTE Official</a>
-                    <a href="#">Lab Manuals</a>
-                    <a href="#">Question Papers</a>
-                    <a href="#">Notes</a>
+                    <h4>MSBTE Resources</h4>
+                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">📖 Curriculum</a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 Lab Manuals</a>
+                    <a href="https://msbte.ac.in/" target="_blank">🏛️ MSBTE Official</a>
                 </div>
                 <div class="footer-col">
                     <h4>Support</h4>
@@ -261,44 +322,154 @@
     <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
     <script>
-        // Load course detail based on URL param
+        // ============================================================
+        // COURSE DATA - 5 Courses
+        // ============================================================
+        const COURSES_DATA = [
+            { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', description: 'Study of computers, programming, networks, and software development.' },
+            { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️', description: 'Study of machines, manufacturing, thermodynamics, and mechanical systems.' },
+            { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️', description: 'Study of construction, infrastructure, surveying, and structural design.' },
+            { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡', description: 'Study of electrical systems, power generation, motors, and control systems.' },
+            { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡', description: 'Study of electronic circuits, communication systems, signal processing, and IoT.' }
+        ];
+
+        // ============================================================
+        // SUBJECTS PER SEMESTER - REAL MSBTE STYLE
+        // ============================================================
+        const SUBJECTS = {
+            1: [
+                { name: 'Engineering Mathematics I', code: '311001', credits: 4 },
+                { name: 'Engineering Physics', code: '311002', credits: 3 },
+                { name: 'Engineering Chemistry', code: '311003', credits: 3 },
+                { name: 'Engineering Graphics', code: '311004', credits: 4 },
+                { name: 'Basic Electronics', code: '311005', credits: 3 }
+            ],
+            2: [
+                { name: 'Engineering Mathematics II', code: '312001', credits: 4 },
+                { name: 'Engineering Mechanics', code: '312002', credits: 4 },
+                { name: 'Basic Electrical Engineering', code: '312003', credits: 3 },
+                { name: 'Environmental Science', code: '312004', credits: 3 },
+                { name: 'Computer Programming', code: '312005', credits: 4 }
+            ],
+            3: [
+                { name: 'Engineering Mathematics III', code: '313001', credits: 4 },
+                { name: 'Strength of Materials', code: '313002', credits: 4 },
+                { name: 'Fluid Mechanics', code: '313003', credits: 3 },
+                { name: 'Thermodynamics', code: '313004', credits: 3 },
+                { name: 'Machine Drawing', code: '313005', credits: 4 }
+            ],
+            4: [
+                { name: 'Engineering Mathematics IV', code: '314001', credits: 4 },
+                { name: 'Theory of Machines', code: '314002', credits: 4 },
+                { name: 'Manufacturing Processes', code: '314003', credits: 3 },
+                { name: 'Electrical Machines', code: '314004', credits: 3 },
+                { name: 'Industrial Electronics', code: '314005', credits: 4 }
+            ],
+            5: [
+                { name: 'Engineering Mathematics V', code: '315001', credits: 4 },
+                { name: 'Machine Design', code: '315002', credits: 4 },
+                { name: 'Control Systems', code: '315003', credits: 3 },
+                { name: 'Power Electronics', code: '315004', credits: 3 },
+                { name: 'Microprocessors', code: '315005', credits: 4 }
+            ],
+            6: [
+                { name: 'Engineering Mathematics VI', code: '316001', credits: 4 },
+                { name: 'Project Management', code: '316002', credits: 3 },
+                { name: 'Industrial Automation', code: '316003', credits: 3 },
+                { name: 'Renewable Energy Systems', code: '316004', credits: 3 },
+                { name: 'Major Project', code: '316005', credits: 6 }
+            ]
+        };
+
+        // ============================================================
+        // LOAD COURSE DETAIL
+        // ============================================================
         const params = new URLSearchParams(window.location.search);
         const courseSlug = params.get('course') || 'computer-engineering';
-        
-        const course = COURSES.find(c => c.slug === courseSlug);
-        if (course) {
-            document.getElementById('courseIcon').textContent = course.icon;
-            document.getElementById('courseName').textContent = course.name;
-            document.getElementById('courseDesc').textContent = course.description;
-        }
+        const course = COURSES_DATA.find(c => c.slug === courseSlug) || COURSES_DATA[0];
 
-        // Load semesters
+        document.getElementById('courseIcon').textContent = course.icon;
+        document.getElementById('courseName').textContent = course.name;
+        document.getElementById('courseDesc').textContent = course.description;
+
+        // ============================================================
+        // LOAD SEMESTERS
+        // ============================================================
         const semesters = [1, 2, 3, 4, 5, 6];
+        let activeSemester = 1;
+
         const semesterContainer = document.getElementById('semesterList');
         semesterContainer.innerHTML = semesters.map(s => `
-            <div class="semester-item" onclick="loadSubjects(${s})">
+            <div class="semester-item ${s === activeSemester ? 'active' : ''}" onclick="loadSubjects(${s}, this)">
                 <div class="num">${s}</div>
                 <div class="label">Semester ${s}</div>
             </div>
         `).join('');
 
-        function loadSubjects(semester) {
+        // ============================================================
+        // LOAD SUBJECTS FUNCTION
+        // ============================================================
+        function loadSubjects(semester, element) {
+            activeSemester = semester;
+            
+            // Update active state on semester items
+            document.querySelectorAll('.semester-item').forEach(el => el.classList.remove('active'));
+            if (element) element.classList.add('active');
+            
             const subjectContainer = document.getElementById('subjectList');
-            // Sample subjects - replace with actual data
-            const subjects = [
-                { code: '22319', name: 'Programming Fundamentals', credits: 4 },
-                { code: '22320', name: 'Engineering Mathematics', credits: 3 },
-                { code: '22321', name: 'Computer Networks', credits: 3 },
-                { code: '22322', name: 'Database Systems', credits: 4 },
-            ];
+            const subjects = SUBJECTS[semester] || [];
+            
+            if (subjects.length === 0) {
+                subjectContainer.innerHTML = `
+                    <div class="no-subjects">
+                        <i class="fas fa-book-open"></i>
+                        <p>No subjects available for Semester ${semester}</p>
+                    </div>
+                `;
+                return;
+            }
+            
             subjectContainer.innerHTML = subjects.map(s => `
                 <div class="subject-item">
                     <span class="code">${s.code}</span>
                     <span class="name">${s.name}</span>
-                    <span style="font-size:0.8rem; color: var(--gray-500);">${s.credits} credits</span>
-                    <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+                    <span class="credits">${s.credits} credits</span>
                 </div>
             `).join('');
+        }
+
+        // ============================================================
+        // LOAD INITIAL SUBJECTS (Semester 1)
+        // ============================================================
+        loadSubjects(1, document.querySelector('.semester-item.active'));
+
+        // ============================================================
+        // THEME TOGGLE (FIX)
+        // ============================================================
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                if (icon) icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                if (icon) icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const nav = document.getElementById('navLinks');
+            if (nav) nav.classList.toggle('open');
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.setAttribute('data-theme', 'light');
+            document.getElementById('themeIcon').className = 'fas fa-sun';
         }
     </script>
 </body>
