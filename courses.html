@@ -6,8 +6,70 @@
     <title>Courses - DIPLOMA HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .page-section {
+            padding: 120px 20px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .page-section h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        .page-section .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .course-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        .course-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
+        }
+        .course-card .icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .course-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .course-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+        }
+        .card-link {
+            color: var(--neon-blue);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        .card-link:hover {
+            gap: 12px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -18,118 +80,139 @@
                 <a href="index.html">Home</a>
                 <a href="courses.html" class="active">Courses</a>
                 <a href="equipment.html">Equipment</a>
+                <a href="practicals.html">Practicals</a>
+                <a href="quizzes.html">Quizzes</a>
+                <a href="resources.html">Resources</a>
+                <a href="about.html">About</a>
             </div>
             <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
-                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
+                <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
             </div>
         </div>
     </nav>
 
-    <section class="page-header">
+    <!-- Content -->
+    <section class="page-section">
         <div class="container">
             <h1>All <span class="gradient-text">Courses</span></h1>
-            <p>Choose your engineering discipline and start your journey</p>
+            <p class="subtitle">Choose your engineering discipline and start learning</p>
+            <div class="course-grid" id="courseGrid">
+                <!-- Rendered by JavaScript -->
+            </div>
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="course-grid" id="courseGrid"></div>
-        </div>
-    </section>
-
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <a href="courses.html">Courses</a>
                     <a href="equipment.html">Equipment</a>
+                    <a href="practicals.html">Practicals</a>
+                    <a href="quizzes.html">Quizzes</a>
+                    <a href="resources.html">Resources</a>
+                </div>
+                <div class="footer-col">
+                    <h4>MSBTE Resources</h4>
+                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">📖 MSBTE Curriculum</a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 Lab Manuals</a>
+                    <a href="https://msbte.ac.in/" target="_blank">🏛️ MSBTE Official</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms</a>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
+                <p>Made with ❤️ for engineering students</p>
             </div>
         </div>
     </footer>
 
-    <script src="js/data.js"></script>
+    <script>
+        // ============================================================
+        // COURSE DATA
+        // ============================================================
+        const courses = [
+            { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', description: 'Study of computers, programming, networks, and software development.' },
+            { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️', description: 'Study of machines, manufacturing, thermodynamics, and mechanical systems.' },
+            { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️', description: 'Study of construction, infrastructure, surveying, and structural design.' },
+            { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡', description: 'Study of electrical systems, power generation, motors, and control systems.' },
+            { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡', description: 'Study of electronic circuits, communication systems, signal processing, and IoT.' }
+        ];
+
+        // ============================================================
+        // RENDER COURSES
+        // ============================================================
+        function renderCourses() {
+            const grid = document.getElementById('courseGrid');
+            if (!grid) return;
+
+            grid.innerHTML = courses.map(course => `
+                <div class="course-card" onclick="window.location.href='course-detail.html?course=${encodeURIComponent(course.slug)}'">
+                    <span class="icon">${course.icon}</span>
+                    <h3>${course.name}</h3>
+                    <p>${course.description}</p>
+                    <span class="card-link">Explore Course <i class="fas fa-arrow-right"></i></span>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // THEME TOGGLE (if not in app.js)
+        // ============================================================
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                if (icon) icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                if (icon) icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const nav = document.getElementById('navLinks');
+            if (nav) nav.classList.toggle('open');
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCourses();
+            
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.setAttribute('data-theme', 'light');
+                const icon = document.getElementById('themeIcon');
+                if (icon) icon.className = 'fas fa-sun';
+            }
+        });
+    </script>
     <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
-<!-- ============================================================
-FOOTER - FULLY WORKING WITH ALL LINKS
-============================================================ -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <h3>DIPLOMA HUB</h3>
-                <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                <div class="social-links">
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
-                <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
-                <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
-                <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
-                <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
-            </div>
-
-            <!-- Column 3: MSBTE Resources -->
-            <div class="footer-col">
-                <h4>MSBTE Resources</h4>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Curriculum
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    K-Scheme Lab Manuals
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Official Website
-                </a>
-            </div>
-
-            <!-- Column 4: Support -->
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
-                <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
-            </div>
-
-        </div>
-
-        <!-- Bottom Bar -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
-        </div>
-    </div>
-</footer>
 </body>
 </html>
