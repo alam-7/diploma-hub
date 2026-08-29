@@ -8,14 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         /* ============================================================
-           COMPLETE COURSE DETAIL STYLES
+           COMPLETE STYLES - DIPLOMA HUB COURSE DETAIL
            ============================================================ */
+
+        /* --- Base --- */
         .course-detail-page {
             padding: 120px 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        .course-detail-page .back-btn {
+
+        /* --- Back Button --- */
+        .back-btn {
             color: var(--gray-400);
             text-decoration: none;
             display: inline-flex;
@@ -23,11 +27,15 @@
             gap: 8px;
             margin-bottom: 20px;
             transition: 0.3s;
+            font-weight: 500;
         }
-        .course-detail-page .back-btn:hover {
+        .back-btn:hover {
             color: var(--cyan-400);
+            transform: translateX(-4px);
         }
-        .course-detail-page .course-header {
+
+        /* --- Course Header --- */
+        .course-header {
             display: flex;
             align-items: center;
             gap: 30px;
@@ -36,7 +44,7 @@
             border-bottom: 1px solid var(--glass-border);
             flex-wrap: wrap;
         }
-        .course-detail-page .course-header .icon {
+        .course-header .icon {
             font-size: 4.5rem;
             animation: iconFloat 4s ease-in-out infinite;
         }
@@ -44,30 +52,30 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
-        .course-detail-page .course-header h1 {
+        .course-header h1 {
             font-size: 2.8rem;
             font-weight: 700;
         }
-        .course-detail-page .course-header p {
+        .course-header .subtitle {
             color: var(--gray-400);
             font-size: 1.1rem;
             margin-top: 5px;
         }
-        .course-detail-page .course-header .meta {
+        .course-header .meta {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             margin-top: 10px;
             flex-wrap: wrap;
         }
-        .course-detail-page .course-header .meta span {
-            background: rgba(6, 182, 212, 0.15);
+        .course-header .meta span {
+            background: rgba(6, 182, 212, 0.12);
             color: var(--cyan-400);
             padding: 4px 16px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
         }
-        .course-detail-page .badge-msbte {
+        .badge-msbte {
             display: inline-block;
             background: rgba(6, 182, 212, 0.15);
             color: var(--cyan-400);
@@ -77,7 +85,7 @@
             font-weight: 600;
             margin-top: 8px;
         }
-        .course-detail-page .verification-badge.verified {
+        .verification-badge.verified {
             display: inline-block;
             padding: 3px 12px;
             border-radius: 20px;
@@ -87,35 +95,37 @@
             color: #22c55e;
         }
 
-        /* Semester Tabs */
-        .course-detail-page .semester-tabs {
+        /* --- Semester Tabs --- */
+        .semester-tabs {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             margin: 30px 0 20px;
         }
-        .course-detail-page .semester-tabs button {
-            padding: 10px 24px;
+        .semester-tabs button {
+            padding: 12px 28px;
             border-radius: 30px;
-            border: 1px solid var(--glass-border);
+            border: 2px solid var(--glass-border);
             background: var(--glass);
             color: var(--gray-400);
             cursor: pointer;
             transition: 0.3s;
-            font-weight: 500;
-            font-size: 0.9rem;
+            font-weight: 600;
+            font-size: 0.95rem;
             position: relative;
         }
-        .course-detail-page .semester-tabs button:hover {
+        .semester-tabs button:hover {
             border-color: var(--cyan-400);
             color: var(--cyan-400);
+            transform: translateY(-2px);
         }
-        .course-detail-page .semester-tabs button.active {
+        .semester-tabs button.active {
             background: var(--cyan-500);
             border-color: var(--cyan-500);
             color: white;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
         }
-        .course-detail-page .semester-tabs button .badge-count {
+        .semester-tabs button .badge-count {
             position: absolute;
             top: -8px;
             right: -8px;
@@ -126,21 +136,23 @@
             padding: 2px 8px;
             border-radius: 20px;
         }
-        .course-detail-page .semester-tabs button.active .badge-count {
+        .semester-tabs button.active .badge-count {
             background: white;
             color: var(--cyan-500);
         }
 
-        /* Subjects Table */
-        .course-detail-page .subjects-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* --- Subjects Table --- */
+        .subjects-table-wrap {
             background: var(--glass);
+            border: 1px solid var(--glass-border);
             border-radius: var(--radius);
             overflow: hidden;
-            border: 1px solid var(--glass-border);
         }
-        .course-detail-page .subjects-table th {
+        .subjects-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .subjects-table th {
             background: var(--darker-bg);
             padding: 14px 16px;
             text-align: left;
@@ -150,18 +162,14 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .course-detail-page .subjects-table td {
+        .subjects-table td {
             padding: 12px 16px;
             border-bottom: 1px solid var(--glass-border);
             color: var(--gray-300);
         }
-        .course-detail-page .subjects-table tr:last-child td {
-            border-bottom: none;
-        }
-        .course-detail-page .subjects-table tr:hover td {
-            background: rgba(6, 182, 212, 0.02);
-        }
-        .course-detail-page .subjects-table .code {
+        .subjects-table tr:last-child td { border-bottom: none; }
+        .subjects-table tr:hover td { background: rgba(6, 182, 212, 0.02); }
+        .subjects-table .code {
             font-size: 0.8rem;
             color: var(--gray-500);
             font-weight: 600;
@@ -170,8 +178,8 @@
             border-radius: 12px;
         }
 
-        /* Semester Summary */
-        .course-detail-page .semester-summary {
+        /* --- Semester Summary --- */
+        .semester-summary {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 15px;
@@ -181,39 +189,22 @@
             border-radius: var(--radius);
             border: 1px solid var(--glass-border);
         }
-        .course-detail-page .semester-summary .item {
-            text-align: center;
-        }
-        .course-detail-page .semester-summary .item .num {
+        .semester-summary .item { text-align: center; }
+        .semester-summary .item .num {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--cyan-400);
         }
-        .course-detail-page .semester-summary .item .label {
-            font-size: 0.8rem;
-            color: var(--gray-400);
-        }
+        .semester-summary .item .label { font-size: 0.8rem; color: var(--gray-400); }
 
-        /* No Data */
-        .course-detail-page .no-data {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--gray-400);
-        }
-        .course-detail-page .no-data i {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 15px;
-        }
-
-        /* Quick Actions */
-        .course-detail-page .quick-actions {
+        /* --- Quick Actions --- */
+        .quick-actions {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
             margin-top: 25px;
         }
-        .course-detail-page .quick-actions a {
+        .quick-actions a {
             padding: 10px 22px;
             border-radius: 30px;
             font-weight: 600;
@@ -224,43 +215,41 @@
             align-items: center;
             gap: 8px;
         }
-        .course-detail-page .quick-actions .btn-primary {
+        .quick-actions .btn-primary {
             background: linear-gradient(135deg, var(--cyan-500), var(--cyan-600));
             color: white;
         }
-        .course-detail-page .quick-actions .btn-primary:hover {
+        .quick-actions .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
         }
-        .course-detail-page .quick-actions .btn-outline {
+        .quick-actions .btn-outline {
             background: transparent;
             color: var(--cyan-400);
             border: 2px solid var(--cyan-400);
         }
-        .course-detail-page .quick-actions .btn-outline:hover {
+        .quick-actions .btn-outline:hover {
             background: rgba(6, 182, 212, 0.05);
         }
 
-        /* Responsive */
+        /* --- No Data --- */
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-400);
+        }
+        .no-data i { font-size: 3rem; display: block; margin-bottom: 15px; }
+
+        /* --- Responsive --- */
         @media (max-width: 768px) {
-            .course-detail-page .course-header {
+            .course-header {
                 flex-direction: column;
                 text-align: center;
             }
-            .course-detail-page .course-header h1 {
-                font-size: 2rem;
-            }
-            .course-detail-page .subjects-table {
-                font-size: 0.8rem;
-            }
-            .course-detail-page .subjects-table th,
-            .course-detail-page .subjects-table td {
-                padding: 6px 8px;
-            }
-            .course-detail-page .semester-tabs button {
-                padding: 8px 16px;
-                font-size: 0.8rem;
-            }
+            .course-header h1 { font-size: 2rem; }
+            .subjects-table { font-size: 0.8rem; }
+            .subjects-table th, .subjects-table td { padding: 6px 8px; }
+            .semester-tabs button { padding: 8px 16px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -293,7 +282,7 @@
     </nav>
 
     <!-- ============================================================
-    COURSE DETAIL CONTENT
+    COURSE DETAIL PAGE
     ============================================================ -->
     <section class="course-detail-page" id="courseDetailPage">
         <div class="container">
@@ -358,14 +347,16 @@
 
     <script>
         // ============================================================
-        // MAIN COURSE DETAIL LOGIC - MSBTE K-SCHEME
+        // ULTIMATE COURSE DETAIL LOGIC
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Get course from URL ---
             var params = new URLSearchParams(window.location.search);
             var courseSlug = params.get('course') || 'computer-engineering';
             var container = document.getElementById('courseContent');
 
-            // Programme mapping
+            // --- Course mapping ---
             var programmeMap = {
                 'computer-engineering': 'computer-engineering',
                 'mechanical-engineering': 'mechanical-engineering',
@@ -393,6 +384,7 @@
             var programmeSlug = programmeMap[courseSlug] || 'computer-engineering';
             var programme = MSBTE_K_SCHEME[programmeSlug];
 
+            // --- Error handling ---
             if (!programme) {
                 container.innerHTML = '<div class="no-data"><i class="fas fa-exclamation-circle"></i><h3>Course not found</h3><p>Please go back to <a href="courses.html" style="color:var(--cyan-400);">courses</a></p></div>';
                 return;
@@ -402,12 +394,12 @@
             var name = courseNames[courseSlug] || programme.name;
 
             // ============================================================
-            // RENDER PAGE
+            // RENDER COMPLETE PAGE
             // ============================================================
             function renderPage() {
-                var firstSemester = 1;
 
-                // Find first available semester
+                // --- Find first available semester ---
+                var firstSemester = 1;
                 for (var s = 1; s <= 6; s++) {
                     if (programme.semesters[s]) {
                         firstSemester = s;
@@ -415,7 +407,7 @@
                     }
                 }
 
-                // Build semester tabs
+                // --- Build semester tabs ---
                 var tabsHtml = '';
                 for (var s = 1; s <= 6; s++) {
                     if (programme.semesters[s]) {
@@ -430,12 +422,35 @@
                     }
                 }
 
+                // --- Build quick actions ---
+                var quickActionsHtml = `
+                    <div class="quick-actions">
+                        <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" class="btn-primary">
+                            <i class="fas fa-external-link-alt"></i> Official MSBTE Curriculum
+                        </a>
+                        <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" class="btn-outline">
+                            <i class="fas fa-external-link-alt"></i> Lab Manuals
+                        </a>
+                        <a href="equipment.html" class="btn-outline">
+                            <i class="fas fa-microscope"></i> Equipment
+                        </a>
+                        <a href="practicals.html" class="btn-outline">
+                            <i class="fas fa-flask"></i> Practicals
+                        </a>
+                        <a href="quizzes.html" class="btn-outline">
+                            <i class="fas fa-question-circle"></i> Quizzes
+                        </a>
+                    </div>
+                `;
+
+                // --- Build header ---
                 container.innerHTML = `
+                    <!-- Course Header -->
                     <div class="course-header">
                         <div class="icon">${icon}</div>
                         <div>
                             <h1>${name}</h1>
-                            <p>${programme.code} • Diploma Engineering • 3 Years</p>
+                            <p class="subtitle">${programme.code} • Diploma Engineering • 3 Years</p>
                             <span class="badge-msbte">📖 MSBTE K-Scheme</span>
                             <span class="verification-badge verified">✅ Verified</span>
                             <div class="meta">
@@ -447,94 +462,138 @@
                         </div>
                     </div>
 
+                    <!-- Semester Tabs -->
                     <div class="semester-tabs" id="semesterTabs">
                         ${tabsHtml}
                     </div>
 
+                    <!-- Semester Content -->
                     <div id="semesterContent">
                         ${renderSemester(firstSemester)}
                     </div>
 
-                    <div class="quick-actions">
-                        <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" class="btn-primary">
-                            <i class="fas fa-external-link-alt"></i> Official MSBTE Curriculum
-                        </a>
-                        <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" class="btn-outline">
-                            <i class="fas fa-external-link-alt"></i> Lab Manuals
-                        </a>
-                        <a href="equipment.html" class="btn-outline">
-                            <i class="fas fa-microscope"></i> Equipment
-                        </a>
-                    </div>
+                    <!-- Quick Actions -->
+                    ${quickActionsHtml}
                 `;
             }
 
             // ============================================================
-            // RENDER SEMESTER
+            // RENDER SEMESTER WITH SUBJECTS
             // ============================================================
             function renderSemester(semester) {
+
                 var semesterData = programme.semesters[semester];
+
                 if (!semesterData || !semesterData.subjects || semesterData.subjects.length === 0) {
-                    return `<div class="no-data"><i class="fas fa-book-open"></i><p>No subjects for Semester ${semester}</p></div>`;
+                    return `
+                        <div class="no-data">
+                            <i class="fas fa-book-open"></i>
+                            <p>No subjects available for Semester ${semester}</p>
+                            <p style="font-size:0.85rem;margin-top:5px;">The curriculum for this semester is being updated.</p>
+                        </div>
+                    `;
                 }
 
                 var subjects = semesterData.subjects;
+                var totalSubjects = subjects.length;
+
+                // Calculate total credits and marks
+                var totalCredits = 0;
+                var totalMarks = 0;
+                subjects.forEach(function(s) {
+                    totalCredits += s.credits || 0;
+                    totalMarks += s.marks || 0;
+                });
 
                 return `
-                    <h2 style="margin: 10px 0 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                        <i class="fas fa-book" style="color: var(--cyan-400);"></i>
-                        ${semesterData.name}
-                        <span style="font-size: 0.8rem; color: var(--gray-400); font-weight: 400;">
-                            ${subjects.length} subjects
+                    <!-- Semester Title -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin: 10px 0 15px;">
+                        <h2 style="display: flex; align-items: center; gap: 10px; font-size: 1.8rem;">
+                            <i class="fas fa-book" style="color: var(--cyan-400);"></i>
+                            Semester ${semester}
+                        </h2>
+                        <span style="font-size: 0.9rem; color: var(--gray-400);">
+                            <i class="fas fa-graduation-cap"></i> ${totalSubjects} Subjects
                         </span>
-                    </h2>
+                    </div>
 
-                    <table class="subjects-table">
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Subject Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${subjects.map(function(s) {
-                                return `
-                                    <tr>
-                                        <td><span class="code">${s.code}</span></td>
-                                        <td><strong>${s.name}</strong></td>
-                                    </tr>
-                                `;
-                            }).join('')}
-                        </tbody>
-                    </table>
+                    <!-- Subjects Table -->
+                    <div class="subjects-table-wrap">
+                        <table class="subjects-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 18%;">Code</th>
+                                    <th style="width: 55%;">Subject Name</th>
+                                    <th style="width: 12%; text-align:center;">Credits</th>
+                                    <th style="width: 15%; text-align:center;">Marks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${subjects.map(function(s) {
+                                    return `
+                                        <tr>
+                                            <td><span class="code">${s.code}</span></td>
+                                            <td><strong>${s.name}</strong></td>
+                                            <td style="text-align:center; color: var(--cyan-400); font-weight: 600;">${s.credits || '-'}</td>
+                                            <td style="text-align:center; font-weight: 600;">${s.marks || '-'}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
 
+                    <!-- Semester Summary -->
                     <div class="semester-summary">
                         <div class="item">
-                            <div class="num">${subjects.length}</div>
+                            <div class="num">${totalSubjects}</div>
                             <div class="label">Subjects</div>
+                        </div>
+                        <div class="item">
+                            <div class="num">${totalCredits}</div>
+                            <div class="label">Total Credits</div>
+                        </div>
+                        <div class="item">
+                            <div class="num">${totalMarks}</div>
+                            <div class="label">Total Marks</div>
                         </div>
                     </div>
 
+                    <!-- Verified Badge -->
                     <div style="margin-top: 15px; padding: 12px 16px; background: var(--darker-bg); border-radius: var(--radius); border-left: 3px solid var(--cyan-400);">
-                        <p style="color: var(--gray-400); font-size: 0.85rem;">
+                        <p style="color: var(--gray-400); font-size: 0.85rem; margin: 0;">
                             <i class="fas fa-info-circle" style="color: var(--cyan-400);"></i>
                             MSBTE K-Scheme curriculum • <strong style="color: var(--cyan-400);">Verified</strong>
+                            <span style="display: inline-block; margin-left: 15px; background: rgba(34,197,94,0.15); color: #22c55e; padding: 2px 10px; border-radius: 12px; font-size: 0.7rem;">
+                                <i class="fas fa-check"></i> Official MSBTE
+                            </span>
                         </p>
                     </div>
                 `;
             }
 
             // ============================================================
-            // LOAD SEMESTER (CLICK HANDLER)
+            // LOAD SEMESTER - CLICK HANDLER
             // ============================================================
             window.loadSemester = function(semester) {
-                document.querySelectorAll('.semester-tab').forEach(function(tab) {
+
+                // Update active tab
+                var tabs = document.querySelectorAll('.semester-tab');
+                tabs.forEach(function(tab) {
                     tab.classList.remove('active');
                     if (parseInt(tab.dataset.semester) === semester) {
                         tab.classList.add('active');
                     }
                 });
-                document.getElementById('semesterContent').innerHTML = renderSemester(semester);
+
+                // Update content with smooth transition
+                var content = document.getElementById('semesterContent');
+                content.style.opacity = '0.5';
+                content.style.transition = 'opacity 0.3s ease';
+                content.innerHTML = renderSemester(semester);
+                setTimeout(function() {
+                    content.style.opacity = '1';
+                }, 100);
             };
 
             // ============================================================
@@ -570,6 +629,10 @@
                 var icon = document.getElementById('themeIcon');
                 if (icon) icon.className = 'fas fa-sun';
             }
+
+            console.log('✅ Course Detail page loaded successfully!');
+            console.log('📚 Course:', name);
+            console.log('📖 Programme Code:', programme.code);
         });
     </script>
 
