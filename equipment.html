@@ -7,76 +7,35 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        .page-header {
-            padding: 120px 0 40px;
-            text-align: center;
-        }
-        .page-header h1 {
-            font-size: 3rem;
-        }
-        .page-header p {
-            color: var(--gray-400);
-            font-size: 1.1rem;
-        }
-        .search-filter {
-            max-width: 600px;
-            margin: 20px auto 40px;
-        }
-        .equipment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
+        .page-header { padding: 120px 0 40px; text-align: center; }
+        .page-header h1 { font-size: 3rem; }
+        .page-header p { color: var(--gray-400); font-size: 1.1rem; }
+        .search-filter { max-width: 600px; margin: 20px auto 40px; }
+        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .equipment-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 25px;
-            transition: var(--transition);
-            cursor: pointer;
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: var(--radius); padding: 25px;
+            transition: var(--transition); cursor: pointer;
         }
         .equipment-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--cyan-400);
+            transform: translateY(-5px); border-color: var(--cyan-400);
             box-shadow: 0 8px 30px rgba(6, 182, 212, 0.1);
         }
-        .equipment-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: var(--white);
-        }
+        .equipment-card h3 { font-size: 1.1rem; margin-bottom: 5px; color: var(--white); }
         .equipment-card .badge {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: rgba(6, 182, 212, 0.15);
-            color: var(--cyan-400);
+            display: inline-block; padding: 3px 12px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 600;
+            background: rgba(6, 182, 212, 0.15); color: var(--cyan-400);
             margin: 8px 0;
         }
-        .equipment-card p {
-            color: var(--gray-400);
-            font-size: 0.9rem;
-            margin: 8px 0;
-        }
+        .equipment-card p { color: var(--gray-400); font-size: 0.9rem; margin: 8px 0; }
         .equipment-card .card-link {
-            color: var(--cyan-400);
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            color: var(--cyan-400); font-weight: 500;
+            display: inline-flex; align-items: center; gap: 5px;
             margin-top: 10px;
         }
-        .equipment-card .card-link:hover {
-            gap: 10px;
-        }
-        .no-results {
-            text-align: center;
-            color: var(--gray-400);
-            padding: 40px;
-            grid-column: 1 / -1;
-        }
+        .equipment-card .card-link:hover { gap: 10px; }
+        .no-results { text-align: center; color: var(--gray-400); padding: 40px; grid-column: 1 / -1; }
     </style>
 </head>
 <body>
@@ -91,17 +50,15 @@
                 <a href="index.html">Home</a>
                 <a href="courses.html">Courses</a>
                 <a href="equipment.html" class="active">Equipment</a>
-                <a href="#">Practicals</a>
-                <a href="#">Quizzes</a>
+                <a href="practicals.html">Practicals</a>
+                <a href="quizzes.html">Quizzes</a>
+                <a href="resources.html">Resources</a>
+                <a href="about.html">About</a>
             </div>
             <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
+                <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
                 <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
             </div>
         </div>
     </nav>
@@ -111,8 +68,6 @@
         <div class="container">
             <h1>Engineering <span class="gradient-text">Equipment</span></h1>
             <p>Browse 200+ engineering equipment with detailed explanations</p>
-            
-            <!-- Search Filter -->
             <div class="search-filter">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
@@ -147,98 +102,126 @@
                     <h4>Quick Links</h4>
                     <a href="courses.html">Courses</a>
                     <a href="equipment.html">Equipment</a>
-                    <a href="#">Practicals</a>
-                    <a href="#">Quizzes</a>
+                    <a href="practicals.html">Practicals</a>
+                    <a href="quizzes.html">Quizzes</a>
+                    <a href="resources.html">Resources</a>
                 </div>
                 <div class="footer-col">
-                    <h4>Resources</h4>
-                    <a href="#">MSBTE Official</a>
-                    <a href="#">Lab Manuals</a>
-                    <a href="#">Question Papers</a>
-                    <a href="#">Notes</a>
+                    <h4>MSBTE Resources</h4>
+                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">📖 MSBTE Curriculum</a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 K-Scheme Lab Manuals</a>
+                    <a href="https://msbte.ac.in/" target="_blank">🏛️ MSBTE Official</a>
                 </div>
                 <div class="footer-col">
                     <h4>Support</h4>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms</a>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
+                <p>Made with ❤️ for engineering students</p>
             </div>
         </div>
     </footer>
 
+    <!-- ✅ SCRIPTS - LOAD EQUIPMENT DATA FIRST -->
+    <script src="js/equipment-data.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
-<!-- ============================================================
-FOOTER - FULLY WORKING WITH ALL LINKS
-============================================================ -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
 
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <h3>DIPLOMA HUB</h3>
-                <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                <div class="social-links">
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
+    <script>
+        // ============================================
+        // FILTER EQUIPMENT
+        // ============================================
+        function filterEquipment() {
+            var input = document.getElementById('equipmentSearch');
+            var query = input.value.toLowerCase().trim();
+            var grid = document.getElementById('equipmentGrid');
+            
+            if (!grid) return;
 
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
-                <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
-                <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
-                <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
-                <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
-            </div>
+            // Check if EQUIPMENT data exists
+            if (typeof EQUIPMENT === 'undefined' || !Array.isArray(EQUIPMENT)) {
+                grid.innerHTML = '<div class="no-results"><i class="fas fa-exclamation-circle" style="font-size:2rem;display:block;margin-bottom:10px;"></i><p>Equipment data not loaded. Please refresh.</p></div>';
+                return;
+            }
 
-            <!-- Column 3: MSBTE Resources -->
-            <div class="footer-col">
-                <h4>MSBTE Resources</h4>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Curriculum
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    K-Scheme Lab Manuals
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Official Website
-                </a>
-            </div>
+            // Filter
+            var filtered = EQUIPMENT.filter(function(e) {
+                return e.name.toLowerCase().indexOf(query) !== -1 ||
+                    (e.category && e.category.toLowerCase().indexOf(query) !== -1) ||
+                    (e.purpose && e.purpose.toLowerCase().indexOf(query) !== -1);
+            });
 
-            <!-- Column 4: Support -->
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
-                <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
-            </div>
+            // Show results
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="no-results"><i class="fas fa-search" style="font-size:2rem;display:block;margin-bottom:10px;"></i><p>No equipment found matching "<strong>' + query + '</strong>"</p></div>';
+                return;
+            }
 
-        </div>
+            grid.innerHTML = filtered.map(function(e) {
+                return '<div class="equipment-card" onclick="location.href=\'equipment-detail.html?slug=' + e.slug + '\'">' +
+                    '<h3>' + e.name + '</h3>' +
+                    '<span class="badge">' + (e.category || 'Uncategorized') + '</span>' +
+                    '<p>' + (e.purpose ? e.purpose.substring(0, 100) + '...' : 'No description available.') + '</p>' +
+                    '<span class="card-link">View Details <i class="fas fa-arrow-right"></i></span>' +
+                    '</div>';
+            }).join('');
+        }
 
-        <!-- Bottom Bar -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
-        </div>
-    </div>
-</footer>
+        // ============================================
+        // LOAD ALL EQUIPMENT ON PAGE LOAD
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            var grid = document.getElementById('equipmentGrid');
+            if (!grid) return;
+
+            if (typeof EQUIPMENT !== 'undefined' && Array.isArray(EQUIPMENT)) {
+                var items = EQUIPMENT.slice(0, 20);
+                grid.innerHTML = items.map(function(e) {
+                    return '<div class="equipment-card" onclick="location.href=\'equipment-detail.html?slug=' + e.slug + '\'">' +
+                        '<h3>' + e.name + '</h3>' +
+                        '<span class="badge">' + (e.category || 'Uncategorized') + '</span>' +
+                        '<p>' + (e.purpose ? e.purpose.substring(0, 100) + '...' : 'No description available.') + '</p>' +
+                        '<span class="card-link">View Details <i class="fas fa-arrow-right"></i></span>' +
+                        '</div>';
+                }).join('');
+            } else {
+                grid.innerHTML = '<div class="no-results"><i class="fas fa-exclamation-circle" style="font-size:2rem;display:block;margin-bottom:10px;"></i><p>Equipment data not loaded. Please refresh.</p></div>';
+            }
+        });
+
+        // Theme toggle
+        function toggleTheme() {
+            var body = document.body;
+            var icon = document.getElementById('themeIcon');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                if (icon) icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                if (icon) icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function toggleMobileMenu() {
+            var nav = document.getElementById('navLinks');
+            if (nav) nav.classList.toggle('open');
+        }
+
+        // Load saved theme
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.setAttribute('data-theme', 'light');
+            var icon = document.getElementById('themeIcon');
+            if (icon) icon.className = 'fas fa-sun';
+        }
+    </script>
 </body>
 </html>
