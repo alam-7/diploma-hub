@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        .page-section {
+        .courses-page {
             padding: 120px 20px 60px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        .page-section h1 {
+        .courses-page h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
         }
-        .page-section .subtitle {
-            color: var(--text-secondary);
+        .courses-page .subtitle {
+            color: var(--gray-400);
             font-size: 1.1rem;
             margin-bottom: 40px;
         }
@@ -27,23 +27,23 @@
             gap: 30px;
         }
         .course-card {
-            background: var(--glass-bg);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius);
             padding: 30px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             cursor: pointer;
             text-align: center;
         }
         .course-card:hover {
             transform: translateY(-8px);
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
+            border-color: var(--cyan-400);
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.05);
         }
         .course-card .icon {
             font-size: 3.5rem;
-            display: block;
             margin-bottom: 12px;
+            display: block;
         }
         .course-card h3 {
             font-size: 1.3rem;
@@ -51,25 +51,45 @@
             margin-bottom: 6px;
         }
         .course-card p {
-            color: var(--text-secondary);
+            color: var(--gray-400);
             font-size: 0.95rem;
             margin-bottom: 14px;
         }
-        .card-link {
-            color: var(--neon-blue);
+        .course-card .card-link {
+            color: var(--cyan-400);
             font-weight: 500;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
-        .card-link:hover {
+        .course-card .card-link:hover {
             gap: 12px;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-400);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
+            color: var(--cyan-400);
+        }
+        @media (max-width: 768px) {
+            .courses-page h1 {
+                font-size: 2rem;
+            }
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -93,18 +113,20 @@
         </div>
     </nav>
 
-    <!-- Content -->
-    <section class="page-section">
+    <!-- COURSES PAGE -->
+    <section class="courses-page">
         <div class="container">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <h1>All <span class="gradient-text">Courses</span></h1>
             <p class="subtitle">Choose your engineering discipline and start learning</p>
+
             <div class="course-grid" id="courseGrid">
-                <!-- Rendered by JavaScript -->
+                <!-- 5 Courses rendered by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- ✅ ONLY ONE FOOTER -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -112,9 +134,9 @@
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
                     <div class="social-links">
-                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -128,7 +150,7 @@
                 <div class="footer-col">
                     <h4>MSBTE Resources</h4>
                     <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">📖 MSBTE Curriculum</a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 K-Scheme Lab Manuals</a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 Lab Manuals</a>
                     <a href="https://msbte.ac.in/" target="_blank">🏛️ MSBTE Official</a>
                 </div>
                 <div class="footer-col">
@@ -148,7 +170,7 @@
 
     <script>
         // ============================================================
-        // 5 COURSES DATA
+        // 5 COURSES DATA - MSBTE K-SCHEME
         // ============================================================
         var courses = [
             { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', description: 'Study of computers, programming, networks, and software development.' },
@@ -167,7 +189,7 @@
 
             grid.innerHTML = courses.map(function(c) {
                 return `
-                    <div class="course-card" onclick="window.location.href='course-detail.html?course=${encodeURIComponent(c.slug)}'">
+                    <div class="course-card" onclick="window.location.href='course-detail.html?course=${c.slug}'">
                         <span class="icon">${c.icon}</span>
                         <h3>${c.name}</h3>
                         <p>${c.description}</p>
@@ -213,7 +235,5 @@
             }
         });
     </script>
-    <script src="js/app.js"></script>
-    <script src="js/auth.js"></script>
 </body>
 </html>
