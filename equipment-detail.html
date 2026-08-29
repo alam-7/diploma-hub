@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- ✅ THREE.JS FOR HOLOGRAM -->
+    <!-- THREE.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three-gltf-loader@3.0.0/GLTFLoader.min.js"></script>
 
@@ -175,6 +175,32 @@
         }
         .holo-controls i { color: var(--cyan-400); }
         .holo-status { color: var(--cyan-400); }
+        .holo-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: var(--darker-bg);
+            color: var(--gray-400);
+            font-family: inherit;
+        }
+        .holo-loading .spinner {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid var(--glass-border);
+            border-top-color: var(--cyan-400);
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        .holo-loading .progress {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
 
         @media (max-width: 768px) {
             #hologramContainer { height: 280px; }
@@ -210,7 +236,7 @@
         </div>
     </nav>
 
-    <!-- EQUIPMENT DETAIL -->
+    <!-- EQUIPMENT HEADER -->
     <section class="eq-header">
         <div class="container">
             <a href="equipment.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Equipment</a>
@@ -225,17 +251,13 @@
         <div class="container">
 
             <!-- ============================================================
-            HOLOGRAM VIEWER - ADDED HERE
+            HOLOGRAM VIEWER
             ============================================================ -->
             <div id="hologramContainer">
-                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:var(--darker-bg);color:var(--gray-400);font-family:inherit;">
-                    <i class="fas fa-cube" style="font-size:3rem;color:var(--cyan-400);margin-bottom:15px;"></i>
-                    <p>Loading holographic viewer...</p>
-                </div>
-                <div class="holo-controls">
-                    <i class="fas fa-arrows-alt"></i> Drag
-                    <i class="fas fa-mouse-pointer"></i> Zoom
-                    <span class="holo-status">✦ Hologram</span>
+                <div class="holo-loading">
+                    <div class="spinner"></div>
+                    <p>Generating hologram...</p>
+                    <p class="progress">Loading 3D model...</p>
                 </div>
             </div>
 
@@ -296,9 +318,9 @@
     <script src="js/auth.js"></script>
 
     <script>
-        // ============================================
+        // ============================================================
         // LOAD EQUIPMENT DETAIL + HOLOGRAM
-        // ============================================
+        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             var params = new URLSearchParams(window.location.search);
             var slug = params.get('slug');
@@ -417,35 +439,21 @@
             // ============================================================
             // INIT HOLOGRAM
             // ============================================================
-            initHologram(slug);
+            initHologram(slug, equipment);
         });
 
         // ============================================================
         // HOLOGRAM INITIALIZATION
         // ============================================================
-        function initHologram(slug) {
+        function initHologram(slug, equipment) {
             var container = document.getElementById('hologramContainer');
 
             // Check if THREE.js is loaded
             if (typeof THREE === 'undefined') {
                 container.innerHTML = `
-                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray-400);font-family:inherit;">
+                    <div class="holo-loading">
                         <i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#eab308;margin-bottom:15px;"></i>
                         <p>3D library not loaded. Please refresh.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Get model data
-            var modelData = getEquipmentModel(slug);
-
-            if (!modelData || !modelData.model) {
-                container.innerHTML = `
-                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray-400);font-family:inherit;">
-                        <i class="fas fa-cube" style="font-size:3rem;color:var(--cyan-400);margin-bottom:15px;"></i>
-                        <h3 style="color:var(--white);margin-bottom:5px;">Hologram Coming Soon</h3>
-                        <p>3D model for ${slug.replace(/-/g, ' ')} is being prepared.</p>
                     </div>
                 `;
                 return;
@@ -454,7 +462,7 @@
             // Check if HologramViewer class exists
             if (typeof HologramViewer === 'undefined') {
                 container.innerHTML = `
-                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray-400);font-family:inherit;">
+                    <div class="holo-loading">
                         <i class="fas fa-exclamation-circle" style="font-size:3rem;color:#ef4444;margin-bottom:15px;"></i>
                         <p>Hologram viewer not loaded. Please refresh.</p>
                     </div>
@@ -462,10 +470,11 @@
                 return;
             }
 
-            // Initialize viewer
+            // Initialize viewer with equipment data
             try {
                 var viewer = new HologramViewer('hologramContainer', {
-                    modelUrl: modelData.model + 'model.glb',
+                    equipmentName: equipment.name,
+                    equipmentCategory: equipment.category || 'Common Engineering',
                     autoRotate: true,
                     rotateSpeed: 0.005,
                     backgroundColor: 0x0a0a1a,
@@ -476,7 +485,7 @@
             } catch (err) {
                 console.error('❌ Hologram error:', err);
                 container.innerHTML = `
-                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray-400);font-family:inherit;">
+                    <div class="holo-loading">
                         <i class="fas fa-exclamation-circle" style="font-size:3rem;color:#ef4444;margin-bottom:15px;"></i>
                         <p>Error loading hologram. Please try again.</p>
                     </div>
