@@ -33,18 +33,9 @@
             border-bottom: 1px solid var(--glass-border);
             flex-wrap: wrap;
         }
-        .course-detail-page .course-header .icon {
-            font-size: 4rem;
-        }
-        .course-detail-page .course-header h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-        }
-        .course-detail-page .course-header p {
-            color: var(--gray-400);
-            font-size: 1.1rem;
-            margin-top: 5px;
-        }
+        .course-detail-page .course-header .icon { font-size: 4rem; }
+        .course-detail-page .course-header h1 { font-size: 2.8rem; font-weight: 700; }
+        .course-detail-page .course-header p { color: var(--gray-400); font-size: 1.1rem; margin-top: 5px; }
         .course-detail-page .course-header .meta {
             display: flex;
             gap: 15px;
@@ -124,12 +115,8 @@
             border-bottom: 1px solid var(--glass-border);
             color: var(--gray-300);
         }
-        .course-detail-page .subjects-table tr:last-child td {
-            border-bottom: none;
-        }
-        .course-detail-page .subjects-table tr:hover td {
-            background: rgba(6, 182, 212, 0.02);
-        }
+        .course-detail-page .subjects-table tr:last-child td { border-bottom: none; }
+        .course-detail-page .subjects-table tr:hover td { background: rgba(6, 182, 212, 0.02); }
         .course-detail-page .subjects-table .code {
             font-size: 0.8rem;
             color: var(--gray-500);
@@ -138,13 +125,8 @@
             padding: 2px 10px;
             border-radius: 12px;
         }
-        .course-detail-page .subjects-table .credits {
-            font-weight: 600;
-            color: var(--cyan-400);
-        }
-        .course-detail-page .subjects-table .marks {
-            font-weight: 600;
-        }
+        .course-detail-page .subjects-table .credits { font-weight: 600; color: var(--cyan-400); }
+        .course-detail-page .subjects-table .marks { font-weight: 600; }
         .course-detail-page .semester-summary {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -155,28 +137,19 @@
             border-radius: var(--radius);
             border: 1px solid var(--glass-border);
         }
-        .course-detail-page .semester-summary .item {
-            text-align: center;
-        }
+        .course-detail-page .semester-summary .item { text-align: center; }
         .course-detail-page .semester-summary .item .num {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--cyan-400);
         }
-        .course-detail-page .semester-summary .item .label {
-            font-size: 0.8rem;
-            color: var(--gray-400);
-        }
+        .course-detail-page .semester-summary .item .label { font-size: 0.8rem; color: var(--gray-400); }
         .course-detail-page .no-data {
             text-align: center;
             padding: 60px 20px;
             color: var(--gray-400);
         }
-        .course-detail-page .no-data i {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 15px;
-        }
+        .course-detail-page .no-data i { font-size: 3rem; display: block; margin-bottom: 15px; }
         .course-detail-page .quick-actions {
             display: flex;
             gap: 15px;
@@ -237,20 +210,11 @@
                 flex-direction: column;
                 text-align: center;
             }
-            .course-detail-page .course-header h1 {
-                font-size: 2rem;
-            }
-            .course-detail-page .subjects-table {
-                font-size: 0.8rem;
-            }
+            .course-detail-page .course-header h1 { font-size: 2rem; }
+            .course-detail-page .subjects-table { font-size: 0.8rem; }
             .course-detail-page .subjects-table th,
-            .course-detail-page .subjects-table td {
-                padding: 6px 8px;
-            }
-            .course-detail-page .semester-tabs button {
-                padding: 8px 16px;
-                font-size: 0.8rem;
-            }
+            .course-detail-page .subjects-table td { padding: 6px 8px; }
+            .course-detail-page .semester-tabs button { padding: 8px 16px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -339,26 +303,27 @@
         // COMPLETE COURSE DATA - 5 BRANCHES
         // ============================================================
         const COURSES_DATA = [
-            { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', code: 'CO', description: 'Study of computers, programming, networks, and software development.' },
-            { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️', code: 'ME', description: 'Study of machines, manufacturing, thermodynamics, and mechanical systems.' },
-            { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️', code: 'CE', description: 'Study of construction, infrastructure, surveying, and structural design.' },
-            { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡', code: 'EE', description: 'Study of electrical systems, power generation, motors, and control systems.' },
-            { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡', code: 'EJ', description: 'Study of electronic circuits, communication systems, signal processing, and IoT.' }
+            { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', code: 'CO' },
+            { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️', code: 'ME' },
+            { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️', code: 'CE' },
+            { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡', code: 'EE' },
+            { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡', code: 'EJ' }
         ];
 
         // ============================================================
-        // SUBJECTS PER SEMESTER (COMPUTER ENGINEERING - CO)
+        // COMPLETE COMPUTER ENGINEERING (CO) - ALL 6 SEMESTERS
         // ============================================================
         const SUBJECTS = {
             1: [
-                { code: '311001', name: 'Engineering Mathematics I', credits: 4, marks: 100, type: 'Theory' },
+                { code: '311001', name: 'Basic Mathematics', credits: 4, marks: 100, type: 'Theory' },
                 { code: '311002', name: 'Engineering Physics', credits: 3, marks: 100, type: 'Theory + Practical' },
                 { code: '311003', name: 'Engineering Chemistry', credits: 3, marks: 100, type: 'Theory + Practical' },
                 { code: '311004', name: 'Engineering Graphics', credits: 4, marks: 100, type: 'Practical' },
-                { code: '311005', name: 'Basic Electronics', credits: 3, marks: 100, type: 'Theory + Practical' }
+                { code: '311005', name: 'Basic Electronics', credits: 3, marks: 100, type: 'Theory + Practical' },
+                { code: '311006', name: 'Communication Skills', credits: 3, marks: 100, type: 'Theory + Practical' }
             ],
             2: [
-                { code: '312001', name: 'Engineering Mathematics II', credits: 4, marks: 100, type: 'Theory' },
+                { code: '312001', name: 'Applied Mathematics', credits: 4, marks: 100, type: 'Theory' },
                 { code: '312002', name: 'Engineering Mechanics', credits: 4, marks: 100, type: 'Theory + Practical' },
                 { code: '312003', name: 'Basic Electrical Engineering', credits: 3, marks: 100, type: 'Theory + Practical' },
                 { code: '312004', name: 'Environmental Science', credits: 3, marks: 100, type: 'Theory' },
@@ -368,29 +333,35 @@
                 { code: '313001', name: 'Engineering Mathematics III', credits: 4, marks: 100, type: 'Theory' },
                 { code: '313002', name: 'Data Structure Using C', credits: 4, marks: 100, type: 'Theory + Practical' },
                 { code: '313003', name: 'Database Management System', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '313004', name: 'Object Oriented Programming Using C++', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '313005', name: 'Digital Techniques and Microprocessors', credits: 4, marks: 100, type: 'Theory + Practical' }
+                { code: '313004', name: 'Object Oriented Programming Using C++', credits: 4, marks: 100, type: 'Theory + Practical' },
+                { code: '313005', name: 'Digital Techniques', credits: 3, marks: 100, type: 'Theory + Practical' },
+                { code: '313006', name: 'Data Structure Using Python', credits: 3, marks: 100, type: 'Theory + Practical' }
             ],
             4: [
                 { code: '314001', name: 'Engineering Mathematics IV', credits: 4, marks: 100, type: 'Theory' },
                 { code: '314002', name: 'Java Programming', credits: 4, marks: 100, type: 'Theory + Practical' },
                 { code: '314003', name: 'Data Communication and Computer Network', credits: 3, marks: 100, type: 'Theory + Practical' },
                 { code: '314004', name: 'Information Security', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '314005', name: 'Environmental Education and Sustainability', credits: 3, marks: 100, type: 'Theory' }
+                { code: '314005', name: 'Environmental Education and Sustainability', credits: 3, marks: 100, type: 'Theory' },
+                { code: '314006', name: 'Probability and Statistics', credits: 3, marks: 100, type: 'Theory' }
             ],
             5: [
                 { code: '315001', name: 'Engineering Mathematics V', credits: 4, marks: 100, type: 'Theory' },
                 { code: '315002', name: 'Operating System', credits: 4, marks: 100, type: 'Theory + Practical' },
                 { code: '315003', name: 'Software Engineering', credits: 3, marks: 100, type: 'Theory + Practical' },
                 { code: '315004', name: 'Cloud Computing', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '315005', name: 'Data Analytics', credits: 3, marks: 100, type: 'Theory + Practical' }
+                { code: '315005', name: 'Data Analytics', credits: 3, marks: 100, type: 'Theory + Practical' },
+                { code: '315006', name: 'Management', credits: 3, marks: 100, type: 'Theory' },
+                { code: '315007', name: 'Internship', credits: 2, marks: 50, type: 'Practical' }
             ],
             6: [
                 { code: '316001', name: 'Engineering Mathematics VI', credits: 4, marks: 100, type: 'Theory' },
                 { code: '316002', name: 'Machine Learning', credits: 3, marks: 100, type: 'Theory + Practical' },
                 { code: '316003', name: 'Network and Information Security', credits: 3, marks: 100, type: 'Theory + Practical' },
                 { code: '316004', name: 'Big Data Analytics', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '316005', name: 'Capstone Project', credits: 6, marks: 200, type: 'Practical' }
+                { code: '316005', name: 'Software Testing', credits: 3, marks: 100, type: 'Theory + Practical' },
+                { code: '316006', name: 'Digital Forensic and Hacking Techniques', credits: 3, marks: 100, type: 'Theory + Practical' },
+                { code: '316007', name: 'Capstone Project', credits: 6, marks: 200, type: 'Practical' }
             ]
         };
 
@@ -407,13 +378,12 @@
         // RENDER PAGE
         // ============================================================
         function renderPage() {
-            // Build header
             container.innerHTML = `
                 <div class="course-header">
                     <div class="icon">${course.icon}</div>
                     <div>
                         <h1>${course.name}</h1>
-                        <p>${course.description}</p>
+                        <p>${course.code} • Diploma Engineering • 3 Years</p>
                         <span class="badge-msbte">📖 MSBTE K-Scheme</span>
                         <span class="verification-badge verified">✅ Verified</span>
                         <div class="meta">
@@ -471,7 +441,7 @@
             });
 
             return `
-                <h2 style="margin: 10px 0 15px; display: flex; align-items: center; gap: 10px;">
+                <h2 style="margin: 10px 0 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                     <i class="fas fa-book" style="color: var(--cyan-400);"></i>
                     Semester ${semester}
                     <span style="font-size: 0.8rem; color: var(--gray-400); font-weight: 400;">
@@ -520,7 +490,7 @@
                 <div style="margin-top: 15px; padding: 12px 16px; background: var(--darker-bg); border-radius: var(--radius); border-left: 3px solid var(--cyan-400);">
                     <p style="color: var(--gray-400); font-size: 0.85rem;">
                         <i class="fas fa-info-circle" style="color: var(--cyan-400);"></i> 
-                        This is MSBTE K-Scheme curriculum data. <strong style="color: var(--cyan-400);">Verified</strong>
+                        MSBTE K-Scheme curriculum • <strong style="color: var(--cyan-400);">Verified</strong>
                     </p>
                 </div>
             `;
@@ -530,15 +500,12 @@
         // LOAD SEMESTER (CLICK HANDLER)
         // ============================================================
         function loadSemester(semester) {
-            // Update active tab
             document.querySelectorAll('.semester-tab').forEach(tab => {
                 tab.classList.remove('active');
                 if (parseInt(tab.dataset.semester) === semester) {
                     tab.classList.add('active');
                 }
             });
-
-            // Update content
             document.getElementById('semesterContent').innerHTML = renderSemester(semester);
         }
 
@@ -570,7 +537,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             renderPage();
 
-            // Load saved theme
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
                 document.body.setAttribute('data-theme', 'light');
