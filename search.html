@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Results - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
+        /* ── Page ── */
         .search-page {
-            padding: 100px 20px 60px;
+            padding: 110px 20px 60px;
             max-width: 900px;
             margin: 0 auto;
         }
+        /* ── Search Box ── */
         .search-box-large {
             display: flex;
             align-items: center;
-            background: var(--glass);
-            border: 2px solid var(--glass-border);
+            background: var(--glass-bg, rgba(255,255,255,0.03));
+            border: 2px solid var(--glass-border, rgba(0,212,255,0.1));
             border-radius: 50px;
             padding: 5px;
-            transition: var(--transition);
+            transition: 0.3s;
             margin-bottom: 30px;
         }
         .search-box-large:focus-within {
-            border-color: var(--cyan-400);
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.1);
+            border-color: var(--neon-blue, #00d4ff);
+            box-shadow: 0 0 30px rgba(0,212,255,0.1);
         }
         .search-box-large i {
             padding: 0 15px;
-            color: var(--gray-500);
+            color: var(--text-secondary, #8888bb);
             font-size: 1.1rem;
         }
         .search-box-large input {
@@ -36,28 +38,29 @@
             background: transparent;
             border: none;
             padding: 15px 0;
-            color: var(--white);
+            color: var(--text-primary, #e0e0ff);
             font-size: 1.1rem;
             outline: none;
         }
         .search-box-large input::placeholder {
-            color: var(--gray-500);
+            color: var(--text-secondary, #8888bb);
         }
         .search-box-large button {
-            background: var(--cyan-500);
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
             border: none;
-            color: var(--white);
+            color: #fff;
             padding: 12px 25px;
             border-radius: 50px;
             cursor: pointer;
-            transition: var(--transition);
             font-weight: 600;
+            transition: 0.3s;
         }
         .search-box-large button:hover {
-            background: var(--cyan-600);
+            box-shadow: 0 0 30px rgba(0,212,255,0.2);
         }
+        /* ── Results ── */
         .result-stats {
-            color: var(--gray-400);
+            color: var(--text-secondary, #8888bb);
             margin-bottom: 20px;
         }
         .result-group {
@@ -65,11 +68,11 @@
         }
         .result-group h3 {
             font-size: 1rem;
-            color: var(--gray-500);
+            color: var(--text-secondary, #8888bb);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 10px;
-            border-bottom: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border, rgba(0,212,255,0.08));
             padding-bottom: 8px;
         }
         .result-item {
@@ -77,15 +80,15 @@
             align-items: center;
             gap: 15px;
             padding: 12px 15px;
-            background: var(--glass);
+            background: var(--glass-bg, rgba(255,255,255,0.03));
             border-radius: 10px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid var(--glass-border, rgba(0,212,255,0.08));
             margin-bottom: 8px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: 0.3s;
         }
         .result-item:hover {
-            border-color: var(--cyan-400);
+            border-color: var(--neon-blue, #00d4ff);
             transform: translateX(5px);
         }
         .result-item .icon {
@@ -101,54 +104,69 @@
         }
         .result-item .info .desc {
             font-size: 0.85rem;
-            color: var(--gray-400);
+            color: var(--text-secondary, #8888bb);
         }
         .result-item .badge {
             font-size: 0.7rem;
             padding: 3px 10px;
             border-radius: 20px;
-            background: rgba(6, 182, 212, 0.15);
-            color: var(--cyan-400);
+            background: rgba(0,212,255,0.15);
+            color: var(--neon-blue, #00d4ff);
         }
         .no-results {
             text-align: center;
             padding: 60px 20px;
-            color: var(--gray-400);
+            color: var(--text-secondary, #8888bb);
         }
         .no-results i {
             font-size: 4rem;
-            color: var(--gray-500);
+            color: var(--text-secondary, #8888bb);
             margin-bottom: 20px;
         }
         .no-results h2 {
-            color: var(--white);
+            color: var(--text-primary, #e0e0ff);
             margin-bottom: 10px;
         }
-        .no-results .suggestions {
+        .suggestions {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
             margin-top: 15px;
         }
-        .no-results .suggestions span {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
+        .suggestions span {
+            background: var(--glass-bg, rgba(255,255,255,0.03));
+            border: 1px solid var(--glass-border, rgba(0,212,255,0.08));
             padding: 6px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: var(--transition);
+            transition: 0.3s;
         }
-        .no-results .suggestions span:hover {
-            border-color: var(--cyan-400);
-            color: var(--cyan-400);
+        .suggestions span:hover {
+            border-color: var(--neon-blue, #00d4ff);
+            color: var(--neon-blue, #00d4ff);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary, #8888bb);
+        }
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-secondary, #8888bb);
+            margin-bottom: 20px;
+        }
+        .empty-state h2 {
+            color: var(--text-primary, #e0e0ff);
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <i class="fas fa-graduation-cap"></i>
@@ -164,42 +182,26 @@
                 <a href="about.html">About</a>
             </div>
             <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
+                <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
                 <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
             </div>
         </div>
     </nav>
 
-    <!-- SEARCH PAGE -->
+    <!-- ===== SEARCH PAGE ===== -->
     <div class="search-page" id="searchPage">
         <div class="search-box-large">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search subjects, concepts, equipment, practicals..." id="searchInput" onkeydown="if(event.key==='Enter') performSearch()">
+            <input type="text" id="searchInput" placeholder="Search for anything..." onkeydown="if(event.key==='Enter') performSearch()" />
             <button onclick="performSearch()">Search</button>
         </div>
-
         <div id="searchResults">
-            <div style="text-align: center; padding: 60px 20px; color: var(--gray-400);">
-                <i class="fas fa-search" style="font-size: 4rem; color: var(--gray-500); margin-bottom: 20px;"></i>
-                <h2 style="color: var(--white);">Search for Anything</h2>
-                <p>Search across courses, equipment, practicals, and quizzes</p>
-                <div class="suggestions" style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-                    <span onclick="quickSearch('oscilloscope')">🔍 oscilloscope</span>
-                    <span onclick="quickSearch('lathe')">🔍 lathe</span>
-                    <span onclick="quickSearch('computer')">💻 computer</span>
-                    <span onclick="quickSearch('civil')">🏗️ civil</span>
-                    <span onclick="quickSearch('multimeter')">🔌 multimeter</span>
-                </div>
-            </div>
+            <!-- Results appear here -->
         </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -222,9 +224,9 @@
                 </div>
                 <div class="footer-col">
                     <h4>MSBTE Resources</h4>
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">MSBTE Curriculum</a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">Lab Manuals</a>
-                    <a href="https://msbte.ac.in/" target="_blank">MSBTE Official</a>
+                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">📖 MSBTE Curriculum</a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 K-Scheme Lab Manuals</a>
+                    <a href="https://msbte.ac.in/" target="_blank">🏛️ MSBTE Official</a>
                 </div>
                 <div class="footer-col">
                     <h4>Support</h4>
@@ -236,19 +238,19 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
+                <p>Made with ❤️ for engineering students</p>
             </div>
         </div>
     </footer>
 
+    <!-- ===== SCRIPTS ===== -->
     <script>
         // ============================================================
-        // EMBEDDED DATA - WORKS WITHOUT EXTERNAL FILES
+        // SEARCH DATA (embedded so it always works)
         // ============================================================
-        const SEARCH_DATA = {
+        var SEARCH_DATA = {
             equipment: [
                 { slug: 'vernier-caliper', name: 'Vernier Caliper', category: 'Measuring Instruments', purpose: 'Precision measurement of length, depth, and dimensions' },
-                { slug: 'screw-gauge', name: 'Screw Gauge / Micrometer', category: 'Measuring Instruments', purpose: 'Precision measurement of small dimensions' },
                 { slug: 'digital-multimeter', name: 'Digital Multimeter', category: 'Electrical & Electronic', purpose: 'Measurement of voltage, current, and resistance' },
                 { slug: 'oscilloscope', name: 'Oscilloscope', category: 'Electrical & Electronic', purpose: 'Visualizes electrical signals over time' },
                 { slug: 'function-generator', name: 'Function Generator', category: 'Electrical & Electronic', purpose: 'Generates various waveforms for testing circuits' },
@@ -264,16 +266,10 @@
                 { slug: 'auto-level', name: 'Auto Level', category: 'Civil & Surveying', purpose: 'Self-leveling instrument for height measurement' },
                 { slug: 'theodolite', name: 'Theodolite', category: 'Civil & Surveying', purpose: 'Precise measurement of horizontal and vertical angles' },
                 { slug: 'slump-cone', name: 'Slump Cone', category: 'Civil & Surveying', purpose: 'Measures workability of fresh concrete' },
-                { slug: 'compression-testing-machine', name: 'Compression Testing Machine', category: 'Testing & Quality', purpose: 'Tests compressive strength of materials' },
-                { slug: 'universal-testing-machine', name: 'Universal Testing Machine', category: 'Testing & Quality', purpose: 'Tests tensile, compressive, and bending strength' },
                 { slug: 'transformer', name: 'Transformer', category: 'Power Systems', purpose: 'Converts AC voltage from one level to another' },
                 { slug: 'dc-motor', name: 'DC Motor', category: 'Power Systems', purpose: 'Converts electrical energy to mechanical motion' },
-                { slug: 'induction-motor', name: 'Induction Motor', category: 'Power Systems', purpose: 'Converts electrical to mechanical energy using AC' },
-                { slug: 'alternator', name: 'Alternator', category: 'Power Systems', purpose: 'Generates AC electrical power from mechanical rotation' },
                 { slug: 'signal-generator', name: 'Signal Generator', category: 'Communication', purpose: 'Produces electrical signals of various frequencies' },
-                { slug: 'spectrum-analyzer', name: 'Spectrum Analyzer', category: 'Communication', purpose: 'Measures signal frequency spectrum and power' },
-                { slug: 'otdr', name: 'OTDR', category: 'Communication', purpose: 'Measures fiber optic cable characteristics and faults' },
-                { slug: 'fusion-splicer', name: 'Fusion Splicer', category: 'Communication', purpose: 'Joins optical fibers with low loss using electric arc' }
+                { slug: 'spectrum-analyzer', name: 'Spectrum Analyzer', category: 'Communication', purpose: 'Measures signal frequency spectrum and power' }
             ],
             courses: [
                 { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', description: 'Study of computers, programming, networks, and software development.' },
@@ -288,92 +284,88 @@
         // PERFORM SEARCH
         // ============================================================
         function performSearch() {
-            const input = document.getElementById('searchInput');
-            const query = input.value.trim().toLowerCase();
-            const resultsDiv = document.getElementById('searchResults');
+            var input = document.getElementById('searchInput');
+            var query = input.value.trim().toLowerCase();
+            var resultsDiv = document.getElementById('searchResults');
 
+            // ── Empty query ──
             if (!query) {
-                resultsDiv.innerHTML = `
-                    <div style="text-align: center; padding: 60px 20px; color: var(--gray-400);">
-                        <i class="fas fa-search" style="font-size: 4rem; color: var(--gray-500); margin-bottom: 20px;"></i>
-                        <h2 style="color: var(--white);">Enter a Search Term</h2>
-                        <p>Type something to start searching</p>
-                    </div>
-                `;
+                resultsDiv.innerHTML =
+                    '<div class="empty-state">' +
+                    '<i class="fas fa-search"></i>' +
+                    '<h2>Enter a Search Term</h2>' +
+                    '<p>Type something to start searching</p>' +
+                    '</div>';
                 return;
             }
 
-            // Search Equipment
-            const equipmentMatches = SEARCH_DATA.equipment.filter(e =>
-                e.name.toLowerCase().includes(query) ||
-                e.category.toLowerCase().includes(query) ||
-                e.purpose.toLowerCase().includes(query)
-            );
+            // ── Search ──
+            var equipmentMatches = SEARCH_DATA.equipment.filter(function(e) {
+                return e.name.toLowerCase().indexOf(query) !== -1 ||
+                    e.category.toLowerCase().indexOf(query) !== -1 ||
+                    e.purpose.toLowerCase().indexOf(query) !== -1;
+            });
 
-            // Search Courses
-            const courseMatches = SEARCH_DATA.courses.filter(c =>
-                c.name.toLowerCase().includes(query) ||
-                c.description.toLowerCase().includes(query)
-            );
+            var courseMatches = SEARCH_DATA.courses.filter(function(c) {
+                return c.name.toLowerCase().indexOf(query) !== -1 ||
+                    c.description.toLowerCase().indexOf(query) !== -1;
+            });
 
-            const totalResults = equipmentMatches.length + courseMatches.length;
+            var total = equipmentMatches.length + courseMatches.length;
 
-            if (totalResults === 0) {
-                resultsDiv.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <h2>No Results Found</h2>
-                        <p>We couldn't find anything matching "<strong>${query}</strong>"</p>
-                        <div class="suggestions">
-                            <span onclick="quickSearch('oscilloscope')">oscilloscope</span>
-                            <span onclick="quickSearch('lathe')">lathe</span>
-                            <span onclick="quickSearch('computer')">computer</span>
-                            <span onclick="quickSearch('civil')">civil</span>
-                            <span onclick="quickSearch('multimeter')">multimeter</span>
-                        </div>
-                    </div>
-                `;
+            // ── No results ──
+            if (total === 0) {
+                resultsDiv.innerHTML =
+                    '<div class="no-results">' +
+                    '<i class="fas fa-search"></i>' +
+                    '<h2>No Results Found</h2>' +
+                    '<p>We couldn\'t find anything matching "<strong>' + query + '</strong>"</p>' +
+                    '<div class="suggestions">' +
+                    '<span onclick="quickSearch(\'oscilloscope\')">oscilloscope</span>' +
+                    '<span onclick="quickSearch(\'lathe\')">lathe</span>' +
+                    '<span onclick="quickSearch(\'computer\')">computer</span>' +
+                    '<span onclick="quickSearch(\'civil\')">civil</span>' +
+                    '<span onclick="quickSearch(\'multimeter\')">multimeter</span>' +
+                    '</div>' +
+                    '</div>';
                 return;
             }
 
-            let html = `<div class="result-stats">Found ${totalResults} results for "<strong>${query}</strong>"</div>`;
+            // ── Build results ──
+            var html = '<div class="result-stats">Found ' + total + ' results for "<strong>' + query + '</strong>"</div>';
 
-            // Equipment results
             if (equipmentMatches.length > 0) {
-                html += `
-                    <div class="result-group">
-                        <h3><i class="fas fa-microscope"></i> Equipment (${equipmentMatches.length})</h3>
-                        ${equipmentMatches.map(e => `
-                            <div class="result-item" onclick="location.href='equipment-detail.html?slug=${e.slug}'">
-                                <div class="icon">🔧</div>
-                                <div class="info">
-                                    <div class="title">${e.name}</div>
-                                    <div class="desc">${e.category} • ${e.purpose.substring(0, 80)}...</div>
-                                </div>
-                                <span class="badge">${e.category}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
+                html += '<div class="result-group">' +
+                    '<h3><i class="fas fa-microscope"></i> Equipment (' + equipmentMatches.length + ')</h3>';
+                equipmentMatches.forEach(function(e) {
+                    html += '<div class="result-item" onclick="location.href=\'equipment-detail.html?slug=' + e.slug +
+                        '\'">' +
+                        '<div class="icon">🔧</div>' +
+                        '<div class="info">' +
+                        '<div class="title">' + e.name + '</div>' +
+                        '<div class="desc">' + e.category + ' • ' + e.purpose.substring(0, 80) + '...</div>' +
+                        '</div>' +
+                        '<span class="badge">' + e.category + '</span>' +
+                        '</div>';
+                });
+                html += '</div>';
             }
 
-            // Course results
             if (courseMatches.length > 0) {
-                html += `
-                    <div class="result-group">
-                        <h3><i class="fas fa-graduation-cap"></i> Courses (${courseMatches.length})</h3>
-                        ${courseMatches.map(c => `
-                            <div class="result-item" onclick="location.href='course-detail.html?course=${c.slug}'">
-                                <div class="icon">${c.icon || '📚'}</div>
-                                <div class="info">
-                                    <div class="title">${c.name}</div>
-                                    <div class="desc">${c.description}</div>
-                                </div>
-                                <span class="badge">Course</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
+                html += '<div class="result-group">' +
+                    '<h3><i class="fas fa-graduation-cap"></i> Courses (' + courseMatches.length + ')</h3>';
+                courseMatches.forEach(function(c) {
+                    html += '<div class="result-item" onclick="location.href=\'course-detail.html?course=' + c.slug +
+                        '\'">' +
+                        '<div class="icon">' + (c.icon || '📚') + '</div>' +
+                        '<div class="info">' +
+                        '<div class="title">' + c.name + '</div>' +
+                        '<div class="desc">' + c.description + '</div>' +
+                        '</div>' +
+                        '<span class="badge">Course</span>' +
+                        '</div>';
+                });
+                html += '</div>';
             }
 
             resultsDiv.innerHTML = html;
@@ -388,31 +380,11 @@
         }
 
         // ============================================================
-        // CHECK URL PARAMETER
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const params = new URLSearchParams(window.location.search);
-            const q = params.get('q');
-            if (q) {
-                document.getElementById('searchInput').value = q;
-                performSearch();
-            }
-
-            // Load saved theme
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.body.setAttribute('data-theme', 'light');
-                const icon = document.getElementById('themeIcon');
-                if (icon) icon.className = 'fas fa-sun';
-            }
-        });
-
-        // ============================================================
-        // THEME TOGGLE
+        // THEME / MOBILE (small helpers)
         // ============================================================
         function toggleTheme() {
-            const body = document.body;
-            const icon = document.getElementById('themeIcon');
+            var body = document.body;
+            var icon = document.getElementById('themeIcon');
             if (body.getAttribute('data-theme') === 'light') {
                 body.removeAttribute('data-theme');
                 if (icon) icon.className = 'fas fa-moon';
@@ -425,9 +397,46 @@
         }
 
         function toggleMobileMenu() {
-            const nav = document.getElementById('navLinks');
+            var nav = document.getElementById('navLinks');
             if (nav) nav.classList.toggle('open');
         }
+
+        // ============================================================
+        // ON PAGE LOAD
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load query from URL
+            var params = new URLSearchParams(window.location.search);
+            var q = params.get('q');
+            if (q) {
+                document.getElementById('searchInput').value = q;
+                performSearch();
+            } else {
+                // Show default empty state
+                document.getElementById('searchResults').innerHTML =
+                    '<div class="empty-state">' +
+                    '<i class="fas fa-search"></i>' +
+                    '<h2>Search for Anything</h2>' +
+                    '<p>Search across courses, equipment, practicals, and quizzes</p>' +
+                    '<div class="suggestions">' +
+                    '<span onclick="quickSearch(\'oscilloscope\')">🔍 oscilloscope</span>' +
+                    '<span onclick="quickSearch(\'lathe\')">🔍 lathe</span>' +
+                    '<span onclick="quickSearch(\'computer\')">💻 computer</span>' +
+                    '<span onclick="quickSearch(\'civil\')">🏗️ civil</span>' +
+                    '<span onclick="quickSearch(\'multimeter\')">🔌 multimeter</span>' +
+                    '</div>' +
+                    '</div>';
+            }
+
+            // Load theme
+            var savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.setAttribute('data-theme', 'light');
+                var icon = document.getElementById('themeIcon');
+                if (icon) icon.className = 'fas fa-sun';
+            }
+        });
     </script>
+
 </body>
 </html>
