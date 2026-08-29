@@ -88,10 +88,6 @@
             padding: 2px 8px;
             border-radius: 20px;
         }
-        .course-detail-page .semester-tabs button.active .badge-count {
-            background: white;
-            color: var(--cyan-500);
-        }
         .course-detail-page .subjects-table {
             width: 100%;
             border-collapse: collapse;
@@ -116,7 +112,6 @@
             color: var(--gray-300);
         }
         .course-detail-page .subjects-table tr:last-child td { border-bottom: none; }
-        .course-detail-page .subjects-table tr:hover td { background: rgba(6, 182, 212, 0.02); }
         .course-detail-page .subjects-table .code {
             font-size: 0.8rem;
             color: var(--gray-500);
@@ -125,8 +120,6 @@
             padding: 2px 10px;
             border-radius: 12px;
         }
-        .course-detail-page .subjects-table .credits { font-weight: 600; color: var(--cyan-400); }
-        .course-detail-page .subjects-table .marks { font-weight: 600; }
         .course-detail-page .semester-summary {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -149,7 +142,6 @@
             padding: 60px 20px;
             color: var(--gray-400);
         }
-        .course-detail-page .no-data i { font-size: 3rem; display: block; margin-bottom: 15px; }
         .course-detail-page .quick-actions {
             display: flex;
             gap: 15px;
@@ -171,17 +163,10 @@
             background: linear-gradient(135deg, var(--cyan-500), var(--cyan-600));
             color: white;
         }
-        .course-detail-page .quick-actions .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
-        }
         .course-detail-page .quick-actions .btn-outline {
             background: transparent;
             color: var(--cyan-400);
             border: 2px solid var(--cyan-400);
-        }
-        .course-detail-page .quick-actions .btn-outline:hover {
-            background: rgba(6, 182, 212, 0.05);
         }
         .badge-msbte {
             display: inline-block;
@@ -193,15 +178,12 @@
             font-weight: 600;
             margin-top: 8px;
         }
-        .verification-badge {
+        .verification-badge.verified {
             display: inline-block;
             padding: 3px 12px;
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 600;
-            margin-left: 10px;
-        }
-        .verification-badge.verified {
             background: rgba(34, 197, 94, 0.2);
             color: #22c55e;
         }
@@ -295,252 +277,227 @@
         </div>
     </footer>
 
+    <!-- ============================================================
+    SCRIPTS - LOAD MSBTE K-SCHEME DATA
+    ============================================================ -->
+    <script src="js/msbte-k-scheme-data.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
+
     <script>
         // ============================================================
-        // COMPLETE COURSE DATA - 5 BRANCHES
-        // ============================================================
-        const COURSES_DATA = [
-            { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', code: 'CO' },
-            { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️', code: 'ME' },
-            { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️', code: 'CE' },
-            { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡', code: 'EE' },
-            { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡', code: 'EJ' }
-        ];
-
-        // ============================================================
-        // COMPLETE COMPUTER ENGINEERING (CO) - ALL 6 SEMESTERS
-        // ============================================================
-        const SUBJECTS = {
-            1: [
-                { code: '311001', name: 'Basic Mathematics', credits: 4, marks: 100, type: 'Theory' },
-                { code: '311002', name: 'Engineering Physics', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '311003', name: 'Engineering Chemistry', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '311004', name: 'Engineering Graphics', credits: 4, marks: 100, type: 'Practical' },
-                { code: '311005', name: 'Basic Electronics', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '311006', name: 'Communication Skills', credits: 3, marks: 100, type: 'Theory + Practical' }
-            ],
-            2: [
-                { code: '312001', name: 'Applied Mathematics', credits: 4, marks: 100, type: 'Theory' },
-                { code: '312002', name: 'Engineering Mechanics', credits: 4, marks: 100, type: 'Theory + Practical' },
-                { code: '312003', name: 'Basic Electrical Engineering', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '312004', name: 'Environmental Science', credits: 3, marks: 100, type: 'Theory' },
-                { code: '312005', name: 'Programming in C', credits: 4, marks: 100, type: 'Theory + Practical' }
-            ],
-            3: [
-                { code: '313001', name: 'Engineering Mathematics III', credits: 4, marks: 100, type: 'Theory' },
-                { code: '313002', name: 'Data Structure Using C', credits: 4, marks: 100, type: 'Theory + Practical' },
-                { code: '313003', name: 'Database Management System', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '313004', name: 'Object Oriented Programming Using C++', credits: 4, marks: 100, type: 'Theory + Practical' },
-                { code: '313005', name: 'Digital Techniques', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '313006', name: 'Data Structure Using Python', credits: 3, marks: 100, type: 'Theory + Practical' }
-            ],
-            4: [
-                { code: '314001', name: 'Engineering Mathematics IV', credits: 4, marks: 100, type: 'Theory' },
-                { code: '314002', name: 'Java Programming', credits: 4, marks: 100, type: 'Theory + Practical' },
-                { code: '314003', name: 'Data Communication and Computer Network', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '314004', name: 'Information Security', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '314005', name: 'Environmental Education and Sustainability', credits: 3, marks: 100, type: 'Theory' },
-                { code: '314006', name: 'Probability and Statistics', credits: 3, marks: 100, type: 'Theory' }
-            ],
-            5: [
-                { code: '315001', name: 'Engineering Mathematics V', credits: 4, marks: 100, type: 'Theory' },
-                { code: '315002', name: 'Operating System', credits: 4, marks: 100, type: 'Theory + Practical' },
-                { code: '315003', name: 'Software Engineering', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '315004', name: 'Cloud Computing', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '315005', name: 'Data Analytics', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '315006', name: 'Management', credits: 3, marks: 100, type: 'Theory' },
-                { code: '315007', name: 'Internship', credits: 2, marks: 50, type: 'Practical' }
-            ],
-            6: [
-                { code: '316001', name: 'Engineering Mathematics VI', credits: 4, marks: 100, type: 'Theory' },
-                { code: '316002', name: 'Machine Learning', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '316003', name: 'Network and Information Security', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '316004', name: 'Big Data Analytics', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '316005', name: 'Software Testing', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '316006', name: 'Digital Forensic and Hacking Techniques', credits: 3, marks: 100, type: 'Theory + Practical' },
-                { code: '316007', name: 'Capstone Project', credits: 6, marks: 200, type: 'Practical' }
-            ]
-        };
-
-        // ============================================================
-        // GET COURSE FROM URL
-        // ============================================================
-        const params = new URLSearchParams(window.location.search);
-        const courseSlug = params.get('course') || 'computer-engineering';
-        const course = COURSES_DATA.find(c => c.slug === courseSlug) || COURSES_DATA[0];
-
-        const container = document.getElementById('courseContent');
-
-        // ============================================================
-        // RENDER PAGE
-        // ============================================================
-        function renderPage() {
-            container.innerHTML = `
-                <div class="course-header">
-                    <div class="icon">${course.icon}</div>
-                    <div>
-                        <h1>${course.name}</h1>
-                        <p>${course.code} • Diploma Engineering • 3 Years</p>
-                        <span class="badge-msbte">📖 MSBTE K-Scheme</span>
-                        <span class="verification-badge verified">✅ Verified</span>
-                        <div class="meta">
-                            <span><i class="fas fa-code"></i> ${course.code}</span>
-                            <span><i class="fas fa-clock"></i> 3 Years</span>
-                            <span><i class="fas fa-layer-group"></i> 6 Semesters</span>
-                            <span><i class="fas fa-graduation-cap"></i> Diploma</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="semester-tabs" id="semesterTabs">
-                    ${[1,2,3,4,5,6].map(s => `
-                        <button class="semester-tab ${s === 1 ? 'active' : ''}" data-semester="${s}" onclick="loadSemester(${s})">
-                            Semester ${s}
-                            <span class="badge-count">${SUBJECTS[s]?.length || 0}</span>
-                        </button>
-                    `).join('')}
-                </div>
-
-                <div id="semesterContent">
-                    ${renderSemester(1)}
-                </div>
-
-                <div class="quick-actions">
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" class="btn-primary">
-                        <i class="fas fa-external-link-alt"></i> Official MSBTE Curriculum
-                    </a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" class="btn-outline">
-                        <i class="fas fa-external-link-alt"></i> Lab Manuals
-                    </a>
-                    <a href="equipment.html" class="btn-outline">
-                        <i class="fas fa-microscope"></i> Equipment
-                    </a>
-                </div>
-            `;
-        }
-
-        // ============================================================
-        // RENDER SEMESTER
-        // ============================================================
-        function renderSemester(semester) {
-            const subjects = SUBJECTS[semester] || [];
-            
-            if (subjects.length === 0) {
-                return `<div class="no-data"><i class="fas fa-book-open"></i><p>No subjects for Semester ${semester}</p></div>`;
-            }
-
-            let totalCredits = 0;
-            let totalMarks = 0;
-
-            subjects.forEach(s => {
-                totalCredits += s.credits || 0;
-                totalMarks += s.marks || 0;
-            });
-
-            return `
-                <h2 style="margin: 10px 0 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <i class="fas fa-book" style="color: var(--cyan-400);"></i>
-                    Semester ${semester}
-                    <span style="font-size: 0.8rem; color: var(--gray-400); font-weight: 400;">
-                        ${subjects.length} subjects • ${totalCredits} credits • ${totalMarks} marks
-                    </span>
-                </h2>
-
-                <table class="subjects-table">
-                    <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Subject Name</th>
-                            <th style="text-align:center;">Type</th>
-                            <th style="text-align:center;">Credits</th>
-                            <th style="text-align:center;">Marks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${subjects.map(s => `
-                            <tr>
-                                <td><span class="code">${s.code}</span></td>
-                                <td><strong>${s.name}</strong></td>
-                                <td style="text-align:center;"><span style="font-size:0.7rem;padding:2px 10px;border-radius:12px;background:rgba(6,182,212,0.1);color:var(--cyan-400);">${s.type || 'Theory'}</span></td>
-                                <td style="text-align:center;"><span class="credits">${s.credits || 0}</span></td>
-                                <td style="text-align:center;"><span class="marks">${s.marks || 100}</span></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-
-                <div class="semester-summary">
-                    <div class="item">
-                        <div class="num">${subjects.length}</div>
-                        <div class="label">Subjects</div>
-                    </div>
-                    <div class="item">
-                        <div class="num">${totalCredits}</div>
-                        <div class="label">Total Credits</div>
-                    </div>
-                    <div class="item">
-                        <div class="num">${totalMarks}</div>
-                        <div class="label">Total Marks</div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 15px; padding: 12px 16px; background: var(--darker-bg); border-radius: var(--radius); border-left: 3px solid var(--cyan-400);">
-                    <p style="color: var(--gray-400); font-size: 0.85rem;">
-                        <i class="fas fa-info-circle" style="color: var(--cyan-400);"></i> 
-                        MSBTE K-Scheme curriculum • <strong style="color: var(--cyan-400);">Verified</strong>
-                    </p>
-                </div>
-            `;
-        }
-
-        // ============================================================
-        // LOAD SEMESTER (CLICK HANDLER)
-        // ============================================================
-        function loadSemester(semester) {
-            document.querySelectorAll('.semester-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (parseInt(tab.dataset.semester) === semester) {
-                    tab.classList.add('active');
-                }
-            });
-            document.getElementById('semesterContent').innerHTML = renderSemester(semester);
-        }
-
-        // ============================================================
-        // THEME TOGGLE
-        // ============================================================
-        function toggleTheme() {
-            const body = document.body;
-            const icon = document.getElementById('themeIcon');
-            if (body.getAttribute('data-theme') === 'light') {
-                body.removeAttribute('data-theme');
-                if (icon) icon.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                if (icon) icon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        function toggleMobileMenu() {
-            const nav = document.getElementById('navLinks');
-            if (nav) nav.classList.toggle('open');
-        }
-
-        // ============================================================
-        // INIT
+        // MAIN COURSE DETAIL LOGIC
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
+            var params = new URLSearchParams(window.location.search);
+            var courseSlug = params.get('course') || 'computer-engineering';
+            var container = document.getElementById('courseContent');
+
+            // Programme mapping
+            var programmeMap = {
+                'computer-engineering': 'computer-engineering',
+                'mechanical-engineering': 'mechanical-engineering',
+                'civil-engineering': 'civil-engineering',
+                'electrical-engineering': 'electrical-engineering',
+                'electronics-telecommunication': 'electronics-telecommunication'
+            };
+
+            var courseIcons = {
+                'computer-engineering': '💻',
+                'mechanical-engineering': '⚙️',
+                'civil-engineering': '🏗️',
+                'electrical-engineering': '⚡',
+                'electronics-telecommunication': '📡'
+            };
+
+            var courseNames = {
+                'computer-engineering': 'Computer Engineering',
+                'mechanical-engineering': 'Mechanical Engineering',
+                'civil-engineering': 'Civil Engineering',
+                'electrical-engineering': 'Electrical Engineering',
+                'electronics-telecommunication': 'Electronics & Telecommunication Engineering'
+            };
+
+            var programmeSlug = programmeMap[courseSlug] || 'computer-engineering';
+            var programme = MSBTE_K_SCHEME[programmeSlug];
+
+            if (!programme) {
+                container.innerHTML = '<div class="no-data"><i class="fas fa-exclamation-circle"></i><h3>Course not found</h3><p>Please go back to <a href="courses.html" style="color:var(--cyan-400);">courses</a></p></div>';
+                return;
+            }
+
+            var icon = courseIcons[courseSlug] || '📚';
+            var name = courseNames[courseSlug] || programme.name;
+
+            // ============================================================
+            // RENDER PAGE
+            // ============================================================
+            function renderPage() {
+                var semestersHtml = '';
+                var firstSemester = 1;
+
+                // Find first available semester
+                for (var s = 1; s <= 6; s++) {
+                    if (programme.semesters[s]) {
+                        firstSemester = s;
+                        break;
+                    }
+                }
+
+                // Build semester tabs
+                var tabsHtml = '';
+                for (var s = 1; s <= 6; s++) {
+                    if (programme.semesters[s]) {
+                        var isActive = s === firstSemester ? 'active' : '';
+                        var subjectCount = programme.semesters[s].subjects ? programme.semesters[s].subjects.length : 0;
+                        tabsHtml += `
+                            <button class="semester-tab ${isActive}" data-semester="${s}" onclick="loadSemester(${s})">
+                                Semester ${s}
+                                <span class="badge-count">${subjectCount}</span>
+                            </button>
+                        `;
+                    }
+                }
+
+                container.innerHTML = `
+                    <div class="course-header">
+                        <div class="icon">${icon}</div>
+                        <div>
+                            <h1>${name}</h1>
+                            <p>${programme.code} • Diploma Engineering • 3 Years</p>
+                            <span class="badge-msbte">📖 MSBTE K-Scheme</span>
+                            <span class="verification-badge verified">✅ Verified</span>
+                            <div class="meta">
+                                <span><i class="fas fa-code"></i> ${programme.code}</span>
+                                <span><i class="fas fa-clock"></i> 3 Years</span>
+                                <span><i class="fas fa-layer-group"></i> 6 Semesters</span>
+                                <span><i class="fas fa-graduation-cap"></i> Diploma</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="semester-tabs" id="semesterTabs">
+                        ${tabsHtml}
+                    </div>
+
+                    <div id="semesterContent">
+                        ${renderSemester(firstSemester)}
+                    </div>
+
+                    <div class="quick-actions">
+                        <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" class="btn-primary">
+                            <i class="fas fa-external-link-alt"></i> Official MSBTE Curriculum
+                        </a>
+                        <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" class="btn-outline">
+                            <i class="fas fa-external-link-alt"></i> Lab Manuals
+                        </a>
+                        <a href="equipment.html" class="btn-outline">
+                            <i class="fas fa-microscope"></i> Equipment
+                        </a>
+                    </div>
+                `;
+            }
+
+            // ============================================================
+            // RENDER SEMESTER
+            // ============================================================
+            function renderSemester(semester) {
+                var semesterData = programme.semesters[semester];
+                if (!semesterData || !semesterData.subjects || semesterData.subjects.length === 0) {
+                    return `<div class="no-data"><i class="fas fa-book-open"></i><p>No subjects for Semester ${semester}</p></div>`;
+                }
+
+                var subjects = semesterData.subjects;
+
+                return `
+                    <h2 style="margin: 10px 0 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <i class="fas fa-book" style="color: var(--cyan-400);"></i>
+                        ${semesterData.name}
+                        <span style="font-size: 0.8rem; color: var(--gray-400); font-weight: 400;">
+                            ${subjects.length} subjects
+                        </span>
+                    </h2>
+
+                    <table class="subjects-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Subject Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${subjects.map(function(s) {
+                                return `
+                                    <tr>
+                                        <td><span class="code">${s.code}</span></td>
+                                        <td><strong>${s.name}</strong></td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+
+                    <div class="semester-summary">
+                        <div class="item">
+                            <div class="num">${subjects.length}</div>
+                            <div class="label">Subjects</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px; padding: 12px 16px; background: var(--darker-bg); border-radius: var(--radius); border-left: 3px solid var(--cyan-400);">
+                        <p style="color: var(--gray-400); font-size: 0.85rem;">
+                            <i class="fas fa-info-circle" style="color: var(--cyan-400);"></i> 
+                            MSBTE K-Scheme curriculum • <strong style="color: var(--cyan-400);">Verified</strong>
+                        </p>
+                    </div>
+                `;
+            }
+
+            // ============================================================
+            // LOAD SEMESTER (CLICK HANDLER)
+            // ============================================================
+            window.loadSemester = function(semester) {
+                document.querySelectorAll('.semester-tab').forEach(function(tab) {
+                    tab.classList.remove('active');
+                    if (parseInt(tab.dataset.semester) === semester) {
+                        tab.classList.add('active');
+                    }
+                });
+                document.getElementById('semesterContent').innerHTML = renderSemester(semester);
+            };
+
+            // ============================================================
+            // THEME TOGGLE
+            // ============================================================
+            window.toggleTheme = function() {
+                var body = document.body;
+                var icon = document.getElementById('themeIcon');
+                if (body.getAttribute('data-theme') === 'light') {
+                    body.removeAttribute('data-theme');
+                    if (icon) icon.className = 'fas fa-moon';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.setAttribute('data-theme', 'light');
+                    if (icon) icon.className = 'fas fa-sun';
+                    localStorage.setItem('theme', 'light');
+                }
+            };
+
+            window.toggleMobileMenu = function() {
+                var nav = document.getElementById('navLinks');
+                if (nav) nav.classList.toggle('open');
+            };
+
+            // ============================================================
+            // INIT
+            // ============================================================
             renderPage();
 
-            const savedTheme = localStorage.getItem('theme');
+            var savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
                 document.body.setAttribute('data-theme', 'light');
-                const icon = document.getElementById('themeIcon');
+                var icon = document.getElementById('themeIcon');
                 if (icon) icon.className = 'fas fa-sun';
             }
         });
