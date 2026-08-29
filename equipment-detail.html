@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipment Detail - DIPLOMA HUB</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ✅ THREE.JS FOR HOLOGRAM -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three-gltf-loader@3.0.0/GLTFLoader.min.js"></script>
+
     <style>
         .eq-header {
             padding: 120px 0 40px;
@@ -134,6 +141,44 @@
         .no-data a:hover {
             text-decoration: underline;
         }
+
+        /* ============================================================
+           HOLOGRAM CONTAINER
+           ============================================================ */
+        #hologramContainer {
+            width: 100%;
+            height: 400px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--darker-bg);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .holo-controls {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: rgba(0,0,0,0.7);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            font-family: inherit;
+        }
+        .holo-controls i { color: var(--cyan-400); }
+        .holo-status { color: var(--cyan-400); }
+
+        @media (max-width: 768px) {
+            #hologramContainer { height: 280px; }
+        }
     </style>
 </head>
 <body>
@@ -178,13 +223,29 @@
     <!-- EQUIPMENT CONTENT -->
     <section class="eq-content">
         <div class="container">
+
+            <!-- ============================================================
+            HOLOGRAM VIEWER - ADDED HERE
+            ============================================================ -->
+            <div id="hologramContainer">
+                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:var(--darker-bg);color:var(--gray-400);font-family:inherit;">
+                    <i class="fas fa-cube" style="font-size:3rem;color:var(--cyan-400);margin-bottom:15px;"></i>
+                    <p>Loading holographic viewer...</p>
+                </div>
+                <div class="holo-controls">
+                    <i class="fas fa-arrows-alt"></i> Drag
+                    <i class="fas fa-mouse-pointer"></i> Zoom
+                    <span class="holo-status">✦ Hologram</span>
+                </div>
+            </div>
+
             <div id="eqDetailContent">
                 <!-- Rendered by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- ✅ ONLY ONE FOOTER -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -226,15 +287,17 @@
         </div>
     </footer>
 
-    <!-- ✅ SCRIPTS - LOAD EQUIPMENT DATA FIRST -->
+    <!-- SCRIPTS -->
     <script src="js/equipment-data.js"></script>
+    <script src="js/equipment-models.js"></script>
+    <script src="js/equipment-3d.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
 
     <script>
         // ============================================
-        // LOAD EQUIPMENT DETAIL
+        // LOAD EQUIPMENT DETAIL + HOLOGRAM
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             var params = new URLSearchParams(window.location.search);
@@ -350,9 +413,80 @@
                     </div>
                 </div>
             `;
+
+            // ============================================================
+            // INIT HOLOGRAM
+            // ============================================================
+            initHologram(slug);
         });
 
-        // Theme toggle
+        // ============================================================
+        // HOLOGRAM INITIALIZATION
+        // ============================================================
+        function initHologram(slug) {
+            var container = document.getElementById('hologramContainer');
+
+            // Check if THREE.js is loaded
+            if (typeof THREE === 'undefined') {
+                container.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray-400);font-family:inherit;">
+                        <i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#eab308;margin-bottom:15px;"></i>
+                        <p>3D library not loaded. Please refresh.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get model data
+            var modelData = getEquipmentModel(slug);
+
+            if (!modelData || !modelData.model) {
+                container.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray-400);font-family:inherit;">
+                        <i class="fas fa-cube" style="font-size:3rem;color:var(--cyan-400);margin-bottom:15px;"></i>
+                        <h3 style="color:var(--white);margin-bottom:5px;">Hologram Coming Soon</h3>
+                        <p>3D model for ${slug.replace(/-/g, ' ')} is being prepared.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Check if HologramViewer class exists
+            if (typeof HologramViewer === 'undefined') {
+                container.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray-400);font-family:inherit;">
+                        <i class="fas fa-exclamation-circle" style="font-size:3rem;color:#ef4444;margin-bottom:15px;"></i>
+                        <p>Hologram viewer not loaded. Please refresh.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Initialize viewer
+            try {
+                var viewer = new HologramViewer('hologramContainer', {
+                    modelUrl: modelData.model + 'model.glb',
+                    autoRotate: true,
+                    rotateSpeed: 0.005,
+                    backgroundColor: 0x0a0a1a,
+                    glowColor: 0x00f5ff,
+                    glowColor2: 0x7b2ffc
+                });
+                window._holoViewer = viewer;
+            } catch (err) {
+                console.error('❌ Hologram error:', err);
+                container.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray-400);font-family:inherit;">
+                        <i class="fas fa-exclamation-circle" style="font-size:3rem;color:#ef4444;margin-bottom:15px;"></i>
+                        <p>Error loading hologram. Please try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
+        // THEME TOGGLE
+        // ============================================================
         function toggleTheme() {
             var body = document.body;
             var icon = document.getElementById('themeIcon');
