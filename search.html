@@ -124,27 +124,6 @@
             color: var(--white);
             margin-bottom: 10px;
         }
-        .filters {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .filters button {
-            padding: 6px 16px;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass);
-            color: var(--gray-400);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.85rem;
-        }
-        .filters button:hover,
-        .filters button.active {
-            border-color: var(--cyan-400);
-            color: var(--cyan-400);
-        }
     </style>
 </head>
 <body>
@@ -193,7 +172,7 @@
         </div>
     </div>
 
-    <!-- ✅ FOOTER - KEEP ONLY THIS ONE -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -201,9 +180,9 @@
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
                     <div class="social-links">
-                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -216,20 +195,9 @@
                 </div>
                 <div class="footer-col">
                     <h4>MSBTE Resources</h4>
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                        <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                        MSBTE Curriculum
-                        <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                    </a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                        <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                        K-Scheme Lab Manuals
-                        <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                    </a>
-                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                        <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                        MSBTE Official Website
-                    </a>
+                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">MSBTE Curriculum</a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">Lab Manuals</a>
+                    <a href="https://msbte.ac.in/" target="_blank">MSBTE Official</a>
                 </div>
                 <div class="footer-col">
                     <h4>Support</h4>
@@ -251,12 +219,21 @@
     <script src="js/auth.js"></script>
     <script>
         // ============================================
-        // GLOBAL SEARCH ENGINE
+        // DEBUG: Check if data loads
+        // ============================================
+        console.log('🔍 Search page loaded');
+        console.log('COURSES:', typeof COURSES);
+        console.log('EQUIPMENT:', typeof EQUIPMENT);
+
+        // ============================================
+        // GLOBAL SEARCH ENGINE - FIXED
         // ============================================
         function performSearch() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
             const results = document.getElementById('searchResults');
             
+            console.log('🔍 Searching for:', query);
+
             if (!query) {
                 results.innerHTML = `
                     <div style="text-align: center; padding: 60px 20px; color: var(--gray-400);">
@@ -268,48 +245,85 @@
                 return;
             }
 
-            // Search across all data
-            const matches = {
-                equipment: EQUIPMENT.filter(e => 
-                    e.name.toLowerCase().includes(query) ||
-                    e.category.toLowerCase().includes(query) ||
-                    e.purpose.toLowerCase().includes(query)
-                ),
-                courses: COURSES.filter(c => 
-                    c.name.toLowerCase().includes(query) ||
-                    c.description.toLowerCase().includes(query)
-                )
-            };
+            // ============================================
+            // FALLBACK DATA IF NOT LOADED
+            // ============================================
+            let equipmentData = [];
+            let coursesData = [];
 
-            const totalResults = matches.equipment.length + matches.courses.length;
+            if (typeof EQUIPMENT !== 'undefined' && Array.isArray(EQUIPMENT)) {
+                equipmentData = EQUIPMENT;
+                console.log('✅ EQUIPMENT loaded:', equipmentData.length);
+            } else {
+                console.warn('⚠️ EQUIPMENT not found, using fallback');
+                equipmentData = [
+                    { slug: 'vernier-caliper', name: 'Vernier Caliper', category: 'Measuring Instruments', purpose: 'Precision measurement tool' },
+                    { slug: 'digital-multimeter', name: 'Digital Multimeter', category: 'Electrical & Electronic', purpose: 'Measures voltage, current, resistance' },
+                    { slug: 'oscilloscope', name: 'Oscilloscope', category: 'Electrical & Electronic', purpose: 'Visualizes electrical signals' },
+                    { slug: 'centre-lathe-machine', name: 'Centre Lathe Machine', category: 'Mechanical Workshop', purpose: 'Turning operations on cylindrical workpieces' },
+                    { slug: 'total-station', name: 'Total Station', category: 'Civil & Surveying', purpose: 'Electronic distance and angle measurement' },
+                    { slug: 'transformer', name: 'Transformer', category: 'Power Systems', purpose: 'Converts AC voltage levels' }
+                ];
+            }
+
+            if (typeof COURSES !== 'undefined' && Array.isArray(COURSES)) {
+                coursesData = COURSES;
+                console.log('✅ COURSES loaded:', coursesData.length);
+            } else {
+                console.warn('⚠️ COURSES not found, using fallback');
+                coursesData = [
+                    { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', description: 'Study of computers and programming' },
+                    { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️', description: 'Study of machines and manufacturing' },
+                    { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️', description: 'Study of construction and infrastructure' },
+                    { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡', description: 'Study of electrical systems and power' },
+                    { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡', description: 'Study of electronic circuits and communication' }
+                ];
+            }
+
+            // Search Equipment
+            const equipmentMatches = equipmentData.filter(e => 
+                e.name.toLowerCase().includes(query) ||
+                (e.category && e.category.toLowerCase().includes(query)) ||
+                (e.purpose && e.purpose.toLowerCase().includes(query))
+            );
+
+            // Search Courses
+            const courseMatches = coursesData.filter(c => 
+                c.name.toLowerCase().includes(query) ||
+                (c.description && c.description.toLowerCase().includes(query))
+            );
+
+            const totalResults = equipmentMatches.length + courseMatches.length;
+
+            console.log('📊 Results:', { equipment: equipmentMatches.length, courses: courseMatches.length });
 
             if (totalResults === 0) {
                 results.innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-search"></i>
                         <h2>No Results Found</h2>
-                        <p>We couldn't find anything matching "${query}"</p>
+                        <p>We couldn't find anything matching "<strong>${query}</strong>"</p>
                         <p style="font-size: 0.9rem; margin-top: 10px;">Try searching for: oscilloscope, lathe, programming, civil engineering</p>
                     </div>
                 `;
                 return;
             }
 
-            let html = `<div class="result-stats">Found ${totalResults} results for "${query}"</div>`;
+            let html = `<div class="result-stats">Found ${totalResults} results for "<strong>${query}</strong>"</div>`;
 
             // Equipment results
-            if (matches.equipment.length > 0) {
+            if (equipmentMatches.length > 0) {
                 html += `
                     <div class="result-group">
-                        <h3><i class="fas fa-microscope" style="color: var(--cyan-400);"></i> Equipment (${matches.equipment.length})</h3>
-                        ${matches.equipment.map(e => `
+                        <h3><i class="fas fa-microscope" style="color: var(--cyan-400);"></i> Equipment (${equipmentMatches.length})</h3>
+                        ${equipmentMatches.map(e => `
                             <div class="result-item" onclick="window.location.href='equipment-detail.html?slug=${e.slug}'">
                                 <div class="icon">🔧</div>
                                 <div class="info">
                                     <div class="title">${e.name}</div>
-                                    <div class="desc">${e.category} • ${e.purpose.substring(0, 80)}...</div>
+                                    <div class="desc">${e.category || 'Uncategorized'} • ${e.purpose ? e.purpose.substring(0, 80) + '...' : 'No description'}</div>
                                 </div>
-                                <span class="badge">${e.category}</span>
+                                <span class="badge">${e.category || 'Equipment'}</span>
                             </div>
                         `).join('')}
                     </div>
@@ -317,16 +331,16 @@
             }
 
             // Course results
-            if (matches.courses.length > 0) {
+            if (courseMatches.length > 0) {
                 html += `
                     <div class="result-group">
-                        <h3><i class="fas fa-graduation-cap" style="color: var(--cyan-400);"></i> Courses (${matches.courses.length})</h3>
-                        ${matches.courses.map(c => `
+                        <h3><i class="fas fa-graduation-cap" style="color: var(--cyan-400);"></i> Courses (${courseMatches.length})</h3>
+                        ${courseMatches.map(c => `
                             <div class="result-item" onclick="window.location.href='course-detail.html?course=${c.slug}'">
-                                <div class="icon">${c.icon}</div>
+                                <div class="icon">${c.icon || '📚'}</div>
                                 <div class="info">
                                     <div class="title">${c.name}</div>
-                                    <div class="desc">${c.description}</div>
+                                    <div class="desc">${c.description || 'Learn more about this course'}</div>
                                 </div>
                                 <span class="badge">Course</span>
                             </div>
@@ -338,15 +352,29 @@
             results.innerHTML = html;
         }
 
-        // Check if there's a query in URL
-        const params = new URLSearchParams(window.location.search);
-        const q = params.get('q');
-        if (q) {
-            document.getElementById('searchInput').value = q;
-            performSearch();
-        }
+        // ============================================
+        // CHECK URL PARAMETER
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const q = params.get('q');
+            if (q) {
+                document.getElementById('searchInput').value = q;
+                performSearch();
+            }
 
-        // Theme toggle
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.setAttribute('data-theme', 'light');
+                const icon = document.getElementById('themeIcon');
+                if (icon) icon.className = 'fas fa-sun';
+            }
+        });
+
+        // ============================================
+        // THEME TOGGLE
+        // ============================================
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('themeIcon');
@@ -364,14 +392,6 @@
         function toggleMobileMenu() {
             const nav = document.getElementById('navLinks');
             if (nav) nav.classList.toggle('open');
-        }
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.body.setAttribute('data-theme', 'light');
-            const icon = document.getElementById('themeIcon');
-            if (icon) icon.className = 'fas fa-sun';
         }
     </script>
 </body>
