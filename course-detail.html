@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
+        /* ============================================================
+           COMPLETE COURSE DETAIL STYLES
+           ============================================================ */
         .course-detail-page {
             padding: 120px 20px 40px;
             max-width: 1200px;
@@ -33,9 +36,23 @@
             border-bottom: 1px solid var(--glass-border);
             flex-wrap: wrap;
         }
-        .course-detail-page .course-header .icon { font-size: 4rem; }
-        .course-detail-page .course-header h1 { font-size: 2.8rem; font-weight: 700; }
-        .course-detail-page .course-header p { color: var(--gray-400); font-size: 1.1rem; margin-top: 5px; }
+        .course-detail-page .course-header .icon {
+            font-size: 4.5rem;
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .course-detail-page .course-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+        .course-detail-page .course-header p {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
         .course-detail-page .course-header .meta {
             display: flex;
             gap: 15px;
@@ -50,6 +67,27 @@
             font-size: 0.85rem;
             font-weight: 600;
         }
+        .course-detail-page .badge-msbte {
+            display: inline-block;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--cyan-400);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .course-detail-page .verification-badge.verified {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        /* Semester Tabs */
         .course-detail-page .semester-tabs {
             display: flex;
             gap: 10px;
@@ -88,6 +126,12 @@
             padding: 2px 8px;
             border-radius: 20px;
         }
+        .course-detail-page .semester-tabs button.active .badge-count {
+            background: white;
+            color: var(--cyan-500);
+        }
+
+        /* Subjects Table */
         .course-detail-page .subjects-table {
             width: 100%;
             border-collapse: collapse;
@@ -111,7 +155,12 @@
             border-bottom: 1px solid var(--glass-border);
             color: var(--gray-300);
         }
-        .course-detail-page .subjects-table tr:last-child td { border-bottom: none; }
+        .course-detail-page .subjects-table tr:last-child td {
+            border-bottom: none;
+        }
+        .course-detail-page .subjects-table tr:hover td {
+            background: rgba(6, 182, 212, 0.02);
+        }
         .course-detail-page .subjects-table .code {
             font-size: 0.8rem;
             color: var(--gray-500);
@@ -120,6 +169,8 @@
             padding: 2px 10px;
             border-radius: 12px;
         }
+
+        /* Semester Summary */
         .course-detail-page .semester-summary {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -130,18 +181,32 @@
             border-radius: var(--radius);
             border: 1px solid var(--glass-border);
         }
-        .course-detail-page .semester-summary .item { text-align: center; }
+        .course-detail-page .semester-summary .item {
+            text-align: center;
+        }
         .course-detail-page .semester-summary .item .num {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--cyan-400);
         }
-        .course-detail-page .semester-summary .item .label { font-size: 0.8rem; color: var(--gray-400); }
+        .course-detail-page .semester-summary .item .label {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        /* No Data */
         .course-detail-page .no-data {
             text-align: center;
             padding: 60px 20px;
             color: var(--gray-400);
         }
+        .course-detail-page .no-data i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* Quick Actions */
         .course-detail-page .quick-actions {
             display: flex;
             gap: 15px;
@@ -163,45 +228,47 @@
             background: linear-gradient(135deg, var(--cyan-500), var(--cyan-600));
             color: white;
         }
+        .course-detail-page .quick-actions .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+        }
         .course-detail-page .quick-actions .btn-outline {
             background: transparent;
             color: var(--cyan-400);
             border: 2px solid var(--cyan-400);
         }
-        .badge-msbte {
-            display: inline-block;
-            background: rgba(6, 182, 212, 0.15);
-            color: var(--cyan-400);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 8px;
+        .course-detail-page .quick-actions .btn-outline:hover {
+            background: rgba(6, 182, 212, 0.05);
         }
-        .verification-badge.verified {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .course-detail-page .course-header {
                 flex-direction: column;
                 text-align: center;
             }
-            .course-detail-page .course-header h1 { font-size: 2rem; }
-            .course-detail-page .subjects-table { font-size: 0.8rem; }
+            .course-detail-page .course-header h1 {
+                font-size: 2rem;
+            }
+            .course-detail-page .subjects-table {
+                font-size: 0.8rem;
+            }
             .course-detail-page .subjects-table th,
-            .course-detail-page .subjects-table td { padding: 6px 8px; }
-            .course-detail-page .semester-tabs button { padding: 8px 16px; font-size: 0.8rem; }
+            .course-detail-page .subjects-table td {
+                padding: 6px 8px;
+            }
+            .course-detail-page .semester-tabs button {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- NAVBAR -->
+
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -225,7 +292,9 @@
         </div>
     </nav>
 
-    <!-- COURSE DETAIL -->
+    <!-- ============================================================
+    COURSE DETAIL CONTENT
+    ============================================================ -->
     <section class="course-detail-page" id="courseDetailPage">
         <div class="container">
             <a href="courses.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Courses</a>
@@ -235,7 +304,9 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -278,7 +349,7 @@
     </footer>
 
     <!-- ============================================================
-    SCRIPTS - LOAD MSBTE K-SCHEME DATA
+    SCRIPTS
     ============================================================ -->
     <script src="js/msbte-k-scheme-data.js"></script>
     <script src="js/data.js"></script>
@@ -287,7 +358,7 @@
 
     <script>
         // ============================================================
-        // MAIN COURSE DETAIL LOGIC
+        // MAIN COURSE DETAIL LOGIC - MSBTE K-SCHEME
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             var params = new URLSearchParams(window.location.search);
@@ -334,7 +405,6 @@
             // RENDER PAGE
             // ============================================================
             function renderPage() {
-                var semestersHtml = '';
                 var firstSemester = 1;
 
                 // Find first available semester
@@ -447,7 +517,7 @@
 
                     <div style="margin-top: 15px; padding: 12px 16px; background: var(--darker-bg); border-radius: var(--radius); border-left: 3px solid var(--cyan-400);">
                         <p style="color: var(--gray-400); font-size: 0.85rem;">
-                            <i class="fas fa-info-circle" style="color: var(--cyan-400);"></i> 
+                            <i class="fas fa-info-circle" style="color: var(--cyan-400);"></i>
                             MSBTE K-Scheme curriculum • <strong style="color: var(--cyan-400);">Verified</strong>
                         </p>
                     </div>
@@ -502,5 +572,6 @@
             }
         });
     </script>
+
 </body>
 </html>
