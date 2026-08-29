@@ -11,31 +11,19 @@
         .page-header h1 { font-size: 3rem; }
         .page-header p { color: var(--gray-400); font-size: 1.1rem; }
         .search-filter { max-width: 600px; margin: 20px auto 40px; }
-        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        .equipment-card {
-            background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: var(--radius); padding: 25px;
-            transition: var(--transition); cursor: pointer;
-        }
-        .equipment-card:hover {
-            transform: translateY(-5px); border-color: var(--cyan-400);
-            box-shadow: 0 8px 30px rgba(6, 182, 212, 0.1);
-        }
-        .equipment-card h3 { font-size: 1.1rem; margin-bottom: 5px; color: var(--white); }
-        .equipment-card .badge {
-            display: inline-block; padding: 3px 12px; border-radius: 20px;
-            font-size: 0.75rem; font-weight: 600;
-            background: rgba(6, 182, 212, 0.15); color: var(--cyan-400);
-            margin: 8px 0;
-        }
+        .search-box { display: flex; align-items: center; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 50px; padding: 5px; }
+        .search-box input { flex: 1; background: transparent; border: none; padding: 15px 20px; color: var(--white); font-size: 1rem; outline: none; }
+        .search-box button { background: var(--cyan-500); border: none; color: white; padding: 12px 25px; border-radius: 50px; cursor: pointer; font-weight: 600; }
+        .search-box button:hover { background: var(--cyan-600); }
+        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
+        .equipment-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; cursor: pointer; transition: 0.3s; }
+        .equipment-card:hover { transform: translateY(-5px); border-color: var(--cyan-400); box-shadow: 0 8px 30px rgba(6,182,212,0.1); }
+        .equipment-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .equipment-card .badge { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 0.75rem; background: rgba(6,182,212,0.15); color: var(--cyan-400); margin: 8px 0; }
         .equipment-card p { color: var(--gray-400); font-size: 0.9rem; margin: 8px 0; }
-        .equipment-card .card-link {
-            color: var(--cyan-400); font-weight: 500;
-            display: inline-flex; align-items: center; gap: 5px;
-            margin-top: 10px;
-        }
-        .equipment-card .card-link:hover { gap: 10px; }
+        .equipment-card .card-link { color: var(--cyan-400); font-weight: 500; }
         .no-results { text-align: center; color: var(--gray-400); padding: 40px; grid-column: 1 / -1; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
     </style>
 </head>
 <body>
@@ -57,7 +45,7 @@
             </div>
             <div class="nav-right">
                 <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
-                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
+                <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
                 <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
             </div>
         </div>
@@ -68,18 +56,19 @@
         <div class="container">
             <h1>Engineering <span class="gradient-text">Equipment</span></h1>
             <p>Browse 200+ engineering equipment with detailed explanations</p>
+            
+            <!-- ✅ SIMPLE SEARCH BOX -->
             <div class="search-filter">
                 <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search equipment by name or category..." id="equipmentSearch" onkeyup="filterEquipment()">
-                    <button onclick="filterEquipment()"><i class="fas fa-arrow-right"></i></button>
+                    <input type="text" id="equipmentSearch" placeholder="Search equipment..." onkeyup="filterEquipment()">
+                    <button onclick="filterEquipment()"><i class="fas fa-search"></i> Search</button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- EQUIPMENT GRID -->
-    <section class="section" style="padding-top: 0;">
+    <section style="padding: 20px 0 60px;">
         <div class="container">
             <div class="equipment-grid" id="equipmentGrid"></div>
         </div>
@@ -109,7 +98,7 @@
                 <div class="footer-col">
                     <h4>MSBTE Resources</h4>
                     <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">📖 MSBTE Curriculum</a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 K-Scheme Lab Manuals</a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 Lab Manuals</a>
                     <a href="https://msbte.ac.in/" target="_blank">🏛️ MSBTE Official</a>
                 </div>
                 <div class="footer-col">
@@ -127,7 +116,7 @@
         </div>
     </footer>
 
-    <!-- ✅ SCRIPTS - LOAD EQUIPMENT DATA FIRST -->
+    <!-- ✅ SCRIPTS - LOAD DATA FIRST -->
     <script src="js/equipment-data.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
@@ -135,40 +124,41 @@
 
     <script>
         // ============================================
-        // FILTER EQUIPMENT
+        // SIMPLE SEARCH FUNCTION
         // ============================================
         function filterEquipment() {
             var input = document.getElementById('equipmentSearch');
             var query = input.value.toLowerCase().trim();
             var grid = document.getElementById('equipmentGrid');
             
-            if (!grid) return;
+            console.log('🔍 Searching for:', query); // Debug
 
-            // Check if EQUIPMENT data exists
+            // Check if EQUIPMENT exists
             if (typeof EQUIPMENT === 'undefined' || !Array.isArray(EQUIPMENT)) {
-                grid.innerHTML = '<div class="no-results"><i class="fas fa-exclamation-circle" style="font-size:2rem;display:block;margin-bottom:10px;"></i><p>Equipment data not loaded. Please refresh.</p></div>';
+                grid.innerHTML = '<div class="no-results"><p>⚠️ Equipment data not loaded. Refresh the page.</p></div>';
                 return;
             }
 
             // Filter
-            var filtered = EQUIPMENT.filter(function(e) {
-                return e.name.toLowerCase().indexOf(query) !== -1 ||
-                    (e.category && e.category.toLowerCase().indexOf(query) !== -1) ||
-                    (e.purpose && e.purpose.toLowerCase().indexOf(query) !== -1);
+            var filtered = EQUIPMENT.filter(function(item) {
+                return item.name.toLowerCase().indexOf(query) !== -1 ||
+                       (item.category && item.category.toLowerCase().indexOf(query) !== -1) ||
+                       (item.purpose && item.purpose.toLowerCase().indexOf(query) !== -1);
             });
 
-            // Show results
+            console.log('📊 Found:', filtered.length); // Debug
+
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="no-results"><i class="fas fa-search" style="font-size:2rem;display:block;margin-bottom:10px;"></i><p>No equipment found matching "<strong>' + query + '</strong>"</p></div>';
+                grid.innerHTML = '<div class="no-results"><p>❌ No equipment found for "<strong>' + query + '</strong>"</p></div>';
                 return;
             }
 
-            grid.innerHTML = filtered.map(function(e) {
-                return '<div class="equipment-card" onclick="location.href=\'equipment-detail.html?slug=' + e.slug + '\'">' +
-                    '<h3>' + e.name + '</h3>' +
-                    '<span class="badge">' + (e.category || 'Uncategorized') + '</span>' +
-                    '<p>' + (e.purpose ? e.purpose.substring(0, 100) + '...' : 'No description available.') + '</p>' +
-                    '<span class="card-link">View Details <i class="fas fa-arrow-right"></i></span>' +
+            grid.innerHTML = filtered.map(function(item) {
+                return '<div class="equipment-card" onclick="location.href=\'equipment-detail.html?slug=' + item.slug + '\'">' +
+                    '<h3>' + item.name + '</h3>' +
+                    '<span class="badge">' + (item.category || 'Uncategorized') + '</span>' +
+                    '<p>' + (item.purpose ? item.purpose.substring(0, 100) + '...' : 'No description') + '</p>' +
+                    '<span class="card-link">View Details →</span>' +
                     '</div>';
             }).join('');
         }
@@ -178,20 +168,20 @@
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             var grid = document.getElementById('equipmentGrid');
-            if (!grid) return;
-
+            
             if (typeof EQUIPMENT !== 'undefined' && Array.isArray(EQUIPMENT)) {
                 var items = EQUIPMENT.slice(0, 20);
-                grid.innerHTML = items.map(function(e) {
-                    return '<div class="equipment-card" onclick="location.href=\'equipment-detail.html?slug=' + e.slug + '\'">' +
-                        '<h3>' + e.name + '</h3>' +
-                        '<span class="badge">' + (e.category || 'Uncategorized') + '</span>' +
-                        '<p>' + (e.purpose ? e.purpose.substring(0, 100) + '...' : 'No description available.') + '</p>' +
-                        '<span class="card-link">View Details <i class="fas fa-arrow-right"></i></span>' +
+                grid.innerHTML = items.map(function(item) {
+                    return '<div class="equipment-card" onclick="location.href=\'equipment-detail.html?slug=' + item.slug + '\'">' +
+                        '<h3>' + item.name + '</h3>' +
+                        '<span class="badge">' + (item.category || 'Uncategorized') + '</span>' +
+                        '<p>' + (item.purpose ? item.purpose.substring(0, 100) + '...' : 'No description') + '</p>' +
+                        '<span class="card-link">View Details →</span>' +
                         '</div>';
                 }).join('');
+                console.log('✅ Loaded', EQUIPMENT.length, 'equipment items');
             } else {
-                grid.innerHTML = '<div class="no-results"><i class="fas fa-exclamation-circle" style="font-size:2rem;display:block;margin-bottom:10px;"></i><p>Equipment data not loaded. Please refresh.</p></div>';
+                grid.innerHTML = '<div class="no-results"><p>⚠️ Equipment data not loaded. Please refresh.</p></div>';
             }
         });
 
@@ -215,7 +205,6 @@
             if (nav) nav.classList.toggle('open');
         }
 
-        // Load saved theme
         var savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') {
             document.body.setAttribute('data-theme', 'light');
