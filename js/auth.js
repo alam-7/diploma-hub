@@ -1,428 +1,268 @@
-// ============================================
-// SUPABASE AUTH - DIPLOMA HUB
-// ============================================
+// ============================================================
+// AUTHENTICATION MODULE WITH SUPABASE
+// ============================================================
+// This file handles authentication for DIPLOMA HUB
+// ============================================================
 
-// YOUR SUPABASE KEYS
-const SUPABASE_URL = 'https://segzsnhljtjhgoosughk.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNlZ3pzbmhsanRqaGdvb3N1Z2hrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3NjE5MjcsImV4cCI6MjEwMzMzNzkyN30.Q4thFQBm2t9EsUsKAesIpiRiq3_ISIxuphWbMmj-jmI';
+// ============================================================
+// SUPABASE CONFIGURATION
+// ============================================================
+// IMPORTANT: Replace these with YOUR actual Supabase credentials
+// You can find these in your Supabase Dashboard:
+// Settings → API → Project URL and anon public key
+// ============================================================
 
-let supabase = null;
+var SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE'; // Example: 'https://abcdefghijklm.supabase.co'
+var SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE'; // Long string starting with 'eyJ...'
 
-// ============================================
+var supabaseClient = null;
+
+// ============================================================
 // INITIALIZE SUPABASE
-// ============================================
+// ============================================================
 function initSupabase() {
     try {
-        if (typeof createClient === 'undefined') {
-            console.error('❌ Supabase library not loaded!');
+        // Check if Supabase SDK is loaded
+        if (typeof window.supabase === 'undefined') {
+            console.error('❌ Supabase SDK not loaded!');
+            console.error('Make sure this script is in your HTML:');
+            console.error('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>');
             return null;
         }
-        supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Validate credentials
+        if (!SUPABASE_URL || SUPABASE_URL === 'YOUR_SUPABASE_URL_HERE') {
+            console.error('❌ Supabase URL not configured!');
+            console.error('Please replace SUPABASE_URL in js/auth.js with your actual Supabase URL');
+            return null;
+        }
+
+        if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY_HERE') {
+            console.error('❌ Supabase anon key not configured!');
+            console.error('Please replace SUPABASE_ANON_KEY in js/auth.js with your actual anon key');
+            return null;
+        }
+
+        // Create Supabase client
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('✅ Supabase initialized successfully!');
-        return supabase;
-    } catch (err) {
-        console.error('❌ Failed to initialize Supabase:', err);
+        
+        return supabaseClient;
+    } catch (e) {
+        console.error('❌ Failed to initialize Supabase:', e.message);
         return null;
     }
 }
 
-// ============================================
-// SIGN UP
-// ============================================
-async function signUp(email, password, fullName) {
-    if (!supabase) {
-        const result = initSupabase();
-        if (!result) {
-            alert('❌ Supabase not initialized. Please refresh.');
-            return false;
-        }
-    }
-    
+// ============================================================
+// GET CURRENT USER
+// ============================================================
+async function getCurrentUser() {
     try {
-        const { data, error } = await supabase.auth.signUp({
+        if (!supabaseClient) {
+            initSupabase();
+        }
+        
+        if (!supabaseClient) {
+            console.warn('Supabase not available. Checking localStorage...');
+            return getLocalUser();
+        }
+        
+        var { data: { user }, error } = await supabaseClient.auth.getUser();
+        
+        if (error) {
+            console.warn('Supabase getUser error:', error.message);
+            return getLocalUser();
+        }
+        
+        if (user) {
+            // Store in localStorage for session persistence
+            localStorage.setItem('user', JSON.stringify(user));
+            return user;
+        }
+        
+        return null;
+    } catch (e) {
+        console.warn('Error getting current user:', e.message);
+        return getLocalUser();
+    }
+}
+
+// ============================================================
+// GET LOCAL USER (FALLBACK)
+// ============================================================
+function getLocalUser() {
+    try {
+        var storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            return JSON.parse(storedUser);
+        }
+    } catch (e) {
+        console.warn('Error parsing local user:', e.message);
+    }
+    return null;
+}
+
+// ============================================================
+// SIGN UP
+// ============================================================
+async function signUp(email, password, fullName) {
+    try {
+        if (!supabaseClient) {
+            initSupabase();
+        }
+        
+        if (!supabaseClient) {
+            throw new Error('Supabase not initialized. Please configure your credentials.');
+        }
+        
+        var { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
             options: {
                 data: {
-                    full_name: fullName,
-                    username: email.split('@')[0]
+                    full_name: fullName || email.split('@')[0]
                 }
             }
         });
         
-        if (error) {
-            alert('❌ ' + error.message);
-            return false;
-        }
+        if (error) throw error;
         
         if (data.user) {
-            alert('✅ Account created! Please check your email for verification.');
-            window.location.href = 'login.html';
-            return true;
-        } else {
-            alert('❌ Something went wrong. Please try again.');
-            return false;
+            localStorage.setItem('user', JSON.stringify(data.user));
+            console.log('✅ User signed up successfully!');
         }
-    } catch (err) {
-        alert('❌ Error: ' + err.message);
-        return false;
+        
+        return { user: data.user, error: null };
+    } catch (e) {
+        console.error('❌ Signup error:', e.message);
+        return { user: null, error: e.message };
     }
 }
 
-// ============================================
+// ============================================================
 // SIGN IN
-// ============================================
+// ============================================================
 async function signIn(email, password) {
-    if (!supabase) {
-        const result = initSupabase();
-        if (!result) {
-            alert('❌ Supabase not initialized. Please refresh.');
-            return false;
-        }
-    }
-    
     try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        if (!supabaseClient) {
+            initSupabase();
+        }
+        
+        if (!supabaseClient) {
+            throw new Error('Supabase not initialized. Please configure your credentials.');
+        }
+        
+        var { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: password
         });
         
-        if (error) {
-            alert('❌ ' + error.message);
-            return false;
-        }
+        if (error) throw error;
         
-        if (data.session) {
-            localStorage.setItem('supabase_session', JSON.stringify(data.session));
+        if (data.user) {
             localStorage.setItem('user', JSON.stringify(data.user));
-            alert('✅ Welcome back!');
-            window.location.href = 'dashboard.html';
-            return true;
-        } else {
-            alert('❌ No session created. Please try again.');
-            return false;
+            console.log('✅ User signed in successfully!');
         }
-    } catch (err) {
-        alert('❌ Error: ' + err.message);
-        return false;
+        
+        return { user: data.user, error: null };
+    } catch (e) {
+        console.error('❌ Login error:', e.message);
+        return { user: null, error: e.message };
     }
 }
 
-// ============================================
+// ============================================================
 // SIGN OUT
-// ============================================
+// ============================================================
 async function signOut() {
-    if (!supabase) initSupabase();
-    if (!supabase) {
-        window.location.href = 'index.html';
-        return;
-    }
-    
     try {
-        await supabase.auth.signOut();
-        localStorage.removeItem('supabase_session');
-        localStorage.removeItem('user');
-        window.location.href = 'index.html';
-    } catch (err) {
-        alert('❌ Error: ' + err.message);
-    }
-}
-
-// ============================================
-// GET CURRENT USER
-// ============================================
-async function getCurrentUser() {
-    if (!supabase) initSupabase();
-    if (!supabase) return null;
-    
-    try {
-        const { data: { user } } = await supabase.auth.getUser();
-        return user;
-    } catch (err) {
-        console.error('Error getting user:', err);
-        return null;
-    }
-}
-
-// ============================================
-// GET SESSION
-// ============================================
-async function getSession() {
-    if (!supabase) initSupabase();
-    if (!supabase) return null;
-    
-    try {
-        const { data: { session } } = await supabase.auth.getSession();
-        return session;
-    } catch (err) {
-        console.error('Error getting session:', err);
-        return null;
-    }
-}
-
-// ============================================
-// GET PROFILE
-// ============================================
-async function getProfile(userId) {
-    if (!supabase) initSupabase();
-    if (!supabase) return null;
-    
-    try {
-        const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', userId)
-            .single();
-        
-        if (error) throw error;
-        return data;
-    } catch (err) {
-        console.error('Error fetching profile:', err);
-        return null;
-    }
-}
-
-// ============================================
-// GET USER PROGRESS
-// ============================================
-async function getUserProgress() {
-    if (!supabase) initSupabase();
-    if (!supabase) return [];
-    
-    const user = await getCurrentUser();
-    if (!user) return [];
-    
-    try {
-        const { data, error } = await supabase
-            .from('user_progress')
-            .select('*')
-            .eq('user_id', user.id);
-        
-        if (error) throw error;
-        return data;
-    } catch (err) {
-        console.error('Error fetching progress:', err);
-        return [];
-    }
-}
-
-// ============================================
-// GET BOOKMARKS
-// ============================================
-async function getBookmarks() {
-    if (!supabase) initSupabase();
-    if (!supabase) return [];
-    
-    const user = await getCurrentUser();
-    if (!user) return [];
-    
-    try {
-        const { data, error } = await supabase
-            .from('bookmarks')
-            .select('*')
-            .eq('user_id', user.id);
-        
-        if (error) throw error;
-        return data;
-    } catch (err) {
-        console.error('Error fetching bookmarks:', err);
-        return [];
-    }
-}
-
-// ============================================
-// GET QUIZ HISTORY
-// ============================================
-async function getQuizHistory() {
-    if (!supabase) initSupabase();
-    if (!supabase) return [];
-    
-    const user = await getCurrentUser();
-    if (!user) return [];
-    
-    try {
-        const { data, error } = await supabase
-            .from('quiz_attempts')
-            .select('*')
-            .eq('user_id', user.id)
-            .order('completed_at', { ascending: false });
-        
-        if (error) throw error;
-        return data;
-    } catch (err) {
-        console.error('Error fetching quiz history:', err);
-        return [];
-    }
-}
-
-// ============================================
-// UPDATE PROFILE
-// ============================================
-async function updateProfile(updates) {
-    if (!supabase) initSupabase();
-    if (!supabase) return null;
-    
-    const user = await getCurrentUser();
-    if (!user) return null;
-    
-    try {
-        const { data, error } = await supabase
-            .from('profiles')
-            .update(updates)
-            .eq('id', user.id)
-            .select()
-            .single();
-        
-        if (error) throw error;
-        return data;
-    } catch (err) {
-        console.error('Error updating profile:', err);
-        return null;
-    }
-}
-
-// ============================================
-// UPDATE PROGRESS
-// ============================================
-async function updateProgress(subjectId, updates) {
-    if (!supabase) initSupabase();
-    if (!supabase) return null;
-    
-    const user = await getCurrentUser();
-    if (!user) return null;
-    
-    try {
-        const { data, error } = await supabase
-            .from('user_progress')
-            .upsert({
-                user_id: user.id,
-                subject_id: subjectId,
-                ...updates,
-                last_accessed_at: new Date().toISOString()
-            })
-            .select()
-            .single();
-        
-        if (error) throw error;
-        return data;
-    } catch (err) {
-        console.error('Error updating progress:', err);
-        return null;
-    }
-}
-
-// ============================================
-// ADD BOOKMARK
-// ============================================
-async function addBookmark(itemType, itemId) {
-    if (!supabase) initSupabase();
-    if (!supabase) return false;
-    
-    const user = await getCurrentUser();
-    if (!user) {
-        alert('Please sign in to bookmark');
-        return false;
-    }
-    
-    try {
-        const { error } = await supabase
-            .from('bookmarks')
-            .insert({
-                user_id: user.id,
-                item_type: itemType,
-                item_id: itemId
-            });
-        
-        if (error) throw error;
-        alert('✅ Bookmarked!');
-        return true;
-    } catch (err) {
-        if (err.code === '23505') {
-            alert('Already bookmarked!');
-        } else {
-            alert('❌ Error: ' + err.message);
+        if (supabaseClient) {
+            var { error } = await supabaseClient.auth.signOut();
+            if (error) {
+                console.warn('Supabase signout error:', error.message);
+            }
         }
-        return false;
+    } catch (e) {
+        console.warn('Supabase signout error:', e.message);
     }
+    
+    // Clear local storage
+    localStorage.removeItem('user');
+    localStorage.removeItem('supabase.auth.token');
+    
+    console.log('✅ User signed out successfully!');
+    
+    // Redirect to home
+    window.location.href = 'index.html';
 }
 
-// ============================================
-// REMOVE BOOKMARK
-// ============================================
-async function removeBookmark(itemId) {
-    if (!supabase) initSupabase();
-    if (!supabase) return false;
-    
-    const user = await getCurrentUser();
-    if (!user) return false;
+// ============================================================
+// CHECK IF LOGGED IN
+// ============================================================
+function isLoggedIn() {
+    var user = localStorage.getItem('user');
+    return !!user;
+}
+
+// ============================================================
+// UPDATE AUTH UI
+// ============================================================
+async function updateAuthUI() {
+    var btn = document.getElementById('authBtn');
+    if (!btn) return;
     
     try {
-        const { error } = await supabase
-            .from('bookmarks')
-            .delete()
-            .eq('user_id', user.id)
-            .eq('item_id', itemId);
-        
-        if (error) throw error;
-        return true;
-    } catch (err) {
-        console.error('Error removing bookmark:', err);
+        var user = await getCurrentUser();
+        if (user) {
+            var name = user.user_metadata?.full_name || user.email || 'Dashboard';
+            btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
+            btn.href = 'dashboard.html';
+            return;
+        }
+    } catch (e) {
+        console.warn('Error updating auth UI:', e.message);
+    }
+    
+    btn.innerHTML = 'Sign In';
+    btn.href = 'login.html';
+}
+
+// ============================================================
+// PROTECT ROUTE (For dashboard and protected pages)
+// ============================================================
+async function protectRoute() {
+    var user = await getCurrentUser();
+    if (!user) {
+        window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.pathname);
         return false;
     }
+    return true;
 }
 
-// ============================================
-// SAVE QUIZ ATTEMPT
-// ============================================
-async function saveQuizAttempt(quizId, score, totalQuestions, correct, wrong, timeTaken) {
-    if (!supabase) initSupabase();
-    if (!supabase) return null;
-    
-    const user = await getCurrentUser();
-    if (!user) return null;
-    
-    try {
-        const { data, error } = await supabase
-            .from('quiz_attempts')
-            .insert({
-                user_id: user.id,
-                quiz_id: quizId,
-                score: score,
-                total_questions: totalQuestions,
-                correct_answers: correct,
-                wrong_answers: wrong,
-                time_taken_seconds: timeTaken,
-                completed_at: new Date().toISOString()
-            })
-            .select()
-            .single();
-        
-        if (error) throw error;
-        return data;
-    } catch (err) {
-        console.error('Error saving quiz attempt:', err);
-        return null;
-    }
+// ============================================================
+// EXPORT FUNCTIONS
+// ============================================================
+if (typeof window !== 'undefined') {
+    window.initSupabase = initSupabase;
+    window.getCurrentUser = getCurrentUser;
+    window.signUp = signUp;
+    window.signIn = signIn;
+    window.signOut = signOut;
+    window.isLoggedIn = isLoggedIn;
+    window.updateAuthUI = updateAuthUI;
+    window.protectRoute = protectRoute;
 }
 
-// ============================================
-// EXPOSE FUNCTIONS GLOBALLY (CRITICAL!)
-// ============================================
-
-window.initSupabase = initSupabase;
-window.signUp = signUp;
-window.signIn = signIn;
-window.signOut = signOut;
-window.getCurrentUser = getCurrentUser;
-window.getSession = getSession;
-window.getProfile = getProfile;
-window.updateProfile = updateProfile;
-window.getUserProgress = getUserProgress;
-window.updateProgress = updateProgress;
-window.getBookmarks = getBookmarks;
-window.addBookmark = addBookmark;
-window.removeBookmark = removeBookmark;
-window.saveQuizAttempt = saveQuizAttempt;
-window.getQuizHistory = getQuizHistory;
-
-console.log('✅ Supabase Auth loaded with keys!');
+// ============================================================
+// INITIALIZE ON PAGE LOAD
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Auth module loaded successfully!');
+    
+    // Initialize Supabase
+    initSupabase();
+    
+    // Update auth UI
+    updateAuthUI();
+});
