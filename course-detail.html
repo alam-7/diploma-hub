@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
+        /* ============================================================
+           COMPLETE COURSE DETAIL PAGE STYLES
+           ============================================================ */
         .course-detail-page {
             padding: 120px 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
+
         .back-btn {
             color: var(--gray-400);
             text-decoration: none;
@@ -26,6 +30,7 @@
             color: var(--cyan-400);
             transform: translateX(-4px);
         }
+
         .course-header {
             display: flex;
             align-items: center;
@@ -85,6 +90,8 @@
             background: rgba(34, 197, 94, 0.2);
             color: #22c55e;
         }
+
+        /* --- Semester Tabs --- */
         .semester-tabs {
             display: flex;
             gap: 10px;
@@ -129,11 +136,14 @@
             background: white;
             color: var(--cyan-500);
         }
+
+        /* --- Subjects Table --- */
         .subjects-table-wrap {
             background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius);
             overflow: hidden;
+            margin-top: 10px;
         }
         .subjects-table {
             width: 100%;
@@ -164,6 +174,8 @@
             padding: 2px 10px;
             border-radius: 12px;
         }
+
+        /* --- Semester Summary --- */
         .semester-summary {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -181,12 +193,16 @@
             color: var(--cyan-400);
         }
         .semester-summary .item .label { font-size: 0.8rem; color: var(--gray-400); }
+
+        /* --- No Data --- */
         .no-data {
             text-align: center;
             padding: 60px 20px;
             color: var(--gray-400);
         }
         .no-data i { font-size: 3rem; display: block; margin-bottom: 15px; }
+
+        /* --- Quick Actions --- */
         .quick-actions {
             display: flex;
             gap: 15px;
@@ -220,6 +236,8 @@
         .quick-actions .btn-outline:hover {
             background: rgba(6, 182, 212, 0.05);
         }
+
+        /* --- Responsive --- */
         @media (max-width: 768px) {
             .course-header {
                 flex-direction: column;
@@ -233,6 +251,10 @@
     </style>
 </head>
 <body>
+
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -256,13 +278,21 @@
         </div>
     </nav>
 
+    <!-- ============================================================
+    COURSE DETAIL PAGE
+    ============================================================ -->
     <section class="course-detail-page" id="courseDetailPage">
         <div class="container">
             <a href="courses.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Courses</a>
-            <div id="courseContent"></div>
+            <div id="courseContent">
+                <!-- Rendered by JavaScript -->
+            </div>
         </div>
     </section>
 
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -304,16 +334,26 @@
         </div>
     </footer>
 
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
     <script src="js/msbte-k-scheme-data.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
+
     <script>
+        // ============================================================
+        // COMPLETE COURSE DETAIL LOGIC
+        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Get course from URL ---
             var params = new URLSearchParams(window.location.search);
             var courseSlug = params.get('course') || 'computer-engineering';
             var container = document.getElementById('courseContent');
 
+            // --- Course mapping ---
             var programmeMap = {
                 'computer-engineering': 'computer-engineering',
                 'mechanical-engineering': 'mechanical-engineering',
@@ -341,6 +381,7 @@
             var programmeSlug = programmeMap[courseSlug] || 'computer-engineering';
             var programme = MSBTE_K_SCHEME[programmeSlug];
 
+            // --- Error handling ---
             if (!programme) {
                 container.innerHTML = '<div class="no-data"><i class="fas fa-exclamation-circle"></i><h3>Course not found</h3><p>Please go back to <a href="courses.html" style="color:var(--cyan-400);">courses</a></p></div>';
                 return;
@@ -349,7 +390,12 @@
             var icon = courseIcons[courseSlug] || '📚';
             var name = courseNames[courseSlug] || programme.name;
 
+            // ============================================================
+            // RENDER COMPLETE PAGE
+            // ============================================================
             function renderPage() {
+
+                // --- Find first available semester ---
                 var firstSemester = 1;
                 for (var s = 1; s <= 6; s++) {
                     if (programme.semesters[s]) {
@@ -358,6 +404,7 @@
                     }
                 }
 
+                // --- Build semester tabs ---
                 var tabsHtml = '';
                 for (var s = 1; s <= 6; s++) {
                     if (programme.semesters[s]) {
@@ -372,31 +419,8 @@
                     }
                 }
 
-                container.innerHTML = `
-                    <div class="course-header">
-                        <div class="icon">${icon}</div>
-                        <div>
-                            <h1>${name}</h1>
-                            <p class="subtitle">${programme.code} • Diploma Engineering • 3 Years</p>
-                            <span class="badge-msbte">📖 MSBTE K-Scheme</span>
-                            <span class="verification-badge verified">✅ Verified</span>
-                            <div class="meta">
-                                <span><i class="fas fa-code"></i> ${programme.code}</span>
-                                <span><i class="fas fa-clock"></i> 3 Years</span>
-                                <span><i class="fas fa-layer-group"></i> 6 Semesters</span>
-                                <span><i class="fas fa-graduation-cap"></i> Diploma</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="semester-tabs" id="semesterTabs">
-                        ${tabsHtml}
-                    </div>
-
-                    <div id="semesterContent">
-                        ${renderSemester(firstSemester)}
-                    </div>
-
+                // --- Build quick actions ---
+                var quickActionsHtml = `
                     <div class="quick-actions">
                         <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" class="btn-primary">
                             <i class="fas fa-external-link-alt"></i> Official MSBTE Curriculum
@@ -415,21 +439,62 @@
                         </a>
                     </div>
                 `;
+
+                // --- Build header ---
+                container.innerHTML = `
+                    <!-- Course Header -->
+                    <div class="course-header">
+                        <div class="icon">${icon}</div>
+                        <div>
+                            <h1>${name}</h1>
+                            <p class="subtitle">${programme.code} • Diploma Engineering • 3 Years</p>
+                            <span class="badge-msbte">📖 MSBTE K-Scheme</span>
+                            <span class="verification-badge verified">✅ Verified</span>
+                            <div class="meta">
+                                <span><i class="fas fa-code"></i> ${programme.code}</span>
+                                <span><i class="fas fa-clock"></i> 3 Years</span>
+                                <span><i class="fas fa-layer-group"></i> 6 Semesters</span>
+                                <span><i class="fas fa-graduation-cap"></i> Diploma</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Semester Tabs -->
+                    <div class="semester-tabs" id="semesterTabs">
+                        ${tabsHtml}
+                    </div>
+
+                    <!-- Semester Content -->
+                    <div id="semesterContent">
+                        ${renderSemester(firstSemester)}
+                    </div>
+
+                    <!-- Quick Actions -->
+                    ${quickActionsHtml}
+                `;
             }
 
+            // ============================================================
+            // RENDER SEMESTER WITH SUBJECTS
+            // ============================================================
             function renderSemester(semester) {
+
                 var semesterData = programme.semesters[semester];
+
                 if (!semesterData || !semesterData.subjects || semesterData.subjects.length === 0) {
                     return `
                         <div class="no-data">
                             <i class="fas fa-book-open"></i>
                             <p>No subjects available for Semester ${semester}</p>
+                            <p style="font-size:0.85rem;margin-top:5px;">The curriculum for this semester is being updated.</p>
                         </div>
                     `;
                 }
 
                 var subjects = semesterData.subjects;
                 var totalSubjects = subjects.length;
+
+                // Calculate total credits and marks
                 var totalCredits = 0;
                 var totalMarks = 0;
                 subjects.forEach(function(s) {
@@ -438,6 +503,7 @@
                 });
 
                 return `
+                    <!-- Semester Title -->
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin: 10px 0 15px;">
                         <h2 style="display: flex; align-items: center; gap: 10px; font-size: 1.8rem;">
                             <i class="fas fa-book" style="color: var(--cyan-400);"></i>
@@ -448,6 +514,7 @@
                         </span>
                     </div>
 
+                    <!-- Subjects Table -->
                     <div class="subjects-table-wrap">
                         <table class="subjects-table">
                             <thead>
@@ -473,6 +540,7 @@
                         </table>
                     </div>
 
+                    <!-- Semester Summary -->
                     <div class="semester-summary">
                         <div class="item">
                             <div class="num">${totalSubjects}</div>
@@ -488,6 +556,7 @@
                         </div>
                     </div>
 
+                    <!-- Verified Badge -->
                     <div style="margin-top: 15px; padding: 12px 16px; background: var(--darker-bg); border-radius: var(--radius); border-left: 3px solid var(--cyan-400);">
                         <p style="color: var(--gray-400); font-size: 0.85rem; margin: 0;">
                             <i class="fas fa-info-circle" style="color: var(--cyan-400);"></i>
@@ -500,7 +569,12 @@
                 `;
             }
 
+            // ============================================================
+            // LOAD SEMESTER - CLICK HANDLER
+            // ============================================================
             window.loadSemester = function(semester) {
+
+                // Update active tab
                 var tabs = document.querySelectorAll('.semester-tab');
                 tabs.forEach(function(tab) {
                     tab.classList.remove('active');
@@ -508,6 +582,8 @@
                         tab.classList.add('active');
                     }
                 });
+
+                // Update content with smooth transition
                 var content = document.getElementById('semesterContent');
                 content.style.opacity = '0.5';
                 content.style.transition = 'opacity 0.3s ease';
@@ -517,6 +593,9 @@
                 }, 100);
             };
 
+            // ============================================================
+            // THEME TOGGLE
+            // ============================================================
             window.toggleTheme = function() {
                 var body = document.body;
                 var icon = document.getElementById('themeIcon');
@@ -536,6 +615,9 @@
                 if (nav) nav.classList.toggle('open');
             };
 
+            // ============================================================
+            // INIT
+            // ============================================================
             renderPage();
 
             var savedTheme = localStorage.getItem('theme');
@@ -544,7 +626,12 @@
                 var icon = document.getElementById('themeIcon');
                 if (icon) icon.className = 'fas fa-sun';
             }
+
+            console.log('✅ Course Detail page loaded successfully!');
+            console.log('📚 Course:', name);
+            console.log('📖 Programme Code:', programme.code);
         });
     </script>
+
 </body>
 </html>
