@@ -3,190 +3,442 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - DIPLOMA HUB</title>
+    <title>Courses - DIPLOMA HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        .contact-page {
-            padding: 120px 0 60px;
+        /* ============================================================
+           COMPLETE COURSES PAGE STYLES
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg, #0a0a1a);
+            color: var(--text-primary, #e0e0ff);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
-        .contact-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 30px;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        .contact-card h2 {
-            margin-bottom: 20px;
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: var(--gray-300);
-            font-weight: 500;
-        }
-        .form-group input,
-        .form-group textarea {
+
+        /* --- Navbar --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass);
-            color: var(--white);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--cyan-400);
-        }
-        .form-group textarea {
-            height: 120px;
-            resize: vertical;
-        }
-        .contact-info {
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 0 20px;
+            height: 72px;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            align-items: center;
         }
-        .info-item {
+        .nav-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .nav-logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .nav-logo i {
+            color: var(--neon-blue, #00d4ff);
+            font-size: 1.8rem;
+        }
+        .nav-logo .highlight {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            color: var(--neon-blue, #00d4ff);
+        }
+        .nav-links a.active {
+            color: var(--neon-blue, #00d4ff);
+        }
+        .nav-right {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 15px;
-            background: var(--glass);
-            border-radius: 10px;
-            border: 1px solid var(--glass-border);
         }
-        .info-item .icon {
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary, #8888bb);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            z-index: 1001;
+        }
+        .theme-toggle:hover {
+            color: var(--neon-blue, #00d4ff);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-primary, #e0e0ff);
             font-size: 1.5rem;
-            color: var(--cyan-400);
+            cursor: pointer;
+            pointer-events: auto;
+            z-index: 1001;
         }
-        .info-item h4 {
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
             font-size: 0.9rem;
-            color: var(--gray-400);
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
         }
-        .info-item p {
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            color: #fff;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+        .btn-sm {
+            padding: 8px 18px;
+            font-size: 0.85rem;
+        }
+
+        /* --- Courses Page --- */
+        .courses-page {
+            padding: 120px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .courses-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .courses-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .courses-header p {
+            color: var(--text-secondary, #8888bb);
+            font-size: 1.2rem;
+        }
+
+        /* --- Course Grid --- */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .course-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-blue, #00d4ff);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+        }
+        .course-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .course-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .course-card p {
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        .course-card .card-link {
+            color: var(--neon-blue, #00d4ff);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        .course-card:hover .card-link {
+            gap: 12px;
+        }
+        .course-card .badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--cyan-400, #00d4ff);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background: var(--darker-bg, #05050f);
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 60px 0 30px;
+            margin-top: 20px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        .footer-col h4 {
             font-size: 1rem;
+            color: var(--text-secondary, #8888bb);
+            margin-bottom: 12px;
         }
+        .footer-col p {
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.95rem;
+            max-width: 300px;
+        }
+        .footer-col a {
+            display: block;
+            color: var(--text-secondary, #8888bb);
+            padding: 5px 0;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+        .footer-col a:hover {
+            color: var(--neon-blue, #00d4ff);
+            transform: translateX(4px);
+        }
+        .social-links {
+            display: flex;
+            gap: 14px;
+            margin-top: 16px;
+        }
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            transition: all 0.3s ease;
+        }
+        .social-links a:hover {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+        }
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .footer-bottom i.fa-heart {
+            color: #f43f5e;
+        }
+
+        /* --- Loading State --- */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: var(--cyan-400, #00d4ff);
+            font-size: 1.2rem;
+        }
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-400, #8888bb);
+        }
+        .no-data i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* --- Responsive --- */
         @media (max-width: 768px) {
-            .contact-grid {
+            .course-grid {
                 grid-template-columns: 1fr;
+            }
+            .courses-header h1 {
+                font-size: 2rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 26, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 24px;
+                gap: 16px;
+                border-bottom: 1px solid var(--glass-border);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .courses-page {
+                padding: 100px 15px 30px;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
+
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>DIPLOMA<span class="highlight">HUB</span></span>
+                <a href="index.html">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>DIPLOMA<span class="highlight">HUB</span></span>
+                </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <a href="index.html">Home</a>
-                <a href="courses.html">Courses</a>
+                <a href="courses.html" class="active">Courses</a>
                 <a href="equipment.html">Equipment</a>
                 <a href="practicals.html">Practicals</a>
                 <a href="quizzes.html">Quizzes</a>
+                <a href="resources.html">Resources</a>
                 <a href="about.html">About</a>
-                <a href="contact.html" class="active">Contact</a>
             </div>
             <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
                     <i class="fas fa-moon" id="themeIcon"></i>
                 </button>
-                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
+                <a href="login.html" id="authBtn" class="btn btn-primary btn-sm">Sign In</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
+                    <i class="fas fa-bars" id="mobileMenuIcon"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <section class="contact-page">
+    <!-- ============================================================
+    COURSES PAGE
+    ============================================================ -->
+    <section class="courses-page" id="coursesPage">
         <div class="container">
-            <h1 style="font-size: 3rem; margin-bottom: 10px;">Get in <span class="gradient-text">Touch</span></h1>
-            <p style="color: var(--gray-400); margin-bottom: 40px;">Have questions, feedback, or suggestions? We'd love to hear from you!</p>
-
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h2><i class="fas fa-paper-plane" style="color: var(--cyan-400);"></i> Send Message</h2>
-                    <form onsubmit="event.preventDefault(); alert('✅ Message sent successfully! We\'ll get back to you soon.');">
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" placeholder="Enter your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" placeholder="you@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" placeholder="What is this about?" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" placeholder="Write your message here..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center;">
-                            <i class="fas fa-paper-plane"></i> Send Message
-                        </button>
-                    </form>
-                </div>
-
-                <div class="contact-info">
-                    <div class="info-item">
-                        <div class="icon"><i class="fas fa-envelope"></i></div>
-                        <div>
-                            <h4>Email</h4>
-                            <p>support@diplomahub.com</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div>
-                            <h4>Location</h4>
-                            <p>MSBTE, Mumbai, India</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="icon"><i class="fas fa-globe"></i></div>
-                        <div>
-                            <h4>Website</h4>
-                            <p>www.diplomahub.com</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="icon"><i class="fab fa-github"></i></div>
-                        <div>
-                            <h4>GitHub</h4>
-                            <p>github.com/yourusername/diploma-hub</p>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <h3>Connect With Us</h3>
-                        <div style="display: flex; gap: 15px; margin-top: 10px;">
-                            <a href="#" style="font-size: 2rem; color: var(--gray-400); transition: var(--transition);"><i class="fab fa-github"></i></a>
-                            <a href="#" style="font-size: 2rem; color: var(--gray-400); transition: var(--transition);"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" style="font-size: 2rem; color: var(--gray-400); transition: var(--transition);"><i class="fab fa-youtube"></i></a>
-                            <a href="#" style="font-size: 2rem; color: var(--gray-400); transition: var(--transition);"><i class="fab fa-twitter"></i></a>
-                        </div>
-                    </div>
+            <div class="courses-header">
+                <h1>Explore <span class="gradient-text">Courses</span></h1>
+                <p>Choose your engineering discipline and start learning</p>
+            </div>
+            <div class="course-grid" id="courseGrid">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i> Loading courses...
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -194,9 +446,15 @@
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -205,20 +463,20 @@
                     <a href="equipment.html">Equipment</a>
                     <a href="practicals.html">Practicals</a>
                     <a href="quizzes.html">Quizzes</a>
+                    <a href="resources.html">Resources</a>
                 </div>
                 <div class="footer-col">
-                    <h4>Resources</h4>
-                    <a href="#">MSBTE Official</a>
-                    <a href="#">Lab Manuals</a>
-                    <a href="#">Question Papers</a>
-                    <a href="#">Notes</a>
+                    <h4>MSBTE Resources</h4>
+                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener">MSBTE Official</a>
+                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">Curriculum Search</a>
+                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">Lab Manuals</a>
                 </div>
                 <div class="footer-col">
                     <h4>Support</h4>
                     <a href="about.html">About</a>
                     <a href="contact.html">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -228,73 +486,184 @@
         </div>
     </footer>
 
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script src="js/msbte-k-scheme-data.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
-<!-- ============================================================
-FOOTER - FULLY WORKING WITH ALL LINKS
-============================================================ -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
 
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <h3>DIPLOMA HUB</h3>
-                <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                <div class="social-links">
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
+    <script>
+        (function() {
+            'use strict';
 
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
-                <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
-                <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
-                <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
-                <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
-            </div>
+            // ============================================================
+            // THEME MANAGEMENT
+            // ============================================================
+            function loadTheme() {
+                try {
+                    var saved = localStorage.getItem('theme');
+                    var icon = document.getElementById('themeIcon');
+                    if (saved === 'light') {
+                        document.body.setAttribute('data-theme', 'light');
+                        if (icon) icon.className = 'fas fa-sun';
+                    } else {
+                        document.body.removeAttribute('data-theme');
+                        if (icon) icon.className = 'fas fa-moon';
+                    }
+                } catch (e) {
+                    console.error('Error loading theme:', e);
+                }
+            }
 
-            <!-- Column 3: MSBTE Resources -->
-            <div class="footer-col">
-                <h4>MSBTE Resources</h4>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Curriculum
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    K-Scheme Lab Manuals
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Official Website
-                </a>
-            </div>
+            window.toggleTheme = function() {
+                try {
+                    var body = document.body;
+                    var icon = document.getElementById('themeIcon');
+                    if (body.getAttribute('data-theme') === 'light') {
+                        body.removeAttribute('data-theme');
+                        if (icon) icon.className = 'fas fa-moon';
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        body.setAttribute('data-theme', 'light');
+                        if (icon) icon.className = 'fas fa-sun';
+                        localStorage.setItem('theme', 'light');
+                    }
+                } catch (e) {
+                    console.error('Error toggling theme:', e);
+                }
+            };
 
-            <!-- Column 4: Support -->
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
-                <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
-            </div>
+            // ============================================================
+            // MOBILE MENU
+            // ============================================================
+            window.toggleMobileMenu = function() {
+                try {
+                    var nav = document.getElementById('navLinks');
+                    var icon = document.getElementById('mobileMenuIcon');
+                    if (nav) {
+                        nav.classList.toggle('open');
+                        if (icon) {
+                            icon.className = nav.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error toggling mobile menu:', e);
+                }
+            };
 
-        </div>
+            // ============================================================
+            // AUTH UI
+            // ============================================================
+            async function updateAuthUI() {
+                var btn = document.getElementById('authBtn');
+                if (!btn) return;
+                
+                try {
+                    if (typeof getCurrentUser === 'function') {
+                        var user = await getCurrentUser();
+                        if (user) {
+                            var name = user.user_metadata?.full_name || user.email || 'Dashboard';
+                            btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
+                            btn.href = 'dashboard.html';
+                            return;
+                        }
+                    }
+                } catch (e) {}
+                
+                try {
+                    var stored = localStorage.getItem('user');
+                    if (stored) {
+                        var user = JSON.parse(stored);
+                        var name = user?.user_metadata?.full_name || user?.email || 'Dashboard';
+                        btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
+                        btn.href = 'dashboard.html';
+                        return;
+                    }
+                } catch (e) {}
+                
+                btn.innerHTML = 'Sign In';
+                btn.href = 'login.html';
+            }
 
-        <!-- Bottom Bar -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
-        </div>
-    </div>
-</footer>
+            // ============================================================
+            // RENDER COURSES
+            // ============================================================
+            function renderCourses() {
+                var grid = document.getElementById('courseGrid');
+                if (!grid) {
+                    console.error('Course grid not found');
+                    return;
+                }
+
+                // Check if MSBTE_K_SCHEME is available
+                if (typeof MSBTE_K_SCHEME === 'undefined') {
+                    grid.innerHTML = `
+                        <div class="no-data">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <h3>Data Not Available</h3>
+                            <p>Course data could not be loaded. Please try again later.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                var courseIcons = {
+                    'computer-engineering': '💻',
+                    'mechanical-engineering': '⚙️',
+                    'civil-engineering': '🏗️',
+                    'electrical-engineering': '⚡',
+                    'electronics-telecommunication': '📡'
+                };
+
+                var coursesHtml = '';
+                
+                Object.keys(MSBTE_K_SCHEME).forEach(function(slug) {
+                    var course = MSBTE_K_SCHEME[slug];
+                    var icon = courseIcons[slug] || '📚';
+                    
+                    coursesHtml += `
+                        <a href="course-detail.html?course=${encodeURIComponent(slug)}" class="course-card">
+                            <span class="badge">${course.code}</span>
+                            <span class="icon">${icon}</span>
+                            <h3>${course.name}</h3>
+                            <p>${course.overview || 'Learn more about this engineering discipline.'}</p>
+                            <span class="card-link">Explore Course <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    `;
+                });
+
+                grid.innerHTML = coursesHtml;
+            }
+
+            // ============================================================
+            // INITIALIZATION
+            // ============================================================
+            document.addEventListener('DOMContentLoaded', function() {
+                try {
+                    loadTheme();
+                    updateAuthUI();
+                    renderCourses();
+                    
+                    // Add event listeners for nav links to close mobile menu
+                    var navLinks = document.querySelectorAll('.nav-links a');
+                    navLinks.forEach(function(link) {
+                        link.addEventListener('click', function() {
+                            var nav = document.getElementById('navLinks');
+                            if (nav && nav.classList.contains('open')) {
+                                toggleMobileMenu();
+                            }
+                        });
+                    });
+                    
+                    console.log('✅ Courses page loaded successfully!');
+                } catch (e) {
+                    console.error('Error initializing page:', e);
+                }
+            });
+
+        })();
+    </script>
 </body>
 </html>
