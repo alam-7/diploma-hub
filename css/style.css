@@ -1,48 +1,44 @@
 /* ============================================================
-   CREATIVE THEME: NEON CYBERPUNK + HOLOGRAPHIC
-   DIPLOMA HUB
+   DIPLOMA HUB - ULTIMATE CREATIVE THEME
+   Cyberpunk • Holographic • Neon • Futuristic
    ============================================================ */
 
 /* ============================================================
    ROOT VARIABLES
    ============================================================ */
 :root {
-    /* Holographic Colors */
-    --holo-1: #ff6b6b;
-    --holo-2: #ffd93d;
-    --holo-3: #6bcb77;
-    --holo-4: #4d96ff;
-    --holo-5: #9b59b6;
-    --holo-6: #ff6bcd;
+    /* Primary Colors */
+    --neon-blue: #00d4ff;
+    --neon-purple: #a855f7;
+    --neon-pink: #ec4899;
+    --neon-cyan: #06f7d4;
+    --neon-green: #22d3ee;
+    --neon-orange: #f59e0b;
+    --neon-red: #ef4444;
 
-    /* Neon Colors */
-    --neon-blue: #00f5ff;
-    --neon-pink: #ff2d95;
-    --neon-purple: #b44dff;
-    --neon-green: #39ff14;
-    --neon-yellow: #ffea00;
-
-    /* Backgrounds */
-    --dark-bg: #0a0a12;
-    --darker-bg: #05050a;
+    /* Dark Backgrounds */
+    --dark-bg: #08081a;
+    --darker-bg: #04040f;
     --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(0, 212, 255, 0.12);
 
-    /* Text */
-    --text-primary: #f0f0ff;
-    --text-secondary: #a0a0cc;
-    --text-muted: #606088;
+    /* Text Colors */
+    --text-primary: #e8e8ff;
+    --text-secondary: #9090bb;
+    --text-muted: #666699;
 
-    /* Glows */
-    --glow-rainbow: 0 0 40px rgba(255, 107, 107, 0.15);
-    --glow-neon: 0 0 40px rgba(0, 245, 255, 0.15);
+    /* Glow Effects */
+    --glow-blue: 0 0 40px rgba(0, 212, 255, 0.15);
+    --glow-purple: 0 0 40px rgba(168, 85, 247, 0.15);
+    --glow-pink: 0 0 40px rgba(236, 72, 153, 0.15);
+    --glow-rainbow: 0 0 60px rgba(255, 107, 107, 0.1);
 
     /* Radius */
     --radius: 16px;
     --radius-full: 50px;
 
     /* Transitions */
-    --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ============================================================
@@ -68,7 +64,7 @@ body {
 }
 
 /* ============================================================
-   HOLOGRAPHIC ANIMATED BACKGROUND
+   ANIMATED HOLOGRAPHIC BACKGROUND
    ============================================================ */
 body::before {
     content: '';
@@ -79,30 +75,21 @@ body::before {
     height: 100%;
     z-index: -2;
     background:
-        radial-gradient(ellipse at 15% 25%, rgba(255, 107, 107, 0.06) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 75%, rgba(77, 150, 255, 0.06) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 50%, rgba(155, 89, 182, 0.04) 0%, transparent 60%),
-        radial-gradient(ellipse at 20% 80%, rgba(255, 214, 61, 0.04) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%, rgba(255, 107, 205, 0.04) 0%, transparent 50%);
-    animation: holoBg 12s ease-in-out infinite alternate;
+        radial-gradient(ellipse at 15% 25%, rgba(0, 212, 255, 0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 75%, rgba(168, 85, 247, 0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(6, 247, 212, 0.03) 0%, transparent 50%);
+    animation: bgPulse 12s ease-in-out infinite alternate;
 }
 
-@keyframes holoBg {
-    0% {
-        opacity: 0.6;
-        transform: scale(1) rotate(0deg);
-    }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.02) rotate(0.5deg);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(0.98) rotate(-0.5deg);
-    }
+@keyframes bgPulse {
+    0% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(0.98); }
 }
 
-/* Floating holographic particles */
+/* Floating Particles */
 body::after {
     content: '';
     position: fixed;
@@ -112,39 +99,28 @@ body::after {
     height: 100%;
     z-index: -1;
     background-image:
-        radial-gradient(2px 2px at 10% 20%, rgba(255, 107, 107, 0.25), transparent),
-        radial-gradient(2px 2px at 30% 60%, rgba(77, 150, 255, 0.2), transparent),
-        radial-gradient(2px 2px at 50% 10%, rgba(0, 245, 255, 0.2), transparent),
-        radial-gradient(2px 2px at 70% 80%, rgba(255, 107, 205, 0.2), transparent),
-        radial-gradient(2px 2px at 90% 40%, rgba(155, 89, 182, 0.2), transparent),
-        radial-gradient(1px 1px at 20% 85%, rgba(255, 214, 61, 0.25), transparent),
-        radial-gradient(1px 1px at 80% 20%, rgba(255, 107, 107, 0.2), transparent);
+        radial-gradient(2px 2px at 10% 20%, rgba(0, 212, 255, 0.3), transparent),
+        radial-gradient(2px 2px at 30% 60%, rgba(168, 85, 247, 0.25), transparent),
+        radial-gradient(2px 2px at 50% 10%, rgba(0, 212, 255, 0.2), transparent),
+        radial-gradient(2px 2px at 70% 80%, rgba(236, 72, 153, 0.25), transparent),
+        radial-gradient(2px 2px at 90% 40%, rgba(168, 85, 247, 0.2), transparent),
+        radial-gradient(1px 1px at 20% 85%, rgba(0, 212, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 80% 20%, rgba(236, 72, 153, 0.2), transparent),
+        radial-gradient(1px 1px at 45% 45%, rgba(0, 212, 255, 0.15), transparent);
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    animation: particlesDrift 25s ease-in-out infinite alternate;
+    animation: particlesFloat 25s ease-in-out infinite alternate;
 }
 
-@keyframes particlesDrift {
-    0% {
-        transform: translateY(0px) scale(1) rotate(0deg);
-        opacity: 0.4;
-    }
-    33% {
-        transform: translateY(-20px) scale(1.03) rotate(2deg);
-        opacity: 0.7;
-    }
-    66% {
-        transform: translateY(15px) scale(0.97) rotate(-2deg);
-        opacity: 0.5;
-    }
-    100% {
-        transform: translateY(-10px) scale(1.01) rotate(1deg);
-        opacity: 0.6;
-    }
+@keyframes particlesFloat {
+    0% { transform: translateY(0px) scale(1); opacity: 0.4; }
+    33% { transform: translateY(-30px) scale(1.03); opacity: 0.7; }
+    66% { transform: translateY(20px) scale(0.97); opacity: 0.5; }
+    100% { transform: translateY(-15px) scale(1.01); opacity: 0.6; }
 }
 
 /* ============================================================
-   SCROLLBAR
+   SCROLLBAR - RAINBOW GLOW
    ============================================================ */
 ::-webkit-scrollbar {
     width: 6px;
@@ -153,18 +129,13 @@ body::after {
     background: var(--darker-bg);
 }
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--holo-1), var(--holo-4), var(--holo-5));
+    background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
     border-radius: 10px;
     animation: rainbowScroll 3s linear infinite;
 }
-
 @keyframes rainbowScroll {
-    0% {
-        filter: hue-rotate(0deg);
-    }
-    100% {
-        filter: hue-rotate(360deg);
-    }
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
 }
 
 /* ============================================================
@@ -176,29 +147,6 @@ body::after {
     padding: 0 24px;
 }
 
-/* Holographic Rainbow Text */
-.holo-text {
-    background: linear-gradient(90deg,
-            var(--holo-1), var(--holo-2), var(--holo-3),
-            var(--holo-4), var(--holo-5), var(--holo-6),
-            var(--holo-1));
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: holoShimmer 4s linear infinite;
-}
-
-@keyframes holoShimmer {
-    0% {
-        background-position: 0% 50%;
-    }
-    100% {
-        background-position: 300% 50%;
-    }
-}
-
-/* Gradient Text (Simpler) */
 .gradient-text {
     background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
     -webkit-background-clip: text;
@@ -209,15 +157,27 @@ body::after {
 }
 
 @keyframes shimmerText {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.rainbow-text {
+    background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #9b59b6, #ff6bcd);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbowMove 4s linear infinite;
+}
+
+@keyframes rainbowMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+.glow-text {
+    text-shadow: 0 0 40px rgba(0, 212, 255, 0.15);
 }
 
 .section {
@@ -247,7 +207,49 @@ body::after {
 }
 
 /* ============================================================
-   GLITCH BUTTONS
+   HOLOGRAPHIC GLOW CARDS
+   ============================================================ */
+.holo-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 30px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.holo-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: var(--radius);
+    background: conic-gradient(from 0deg, transparent, var(--neon-blue), transparent, var(--neon-purple), transparent, var(--neon-pink), transparent);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: -1;
+    animation: borderRotate 4s linear infinite;
+}
+
+.holo-card:hover::before {
+    opacity: 1;
+}
+
+@keyframes borderRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.holo-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--glow-rainbow);
+}
+
+/* ============================================================
+   BUTTONS - NEON PULSE
    ============================================================ */
 .btn {
     display: inline-flex;
@@ -268,56 +270,42 @@ body::after {
 .btn-primary {
     background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
     color: #fff;
-    box-shadow: 0 0 30px rgba(0, 245, 255, 0.15);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
 }
 
 .btn-primary:hover {
     transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 0 60px rgba(0, 245, 255, 0.3);
+    box-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
 }
 
-.btn-primary::before {
+.btn-primary::after {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: conic-gradient(from 0deg,
-            var(--holo-1), var(--holo-2), var(--holo-3),
-            var(--holo-4), var(--holo-5), var(--holo-6),
-            var(--holo-1));
-    border-radius: var(--radius-full);
-    opacity: 0;
-    transition: var(--transition);
-    z-index: -1;
-    animation: borderSpin 3s linear infinite;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+    animation: btnPulse 3s ease-in-out infinite;
 }
 
-.btn-primary:hover::before {
-    opacity: 1;
-}
-
-@keyframes borderSpin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+@keyframes btnPulse {
+    0% { transform: translate(-30%, -30%) scale(1); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translate(30%, 30%) scale(1); opacity: 0; }
 }
 
 .btn-outline {
     background: transparent;
     color: var(--neon-blue);
     border: 2px solid var(--neon-blue);
-    box-shadow: 0 0 20px rgba(0, 245, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.05);
 }
 
 .btn-outline:hover {
-    background: rgba(0, 245, 255, 0.05);
+    background: rgba(0, 212, 255, 0.05);
     transform: translateY(-3px);
-    box-shadow: 0 0 40px rgba(0, 245, 255, 0.15);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.15);
 }
 
 .btn-lg {
@@ -331,7 +319,7 @@ body::after {
 }
 
 /* ============================================================
-   GLASS NAVBAR WITH HOLOGRAPHIC BORDER
+   NAVBAR - FLOATING GLASS
    ============================================================ */
 .navbar {
     position: fixed;
@@ -339,7 +327,7 @@ body::after {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(10, 10, 18, 0.8);
+    background: rgba(8, 8, 26, 0.75);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--glass-border);
@@ -350,6 +338,11 @@ body::after {
     transition: var(--transition);
 }
 
+.navbar:hover {
+    background: rgba(8, 8, 26, 0.92);
+    border-bottom-color: rgba(0, 212, 255, 0.2);
+}
+
 .navbar::after {
     content: '';
     position: absolute;
@@ -357,26 +350,15 @@ body::after {
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg,
-            var(--holo-1), var(--holo-2), var(--holo-3),
-            var(--holo-4), var(--holo-5), var(--holo-6),
-            var(--holo-1));
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-blue));
     background-size: 300% 100%;
     animation: borderMove 3s linear infinite;
     opacity: 0.5;
 }
 
 @keyframes borderMove {
-    0% {
-        background-position: 0% 0%;
-    }
-    100% {
-        background-position: 300% 0%;
-    }
-}
-
-.navbar:hover {
-    background: rgba(10, 10, 18, 0.95);
+    0% { background-position: 0% 0%; }
+    100% { background-position: 300% 0%; }
 }
 
 .nav-container {
@@ -397,24 +379,19 @@ body::after {
 }
 
 .nav-logo i {
+    color: var(--neon-blue);
     font-size: 1.8rem;
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: logoGlow 2s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.2));
+    animation: logoGlow 3s ease-in-out infinite alternate;
 }
 
 @keyframes logoGlow {
-    0% {
-        filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.2));
-    }
-    100% {
-        filter: drop-shadow(0 0 30px rgba(0, 245, 255, 0.5));
-    }
+    0% { filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.2)); }
+    100% { filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.5)); }
 }
 
 .nav-logo .highlight {
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -445,9 +422,10 @@ body::after {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
     border-radius: 2px;
     transition: var(--transition);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
 }
 
 .nav-links a:hover::after,
@@ -474,7 +452,8 @@ body::after {
 
 .theme-toggle:hover {
     color: var(--neon-blue);
-    background: rgba(0, 245, 255, 0.05);
+    background: rgba(0, 212, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.05);
 }
 
 .mobile-menu-btn {
@@ -503,21 +482,15 @@ body::after {
     position: absolute;
     inset: 0;
     background-image:
-        radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 50%, rgba(77, 150, 255, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 50% 100%, rgba(155, 89, 182, 0.02) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 50% 100%, rgba(236, 72, 153, 0.02) 0%, transparent 50%);
     animation: patternPulse 8s ease-in-out infinite alternate;
 }
 
 @keyframes patternPulse {
-    0% {
-        opacity: 0.3;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0.6;
-        transform: scale(1.05);
-    }
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 0.6; transform: scale(1.05); }
 }
 
 .hero::after {
@@ -547,12 +520,8 @@ body::after {
 }
 
 @keyframes heroFloat {
-    0% {
-        transform: translateY(0px) scale(1);
-    }
-    100% {
-        transform: translateY(-10px) scale(1.01);
-    }
+    0% { transform: translateY(0px) scale(1); }
+    100% { transform: translateY(-10px) scale(1.01); }
 }
 
 .hero-tagline {
@@ -563,12 +532,12 @@ body::after {
 }
 
 .hero-tagline .highlight {
-    background: linear-gradient(90deg, var(--holo-1), var(--holo-4), var(--holo-5), var(--holo-1));
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-blue));
     background-size: 300% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: holoShimmer 4s linear infinite;
+    animation: rainbowMove 4s linear infinite;
     font-weight: 600;
 }
 
@@ -604,7 +573,7 @@ body::after {
 
 .search-box:focus-within {
     border-color: var(--neon-blue);
-    box-shadow: 0 0 40px rgba(0, 245, 255, 0.08);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.08);
 }
 
 .search-box i {
@@ -639,21 +608,29 @@ body::after {
 }
 
 .search-box button:hover {
-    box-shadow: 0 0 30px rgba(0, 245, 255, 0.2);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
 }
 
 /* ============================================================
    HOLOGRAPHIC CARDS
    ============================================================ */
 .course-grid,
-.features-grid {
+.features-grid,
+.equipment-grid,
+.prac-grid,
+.quiz-grid,
+.res-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
 }
 
 .course-card,
-.feature-card {
+.feature-card,
+.equipment-card,
+.prac-card,
+.quiz-card,
+.res-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
@@ -665,31 +642,34 @@ body::after {
 }
 
 .course-card::before,
-.feature-card::before {
+.feature-card::before,
+.equipment-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg,
-            rgba(255, 107, 107, 0.05),
-            rgba(77, 150, 255, 0.05),
-            rgba(155, 89, 182, 0.05));
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.04), rgba(168, 85, 247, 0.04), rgba(236, 72, 153, 0.02));
     opacity: 0;
     transition: var(--transition);
 }
 
 .course-card:hover::before,
-.feature-card:hover::before {
+.feature-card:hover::before,
+.equipment-card:hover::before {
     opacity: 1;
 }
 
 .course-card:hover,
-.feature-card:hover {
-    transform: translateY(-10px) scale(1.01);
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 50px rgba(255, 107, 107, 0.05);
+.feature-card:hover,
+.equipment-card:hover,
+.prac-card:hover,
+.quiz-card:hover,
+.res-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 50px rgba(0, 212, 255, 0.04);
 }
 
 .course-card .icon {
@@ -700,24 +680,27 @@ body::after {
 }
 
 @keyframes iconFloat {
-    0%,
-    100% {
-        transform: translateY(0) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-6px) rotate(2deg);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }
 
 .course-card h3,
-.feature-card h3 {
+.feature-card h3,
+.equipment-card h3,
+.prac-card h3,
+.quiz-card h3,
+.res-card h3 {
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 6px;
 }
 
 .course-card p,
-.feature-card p {
+.feature-card p,
+.equipment-card p,
+.prac-card p,
+.quiz-card p,
+.res-card p {
     color: var(--text-secondary);
     font-size: 0.95rem;
     margin-bottom: 14px;
@@ -734,18 +717,18 @@ body::after {
 
 .card-link:hover {
     gap: 12px;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
 }
 
 .feature-icon {
     font-size: 2.5rem;
+    color: var(--neon-blue);
     margin-bottom: 12px;
-    background: linear-gradient(135deg, var(--holo-1), var(--holo-4));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    animation: iconFloat 5s ease-in-out infinite;
 }
 
 /* ============================================================
-   STATS - HOLOGRAPHIC
+   STATS - HOLOGRAPHIC NUMBERS
    ============================================================ */
 .stats-grid {
     display: grid;
@@ -764,8 +747,8 @@ body::after {
 }
 
 .stat-item:hover {
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: var(--glow-rainbow);
+    border-color: var(--neon-blue);
+    box-shadow: var(--glow-blue);
     transform: translateY(-4px);
 }
 
@@ -777,18 +760,22 @@ body::after {
     transform: translateX(-50%);
     width: 40%;
     height: 2px;
-    background: linear-gradient(90deg, var(--holo-1), var(--holo-4));
+    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
 }
 
 .stat-number {
     font-size: 3.5rem;
     font-weight: 800;
-    background: linear-gradient(90deg, var(--holo-1), var(--holo-4), var(--holo-5), var(--holo-1));
-    background-size: 300% 100%;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: holoShimmer 3s linear infinite;
+    animation: statPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes statPulse {
+    0% { opacity: 0.8; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.03); }
 }
 
 .stat-label {
@@ -798,7 +785,7 @@ body::after {
 }
 
 /* ============================================================
-   FOOTER
+   FOOTER - GLASS
    ============================================================ */
 .footer {
     background: var(--darker-bg);
@@ -867,7 +854,7 @@ body::after {
     background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
     border-color: transparent;
     color: #fff;
-    box-shadow: 0 0 30px rgba(0, 245, 255, 0.15);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
     transform: translateY(-3px);
 }
 
@@ -884,22 +871,17 @@ body::after {
 }
 
 .footer-bottom i.fa-heart {
-    color: #ff2d95;
+    color: #f43f5e;
     animation: heartPulse 1.5s ease-in-out infinite;
 }
 
 @keyframes heartPulse {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
 }
 
 /* ============================================================
-   AUTH PAGES
+   AUTH PAGES - GLOWING
    ============================================================ */
 .auth-page {
     min-height: 100vh;
@@ -916,7 +898,7 @@ body::after {
     padding: 50px 40px;
     max-width: 420px;
     width: 100%;
-    box-shadow: 0 0 60px rgba(255, 107, 107, 0.02);
+    box-shadow: 0 0 60px rgba(0, 212, 255, 0.02);
     backdrop-filter: blur(10px);
 }
 
@@ -957,7 +939,7 @@ body::after {
 .form-group input:focus {
     outline: none;
     border-color: var(--neon-blue);
-    box-shadow: 0 0 30px rgba(0, 245, 255, 0.04);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.04);
 }
 
 .form-group input::placeholder {
@@ -982,7 +964,7 @@ body::after {
 }
 
 .auth-footer a:hover {
-    text-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
 }
 
 .password-hint {
@@ -1013,7 +995,7 @@ body::after {
         top: 72px;
         left: 0;
         width: 100%;
-        background: rgba(10, 10, 18, 0.95);
+        background: rgba(8, 8, 26, 0.95);
         backdrop-filter: blur(20px);
         flex-direction: column;
         padding: 24px;
@@ -1059,27 +1041,363 @@ body::after {
     .stat-number {
         font-size: 2.8rem;
     }
+
+    .course-grid,
+    .features-grid,
+    .equipment-grid,
+    .prac-grid,
+    .quiz-grid,
+    .res-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-card {
+        padding: 30px 20px;
+    }
 }
 
 @media (max-width: 480px) {
     .footer-grid {
         grid-template-columns: 1fr;
     }
-
     .section {
         padding: 50px 0;
     }
-
-    .course-grid,
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-
     .hero-title {
         font-size: 2.2rem;
     }
+}
 
-    .auth-card {
-        padding: 30px 20px;
-    }
+/* ============================================================
+   TABLE STYLES (for course detail)
+   ============================================================ */
+.subjects-table-wrap {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.subjects-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.subjects-table th {
+    background: var(--darker-bg);
+    padding: 14px 16px;
+    text-align: left;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.subjects-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--text-primary);
+}
+
+.subjects-table tr:last-child td {
+    border-bottom: none;
+}
+
+.subjects-table tr:hover td {
+    background: rgba(0, 212, 255, 0.02);
+}
+
+.subjects-table .code {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    background: rgba(0, 212, 255, 0.08);
+    padding: 2px 10px;
+    border-radius: 12px;
+}
+
+.subjects-table .subject-type {
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--neon-blue);
+}
+
+.subjects-table .credits {
+    font-weight: 600;
+    color: var(--neon-blue);
+}
+
+.subjects-table .marks {
+    font-weight: 600;
+}
+
+/* ============================================================
+   SEMESTER TABS
+   ============================================================ */
+.semester-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 30px 0 20px;
+}
+
+.semester-tabs button {
+    padding: 12px 28px;
+    border-radius: 30px;
+    border: 2px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.semester-tabs button:hover {
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+    transform: translateY(-2px);
+}
+
+.semester-tabs button.active {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    border-color: var(--neon-purple);
+    color: #fff;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+}
+
+.semester-tabs button .badge-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--neon-blue);
+    color: var(--darker-bg);
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.semester-tabs button.active .badge-count {
+    background: #fff;
+    color: var(--neon-blue);
+}
+
+/* ============================================================
+   SEMESTER SUMMARY
+   ============================================================ */
+.semester-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--glass-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--glass-border);
+}
+
+.semester-summary .item {
+    text-align: center;
+}
+
+.semester-summary .item .num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--neon-blue);
+}
+
+.semester-summary .item .label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ============================================================
+   HOLOGRAM CONTAINER
+   ============================================================ */
+#hologramContainer {
+    width: 100%;
+    height: 450px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--darker-bg);
+    border: 1px solid var(--glass-border);
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.holo-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
+
+.holo-controls i {
+    color: var(--neon-blue);
+}
+
+.holo-status {
+    color: var(--neon-blue);
+}
+
+.holo-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: var(--darker-bg);
+    color: var(--text-secondary);
+}
+
+.holo-loading .spinner {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid var(--glass-border);
+    border-top-color: var(--neon-blue);
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   QUICK ACTIONS
+   ============================================================ */
+.quick-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.quick-actions a {
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quick-actions .btn-primary {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color: #fff;
+}
+
+.quick-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+}
+
+.quick-actions .btn-outline {
+    background: transparent;
+    color: var(--neon-blue);
+    border: 2px solid var(--neon-blue);
+}
+
+.quick-actions .btn-outline:hover {
+    background: rgba(0, 212, 255, 0.05);
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge-msbte {
+    display: inline-block;
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--neon-blue);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.verification-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.verification-badge.verified {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.verification-badge.pending {
+    background: rgba(234, 179, 8, 0.2);
+    color: #eab308;
+}
+
+.verification-badge.rejected {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+/* ============================================================
+   NO DATA / EMPTY STATES
+   ============================================================ */
+.no-data {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+}
+
+.no-data i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 15px;
+    color: var(--text-muted);
+}
+
+/* ============================================================
+   DISCLAIMER
+   ============================================================ */
+.disclaimer-box {
+    margin-top: 40px;
+    padding: 20px 25px;
+    background: var(--darker-bg);
+    border-radius: var(--radius);
+    border-left: 4px solid var(--neon-blue);
+}
+
+.disclaimer-box p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.disclaimer-box a {
+    color: var(--neon-blue);
+    text-decoration: none;
+}
+
+.disclaimer-box a:hover {
+    text-decoration: underline;
 }
