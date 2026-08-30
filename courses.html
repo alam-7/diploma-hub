@@ -10,31 +10,192 @@
         /* ============================================================
            COMPLETE COURSES PAGE STYLES
            ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg, #0a0a1a);
+            color: var(--text-primary, #e0e0ff);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 0 20px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+        }
+        .nav-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .nav-logo i {
+            color: var(--neon-blue, #00d4ff);
+            font-size: 1.8rem;
+        }
+        .nav-logo .highlight {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--neon-blue, #00d4ff);
+        }
+        .nav-links a.active {
+            color: var(--neon-blue, #00d4ff);
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary, #8888bb);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+            color: var(--neon-blue, #00d4ff);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-primary, #e0e0ff);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            color: #fff;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+        .btn-sm {
+            padding: 8px 18px;
+            font-size: 0.85rem;
+        }
+
+        /* --- Courses Page --- */
         .courses-page {
             padding: 120px 20px 60px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        .courses-page .page-header {
+
+        .page-header {
             text-align: center;
             margin-bottom: 50px;
         }
-        .courses-page .page-header h1 {
+        .page-header h1 {
             font-size: 3rem;
             font-weight: 800;
             margin-bottom: 10px;
         }
-        .courses-page .page-header .subtitle {
+        .page-header .subtitle {
             color: var(--text-secondary, #8888bb);
             font-size: 1.15rem;
             max-width: 600px;
             margin: 0 auto;
         }
+        .page-header .stats-banner {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .page-header .stats-banner .stat-item {
+            text-align: center;
+        }
+        .page-header .stats-banner .stat-item .num {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cyan-400);
+        }
+        .page-header .stats-banner .stat-item .label {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        /* --- Course Grid --- */
         .course-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 30px;
         }
+
         .course-card {
             background: var(--glass-bg, rgba(255, 255, 255, 0.03));
             border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
@@ -55,6 +216,16 @@
             font-size: 4rem;
             margin-bottom: 15px;
             display: block;
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+        @keyframes iconFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
         }
         .course-card .code-badge {
             display: inline-block;
@@ -77,6 +248,23 @@
             margin-bottom: 16px;
             line-height: 1.6;
         }
+        .course-card .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.06));
+        }
+        .course-card .card-footer .subjects-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary, #8888bb);
+        }
+        .course-card .card-footer .subjects-count i {
+            color: var(--neon-blue, #00d4ff);
+            margin-right: 4px;
+        }
         .course-card .card-link {
             color: var(--neon-blue, #00d4ff);
             font-weight: 600;
@@ -89,22 +277,131 @@
         .course-card .card-link:hover {
             gap: 12px;
         }
-        .course-card .subjects-count {
-            display: block;
-            font-size: 0.8rem;
+
+        /* --- Footer --- */
+        .footer {
+            background: var(--darker-bg, #05050f);
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 60px 0 30px;
+            margin-top: 20px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        .footer-col h4 {
+            font-size: 1rem;
             color: var(--text-secondary, #8888bb);
-            margin-top: 10px;
+            margin-bottom: 12px;
         }
-        .course-card .subjects-count i {
+        .footer-col p {
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.95rem;
+            max-width: 300px;
+        }
+        .footer-col a {
+            display: block;
+            color: var(--text-secondary, #8888bb);
+            padding: 5px 0;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .footer-col a:hover {
             color: var(--neon-blue, #00d4ff);
-            margin-right: 4px;
+            transform: translateX(4px);
         }
+        .social-links {
+            display: flex;
+            gap: 14px;
+            margin-top: 16px;
+        }
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            transition: all 0.3s ease;
+        }
+        .social-links a:hover {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+        }
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary, #8888bb);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .footer-bottom i.fa-heart {
+            color: #f43f5e;
+        }
+
+        /* --- Responsive --- */
         @media (max-width: 768px) {
-            .courses-page .page-header h1 {
+            .page-header h1 {
                 font-size: 2.2rem;
             }
             .course-grid {
                 grid-template-columns: 1fr;
+            }
+            .page-header .stats-banner {
+                gap: 15px;
+            }
+            .page-header .stats-banner .stat-item .num {
+                font-size: 1.5rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 26, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 24px;
+                gap: 16px;
+                border-bottom: 1px solid var(--glass-border);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .courses-page {
+                padding: 100px 15px 30px;
             }
         }
     </style>
@@ -114,7 +411,7 @@
     <!-- ============================================================
     NAVBAR
     ============================================================ -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <i class="fas fa-graduation-cap"></i>
@@ -142,13 +439,32 @@
     ============================================================ -->
     <section class="courses-page">
         <div class="container">
+
+            <!-- Page Header -->
             <div class="page-header">
                 <h1>Explore <span class="gradient-text">Courses</span></h1>
                 <p class="subtitle">Choose your engineering discipline and start your learning journey</p>
+                <div class="stats-banner" id="statsBanner">
+                    <div class="stat-item">
+                        <div class="num" id="totalBranches">5</div>
+                        <div class="label">Branches</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="num" id="totalSemesters">30</div>
+                        <div class="label">Semesters</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="num" id="totalSubjects">0</div>
+                        <div class="label">Subjects</div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Course Grid -->
             <div class="course-grid" id="courseGrid">
                 <!-- Rendered by JavaScript -->
             </div>
+
         </div>
     </section>
 
@@ -215,6 +531,13 @@
 
             if (!grid) return;
 
+            // Calculate total subjects
+            var totalSubjects = 0;
+            programmes.forEach(function(p) {
+                totalSubjects += getTotalSubjects(p.slug);
+            });
+            document.getElementById('totalSubjects').textContent = totalSubjects;
+
             grid.innerHTML = programmes.map(function(p) {
                 var totalSubjects = getTotalSubjects(p.slug);
                 return `
@@ -223,8 +546,10 @@
                         <span class="code-badge">${p.code}</span>
                         <h3>${p.name}</h3>
                         <p>${p.description || 'Explore this engineering discipline.'}</p>
-                        <span class="subjects-count"><i class="fas fa-book"></i> ${totalSubjects}+ Subjects</span>
-                        <span class="card-link">Explore Course <i class="fas fa-arrow-right"></i></span>
+                        <div class="card-footer">
+                            <span class="subjects-count"><i class="fas fa-book"></i> ${totalSubjects}+ Subjects</span>
+                            <span class="card-link">Explore Course <i class="fas fa-arrow-right"></i></span>
+                        </div>
                     </div>
                 `;
             }).join('');
