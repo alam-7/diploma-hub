@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Data Loading</title>
+</head>
+<body>
+    <h1>Testing Data File</h1>
+    <div id="result">Loading...</div>
+
+    <script src="js/msbte-k-scheme-data.js"></script>
+    <script>
+        // Check if data loaded
+        if (typeof MSBTE_K_SCHEME !== 'undefined') {
+            document.getElementById('result').innerHTML = 
+                '<p style="color:green;">✅ Data loaded successfully!</p>' +
+                '<p>Courses found: ' + Object.keys(MSBTE_K_SCHEME).length + '</p>' +
+                '<p>Course names:</p><ul>' +
+                Object.keys(MSBTE_K_SCHEME).map(function(key) {
+                    return '<li>' + MSBTE_K_SCHEME[key].name + '</li>';
+                }).join('') +
+                '</ul>';
+        } else {
+            document.getElementById('result').innerHTML = 
+                '<p style="color:red;">❌ Data NOT loaded! Check console for errors.</p>';
+        }
+    </script>
+</body>
+</html>
