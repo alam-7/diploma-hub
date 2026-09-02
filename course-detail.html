@@ -7,15 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* ============================================================
-           COMPLETE COURSE DETAIL STYLES
-           ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--dark-bg, #0a0a1a);
@@ -23,13 +15,7 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
         .gradient-text {
             background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
             -webkit-background-clip: text;
@@ -37,582 +23,257 @@
             background-clip: text;
         }
 
-        /* --- Navbar --- */
+        /* Navbar */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(10, 10, 26, 0.85);
-            backdrop-filter: blur(20px);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(10, 10, 26, 0.85); backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            padding: 0 20px;
-            height: 72px;
-            display: flex;
-            align-items: center;
+            padding: 0 20px; height: 72px; display: flex; align-items: center;
         }
-        .nav-container {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        .nav-logo a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: inherit;
-        }
-        .nav-logo i {
-            color: var(--neon-blue, #00d4ff);
-            font-size: 1.8rem;
-        }
+        .nav-container { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; }
+        .nav-logo a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+        .nav-logo i { color: var(--neon-blue, #00d4ff); font-size: 1.8rem; }
         .nav-logo .highlight {
             background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            list-style: none;
-        }
-        .nav-links a {
-            color: var(--text-secondary, #8888bb);
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        .nav-links a:hover {
-            color: var(--neon-blue, #00d4ff);
-        }
-        .nav-links a.active {
-            color: var(--neon-blue, #00d4ff);
-        }
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+        .nav-links a { color: var(--text-secondary, #8888bb); font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; text-decoration: none; }
+        .nav-links a:hover { color: var(--neon-blue, #00d4ff); }
+        .nav-links a.active { color: var(--neon-blue, #00d4ff); }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
         .theme-toggle {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary, #8888bb);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            pointer-events: auto;
-            z-index: 1001;
+            background: transparent; border: none; color: var(--text-secondary, #8888bb);
+            font-size: 1.2rem; cursor: pointer; padding: 8px; border-radius: 50%;
+            transition: all 0.3s ease; pointer-events: auto; z-index: 1001;
         }
-        .theme-toggle:hover {
-            color: var(--neon-blue, #00d4ff);
-            background: rgba(0, 212, 255, 0.05);
-        }
+        .theme-toggle:hover { color: var(--neon-blue, #00d4ff); background: rgba(0, 212, 255, 0.05); }
         .mobile-menu-btn {
-            display: none;
-            background: transparent;
-            border: none;
-            color: var(--text-primary, #e0e0ff);
-            font-size: 1.5rem;
-            cursor: pointer;
-            pointer-events: auto;
-            z-index: 1001;
+            display: none; background: transparent; border: none;
+            color: var(--text-primary, #e0e0ff); font-size: 1.5rem;
+            cursor: pointer; pointer-events: auto; z-index: 1001;
         }
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease;
-            text-decoration: none;
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 10px 22px; border-radius: 50px; font-weight: 600;
+            font-size: 0.9rem; cursor: pointer; border: none;
+            transition: all 0.3s ease; text-decoration: none;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
             color: #fff;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
-        }
-        .btn-sm {
-            padding: 8px 18px;
-            font-size: 0.85rem;
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 212, 255, 0.2); }
+        .btn-sm { padding: 8px 18px; font-size: 0.85rem; }
 
-        /* --- Course Detail Page --- */
-        .course-detail-page {
-            padding: 120px 20px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        /* Course Detail Page */
+        .course-detail-page { padding: 120px 20px 40px; max-width: 1200px; margin: 0 auto; }
         .back-btn {
-            color: var(--gray-400, #8888bb);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            transition: 0.3s;
-            font-weight: 500;
+            color: var(--gray-400, #8888bb); text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-bottom: 20px; transition: 0.3s; font-weight: 500;
         }
-        .back-btn:hover {
-            color: var(--cyan-400, #00d4ff);
-            transform: translateX(-4px);
-        }
+        .back-btn:hover { color: var(--cyan-400, #00d4ff); transform: translateX(-4px); }
 
-        /* --- Course Header --- */
+        /* Course Header */
         .course-header {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            margin-bottom: 30px;
-            padding-bottom: 30px;
+            display: flex; align-items: center; gap: 30px;
+            margin-bottom: 30px; padding-bottom: 30px;
             border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
             flex-wrap: wrap;
         }
-        .course-header .icon {
-            font-size: 4.5rem;
-            animation: iconFloat 4s ease-in-out infinite;
-        }
+        .course-header .icon { font-size: 4.5rem; animation: iconFloat 4s ease-in-out infinite; }
         @keyframes iconFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
-        .course-header h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-        }
-        .course-header .subtitle {
-            color: var(--gray-400, #8888bb);
-            font-size: 1.1rem;
-            margin-top: 5px;
-        }
-        .course-header .meta {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
+        .course-header h1 { font-size: 2.8rem; font-weight: 700; }
+        .course-header .subtitle { color: var(--gray-400, #8888bb); font-size: 1.1rem; margin-top: 5px; }
+        .course-header .meta { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
         .course-header .meta span {
-            background: rgba(6, 182, 212, 0.12);
-            color: var(--cyan-400, #00d4ff);
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            background: rgba(6, 182, 212, 0.12); color: var(--cyan-400, #00d4ff);
+            padding: 4px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
         }
         .course-header .overview {
-            margin-top: 15px;
-            padding: 15px 20px;
+            margin-top: 15px; padding: 15px 20px;
             background: var(--glass-bg, rgba(255, 255, 255, 0.03));
-            border-radius: 12px;
-            border-left: 3px solid var(--cyan-400, #00d4ff);
+            border-radius: 12px; border-left: 3px solid var(--cyan-400, #00d4ff);
         }
-        .course-header .overview p {
-            color: var(--gray-400, #8888bb);
-            font-size: 0.95rem;
-            line-height: 1.8;
-        }
-        .course-header .career-opportunities {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
+        .course-header .overview p { color: var(--gray-400, #8888bb); font-size: 0.95rem; line-height: 1.8; }
+        .course-header .career-opportunities { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
         .course-header .career-opportunities span {
-            background: rgba(6, 182, 212, 0.08);
-            color: var(--cyan-400, #00d4ff);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            background: rgba(6, 182, 212, 0.08); color: var(--cyan-400, #00d4ff);
+            padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
         }
-
         .badge-msbte {
-            display: inline-block;
-            background: rgba(6, 182, 212, 0.15);
-            color: var(--cyan-400, #00d4ff);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 8px;
+            display: inline-block; background: rgba(6, 182, 212, 0.15);
+            color: var(--cyan-400, #00d4ff); padding: 4px 14px;
+            border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-top: 8px;
         }
         .verification-badge.verified {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
+            display: inline-block; padding: 3px 12px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 600;
+            background: rgba(34, 197, 94, 0.2); color: #22c55e;
         }
 
-        /* --- Semester Tabs --- */
-        .semester-tabs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 30px 0 20px;
-        }
+        /* Semester Tabs */
+        .semester-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 30px 0 20px; }
         .semester-tabs button {
-            padding: 12px 28px;
-            border-radius: 30px;
+            padding: 12px 28px; border-radius: 30px;
             border: 2px solid var(--glass-border, rgba(0, 212, 255, 0.08));
             background: var(--glass, rgba(255, 255, 255, 0.03));
-            color: var(--gray-400, #8888bb);
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: 600;
-            font-size: 0.95rem;
-            position: relative;
-            pointer-events: auto;
+            color: var(--gray-400, #8888bb); cursor: pointer;
+            transition: 0.3s; font-weight: 600; font-size: 0.95rem;
+            position: relative; pointer-events: auto;
         }
-        .semester-tabs button:hover {
-            border-color: var(--cyan-400, #00d4ff);
-            color: var(--cyan-400, #00d4ff);
-            transform: translateY(-2px);
-        }
+        .semester-tabs button:hover { border-color: var(--cyan-400, #00d4ff); color: var(--cyan-400, #00d4ff); transform: translateY(-2px); }
         .semester-tabs button.active {
-            background: var(--cyan-500, #00d4ff);
-            border-color: var(--cyan-500, #00d4ff);
-            color: white;
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
+            background: var(--cyan-500, #00d4ff); border-color: var(--cyan-500, #00d4ff);
+            color: white; box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
         }
         .semester-tabs button .badge-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--cyan-400, #00d4ff);
-            color: var(--darker-bg, #05050f);
-            font-size: 0.6rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
+            position: absolute; top: -8px; right: -8px;
+            background: var(--cyan-400, #00d4ff); color: var(--darker-bg, #05050f);
+            font-size: 0.6rem; font-weight: 700; padding: 2px 8px; border-radius: 20px;
         }
-        .semester-tabs button.active .badge-count {
-            background: white;
-            color: var(--cyan-500, #00d4ff);
-        }
+        .semester-tabs button.active .badge-count { background: white; color: var(--cyan-500, #00d4ff); }
 
-        /* --- Semester Info --- */
+        /* Semester Info */
         .semester-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin: 10px 0 15px;
-            padding: 10px 0;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; margin: 10px 0 15px; padding: 10px 0;
         }
-        .semester-info h2 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-        }
-        .semester-info h2 i {
-            color: var(--cyan-400, #00d4ff);
-        }
-        .semester-info .stats {
-            display: flex;
-            gap: 20px;
-            font-size: 0.9rem;
-            color: var(--gray-400, #8888bb);
-        }
-        .semester-info .stats span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .semester-info .stats i {
-            color: var(--cyan-400, #00d4ff);
-        }
+        .semester-info h2 { display: flex; align-items: center; gap: 10px; font-size: 1.8rem; }
+        .semester-info h2 i { color: var(--cyan-400, #00d4ff); }
+        .semester-info .stats { display: flex; gap: 20px; font-size: 0.9rem; color: var(--gray-400, #8888bb); }
+        .semester-info .stats span { display: flex; align-items: center; gap: 5px; }
+        .semester-info .stats i { color: var(--cyan-400, #00d4ff); }
         .semester-description {
-            color: var(--gray-400, #8888bb);
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            background: var(--glass-bg, rgba(255, 255, 255, 0.02));
-            border-radius: 8px;
+            color: var(--gray-400, #8888bb); font-size: 0.95rem;
+            margin-bottom: 15px; padding: 10px 15px;
+            background: var(--glass-bg, rgba(255, 255, 255, 0.02)); border-radius: 8px;
         }
 
-        /* --- Subjects Table --- */
+        /* Subjects Table */
         .subjects-table-wrap {
             background: var(--glass, rgba(255, 255, 255, 0.03));
             border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            border-radius: 16px;
-            overflow: hidden;
+            border-radius: 16px; overflow: hidden;
         }
-        .subjects-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        .subjects-table { width: 100%; border-collapse: collapse; }
         .subjects-table th {
-            background: var(--darker-bg, #05050f);
-            padding: 14px 16px;
-            text-align: left;
-            color: var(--gray-400, #8888bb);
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: var(--darker-bg, #05050f); padding: 14px 16px;
+            text-align: left; color: var(--gray-400, #8888bb);
+            font-weight: 600; font-size: 0.85rem;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
         .subjects-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 12px 16px; border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
             color: var(--gray-300, #e0e0ff);
         }
-        .subjects-table tr:last-child td {
-            border-bottom: none;
-        }
-        .subjects-table tr:hover td {
-            background: rgba(6, 182, 212, 0.02);
-        }
+        .subjects-table tr:last-child td { border-bottom: none; }
+        .subjects-table tr:hover td { background: rgba(6, 182, 212, 0.02); }
         .subjects-table .code {
-            font-size: 0.8rem;
-            color: var(--gray-500, #8888bb);
-            font-weight: 600;
-            background: rgba(6, 182, 212, 0.08);
-            padding: 2px 10px;
-            border-radius: 12px;
+            font-size: 0.8rem; color: var(--gray-500, #8888bb); font-weight: 600;
+            background: rgba(6, 182, 212, 0.08); padding: 2px 10px; border-radius: 12px;
         }
         .subjects-table .subject-type {
-            font-size: 0.7rem;
-            padding: 2px 10px;
-            border-radius: 12px;
-            background: rgba(6, 182, 212, 0.1);
-            color: var(--cyan-400, #00d4ff);
+            font-size: 0.7rem; padding: 2px 10px; border-radius: 12px;
+            background: rgba(6, 182, 212, 0.1); color: var(--cyan-400, #00d4ff);
         }
-        .subjects-table .credits {
-            font-weight: 600;
-            color: var(--cyan-400, #00d4ff);
-        }
-        .subjects-table .marks {
-            font-weight: 600;
-        }
+        .subjects-table .credits { font-weight: 600; color: var(--cyan-400, #00d4ff); }
+        .subjects-table .marks { font-weight: 600; }
 
-        /* --- Loading & Error States --- */
-        .loading-spinner {
-            text-align: center;
-            padding: 40px;
-            color: var(--cyan-400, #00d4ff);
-            font-size: 1.2rem;
-        }
-        .no-data {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--gray-400, #8888bb);
-        }
-        .no-data i {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 15px;
-        }
+        /* Loading & Error */
+        .loading-spinner { text-align: center; padding: 40px; color: var(--cyan-400, #00d4ff); font-size: 1.2rem; }
+        .no-data { text-align: center; padding: 60px 20px; color: var(--gray-400, #8888bb); }
+        .no-data i { font-size: 3rem; display: block; margin-bottom: 15px; }
 
-        /* --- Quick Actions --- */
-        .quick-actions {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 25px;
-        }
+        /* Quick Actions */
+        .quick-actions { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 25px; }
         .quick-actions a {
-            padding: 10px 22px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            padding: 10px 22px; border-radius: 30px; font-weight: 600;
+            font-size: 0.9rem; text-decoration: none; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
         }
         .quick-actions .btn-primary {
             background: linear-gradient(135deg, var(--cyan-500, #00d4ff), var(--cyan-600, #0088cc));
             color: white;
         }
-        .quick-actions .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
-        }
+        .quick-actions .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(6, 182, 212, 0.3); }
         .quick-actions .btn-outline {
-            background: transparent;
-            color: var(--cyan-400, #00d4ff);
+            background: transparent; color: var(--cyan-400, #00d4ff);
             border: 2px solid var(--cyan-400, #00d4ff);
         }
-        .quick-actions .btn-outline:hover {
-            background: rgba(6, 182, 212, 0.05);
-        }
+        .quick-actions .btn-outline:hover { background: rgba(6, 182, 212, 0.05); }
 
-        /* --- Footer --- */
+        /* Footer */
         .footer {
             background: var(--darker-bg, #05050f);
             border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            padding: 60px 0 30px;
-            margin-top: 20px;
+            padding: 60px 0 30px; margin-top: 20px;
         }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        .footer-col h3 {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-        }
-        .footer-col h4 {
-            font-size: 1rem;
-            color: var(--text-secondary, #8888bb);
-            margin-bottom: 12px;
-        }
-        .footer-col p {
-            color: var(--text-secondary, #8888bb);
-            font-size: 0.95rem;
-            max-width: 300px;
-        }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-col h3 { font-size: 1.3rem; margin-bottom: 12px; }
+        .footer-col h4 { font-size: 1rem; color: var(--text-secondary, #8888bb); margin-bottom: 12px; }
+        .footer-col p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; max-width: 300px; }
         .footer-col a {
-            display: block;
-            color: var(--text-secondary, #8888bb);
-            padding: 5px 0;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            text-decoration: none;
+            display: block; color: var(--text-secondary, #8888bb);
+            padding: 5px 0; transition: all 0.3s ease;
+            font-size: 0.95rem; text-decoration: none;
         }
-        .footer-col a:hover {
-            color: var(--neon-blue, #00d4ff);
-            transform: translateX(4px);
-        }
-        .social-links {
-            display: flex;
-            gap: 14px;
-            margin-top: 16px;
-        }
+        .footer-col a:hover { color: var(--neon-blue, #00d4ff); transform: translateX(4px); }
+        .social-links { display: flex; gap: 14px; margin-top: 16px; }
         .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 42px; height: 42px; border-radius: 50%;
             background: var(--glass-bg, rgba(255, 255, 255, 0.03));
             border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
             transition: all 0.3s ease;
         }
         .social-links a:hover {
             background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
-            border-color: transparent;
-            color: #fff;
+            border-color: transparent; color: #fff;
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
         }
         .footer-bottom {
             border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            padding-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-secondary, #8888bb);
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-            gap: 10px;
+            padding-top: 20px; display: flex; justify-content: space-between;
+            align-items: center; color: var(--text-secondary, #8888bb);
+            font-size: 0.9rem; flex-wrap: wrap; gap: 10px;
         }
-        .footer-bottom i.fa-heart {
-            color: #f43f5e;
-        }
+        .footer-bottom i.fa-heart { color: #f43f5e; }
 
-        /* --- Responsive --- */
+        /* Responsive */
         @media (max-width: 768px) {
-            .course-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            .course-header h1 {
-                font-size: 2rem;
-            }
-            .subjects-table {
-                font-size: 0.8rem;
-            }
-            .subjects-table th,
-            .subjects-table td {
-                padding: 6px 8px;
-            }
-            .semester-tabs button {
-                padding: 8px 16px;
-                font-size: 0.8rem;
-            }
-            .semester-info {
-                flex-direction: column;
-                text-align: center;
-            }
-            .semester-info .stats {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 30px;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
+            .course-header { flex-direction: column; text-align: center; }
+            .course-header h1 { font-size: 2rem; }
+            .subjects-table { font-size: 0.8rem; }
+            .subjects-table th, .subjects-table td { padding: 6px 8px; }
+            .semester-tabs button { padding: 8px 16px; font-size: 0.8rem; }
+            .semester-info { flex-direction: column; text-align: center; }
+            .semester-info .stats { flex-wrap: wrap; justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
             .nav-links {
-                display: none;
-                position: absolute;
-                top: 72px;
-                left: 0;
-                width: 100%;
-                background: rgba(10, 10, 26, 0.95);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: 24px;
-                gap: 16px;
+                display: none; position: absolute; top: 72px; left: 0; width: 100%;
+                background: rgba(10, 10, 26, 0.95); backdrop-filter: blur(20px);
+                flex-direction: column; padding: 24px; gap: 16px;
                 border-bottom: 1px solid var(--glass-border);
             }
-            .nav-links.open {
-                display: flex;
-            }
-            .mobile-menu-btn {
-                display: block;
-            }
+            .nav-links.open { display: flex; }
+            .mobile-menu-btn { display: block; }
         }
-
         @media (max-width: 480px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            .course-detail-page {
-                padding: 100px 15px 30px;
-            }
+            .footer-grid { grid-template-columns: 1fr; }
+            .course-detail-page { padding: 100px 15px 30px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================
-    NAVBAR
-    ============================================================ -->
+    <!-- NAVBAR -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -631,10 +292,10 @@
                 <a href="about.html">About</a>
             </div>
             <div class="nav-right">
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
                     <i class="fas fa-moon" id="themeIcon"></i>
                 </button>
-                <a href="login.html" id="authBtn" class="btn btn-primary btn-sm">Sign In</a>
+                <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
                 <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
                     <i class="fas fa-bars" id="mobileMenuIcon"></i>
                 </button>
@@ -642,10 +303,8 @@
         </div>
     </nav>
 
-    <!-- ============================================================
-    COURSE DETAIL PAGE
-    ============================================================ -->
-    <section class="course-detail-page" id="courseDetailPage">
+    <!-- COURSE DETAIL PAGE -->
+    <section class="course-detail-page">
         <div class="container">
             <a href="courses.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Courses</a>
             <div id="courseContent">
@@ -656,9 +315,7 @@
         </div>
     </section>
 
-    <!-- ============================================================
-    FOOTER
-    ============================================================ -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -666,15 +323,9 @@
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
                     <div class="social-links">
-                        <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
+                        <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -706,21 +357,14 @@
         </div>
     </footer>
 
-    <!-- ============================================================
-    SCRIPTS
-    ============================================================ -->
+    <!-- ONLY INCLUDE THE DATA FILE -->
     <script src="js/msbte-k-scheme-data.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/auth.js"></script>
 
     <script>
         (function() {
             'use strict';
 
-            // ============================================================
-            // THEME MANAGEMENT
-            // ============================================================
+            // Theme Management
             function loadTheme() {
                 try {
                     var saved = localStorage.getItem('theme');
@@ -755,9 +399,7 @@
                 }
             };
 
-            // ============================================================
-            // MOBILE MENU
-            // ============================================================
+            // Mobile Menu
             window.toggleMobileMenu = function() {
                 try {
                     var nav = document.getElementById('navLinks');
@@ -773,43 +415,7 @@
                 }
             };
 
-            // ============================================================
-            // AUTH UI
-            // ============================================================
-            async function updateAuthUI() {
-                var btn = document.getElementById('authBtn');
-                if (!btn) return;
-                
-                try {
-                    if (typeof getCurrentUser === 'function') {
-                        var user = await getCurrentUser();
-                        if (user) {
-                            var name = user.user_metadata?.full_name || user.email || 'Dashboard';
-                            btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
-                            btn.href = 'dashboard.html';
-                            return;
-                        }
-                    }
-                } catch (e) {}
-                
-                try {
-                    var stored = localStorage.getItem('user');
-                    if (stored) {
-                        var user = JSON.parse(stored);
-                        var name = user?.user_metadata?.full_name || user?.email || 'Dashboard';
-                        btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
-                        btn.href = 'dashboard.html';
-                        return;
-                    }
-                } catch (e) {}
-                
-                btn.innerHTML = 'Sign In';
-                btn.href = 'login.html';
-            }
-
-            // ============================================================
-            // COURSE DETAIL LOGIC
-            // ============================================================
+            // Course Detail Logic
             function initCourseDetail() {
                 var params = new URLSearchParams(window.location.search);
                 var courseSlug = params.get('course') || 'computer-engineering';
@@ -826,7 +432,7 @@
                         <div class="no-data">
                             <i class="fas fa-exclamation-circle"></i>
                             <h3>Data Not Available</h3>
-                            <p>Course data could not be loaded. Please try again later.</p>
+                            <p>Course data could not be loaded. Please check if js/msbte-k-scheme-data.js exists.</p>
                         </div>
                     `;
                     return;
@@ -855,7 +461,6 @@
                 };
 
                 var icon = courseIcons[courseSlug] || '📚';
-                var name = programme.name;
 
                 // Find first available semester
                 var firstSemester = 1;
@@ -886,14 +491,14 @@
                     <div class="course-header">
                         <div class="icon">${icon}</div>
                         <div>
-                            <h1>${name}</h1>
+                            <h1>${programme.name}</h1>
                             <p class="subtitle">${programme.code} • Diploma Engineering • 3 Years</p>
                             <span class="badge-msbte">📖 MSBTE K-Scheme</span>
                             <span class="verification-badge verified">✅ Needs Verification</span>
                             <div class="meta">
                                 <span><i class="fas fa-code"></i> ${programme.code}</span>
-                                <span><i class="fas fa-clock"></i> 3 Years</span>
-                                <span><i class="fas fa-layer-group"></i> 6 Semesters</span>
+                                <span><i class="fas fa-clock"></i> ${programme.duration}</span>
+                                <span><i class="fas fa-layer-group"></i> ${programme.semesters} Semesters</span>
                                 <span><i class="fas fa-graduation-cap"></i> Diploma</span>
                             </div>
                             <div class="overview">
@@ -901,7 +506,7 @@
                             </div>
                             <div class="career-opportunities">
                                 ${(programme.careerOpportunities || []).map(function(c) {
-                                    return `<span>💼 ${c}</span>`;
+                                    return '<span>💼 ' + c + '</span>';
                                 }).join('')}
                             </div>
                         </div>
@@ -912,7 +517,7 @@
                     </div>
 
                     <div id="semesterContent">
-                        ${renderSemester(firstSemester, programme)}
+                        ${renderSemester(firstSemester, programme, courseSlug)}
                     </div>
 
                     <div class="quick-actions">
@@ -935,7 +540,7 @@
                 `;
             }
 
-            function renderSemester(semester, programme) {
+            function renderSemester(semester, programme, courseSlug) {
                 var semesterData = programme.semesters[semester];
 
                 if (!semesterData || !semesterData.subjects || semesterData.subjects.length === 0) {
@@ -950,14 +555,14 @@
 
                 var subjects = semesterData.subjects;
                 var totalSubjects = subjects.length;
-                var totalCredits = getTotalCredits(programme.code.toLowerCase(), semester);
-                var totalMarks = getTotalMarks(programme.code.toLowerCase(), semester);
+                var totalCredits = getTotalCredits(courseSlug, semester);
+                var totalMarks = getTotalMarks(courseSlug, semester);
 
                 return `
                     <div class="semester-info">
                         <h2>
                             <i class="fas fa-book" style="color: var(--cyan-400, #00d4ff);"></i>
-                            ${semesterData.name}
+                            ${semesterData.name} - ${semesterData.year}
                         </h2>
                         <div class="stats">
                             <span><i class="fas fa-book-open"></i> ${totalSubjects} Subjects</span>
@@ -966,17 +571,18 @@
                         </div>
                     </div>
 
-                    ${semesterData.description ? `<div class="semester-description">${semesterData.description}</div>` : ''}
+                    ${semesterData.description ? '<div class="semester-description">' + semesterData.description + '</div>' : ''}
 
                     <div class="subjects-table-wrap">
                         <table class="subjects-table">
                             <thead>
                                 <tr>
                                     <th style="width: 12%;">Code</th>
-                                    <th style="width: 40%;">Subject Name</th>
-                                    <th style="width: 15%; text-align:center;">Type</th>
+                                    <th style="width: 35%;">Subject Name</th>
+                                    <th style="width: 13%; text-align:center;">Type</th>
                                     <th style="width: 10%; text-align:center;">Credits</th>
                                     <th style="width: 10%; text-align:center;">Marks</th>
+                                    <th style="width: 20%; text-align:center;">Hours (T/P/Tut)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -986,11 +592,14 @@
                                             <td><span class="code">${s.code}</span></td>
                                             <td>
                                                 <strong>${s.name}</strong>
-                                                ${s.shortName ? `<div style="font-size:0.7rem;color:var(--gray-500,#8888bb);">${s.shortName}</div>` : ''}
+                                                ${s.shortName ? '<div style="font-size:0.7rem;color:var(--gray-500,#8888bb);">' + s.shortName + '</div>' : ''}
                                             </td>
                                             <td style="text-align:center;"><span class="subject-type">${s.type || 'Theory'}</span></td>
                                             <td style="text-align:center;"><span class="credits">${s.credits || '-'}</span></td>
                                             <td style="text-align:center;"><span class="marks">${s.marks || '-'}</span></td>
+                                            <td style="text-align:center;">
+                                                ${s.hours ? s.hours.theory + '/' + s.hours.practical + '/' + s.hours.tutorial : '-'}
+                                            </td>
                                         </tr>
                                     `;
                                 }).join('')}
@@ -1020,23 +629,20 @@
                     // Update content
                     var content = document.getElementById('semesterContent');
                     if (content) {
-                        content.innerHTML = renderSemester(semester, programme);
+                        content.innerHTML = renderSemester(semester, programme, courseSlug);
                     }
                 } catch (e) {
                     console.error('Error loading semester:', e);
                 }
             };
 
-            // ============================================================
-            // INITIALIZATION
-            // ============================================================
+            // Initialize
             document.addEventListener('DOMContentLoaded', function() {
                 try {
                     loadTheme();
-                    updateAuthUI();
                     initCourseDetail();
                     
-                    // Add event listeners for nav links to close mobile menu
+                    // Close mobile menu on link click
                     var navLinks = document.querySelectorAll('.nav-links a');
                     navLinks.forEach(function(link) {
                         link.addEventListener('click', function() {
