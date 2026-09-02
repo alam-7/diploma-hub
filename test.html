@@ -7,7 +7,9 @@
     <h1>Testing Data File</h1>
     <div id="result">Loading...</div>
 
-    <script src="js/msbte-k-scheme-data.js"></script>
+    <!-- REMOVED js/ from path -->
+    <script src="msbte-k-scheme-data.js"></script>
+    
     <script>
         // Check if data loaded
         if (typeof MSBTE_K_SCHEME !== 'undefined') {
@@ -21,7 +23,8 @@
                 '</ul>';
         } else {
             document.getElementById('result').innerHTML = 
-                '<p style="color:red;">❌ Data NOT loaded! Check console for errors.</p>';
+                '<p style="color:red;">❌ Data NOT loaded! Check console for errors.</p>' +
+                '<p>Make sure msbte-k-scheme-data.js is in the SAME folder as this HTML file.</p>';
         }
     </script>
 </body>
