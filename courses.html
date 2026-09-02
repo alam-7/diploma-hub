@@ -17,6 +17,7 @@
             border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
             border-radius: 16px; padding: 30px; transition: all 0.4s ease;
             cursor: pointer; position: relative; overflow: hidden; text-align: center;
+            text-decoration: none; color: inherit; display: block;
         }
         .course-card:hover { transform: translateY(-10px); border-color: var(--neon-blue, #00d4ff); box-shadow: 0 0 60px rgba(0, 212, 255, 0.06); }
         .course-card .icon { font-size: 4rem; margin-bottom: 15px; display: block; }
@@ -27,19 +28,20 @@
         .course-card .card-footer .subjects-count { font-size: 0.8rem; color: var(--text-secondary, #8888bb); }
         .course-card .card-footer .subjects-count i { color: var(--neon-blue, #00d4ff); margin-right: 4px; }
         .course-card .card-link { color: var(--neon-blue, #00d4ff); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease; font-size: 0.95rem; }
-        .course-card .card-link:hover { gap: 12px; }
+        .course-card:hover .card-link { gap: 12px; }
         .footer { background: var(--darker-bg, #05050f); border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); padding: 60px 0 30px; margin-top: 20px; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
         .footer-col h3 { font-size: 1.3rem; margin-bottom: 12px; }
         .footer-col h4 { font-size: 1rem; color: var(--text-secondary, #8888bb); margin-bottom: 12px; }
         .footer-col p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; max-width: 300px; }
-        .footer-col a { display: block; color: var(--text-secondary, #8888bb); padding: 5px 0; transition: all 0.3s ease; font-size: 0.95rem; }
+        .footer-col a { display: block; color: var(--text-secondary, #8888bb); padding: 5px 0; transition: all 0.3s ease; font-size: 0.95rem; text-decoration: none; }
         .footer-col a:hover { color: var(--neon-blue, #00d4ff); transform: translateX(4px); }
         .social-links { display: flex; gap: 14px; margin-top: 16px; }
         .social-links a { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: var(--glass-bg, rgba(255, 255, 255, 0.03)); border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); transition: all 0.3s ease; }
         .social-links a:hover { background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc)); border-color: transparent; color: #fff; box-shadow: 0 0 30px rgba(0, 212, 255, 0.15); }
         .footer-bottom { border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; color: var(--text-secondary, #8888bb); font-size: 0.9rem; flex-wrap: wrap; gap: 10px; }
         .footer-bottom i.fa-heart { color: #f43f5e; }
+        .error-message { text-align: center; padding: 40px; color: #ef4444; }
         @media (max-width: 768px) {
             .courses-page .page-header h1 { font-size: 2.2rem; }
             .course-grid { grid-template-columns: 1fr; }
@@ -54,8 +56,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>DIPLOMA<span class="highlight">HUB</span></span>
+                <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>DIPLOMA<span class="highlight">HUB</span></span>
+                </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <a href="index.html">Home</a>
@@ -93,9 +97,9 @@
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.youtube.com" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -127,37 +131,65 @@
         </div>
     </footer>
 
+    <!-- ONLY include the data file -->
+    <script src="js/msbte-k-scheme-data.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var courses = [
-                { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', code: 'CO',
-                    description: 'Study of computers, programming, networks, and software development.' },
-                { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️', code: 'ME',
-                    description: 'Study of machines, manufacturing, thermodynamics, and mechanical systems.' },
-                { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️', code: 'CE',
-                    description: 'Study of construction, infrastructure, surveying, and structural design.' },
-                { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡', code: 'EE',
-                    description: 'Study of electrical systems, power generation, motors, and control systems.' },
-                { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡',
-                    code: 'EJ', description: 'Study of electronic circuits, communication systems, signal processing, and IoT.' }
-            ];
-
             var grid = document.getElementById('courseGrid');
-            grid.innerHTML = courses.map(function(c) {
-                return `
-                    <div class="course-card" onclick="window.location.href='course-detail.html?course=${c.slug}'">
-                        <span class="icon">${c.icon}</span>
-                        <span class="code-badge">${c.code}</span>
-                        <h3>${c.name}</h3>
-                        <p>${c.description}</p>
+            
+            // Check if data is available
+            if (typeof MSBTE_K_SCHEME === 'undefined') {
+                grid.innerHTML = '<p class="error-message">Error: Course data not loaded. Please check if js/msbte-k-scheme-data.js exists.</p>';
+                return;
+            }
+            
+            var courseIcons = {
+                'computer-engineering': '💻',
+                'mechanical-engineering': '⚙️',
+                'civil-engineering': '🏗️',
+                'electrical-engineering': '⚡',
+                'electronics-telecommunication': '📡'
+            };
+            
+            var html = '';
+            var courseCount = 0;
+            
+            Object.keys(MSBTE_K_SCHEME).forEach(function(slug) {
+                var course = MSBTE_K_SCHEME[slug];
+                var icon = courseIcons[slug] || '📚';
+                courseCount++;
+                
+                // Calculate total subjects across all semesters
+                var totalSubjects = 0;
+                for (var s = 1; s <= 6; s++) {
+                    if (course.semesters[s] && course.semesters[s].subjects) {
+                        totalSubjects += course.semesters[s].subjects.length;
+                    }
+                }
+                
+                html += `
+                    <a href="course-detail.html?course=${slug}" class="course-card">
+                        <span class="icon">${icon}</span>
+                        <span class="code-badge">${course.code}</span>
+                        <h3>${course.name}</h3>
+                        <p>${course.overview}</p>
                         <div class="card-footer">
-                            <span class="subjects-count"><i class="fas fa-book"></i> 50+ Subjects</span>
+                            <span class="subjects-count"><i class="fas fa-book"></i> ${totalSubjects}+ Subjects</span>
                             <span class="card-link">Explore Course <i class="fas fa-arrow-right"></i></span>
                         </div>
-                    </div>
+                    </a>
                 `;
-            }).join('');
-
+            });
+            
+            if (courseCount === 0) {
+                grid.innerHTML = '<p class="error-message">No courses found in database.</p>';
+            } else {
+                grid.innerHTML = html;
+                console.log('✅ Rendered ' + courseCount + ' courses successfully!');
+            }
+            
+            // Load theme
             var savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
                 document.body.setAttribute('data-theme', 'light');
