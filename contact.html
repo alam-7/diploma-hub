@@ -3,33 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses - DIPLOMA HUB</title>
+    <title>Contact Us - DIPLOMA HUB</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        .courses-page { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
-        .courses-page .page-header { text-align: center; margin-bottom: 50px; }
-        .courses-page .page-header h1 { font-size: 3rem; font-weight: 800; margin-bottom: 10px; }
-        .courses-page .page-header .subtitle { color: var(--text-secondary, #8888bb); font-size: 1.15rem; max-width: 600px; margin: 0 auto; }
-        .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-        .course-card {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg, #0a0a1a);
+            color: var(--text-primary, #e0e0ff);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(10, 10, 26, 0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 0 20px; height: 72px; display: flex; align-items: center;
+        }
+        .nav-container { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; }
+        .nav-logo a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+        .nav-logo i { color: var(--neon-blue, #00d4ff); font-size: 1.8rem; }
+        .nav-logo .highlight {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+        .nav-links a { color: var(--text-secondary, #8888bb); font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; text-decoration: none; }
+        .nav-links a:hover { color: var(--neon-blue, #00d4ff); }
+        .nav-links a.active { color: var(--neon-blue, #00d4ff); }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .theme-toggle {
+            background: transparent; border: none; color: var(--text-secondary, #8888bb);
+            font-size: 1.2rem; cursor: pointer; padding: 8px; border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover { color: var(--neon-blue, #00d4ff); background: rgba(0, 212, 255, 0.05); }
+        .mobile-menu-btn {
+            display: none; background: transparent; border: none;
+            color: var(--text-primary, #e0e0ff); font-size: 1.5rem; cursor: pointer;
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 10px 22px; border-radius: 50px; font-weight: 600;
+            font-size: 0.9rem; cursor: pointer; border: none;
+            transition: all 0.3s ease; text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            color: #fff;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 212, 255, 0.2); }
+        .btn-sm { padding: 8px 18px; font-size: 0.85rem; }
+
+        /* Contact Page */
+        .contact-page { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
+        .page-header { text-align: center; margin-bottom: 50px; }
+        .page-header h1 { font-size: 3rem; font-weight: 800; margin-bottom: 10px; }
+        .page-header .subtitle { color: var(--text-secondary, #8888bb); font-size: 1.15rem; max-width: 600px; margin: 0 auto; }
+
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 50px; }
+
+        /* Contact Info Cards */
+        .contact-info { display: flex; flex-direction: column; gap: 20px; }
+        .info-card {
             background: var(--glass-bg, rgba(255, 255, 255, 0.03));
             border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
-            border-radius: 16px; padding: 30px; transition: all 0.4s ease;
-            cursor: pointer; position: relative; overflow: hidden; text-align: center;
-            text-decoration: none; color: inherit; display: block;
+            border-radius: 16px; padding: 25px; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 20px;
         }
-        .course-card:hover { transform: translateY(-10px); border-color: var(--neon-blue, #00d4ff); box-shadow: 0 0 60px rgba(0, 212, 255, 0.06); }
-        .course-card .icon { font-size: 4rem; margin-bottom: 15px; display: block; }
-        .course-card .code-badge { display: inline-block; background: rgba(0, 212, 255, 0.1); color: var(--neon-blue, #00d4ff); padding: 3px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-bottom: 10px; }
-        .course-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
-        .course-card p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; margin-bottom: 16px; line-height: 1.6; }
-        .course-card .card-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 15px; border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.06)); }
-        .course-card .card-footer .subjects-count { font-size: 0.8rem; color: var(--text-secondary, #8888bb); }
-        .course-card .card-footer .subjects-count i { color: var(--neon-blue, #00d4ff); margin-right: 4px; }
-        .course-card .card-link { color: var(--neon-blue, #00d4ff); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease; font-size: 0.95rem; }
-        .course-card:hover .card-link { gap: 12px; }
-        .footer { background: var(--darker-bg, #05050f); border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); padding: 60px 0 30px; margin-top: 20px; }
+        .info-card:hover { border-color: var(--neon-blue, #00d4ff); transform: translateY(-5px); }
+        .info-card .icon {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: rgba(0, 212, 255, 0.1); display: flex;
+            align-items: center; justify-content: center; font-size: 1.5rem;
+            color: var(--neon-blue, #00d4ff); flex-shrink: 0;
+        }
+        .info-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
+        .info-card p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
+            border-radius: 16px; padding: 30px;
+        }
+        .contact-form h2 { font-size: 1.8rem; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-secondary, #8888bb); font-weight: 500; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
+            border-radius: 8px; color: var(--text-primary, #e0e0ff);
+            font-size: 0.95rem; font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--neon-blue, #00d4ff);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.05);
+        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .btn-submit {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            border: none; border-radius: 50px; color: #fff;
+            font-size: 1rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover { box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); transform: translateY(-2px); }
+        .success-message {
+            display: none; text-align: center; padding: 20px;
+            background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px; color: #22c55e; margin-top: 20px;
+        }
+        .error-message {
+            display: none; text-align: center; padding: 20px;
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px; color: #ef4444; margin-top: 20px;
+        }
+
+        /* FAQ Section */
+        .faq-section { margin-top: 60px; }
+        .faq-section h2 { text-align: center; font-size: 2rem; margin-bottom: 30px; }
+        .faq-item {
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            border-radius: 12px; padding: 20px; margin-bottom: 15px;
+        }
+        .faq-item h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--neon-blue, #00d4ff); }
+        .faq-item p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; }
+
+        /* Footer */
+        .footer {
+            background: var(--darker-bg, #05050f);
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding: 60px 0 30px; margin-top: 20px;
+        }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
         .footer-col h3 { font-size: 1.3rem; margin-bottom: 12px; }
         .footer-col h4 { font-size: 1rem; color: var(--text-secondary, #8888bb); margin-bottom: 12px; }
@@ -37,33 +158,61 @@
         .footer-col a { display: block; color: var(--text-secondary, #8888bb); padding: 5px 0; transition: all 0.3s ease; font-size: 0.95rem; text-decoration: none; }
         .footer-col a:hover { color: var(--neon-blue, #00d4ff); transform: translateX(4px); }
         .social-links { display: flex; gap: 14px; margin-top: 16px; }
-        .social-links a { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: var(--glass-bg, rgba(255, 255, 255, 0.03)); border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); transition: all 0.3s ease; }
-        .social-links a:hover { background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc)); border-color: transparent; color: #fff; box-shadow: 0 0 30px rgba(0, 212, 255, 0.15); }
-        .footer-bottom { border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; color: var(--text-secondary, #8888bb); font-size: 0.9rem; flex-wrap: wrap; gap: 10px; }
+        .social-links a {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            transition: all 0.3s ease;
+        }
+        .social-links a:hover {
+            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
+            border-color: transparent; color: #fff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+        }
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
+            padding-top: 20px; display: flex; justify-content: space-between;
+            align-items: center; color: var(--text-secondary, #8888bb);
+            font-size: 0.9rem; flex-wrap: wrap; gap: 10px;
+        }
         .footer-bottom i.fa-heart { color: #f43f5e; }
-        .error-message { text-align: center; padding: 40px; color: #ef4444; }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .courses-page .page-header h1 { font-size: 2.2rem; }
-            .course-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 2.2rem; }
             .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
             .footer-bottom { flex-direction: column; text-align: center; }
+            .nav-links {
+                display: none; position: absolute; top: 72px; left: 0; width: 100%;
+                background: rgba(10, 10, 26, 0.95); backdrop-filter: blur(20px);
+                flex-direction: column; padding: 24px; gap: 16px;
+                border-bottom: 1px solid var(--glass-border);
+            }
+            .nav-links.open { display: flex; }
+            .mobile-menu-btn { display: block; }
         }
-        @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .contact-page { padding: 100px 15px 30px; }
+        }
     </style>
 </head>
 <body>
+
     <!-- NAVBAR -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;">
+                <a href="index.html">
                     <i class="fas fa-graduation-cap"></i>
                     <span>DIPLOMA<span class="highlight">HUB</span></span>
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <a href="index.html">Home</a>
-                <a href="courses.html" class="active">Courses</a>
+                <a href="courses.html">Courses</a>
                 <a href="equipment.html">Equipment</a>
                 <a href="practicals.html">Practicals</a>
                 <a href="quizzes.html">Quizzes</a>
@@ -73,19 +222,105 @@
             <div class="nav-right">
                 <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
                 <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars" id="mobileMenuIcon"></i></button>
             </div>
         </div>
     </nav>
 
-    <!-- COURSES PAGE -->
-    <section class="courses-page">
+    <!-- CONTACT PAGE -->
+    <section class="contact-page">
         <div class="container">
             <div class="page-header">
-                <h1>Explore <span class="gradient-text">Courses</span></h1>
-                <p class="subtitle">Choose your engineering discipline and start your learning journey</p>
+                <h1>Get in <span class="gradient-text">Touch</span></h1>
+                <p class="subtitle">Have questions or feedback? We'd love to hear from you!</p>
             </div>
-            <div class="course-grid" id="courseGrid"></div>
+
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h3>Email Us</h3>
+                            <p>support@diplomahub.com</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h3>Call Us</h3>
+                            <p>+91 12345 67890</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h3>Location</h3>
+                            <p>Maharashtra, India</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h3>Working Hours</h3>
+                            <p>Monday - Saturday: 9 AM - 6 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form">
+                    <h2>Send us a <span class="gradient-text">Message</span></h2>
+                    <form id="contactForm" onsubmit="return handleSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" placeholder="Enter your email address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" placeholder="What is this about?" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" placeholder="Type your message here..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle"></i> Your message has been sent successfully!
+                    </div>
+                    <div class="error-message" id="errorMessage">
+                        <i class="fas fa-exclamation-circle"></i> Please fill all fields correctly.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>Frequently Asked <span class="gradient-text">Questions</span></h2>
+                <div class="faq-item">
+                    <h3>Is DIPLOMA HUB free to use?</h3>
+                    <p>Yes! DIPLOMA HUB is completely free for all diploma engineering students.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Which courses are available?</h3>
+                    <p>We cover all 5 major engineering branches: Computer, Mechanical, Civil, Electrical, and Electronics & Telecommunication.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How accurate is the curriculum data?</h3>
+                    <p>Our data is based on the official MSBTE K-Scheme curriculum. We recommend verifying with official MSBTE sources.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How can I contribute?</h3>
+                    <p>You can contribute by providing feedback, reporting bugs, or suggesting improvements through this contact form.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -97,9 +332,9 @@
                     <h3>DIPLOMA HUB</h3>
                     <p>"Understand Engineering. Learn Practically. Build the Future."</p>
                     <div class="social-links">
-                        <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://www.youtube.com" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+                        <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -126,96 +361,123 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with ❤️ for engineering students</p>
+                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
             </div>
         </div>
     </footer>
 
-    <!-- ONLY include the data file -->
-    <script src="js/msbte-k-scheme-data.js"></script>
-    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var grid = document.getElementById('courseGrid');
-            
-            // Check if data is available
-            if (typeof MSBTE_K_SCHEME === 'undefined') {
-                grid.innerHTML = '<p class="error-message">Error: Course data not loaded. Please check if js/msbte-k-scheme-data.js exists.</p>';
-                return;
-            }
-            
-            var courseIcons = {
-                'computer-engineering': '💻',
-                'mechanical-engineering': '⚙️',
-                'civil-engineering': '🏗️',
-                'electrical-engineering': '⚡',
-                'electronics-telecommunication': '📡'
-            };
-            
-            var html = '';
-            var courseCount = 0;
-            
-            Object.keys(MSBTE_K_SCHEME).forEach(function(slug) {
-                var course = MSBTE_K_SCHEME[slug];
-                var icon = courseIcons[slug] || '📚';
-                courseCount++;
-                
-                // Calculate total subjects across all semesters
-                var totalSubjects = 0;
-                for (var s = 1; s <= 6; s++) {
-                    if (course.semesters[s] && course.semesters[s].subjects) {
-                        totalSubjects += course.semesters[s].subjects.length;
-                    }
-                }
-                
-                html += `
-                    <a href="course-detail.html?course=${slug}" class="course-card">
-                        <span class="icon">${icon}</span>
-                        <span class="code-badge">${course.code}</span>
-                        <h3>${course.name}</h3>
-                        <p>${course.overview}</p>
-                        <div class="card-footer">
-                            <span class="subjects-count"><i class="fas fa-book"></i> ${totalSubjects}+ Subjects</span>
-                            <span class="card-link">Explore Course <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                `;
-            });
-            
-            if (courseCount === 0) {
-                grid.innerHTML = '<p class="error-message">No courses found in database.</p>';
-            } else {
-                grid.innerHTML = html;
-                console.log('✅ Rendered ' + courseCount + ' courses successfully!');
-            }
-            
-            // Load theme
-            var savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.body.setAttribute('data-theme', 'light');
+        // Theme Management
+        function loadTheme() {
+            try {
+                var saved = localStorage.getItem('theme');
                 var icon = document.getElementById('themeIcon');
-                if (icon) icon.className = 'fas fa-sun';
+                if (saved === 'light') {
+                    document.body.setAttribute('data-theme', 'light');
+                    if (icon) icon.className = 'fas fa-sun';
+                } else {
+                    document.body.removeAttribute('data-theme');
+                    if (icon) icon.className = 'fas fa-moon';
+                }
+            } catch (e) {
+                console.error('Error loading theme:', e);
             }
-        });
+        }
 
         function toggleTheme() {
-            var body = document.body;
-            var icon = document.getElementById('themeIcon');
-            if (body.getAttribute('data-theme') === 'light') {
-                body.removeAttribute('data-theme');
-                if (icon) icon.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                if (icon) icon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'light');
+            try {
+                var body = document.body;
+                var icon = document.getElementById('themeIcon');
+                if (body.getAttribute('data-theme') === 'light') {
+                    body.removeAttribute('data-theme');
+                    if (icon) icon.className = 'fas fa-moon';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.setAttribute('data-theme', 'light');
+                    if (icon) icon.className = 'fas fa-sun';
+                    localStorage.setItem('theme', 'light');
+                }
+            } catch (e) {
+                console.error('Error toggling theme:', e);
             }
         }
 
+        // Mobile Menu
         function toggleMobileMenu() {
-            var nav = document.getElementById('navLinks');
-            if (nav) nav.classList.toggle('open');
+            try {
+                var nav = document.getElementById('navLinks');
+                var icon = document.getElementById('mobileMenuIcon');
+                if (nav) {
+                    nav.classList.toggle('open');
+                    if (icon) {
+                        icon.className = nav.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+                    }
+                }
+            } catch (e) {
+                console.error('Error toggling mobile menu:', e);
+            }
         }
+
+        // Contact Form Handler
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            var name = document.getElementById('name').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var subject = document.getElementById('subject').value.trim();
+            var message = document.getElementById('message').value.trim();
+            var successMessage = document.getElementById('successMessage');
+            var errorMessage = document.getElementById('errorMessage');
+            
+            // Hide messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Validate
+            if (!name || !email || !subject || !message) {
+                errorMessage.style.display = 'block';
+                return false;
+            }
+            
+            // Simple email validation
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errorMessage.textContent = 'Please enter a valid email address.';
+                errorMessage.style.display = 'block';
+                return false;
+            }
+            
+            // Simulate sending (replace with actual API call)
+            setTimeout(function() {
+                successMessage.style.display = 'block';
+                document.getElementById('contactForm').reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }, 1000);
+            
+            return false;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            
+            // Close mobile menu on link click
+            var navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    var nav = document.getElementById('navLinks');
+                    if (nav && nav.classList.contains('open')) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+            
+            console.log('✅ Contact page loaded successfully!');
+        });
     </script>
 </body>
 </html>
