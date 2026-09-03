@@ -23,18 +23,21 @@
             padding: 20px 0;
             margin-bottom: 40px;
             border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .nav-logo { font-size: 1.5rem; font-weight: 700; color: #00d4ff; }
-        .nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
+        .nav-links { display: flex; gap: 10px; flex-wrap: wrap; }
         .nav-links a {
             color: #8888bb;
             text-decoration: none;
-            font-size: 0.95rem;
-            padding: 8px 12px;
+            font-size: 0.9rem;
+            padding: 6px 14px;
             border-radius: 20px;
+            transition: 0.3s;
         }
-        .nav-links a:hover { color: #00d4ff; }
-        .nav-links a.active { color: #00d4ff; background: rgba(0, 212, 255, 0.1); }
+        .nav-links a:hover { color: #00d4ff; background: rgba(0, 212, 255, 0.08); }
+        .nav-links a.active { color: #00d4ff; background: rgba(0, 212, 255, 0.12); }
         
         .back-link {
             display: inline-block;
@@ -45,37 +48,47 @@
         .back-link:hover { text-decoration: underline; }
         
         .course-header {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 212, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(0, 212, 255, 0.12);
             border-radius: 16px;
-            padding: 30px;
+            padding: 28px 30px;
             margin-bottom: 30px;
             display: flex;
-            gap: 30px;
+            gap: 25px;
             align-items: center;
             flex-wrap: wrap;
         }
-        .course-icon { font-size: 4rem; }
-        .course-info h1 { font-size: 2rem; margin-bottom: 10px; }
-        .course-info p { color: #8888bb; margin-bottom: 10px; }
+        .course-icon { font-size: 3.8rem; }
+        .course-info h1 { font-size: 2rem; margin-bottom: 8px; }
+        .course-info p { color: #8888bb; margin-bottom: 6px; }
+        .course-info .badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.15);
+            color: #00d4ff;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            margin-top: 6px;
+        }
         
         .semester-tabs {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .semester-tab {
-            padding: 10px 20px;
+            padding: 10px 22px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(0, 212, 255, 0.1);
             border-radius: 30px;
             color: #8888bb;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
-        .semester-tab:hover { border-color: #00d4ff; color: #00d4ff; }
-        .semester-tab.active { background: #00d4ff; color: #0a0a1a; }
+        .semester-tab:hover { border-color: #00d4ff; color: #00d4ff; transform: translateY(-2px); }
+        .semester-tab.active { background: #00d4ff; color: #0a0a1a; font-weight: 600; }
         
         .subjects-table {
             width: 100%;
@@ -83,16 +96,64 @@
             background: rgba(255, 255, 255, 0.03);
             border-radius: 12px;
             overflow: hidden;
+            margin-top: 10px;
         }
         .subjects-table th {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 12px;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 14px 16px;
             text-align: left;
             color: #8888bb;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .subjects-table td {
-            padding: 12px;
+            padding: 13px 16px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+        .subjects-table tr:hover td { background: rgba(0, 212, 255, 0.04); }
+        .subjects-table .type-tag {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .type-tag.theory { background: rgba(0, 212, 255, 0.15); color: #00d4ff; }
+        .type-tag.practical { background: rgba(255, 200, 0, 0.15); color: #ffcc00; }
+        
+        .semester-title {
+            margin: 15px 0 10px 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .semester-title small {
+            font-size: 0.85rem;
+            color: #8888bb;
+            font-weight: 400;
+        }
+        
+        .footer-note {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #555577;
+            font-size: 0.85rem;
+        }
+        .footer-note i { color: #00d4ff; }
+
+        @media (max-width: 600px) {
+            .course-header { flex-direction: column; text-align: center; }
+            .course-icon { font-size: 3rem; }
+            .course-info h1 { font-size: 1.5rem; }
+            .subjects-table { font-size: 0.8rem; }
+            .subjects-table th, .subjects-table td { padding: 8px 10px; }
+            .semester-tab { padding: 8px 14px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -113,10 +174,18 @@
 
         <a href="courses.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Courses</a>
         <div id="courseContent"></div>
+        <div class="footer-note">
+            <i class="fas fa-graduation-cap"></i> DIPLOMA HUB — "Understand Engineering. Learn Practically. Build the Future."
+        </div>
     </div>
 
     <script>
-        // Simple course data
+        // ============================================================
+        // COMPLETE COURSE DATA — ALL BRANCHES
+        // Computer Engineering (CO) — Full 6 Semesters (K-Scheme)
+        // Other branches kept with sample data
+        // ============================================================
+
         var courseData = {
             'computer-engineering': {
                 name: 'Computer Engineering',
@@ -128,26 +197,88 @@
                         name: 'Semester 1',
                         subjects: [
                             { code: '311302', name: 'Basic Mathematics', type: 'Theory', credits: 4, marks: 100 },
-                            { code: '311303', name: 'Communication Skills', type: 'Theory', credits: 2, marks: 50 },
-                            { code: '311001', name: 'Fundamentals of ICT', type: 'Practical', credits: 2, marks: 50 }
+                            { code: '311303', name: 'Communication Skills (English)', type: 'Theory', credits: 2, marks: 50 },
+                            { code: '311305', name: 'Basic Science (Physics & Chemistry)', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '311001', name: 'Fundamentals of ICT', type: 'Practical', credits: 2, marks: 50 },
+                            { code: '311002', name: 'Engineering Workshop Practice', type: 'Practical', credits: 2, marks: 50 },
+                            { code: '311003', name: 'Yoga and Meditation', type: 'Practical', credits: 1, marks: 25 },
+                            { code: '311008', name: 'Engineering Graphics', type: 'Practical', credits: 4, marks: 100 }
                         ]
                     },
                     2: {
                         name: 'Semester 2',
                         subjects: [
                             { code: '312303', name: 'Programming in C', type: 'Theory', credits: 4, marks: 100 },
-                            { code: '312301', name: 'Applied Mathematics', type: 'Theory', credits: 4, marks: 100 }
+                            { code: '312301', name: 'Applied Mathematics', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '312302', name: 'Basic Electrical & Electronics Engg.', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '312304', name: 'Linux Basics', type: 'Practical', credits: 2, marks: 50 },
+                            { code: '312305', name: 'Professional Communication', type: 'Theory', credits: 2, marks: 50 },
+                            { code: '312306', name: 'Social and Life Skills', type: 'Practical', credits: 1, marks: 25 },
+                            { code: '312307', name: 'Web Page Designing', type: 'Practical', credits: 4, marks: 100 }
                         ]
                     },
                     3: {
                         name: 'Semester 3',
                         subjects: [
                             { code: '313301', name: 'Data Structure Using C', type: 'Theory', credits: 4, marks: 100 },
-                            { code: '313302', name: 'Database Management System', type: 'Theory', credits: 4, marks: 100 }
+                            { code: '313306', name: 'Data Structure Using Python', type: 'Practical', credits: 2, marks: 50 },
+                            { code: '313303', name: 'Digital Techniques', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '313307', name: 'Statistical Modelling for ML', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '313302', name: 'Database Management System', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '313304', name: 'Object Oriented Programming Using C++', type: 'Theory', credits: 4, marks: 100 }
+                        ]
+                    },
+                    4: {
+                        name: 'Semester 4',
+                        subjects: [
+                            { code: '314316', name: 'Probability and Statistics', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '314320', name: 'Mathematics for Machine Learning', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '314318', name: 'Data Communication and Computer Network', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '314321', name: 'Microprocessor Programming', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '314317', name: 'Java Programming', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '314319', name: 'Information Security', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '314301', name: 'Environmental Education & Sustainability', type: 'Theory', credits: 2, marks: 50 }
+                        ]
+                    },
+                    5: {
+                        name: 'Semester 5',
+                        subjects: [
+                            { code: '315319', name: 'Operating System', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315323', name: 'Software Engineering', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315324', name: 'Advanced Database Management', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315325', name: 'Cloud Computing', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315326', name: 'Data Analytics', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315321', name: 'Advance Computer Network', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315330', name: 'AI & ML Algorithm', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315329', name: 'Natural Language Processing', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315327', name: 'Cloud Computing for Data Science', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315332', name: 'Software Engineering and Testing', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '315301', name: 'Management', type: 'Theory', credits: 2, marks: 50 }
+                        ]
+                    },
+                    6: {
+                        name: 'Semester 6',
+                        subjects: [
+                            { code: '316313', name: 'Emerging Trends in CE & IT', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316314', name: 'Software Testing', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316004', name: 'Capstone Project', type: 'Practical', credits: 8, marks: 200 },
+                            { code: '316315', name: 'Digital Forensic & Hacking Techniques', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316316', name: 'Machine Learning', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316317', name: 'Network and Information Security', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316318', name: 'Big Data Analytics', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316319', name: 'Principles of Image Processing', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316320', name: 'Advanced Algorithm in AI & ML', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316321', name: 'Data Warehousing with Mining Techniques', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316322', name: 'Image Processing', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316323', name: 'Reinforcement Learning', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316324', name: 'Software Engineering & Testing for Big Data', type: 'Theory', credits: 4, marks: 100 },
+                            { code: '316325', name: 'Wireless and Mobile Network', type: 'Theory', credits: 4, marks: 100 }
                         ]
                     }
                 }
             },
+
+            // ---------- OTHER BRANCHES (KEPT AS-IS) ----------
             'mechanical-engineering': {
                 name: 'Mechanical Engineering',
                 icon: '⚙️',
@@ -238,24 +369,28 @@
             }
         };
 
-        // Get course slug from URL
+        // ============================================================
+        // RENDER LOGIC
+        // ============================================================
+
         var params = new URLSearchParams(window.location.search);
         var courseSlug = params.get('course') || 'computer-engineering';
         var course = courseData[courseSlug];
 
         if (!course) {
             document.getElementById('courseContent').innerHTML = 
-                '<p style="color:#ef4444;text-align:center;padding:40px;">Course not found!</p>';
+                '<p style="color:#ef4444;text-align:center;padding:40px;font-size:1.2rem;">❌ Course not found!</p>';
         } else {
             // Build semester tabs
             var tabsHtml = '';
             var firstSem = 1;
-            for (var s = 1; s <= 6; s++) {
-                if (course.semesters[s]) {
-                    if (firstSem === 1) firstSem = s;
-                    tabsHtml += '<button class="semester-tab" onclick="showSemester(' + s + ')">' + course.semesters[s].name + '</button>';
-                }
-            }
+            var semKeys = Object.keys(course.semesters).map(Number).sort((a,b) => a-b);
+            
+            semKeys.forEach(function(s) {
+                if (firstSem === 1) firstSem = s;
+                tabsHtml += '<button class="semester-tab" onclick="showSemester(' + s + ')">' + 
+                            course.semesters[s].name + '</button>';
+            });
 
             // Build header
             var html = `
@@ -265,6 +400,7 @@
                         <h1>${course.name}</h1>
                         <p><strong>Code:</strong> ${course.code}</p>
                         <p>${course.description}</p>
+                        <span class="badge"><i class="fas fa-check-circle"></i> ${semKeys.length} Semesters · K-Scheme</span>
                     </div>
                 </div>
                 <div class="semester-tabs">${tabsHtml}</div>
@@ -275,21 +411,22 @@
             showSemester(firstSem);
         }
 
+        // ============================================================
+        // SHOW SEMESTER FUNCTION
+        // ============================================================
+
         function showSemester(semester) {
             var semData = course.semesters[semester];
             var content = document.getElementById('semesterContent');
             
             if (!semData || !content) return;
-            
-            // Update tabs
-            var tabs = document.querySelectorAll('.semester-tab');
-            tabs.forEach(function(tab, index) {
-                tab.classList.remove('active');
-            });
-            
+
             // Build table
             var tableHtml = `
-                <h2 style="margin:20px 0;">${semData.name}</h2>
+                <div class="semester-title">
+                    📘 ${semData.name}
+                    <small>${semData.subjects.length} subjects</small>
+                </div>
                 <table class="subjects-table">
                     <thead>
                         <tr>
@@ -304,11 +441,12 @@
             `;
             
             semData.subjects.forEach(function(subject) {
+                var typeClass = (subject.type === 'Theory') ? 'theory' : 'practical';
                 tableHtml += `
                     <tr>
-                        <td>${subject.code}</td>
+                        <td><strong>${subject.code}</strong></td>
                         <td>${subject.name}</td>
-                        <td>${subject.type}</td>
+                        <td><span class="type-tag ${typeClass}">${subject.type}</span></td>
                         <td>${subject.credits}</td>
                         <td>${subject.marks}</td>
                     </tr>
@@ -317,10 +455,11 @@
             
             tableHtml += '</tbody></table>';
             content.innerHTML = tableHtml;
-            
+
             // Mark active tab
             var tabButtons = document.querySelectorAll('.semester-tab');
             tabButtons.forEach(function(tab) {
+                tab.classList.remove('active');
                 if (tab.textContent === semData.name) {
                     tab.classList.add('active');
                 }
