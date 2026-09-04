@@ -1,777 +1,3237 @@
 /* ============================================================
-   GEMINI THEME — CSS ONLY
-   Add this to your existing CSS for AI-powered styling
+   DIPLOMA HUB — NEXUS TITANIUM UI v5.0
+   Monochrome • Black • Graphite • White • Neon
+   AI Command Center • Titanium Glass • Holographic Future
    ============================================================ */
+
 
 /* ============================================================
-   01. AI CHATBOT — GEMINI THEME
+   01. DESIGN TOKENS
    ============================================================ */
 
-/* AI Chat Container */
-.ai-chat-container {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-    font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
+:root {
+
+    /* ---------- MONOCHROME SPECTRUM ---------- */
+
+    --c-black: #000000;
+    --c-void: #030303;
+    --c-white: #ffffff;
+
+    --c-silver: #d8dce2;
+    --c-steel: #9da3ac;
+    --c-gray: #666c75;
+    --c-dark-gray: #34383e;
+
+    /* ---------- CONTROLLED NEON ---------- */
+
+    --c-neon: #00f5a0;
+    --c-neon-soft: #8affd5;
+    --c-ice: #b8f7ff;
+
+    /* ---------- BACKGROUND ---------- */
+
+    --bg-0: #030303;
+    --bg-1: #070809;
+    --bg-2: #0c0e10;
+    --bg-3: #121417;
+    --bg-4: #191c20;
+
+    /* ---------- GLASS ---------- */
+
+    --glass-1: rgba(255,255,255,.025);
+    --glass-2: rgba(255,255,255,.045);
+    --glass-3: rgba(255,255,255,.075);
+    --glass-white: rgba(255,255,255,.10);
+
+    /* ---------- BORDERS ---------- */
+
+    --border-1: rgba(255,255,255,.075);
+    --border-2: rgba(255,255,255,.14);
+    --border-3: rgba(0,245,160,.28);
+
+    /* ---------- TEXT ---------- */
+
+    --text-1: #ffffff;
+    --text-2: #d4d8de;
+    --text-3: #8c929b;
+    --text-4: #555b64;
+
+    /* ---------- SHADOWS ---------- */
+
+    --shadow-sm:
+        0 10px 30px rgba(0,0,0,.45);
+
+    --shadow-md:
+        0 25px 70px rgba(0,0,0,.58);
+
+    --shadow-lg:
+        0 40px 120px rgba(0,0,0,.72);
+
+    --shadow-neon:
+        0 0 45px rgba(0,245,160,.10);
+
+    /* ---------- RADIUS ---------- */
+
+    --r-xs: 8px;
+    --r-sm: 12px;
+    --r-md: 18px;
+    --r-lg: 26px;
+    --r-xl: 34px;
+    --r-pill: 999px;
+
+    /* ---------- MOTION ---------- */
+
+    --ease:
+        cubic-bezier(.16,1,.3,1);
+
+    --ease-soft:
+        cubic-bezier(.22,1,.36,1);
+
+    --fast: .2s var(--ease);
+    --normal: .4s var(--ease);
+    --slow: .7s var(--ease);
 }
 
-/* Chat Toggle Button */
-.ai-chat-toggle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    background: linear-gradient(135deg, #7c8cff, #6fd4ff);
-    color: #0b0e1a;
-    font-size: 28px;
-    cursor: pointer;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    float: right;
-    position: relative;
+
+/* ============================================================
+   02. RESET
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.ai-chat-toggle:hover {
-    transform: scale(1.08);
-    box-shadow: 0 12px 45px rgba(111, 212, 255, 0.3);
+html {
+    scroll-behavior: smooth;
+    background: var(--bg-0);
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Online Status Dot */
-.ai-chat-toggle::after {
+body {
+
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    font-family:
+        Inter,
+        "SF Pro Display",
+        "Segoe UI",
+        Roboto,
+        system-ui,
+        sans-serif;
+
+    color: var(--text-1);
+
+    background:
+
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(255,255,255,.055),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 100% 100%,
+            rgba(0,245,160,.025),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            180deg,
+            #030303,
+            #070809 45%,
+            #030303
+        );
+
+    line-height: 1.6;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* ============================================================
+   03. ATMOSPHERIC LIGHT
+   ============================================================ */
+
+body::before {
+
     content: "";
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #6fd4ff;
-    border: 2px solid #060811;
-    box-shadow: 0 0 20px rgba(111, 212, 255, 0.6);
-    animation: aiPulse 2s ease-in-out infinite;
-}
 
-@keyframes aiPulse {
-    0%, 100% { opacity: 0.6; transform: scale(0.9); }
-    50% { opacity: 1; transform: scale(1.2); }
-}
-
-/* Chat Window */
-.ai-chat-window {
-    display: none;
-    background: rgba(6, 8, 17, 0.95);
-    backdrop-filter: blur(24px) saturate(140%);
-    -webkit-backdrop-filter: blur(24px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    padding: 20px;
-    margin-bottom: 16px;
-    width: 400px;
-    max-width: 90vw;
-    height: 500px;
-    max-height: 80vh;
-    display: none;
-    flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(111, 212, 255, 0.04);
-    transition: all 0.4s ease;
-}
-
-.ai-chat-window.active {
-    display: flex;
-}
-
-/* Chat Header */
-.ai-chat-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    padding-bottom: 14px;
-    margin-bottom: 14px;
-}
-
-.ai-chat-header-title {
-    color: #f0f4ff;
-    font-weight: 700;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.ai-chat-header-status {
-    color: var(--text-4);
-    font-size: 11px;
-    background: rgba(111, 212, 255, 0.08);
-    padding: 4px 14px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.ai-chat-header-status .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #6fd4ff;
-    animation: aiPulse 2s ease-in-out infinite;
-    display: inline-block;
-}
-
-/* Chat Messages Area */
-.ai-chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 8px 4px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-height: 200px;
-}
-
-/* Custom Scrollbar for Chat */
-.ai-chat-messages::-webkit-scrollbar {
-    width: 4px;
-}
-
-.ai-chat-messages::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.ai-chat-messages::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: linear-gradient(180deg, #7c8cff, #6fd4ff);
-}
-
-/* Message Bubbles */
-.ai-message-bot {
-    background: rgba(255, 255, 255, 0.04);
-    padding: 12px 16px;
-    border-radius: 14px;
-    border-bottom-left-radius: 4px;
-    color: var(--text-2);
-    font-size: 14px;
-    max-width: 85%;
-    align-self: flex-start;
-    line-height: 1.6;
-    border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.ai-message-user {
-    background: rgba(124, 140, 255, 0.12);
-    padding: 12px 16px;
-    border-radius: 14px;
-    border-bottom-right-radius: 4px;
-    color: #f0f4ff;
-    font-size: 14px;
-    max-width: 85%;
-    align-self: flex-end;
-    line-height: 1.6;
-    border: 1px solid rgba(124, 140, 255, 0.08);
-}
-
-.ai-message-loading {
-    background: rgba(255, 255, 255, 0.04);
-    padding: 12px 16px;
-    border-radius: 14px;
-    border-bottom-left-radius: 4px;
-    color: var(--text-3);
-    font-size: 14px;
-    max-width: 85%;
-    align-self: flex-start;
-}
-
-.ai-message-error {
-    background: rgba(255, 70, 70, 0.08);
-    padding: 12px 16px;
-    border-radius: 14px;
-    color: #ff6b6b;
-    font-size: 14px;
-    max-width: 85%;
-    align-self: flex-start;
-    border: 1px solid rgba(255, 70, 70, 0.1);
-}
-
-/* Chat Input Area */
-.ai-chat-input-area {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-    padding-top: 12px;
-}
-
-.ai-chat-input {
-    flex: 1;
-    padding: 10px 16px;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.02);
-    color: #f0f4ff;
-    font-size: 14px;
-    outline: none;
-    font-family: inherit;
-    transition: all 0.3s ease;
-}
-
-.ai-chat-input::placeholder {
-    color: var(--text-4);
-}
-
-.ai-chat-input:focus {
-    border-color: rgba(111, 212, 255, 0.3);
-    background: rgba(111, 212, 255, 0.02);
-    box-shadow: 0 0 0 3px rgba(111, 212, 255, 0.04);
-}
-
-.ai-chat-send {
-    padding: 10px 22px;
-    border-radius: 30px;
-    border: none;
-    background: linear-gradient(135deg, #7c8cff, #6fd4ff);
-    color: #0b0e1a;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: inherit;
-    white-space: nowrap;
-}
-
-.ai-chat-send:hover {
-    transform: scale(1.04);
-    box-shadow: 0 0 30px rgba(111, 212, 255, 0.2);
-}
-
-.ai-chat-send:active {
-    transform: scale(0.96);
-}
-
-/* ============================================================
-   02. AI SEARCH BAR — GEMINI THEME
-   ============================================================ */
-
-.ai-search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    min-height: 58px;
-    padding: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--r-pill);
-    background: rgba(255, 255, 255, 0.02);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 15px 55px rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-    transition: all 0.35s ease;
-}
-
-.ai-search-container:focus-within {
-    border-color: rgba(111, 212, 255, 0.35);
-    box-shadow: 0 0 0 4px rgba(111, 212, 255, 0.04), 0 20px 70px rgba(111, 212, 255, 0.08);
-}
-
-.ai-search-icon {
-    padding: 0 15px;
-    color: #7c8cff;
-    font-size: 18px;
-}
-
-.ai-search-input {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    outline: none;
-    padding: 12px 8px;
-    background: transparent;
-    color: #f0f4ff;
-    font-size: 14px;
-    font-family: inherit;
-}
-
-.ai-search-input::placeholder {
-    color: var(--text-4);
-}
-
-.ai-search-button {
-    min-height: 46px;
-    padding: 0 24px;
-    border: none;
-    border-radius: var(--r-pill);
-    color: #0b0e1a;
-    background: linear-gradient(135deg, #7c8cff, #6fd4ff);
-    font-weight: 800;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: inherit;
-}
-
-.ai-search-button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 35px rgba(111, 212, 255, 0.18);
-}
-
-/* Search Results Dropdown */
-.ai-search-results {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
-    background: rgba(6, 8, 17, 0.96);
-    backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 18px;
-    padding: 12px 8px;
-    display: none;
-    max-height: 300px;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-}
-
-.ai-search-results.active {
-    display: block;
-}
-
-.ai-search-result-item {
-    padding: 10px 14px;
-    border-radius: 12px;
-    color: var(--text-2);
-    cursor: pointer;
-    transition: all 0.25s ease;
-    font-size: 14px;
-}
-
-.ai-search-result-item:hover {
-    background: rgba(124, 140, 255, 0.06);
-    color: #f0f4ff;
-}
-
-.ai-search-result-item .highlight {
-    color: #6fd4ff;
-    font-weight: 600;
-}
-
-/* ============================================================
-   03. AI RECOMMENDATIONS — GEMINI THEME
-   ============================================================ */
-
-.ai-recommendations {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 18px;
-    margin-top: 24px;
-}
-
-.ai-recommendation-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 18px;
-    padding: 24px 22px;
-    transition: all 0.4s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.ai-recommendation-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(124, 140, 255, 0.2);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(111, 212, 255, 0.04);
-}
-
-.ai-recommendation-card::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(124, 140, 255, 0.04), transparent 60%);
-    pointer-events: none;
-}
-
-.ai-recommendation-card .badge {
-    display: inline-block;
-    padding: 3px 12px;
-    border-radius: 20px;
-    background: rgba(111, 212, 255, 0.06);
-    color: #6fd4ff;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-.ai-recommendation-card h4 {
-    color: #f0f4ff;
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    letter-spacing: -0.02em;
-}
-
-.ai-recommendation-card p {
-    color: var(--text-3);
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.ai-recommendation-card .match {
-    margin-top: 12px;
-    color: #6fd4ff;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-/* ============================================================
-   04. AI TYPING INDICATOR
-   ============================================================ */
-
-.ai-typing-indicator {
-    display: flex;
-    gap: 6px;
-    padding: 8px 0;
-}
-
-.ai-typing-indicator span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(124, 140, 255, 0.4);
-    animation: aiTyping 1.4s ease-in-out infinite;
-}
-
-.ai-typing-indicator span:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.ai-typing-indicator span:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-@keyframes aiTyping {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-    30% { transform: translateY(-10px); opacity: 1; }
-}
-
-/* ============================================================
-   05. AI COMMAND PALETTE — GEMINI THEME
-   ============================================================ */
-
-.ai-command-palette {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.95);
-    width: min(640px, 92vw);
-    max-height: 80vh;
-    background: rgba(6, 8, 17, 0.97);
-    backdrop-filter: blur(32px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 28px;
-    padding: 28px;
-    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.8);
-    z-index: 10001;
-    display: none;
-    opacity: 0;
-    transition: all 0.35s ease;
-}
-
-.ai-command-palette.active {
-    display: block;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.ai-command-palette-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    z-index: 10000;
-    display: none;
-}
 
-.ai-command-palette-overlay.active {
-    display: block;
-}
-
-.ai-command-palette input {
-    width: 100%;
-    padding: 16px 20px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.02);
-    color: #f0f4ff;
-    font-size: 16px;
-    font-family: inherit;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-.ai-command-palette input:focus {
-    border-color: rgba(111, 212, 255, 0.3);
-    box-shadow: 0 0 0 4px rgba(111, 212, 255, 0.04);
-}
-
-.ai-command-palette input::placeholder {
-    color: var(--text-4);
-}
-
-.ai-command-list {
-    margin-top: 16px;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.ai-command-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 10px 14px;
-    border-radius: 12px;
-    color: var(--text-2);
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.ai-command-item:hover,
-.ai-command-item.selected {
-    background: rgba(124, 140, 255, 0.06);
-    color: #f0f4ff;
-}
-
-.ai-command-item .icon {
-    font-size: 20px;
-    width: 32px;
-    text-align: center;
-}
-
-.ai-command-item .shortcut {
-    margin-left: auto;
-    color: var(--text-4);
-    font-size: 11px;
-    background: rgba(255, 255, 255, 0.04);
-    padding: 2px 10px;
-    border-radius: 12px;
-}
-
-/* ============================================================
-   06. AI STATUS BADGE
-   ============================================================ */
-
-.ai-status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 16px;
-    border-radius: var(--r-pill);
-    background: rgba(111, 212, 255, 0.04);
-    border: 1px solid rgba(111, 212, 255, 0.12);
-    color: #6fd4ff;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-}
-
-.ai-status-badge .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #6fd4ff;
-    box-shadow: 0 0 16px rgba(111, 212, 255, 0.4);
-    animation: aiPulse 1.8s ease-in-out infinite;
-}
-
-/* ============================================================
-   07. AI GLOW EFFECTS
-   ============================================================ */
-
-.ai-glow {
-    position: relative;
-}
-
-.ai-glow::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(124, 140, 255, 0.2), rgba(111, 212, 255, 0.2));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
     pointer-events: none;
+
+    z-index: -5;
+
+    background:
+
+        radial-gradient(
+            ellipse at 10% 15%,
+            rgba(255,255,255,.035),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            ellipse at 90% 30%,
+            rgba(0,245,160,.025),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            ellipse at 50% 100%,
+            rgba(255,255,255,.02),
+            transparent 40%
+        );
+
+    animation:
+        atmosphere 20s ease-in-out infinite alternate;
 }
 
+@keyframes atmosphere {
+
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.06);
+    }
+}
+
+
 /* ============================================================
-   08. MOBILE RESPONSIVE — AI CHAT
+   04. PRECISION GRID
+   ============================================================ */
+
+body::after {
+
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    z-index: -4;
+    pointer-events: none;
+
+    background-image:
+
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        );
+
+    background-size: 64px 64px;
+
+    mask-image:
+        radial-gradient(
+            ellipse at center,
+            black 15%,
+            transparent 82%
+        );
+
+    animation:
+        gridMove 30s linear infinite;
+}
+
+@keyframes gridMove {
+
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 64px 64px;
+    }
+}
+
+
+/* ============================================================
+   05. SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #030303;
+}
+
+::-webkit-scrollbar-thumb {
+
+    border-radius:
+        var(--r-pill);
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #70757c,
+            var(--c-neon)
+        );
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    box-shadow:
+        0 0 18px
+        rgba(0,245,160,.4);
+}
+
+
+/* ============================================================
+   06. SELECTION
+   ============================================================ */
+
+::selection {
+
+    color: #000;
+
+    background:
+        var(--c-neon);
+}
+
+
+/* ============================================================
+   07. CONTAINER
+   ============================================================ */
+
+.container {
+
+    width:
+        min(
+            1280px,
+            calc(100% - 48px)
+        );
+
+    margin-inline:
+        auto;
+}
+
+
+/* ============================================================
+   08. TITANIUM GLASS
+   ============================================================ */
+
+.holo-card,
+.course-card,
+.feature-card,
+.equipment-card,
+.prac-card,
+.quiz-card,
+.res-card,
+.stat-item,
+.auth-card,
+.subjects-table-wrap,
+.semester-summary {
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.018)
+        );
+
+    border:
+        1px solid
+        var(--border-1);
+
+    box-shadow:
+
+        inset 0 1px 0
+        rgba(255,255,255,.07),
+
+        inset 0 -1px 0
+        rgba(0,0,0,.5),
+
+        var(--shadow-sm);
+
+    backdrop-filter:
+        blur(28px)
+        saturate(120%);
+
+    -webkit-backdrop-filter:
+        blur(28px)
+        saturate(120%);
+}
+
+
+/* ============================================================
+   09. HOLOGRAPHIC CARDS
+   ============================================================ */
+
+.holo-card,
+.course-card,
+.feature-card,
+.equipment-card,
+.prac-card,
+.quiz-card,
+.res-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius:
+        var(--r-lg);
+
+    transition:
+
+        transform .5s var(--ease),
+
+        border-color .5s var(--ease),
+
+        box-shadow .5s var(--ease);
+}
+
+
+/* Titanium scan line */
+
+.holo-card::before,
+.course-card::before,
+.feature-card::before,
+.equipment-card::before,
+.prac-card::before,
+.quiz-card::before,
+.res-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220%;
+    height: 1px;
+
+    top: 0;
+    left: -60%;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.8),
+            var(--c-neon),
+            rgba(255,255,255,.8),
+            transparent
+        );
+
+    opacity: 0;
+
+    transition:
+        var(--normal);
+
+    transform:
+        rotate(-7deg);
+}
+
+
+/* Card light */
+
+.holo-card::after,
+.course-card::after,
+.feature-card::after,
+.equipment-card::after,
+.prac-card::after,
+.quiz-card::after,
+.res-card::after {
+
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(255,255,255,.075),
+            transparent 45%
+        );
+
+    opacity: 0;
+
+    transition:
+        var(--normal);
+}
+
+
+.holo-card:hover,
+.course-card:hover,
+.feature-card:hover,
+.equipment-card:hover,
+.prac-card:hover,
+.quiz-card:hover,
+.res-card:hover {
+
+    transform:
+        translateY(-9px)
+        scale(1.012);
+
+    border-color:
+        rgba(255,255,255,.18);
+
+    box-shadow:
+
+        0 30px 90px
+        rgba(0,0,0,.65),
+
+        0 0 45px
+        rgba(0,245,160,.045),
+
+        inset 0 1px 0
+        rgba(255,255,255,.12);
+}
+
+
+.holo-card:hover::before,
+.course-card:hover::before,
+.feature-card:hover::before,
+.equipment-card:hover::before,
+.prac-card:hover::before,
+.quiz-card:hover::before,
+.res-card:hover::before {
+
+    opacity: .8;
+
+    animation:
+        cardScan 2.5s linear infinite;
+}
+
+
+.holo-card:hover::after,
+.course-card:hover::after,
+.feature-card:hover::after,
+.equipment-card:hover::after,
+.prac-card:hover::after,
+.quiz-card:hover::after,
+.res-card:hover::after {
+
+    opacity: 1;
+}
+
+
+@keyframes cardScan {
+
+    0% {
+        transform:
+            translateX(-20%)
+            rotate(-7deg);
+    }
+
+    100% {
+        transform:
+            translateX(80%)
+            rotate(-7deg);
+    }
+}
+
+
+/* ============================================================
+   10. FUTURISTIC GRADIENT TEXT
+   ============================================================ */
+
+.gradient-text,
+.hero-title .highlight {
+
+    background:
+
+        linear-gradient(
+            100deg,
+            #ffffff 0%,
+            #ffffff 28%,
+            var(--c-silver) 45%,
+            var(--c-neon-soft) 65%,
+            #ffffff 85%,
+            #ffffff 100%
+        );
+
+    background-size:
+        300% 100%;
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    -webkit-text-fill-color:
+        transparent;
+
+    animation:
+        titaniumFlow 7s ease-in-out infinite;
+}
+
+
+@keyframes titaniumFlow {
+
+    0% {
+        background-position:
+            0% 50%;
+    }
+
+    50% {
+        background-position:
+            100% 50%;
+    }
+
+    100% {
+        background-position:
+            0% 50%;
+    }
+}
+
+
+/* ============================================================
+   11. HERO
+   ============================================================ */
+
+.hero {
+
+    position: relative;
+
+    min-height:
+        100vh;
+
+    padding:
+        170px 0 100px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    overflow:
+        hidden;
+
+    text-align:
+        center;
+}
+
+
+/* Central reactor glow */
+
+.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width:
+        900px;
+
+    height:
+        900px;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.045),
+            rgba(0,245,160,.025) 30%,
+            transparent 68%
+        );
+
+    filter:
+        blur(35px);
+
+    pointer-events:
+        none;
+}
+
+
+/* ============================================================
+   12. HERO ORBS
+   ============================================================ */
+
+.hero-background {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    pointer-events:
+        none;
+}
+
+
+.hero-background .orb {
+
+    position:
+        absolute;
+
+    border-radius:
+        50%;
+
+    filter:
+        blur(110px);
+
+    opacity:
+        .35;
+
+    animation:
+        orbDrift 20s ease-in-out infinite alternate;
+}
+
+
+.hero-background .orb-1 {
+
+    width:
+        500px;
+
+    height:
+        500px;
+
+    left:
+        -180px;
+
+    top:
+        -120px;
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+
+.hero-background .orb-2 {
+
+    width:
+        450px;
+
+    height:
+        450px;
+
+    right:
+        -150px;
+
+    bottom:
+        -100px;
+
+    background:
+        rgba(0,245,160,.045);
+
+    animation-delay:
+        -7s;
+}
+
+
+.hero-background .orb-3 {
+
+    width:
+        300px;
+
+    height:
+        300px;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    background:
+        rgba(255,255,255,.025);
+
+    animation-delay:
+        -13s;
+}
+
+
+@keyframes orbDrift {
+
+    0% {
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(35px,-25px)
+            scale(1.1);
+    }
+
+    100% {
+        transform:
+            translate(-25px,35px)
+            scale(.96);
+    }
+}
+
+
+/* ============================================================
+   13. HERO CONTENT
+   ============================================================ */
+
+.hero-content {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        100%;
+
+    max-width:
+        920px;
+
+    margin-inline:
+        auto;
+}
+
+
+/* ============================================================
+   14. HERO BADGE
+   ============================================================ */
+
+.hero-badge {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    padding:
+        8px 18px;
+
+    margin-bottom:
+        24px;
+
+    border-radius:
+        var(--r-pill);
+
+    color:
+        var(--c-neon);
+
+    background:
+        rgba(0,245,160,.035);
+
+    border:
+        1px solid
+        rgba(0,245,160,.18);
+
+    box-shadow:
+        0 0 35px
+        rgba(0,245,160,.04);
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1.5px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.hero-badge .dot {
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--c-neon);
+
+    box-shadow:
+        0 0 15px
+        var(--c-neon);
+
+    animation:
+        livePulse 1.8s ease-in-out infinite;
+}
+
+
+@keyframes livePulse {
+
+    0%,100% {
+        opacity:
+            .4;
+
+        transform:
+            scale(.8);
+    }
+
+    50% {
+        opacity:
+            1;
+
+        transform:
+            scale(1.25);
+    }
+}
+
+
+/* ============================================================
+   15. HERO TITLE
+   ============================================================ */
+
+.hero-title {
+
+    font-size:
+        clamp(
+            3rem,
+            8vw,
+            6.5rem
+        );
+
+    font-weight:
+        950;
+
+    line-height:
+        .95;
+
+    letter-spacing:
+        -.07em;
+
+    margin-bottom:
+        24px;
+
+    text-wrap:
+        balance;
+
+    text-shadow:
+        0 10px 60px
+        rgba(0,0,0,.8);
+}
+
+
+.hero-tagline {
+
+    color:
+        var(--text-2);
+
+    font-size:
+        clamp(
+            1.1rem,
+            2.5vw,
+            1.65rem
+        );
+
+    font-weight:
+        400;
+
+    margin-bottom:
+        12px;
+}
+
+
+.hero-description {
+
+    max-width:
+        650px;
+
+    margin:
+        0 auto 36px;
+
+    color:
+        var(--text-3);
+
+    font-size:
+        1rem;
+
+    line-height:
+        1.9;
+}
+
+
+/* ============================================================
+   16. BUTTON SYSTEM
+   ============================================================ */
+
+.btn {
+
+    position:
+        relative;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        9px;
+
+    min-height:
+        46px;
+
+    padding:
+        12px 24px;
+
+    border:
+        1px solid transparent;
+
+    border-radius:
+        var(--r-pill);
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+    cursor:
+        pointer;
+
+    overflow:
+        hidden;
+
+    transition:
+
+        transform .35s var(--ease),
+        box-shadow .35s var(--ease),
+        border-color .35s var(--ease);
+}
+
+
+/* Button shine */
+
+.btn::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    background:
+
+        linear-gradient(
+            110deg,
+            transparent 20%,
+            rgba(255,255,255,.45),
+            transparent 70%
+        );
+
+    transform:
+        translateX(-120%);
+
+    transition:
+        .7s;
+}
+
+
+.btn:hover::before {
+    transform:
+        translateX(120%);
+}
+
+
+/* PRIMARY — WHITE / BLACK */
+
+.btn-primary {
+
+    color:
+        #000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #d8dce2
+        );
+
+    box-shadow:
+        0 12px 40px
+        rgba(255,255,255,.10);
+}
+
+
+.btn-primary:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.025);
+
+    box-shadow:
+        0 18px 60px
+        rgba(255,255,255,.18);
+}
+
+
+/* SECONDARY — NEON */
+
+.btn-secondary {
+
+    color:
+        #000;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--c-neon),
+            var(--c-neon-soft)
+        );
+
+    box-shadow:
+        0 10px 40px
+        rgba(0,245,160,.10);
+}
+
+
+.btn-secondary:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.025);
+
+    box-shadow:
+        0 18px 60px
+        rgba(0,245,160,.22);
+}
+
+
+/* OUTLINE */
+
+.btn-outline {
+
+    color:
+        var(--c-neon);
+
+    background:
+        rgba(0,245,160,.025);
+
+    border-color:
+        rgba(0,245,160,.3);
+}
+
+
+.btn-outline:hover {
+
+    color:
+        #000;
+
+    background:
+        var(--c-neon);
+
+    border-color:
+        var(--c-neon);
+
+    box-shadow:
+        0 0 40px
+        rgba(0,245,160,.18);
+
+    transform:
+        translateY(-3px);
+}
+
+
+/* GHOST */
+
+.btn-ghost {
+
+    color:
+        var(--text-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    border-color:
+        var(--border-1);
+}
+
+
+.btn-ghost:hover {
+
+    color:
+        #fff;
+
+    background:
+        rgba(255,255,255,.065);
+
+    border-color:
+        var(--border-2);
+
+    transform:
+        translateY(-3px);
+}
+
+
+.btn-lg {
+
+    min-height:
+        54px;
+
+    padding:
+        15px 34px;
+
+    font-size:
+        15px;
+}
+
+
+/* ============================================================
+   17. NAVBAR
+   ============================================================ */
+
+.navbar {
+
+    position:
+        fixed;
+
+    top:
+        16px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(
+            1240px,
+            calc(100% - 32px)
+        );
+
+    height:
+        70px;
+
+    z-index:
+        1000;
+
+    padding:
+        0 22px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.085);
+
+    border-radius:
+        var(--r-xl);
+
+    background:
+        rgba(5,6,7,.76);
+
+    backdrop-filter:
+        blur(32px)
+        saturate(140%);
+
+    -webkit-backdrop-filter:
+        blur(32px)
+        saturate(140%);
+
+    box-shadow:
+
+        0 20px 70px
+        rgba(0,0,0,.5),
+
+        inset 0 1px 0
+        rgba(255,255,255,.07);
+
+    transition:
+        .45s var(--ease);
+}
+
+
+.navbar.scrolled {
+
+    top:
+        8px;
+
+    background:
+        rgba(5,6,7,.94);
+
+    border-color:
+        rgba(255,255,255,.13);
+
+    box-shadow:
+
+        0 25px 90px
+        rgba(0,0,0,.72),
+
+        0 0 40px
+        rgba(0,245,160,.025);
+}
+
+
+/* Energy line */
+
+.navbar::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        15%;
+
+    right:
+        15%;
+
+    bottom:
+        -1px;
+
+    height:
+        1px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            #ffffff,
+            var(--c-neon),
+            #ffffff,
+            transparent
+        );
+
+    opacity:
+        .35;
+}
+
+
+/* ============================================================
+   18. LOGO
+   ============================================================ */
+
+.nav-logo {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        11px;
+
+    color:
+        #fff;
+
+    text-decoration:
+        none;
+
+    font-size:
+        19px;
+
+    font-weight:
+        950;
+
+    letter-spacing:
+        -.05em;
+}
+
+
+.nav-logo .logo-icon {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        11px;
+
+    color:
+        #000;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #ffffff,
+            var(--c-silver)
+        );
+
+    box-shadow:
+
+        0 0 30px
+        rgba(255,255,255,.12);
+}
+
+
+.nav-logo .logo-text {
+
+    background:
+
+        linear-gradient(
+            100deg,
+            #ffffff,
+            #bfc5cc,
+            var(--c-neon)
+        );
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    -webkit-text-fill-color:
+        transparent;
+}
+
+
+/* ============================================================
+   19. NAV LINKS
+   ============================================================ */
+
+.nav-links {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        3px;
+
+    list-style:
+        none;
+}
+
+
+.nav-links li a {
+
+    position:
+        relative;
+
+    display:
+        block;
+
+    padding:
+        9px 14px;
+
+    color:
+        var(--text-3);
+
+    border-radius:
+        var(--r-pill);
+
+    text-decoration:
+        none;
+
+    font-size:
+        13px;
+
+    font-weight:
+        650;
+
+    transition:
+        .3s var(--ease);
+}
+
+
+.nav-links li a:hover,
+.nav-links li a.active {
+
+    color:
+        #fff;
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+
+.nav-links li a.active {
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(255,255,255,.07);
+}
+
+
+.nav-links li a .nav-indicator {
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    bottom:
+        3px;
+
+    width:
+        0;
+
+    height:
+        2px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        10px;
+
+    background:
+        var(--c-neon);
+
+    box-shadow:
+        0 0 10px
+        var(--c-neon);
+
+    transition:
+        .35s var(--ease);
+}
+
+
+.nav-links li a:hover .nav-indicator,
+.nav-links li a.active .nav-indicator {
+
+    width:
+        45%;
+}
+
+
+/* ============================================================
+   20. SEARCH COMMAND BAR
+   ============================================================ */
+
+.search-box {
+
+    position:
+        relative;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    min-height:
+        58px;
+
+    padding:
+        5px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:
+        var(--r-pill);
+
+    background:
+        rgba(255,255,255,.025);
+
+    box-shadow:
+
+        inset 0 1px 0
+        rgba(255,255,255,.045),
+
+        0 15px 55px
+        rgba(0,0,0,.35);
+
+    backdrop-filter:
+        blur(22px);
+
+    transition:
+        .35s var(--ease);
+}
+
+
+.search-box:focus-within {
+
+    border-color:
+        rgba(0,245,160,.35);
+
+    box-shadow:
+
+        0 0 0 4px
+        rgba(0,245,160,.035),
+
+        0 20px 70px
+        rgba(0,245,160,.07);
+}
+
+
+.search-box input {
+
+    flex:
+        1;
+
+    min-width:
+        0;
+
+    border:
+        none;
+
+    outline:
+        none;
+
+    padding:
+        12px 8px;
+
+    background:
+        transparent;
+
+    color:
+        #fff;
+
+    font-size:
+        14px;
+}
+
+
+.search-box input::placeholder {
+    color:
+        var(--text-4);
+}
+
+
+.search-box .search-icon {
+
+    padding:
+        0 15px;
+
+    color:
+        var(--c-neon);
+}
+
+
+.search-box button {
+
+    min-height:
+        46px;
+
+    padding:
+        0 24px;
+
+    border:
+        none;
+
+    border-radius:
+        var(--r-pill);
+
+    color:
+        #000;
+
+    background:
+        #fff;
+
+    font-weight:
+        800;
+
+    cursor:
+        pointer;
+
+    transition:
+        .3s var(--ease);
+}
+
+
+.search-box button:hover {
+
+    transform:
+        scale(1.025);
+
+    box-shadow:
+        0 0 35px
+        rgba(255,255,255,.15);
+}
+
+
+/* ============================================================
+   21. SECTIONS
+   ============================================================ */
+
+.section {
+
+    position:
+        relative;
+
+    padding:
+        110px 0;
+}
+
+
+.section-header {
+
+    max-width:
+        720px;
+
+    margin:
+        0 auto 55px;
+
+    text-align:
+        center;
+}
+
+
+.section-header .badge {
+
+    display:
+        inline-block;
+
+    padding:
+        6px 16px;
+
+    margin-bottom:
+        14px;
+
+    border-radius:
+        var(--r-pill);
+
+    color:
+        var(--c-neon);
+
+    background:
+        rgba(0,245,160,.035);
+
+    border:
+        1px solid
+        rgba(0,245,160,.15);
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1.5px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.section-header h2 {
+
+    font-size:
+        clamp(
+            2rem,
+            5vw,
+            3.6rem
+        );
+
+    line-height:
+        1;
+
+    letter-spacing:
+        -.06em;
+
+    font-weight:
+        950;
+}
+
+
+.section-header p {
+
+    margin-top:
+        15px;
+
+    color:
+        var(--text-3);
+
+    font-size:
+        15px;
+}
+
+
+/* ============================================================
+   22. DIVIDER
+   ============================================================ */
+
+.section-divider {
+
+    position:
+        relative;
+
+    width:
+        90px;
+
+    height:
+        2px;
+
+    margin:
+        24px auto 0;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            #ffffff,
+            var(--c-neon),
+            #ffffff,
+            transparent
+        );
+}
+
+
+.section-divider::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--c-neon);
+
+    transform:
+        translate(-50%,-50%);
+
+    box-shadow:
+        0 0 20px
+        var(--c-neon);
+
+    animation:
+        dividerGlow 2s ease-in-out infinite;
+}
+
+
+@keyframes dividerGlow {
+
+    0%,100% {
+        transform:
+            translate(-50%,-50%)
+            scale(.7);
+    }
+
+    50% {
+        transform:
+            translate(-50%,-50%)
+            scale(1.4);
+    }
+}
+
+
+/* ============================================================
+   23. CARD GRIDS
+   ============================================================ */
+
+.course-grid,
+.features-grid,
+.equipment-grid,
+.prac-grid,
+.quiz-grid,
+.res-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                280px,
+                1fr
+            )
+        );
+
+    gap:
+        24px;
+}
+
+
+.course-card,
+.feature-card,
+.equipment-card,
+.prac-card,
+.quiz-card,
+.res-card {
+
+    padding:
+        30px;
+}
+
+
+/* ============================================================
+   24. CARD ICONS
+   ============================================================ */
+
+.course-card .icon,
+.feature-card .icon,
+.equipment-card .icon,
+.feature-icon {
+
+    display:
+        block;
+
+    margin-bottom:
+        18px;
+
+    font-size:
+        2.7rem;
+
+    color:
+        var(--c-silver);
+
+    filter:
+        drop-shadow(
+            0 0 14px
+            rgba(255,255,255,.10)
+        );
+
+    transition:
+        .45s var(--ease);
+}
+
+
+.course-card:hover .icon,
+.feature-card:hover .icon,
+.equipment-card:hover .icon {
+
+    transform:
+        translateY(-7px)
+        scale(1.08);
+
+    color:
+        var(--c-neon);
+
+    filter:
+        drop-shadow(
+            0 0 22px
+            rgba(0,245,160,.22)
+        );
+}
+
+
+/* ============================================================
+   25. TYPOGRAPHY
+   ============================================================ */
+
+.course-card h3,
+.feature-card h3,
+.equipment-card h3,
+.prac-card h3,
+.quiz-card h3,
+.res-card h3 {
+
+    color:
+        #fff;
+
+    font-size:
+        19px;
+
+    line-height:
+        1.25;
+
+    margin-bottom:
+        9px;
+
+    letter-spacing:
+        -.025em;
+}
+
+
+.course-card p,
+.feature-card p,
+.equipment-card p,
+.prac-card p,
+.quiz-card p,
+.res-card p {
+
+    color:
+        var(--text-3);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.75;
+}
+
+
+/* ============================================================
+   26. CARD META
+   ============================================================ */
+
+.course-card .card-meta,
+.equipment-card .card-meta {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        7px;
+
+    margin:
+        18px 0;
+}
+
+
+.course-card .card-meta span,
+.equipment-card .card-meta span {
+
+    padding:
+        4px 10px;
+
+    border-radius:
+        var(--r-pill);
+
+    color:
+        var(--text-3);
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.065);
+
+    font-size:
+        11px;
+}
+
+
+/* ============================================================
+   27. CARD LINK
+   ============================================================ */
+
+.card-link {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    margin-top:
+        10px;
+
+    color:
+        var(--c-neon);
+
+    font-size:
+        13px;
+
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+    transition:
+        .3s var(--ease);
+}
+
+
+.card-link:hover {
+
+    gap:
+        14px;
+
+    color:
+        #fff;
+
+    text-shadow:
+        0 0 18px
+        rgba(0,245,160,.3);
+}
+
+
+/* ============================================================
+   28. BADGES
+   ============================================================ */
+
+.course-card .card-badge,
+.feature-card .card-badge,
+.equipment-card .card-badge {
+
+    position:
+        absolute;
+
+    top:
+        18px;
+
+    right:
+        18px;
+
+    padding:
+        5px 11px;
+
+    border-radius:
+        var(--r-pill);
+
+    color:
+        var(--c-neon);
+
+    background:
+        rgba(0,245,160,.035);
+
+    border:
+        1px solid
+        rgba(0,245,160,.15);
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .7px;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* ============================================================
+   29. STATS
+   ============================================================ */
+
+.stats-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                190px,
+                1fr
+            )
+        );
+
+    gap:
+        18px;
+}
+
+
+.stat-item {
+
+    position:
+        relative;
+
+    padding:
+        32px 20px;
+
+    border-radius:
+        var(--r-lg);
+
+    text-align:
+        center;
+
+    overflow:
+        hidden;
+
+    transition:
+        .4s var(--ease);
+}
+
+
+.stat-item:hover {
+
+    transform:
+        translateY(-7px);
+
+    border-color:
+        rgba(255,255,255,.18);
+
+    box-shadow:
+        var(--shadow-md),
+        var(--shadow-neon);
+}
+
+
+.stat-item .stat-icon {
+
+    color:
+        var(--c-neon);
+
+    opacity:
+        .7;
+
+    font-size:
+        1.8rem;
+
+    margin-bottom:
+        10px;
+}
+
+
+.stat-number {
+
+    display:
+        block;
+
+    font-size:
+        clamp(
+            2rem,
+            4vw,
+            3rem
+        );
+
+    font-weight:
+        950;
+
+    line-height:
+        1;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #ffffff,
+            var(--c-silver),
+            var(--c-neon)
+        );
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    -webkit-text-fill-color:
+        transparent;
+}
+
+
+.stat-label {
+
+    display:
+        block;
+
+    margin-top:
+        9px;
+
+    color:
+        var(--text-3);
+
+    font-size:
+        12px;
+}
+
+
+/* ============================================================
+   30. TABLE
+   ============================================================ */
+
+.subjects-table-wrap {
+
+    overflow:
+        auto;
+
+    border-radius:
+        var(--r-lg);
+}
+
+
+.subjects-table {
+
+    width:
+        100%;
+
+    min-width:
+        700px;
+
+    border-collapse:
+        collapse;
+}
+
+
+.subjects-table th {
+
+    padding:
+        16px 20px;
+
+    color:
+        var(--text-2);
+
+    background:
+        rgba(255,255,255,.035);
+
+    border-bottom:
+        1px solid
+        var(--border-1);
+
+    font-size:
+        11px;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        .8px;
+}
+
+
+.subjects-table td {
+
+    padding:
+        15px 20px;
+
+    color:
+        var(--text-2);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.045);
+
+    font-size:
+        13px;
+}
+
+
+.subjects-table tr {
+
+    transition:
+        .25s;
+}
+
+
+.subjects-table tr:hover td {
+
+    color:
+        #fff;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+
+.subjects-table .code {
+
+    color:
+        var(--c-neon);
+
+    background:
+        rgba(0,245,160,.045);
+
+    padding:
+        4px 9px;
+
+    border-radius:
+        var(--r-pill);
+
+    font-size:
+        10px;
+}
+
+
+/* ============================================================
+   31. SEMESTER TABS
+   ============================================================ */
+
+.semester-tabs {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        8px;
+
+    margin:
+        25px 0 20px;
+}
+
+
+.semester-tabs button {
+
+    position:
+        relative;
+
+    padding:
+        9px 18px;
+
+    border-radius:
+        var(--r-pill);
+
+    border:
+        1px solid
+        var(--border-1);
+
+    background:
+        var(--glass-1);
+
+    color:
+        var(--text-3);
+
+    cursor:
+        pointer;
+
+    font-weight:
+        700;
+
+    font-size:
+        12px;
+
+    transition:
+        .3s var(--ease);
+}
+
+
+.semester-tabs button:hover {
+
+    color:
+        var(--c-neon);
+
+    border-color:
+        rgba(0,245,160,.3);
+
+    transform:
+        translateY(-2px);
+}
+
+
+.semester-tabs button.active {
+
+    color:
+        #000;
+
+    border-color:
+        transparent;
+
+    background:
+        var(--c-neon);
+
+    box-shadow:
+        0 10px 40px
+        rgba(0,245,160,.12);
+}
+
+
+/* ============================================================
+   32. AUTH CARD
+   ============================================================ */
+
+.auth-page {
+
+    min-height:
+        100vh;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        120px 20px 60px;
+}
+
+
+.auth-card {
+
+    position:
+        relative;
+
+    width:
+        min(
+            440px,
+            100%
+        );
+
+    padding:
+        42px 36px;
+
+    border-radius:
+        var(--r-xl);
+}
+
+
+.auth-card::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        15%;
+
+    right:
+        15%;
+
+    height:
+        2px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            #fff,
+            var(--c-neon),
+            #fff,
+            transparent
+        );
+
+    box-shadow:
+        0 0 20px
+        rgba(0,245,160,.18);
+}
+
+
+/* ============================================================
+   33. INPUTS
+   ============================================================ */
+
+.form-group input {
+
+    width:
+        100%;
+
+    padding:
+        14px 16px 14px 44px;
+
+    border-radius:
+        var(--r-md);
+
+    border:
+        1px solid
+        rgba(255,255,255,.075);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:
+        #fff;
+
+    outline:
+        none;
+
+    transition:
+        .3s var(--ease);
+}
+
+
+.form-group input:focus {
+
+    border-color:
+        rgba(0,245,160,.4);
+
+    background:
+        rgba(0,245,160,.02);
+
+    box-shadow:
+
+        0 0 0 4px
+        rgba(0,245,160,.03),
+
+        0 0 30px
+        rgba(0,245,160,.035);
+}
+
+
+/* ============================================================
+   34. HOLOGRAM
+   ============================================================ */
+
+#hologramContainer {
+
+    position:
+        relative;
+
+    width:
+        100%;
+
+    height:
+        450px;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        var(--r-lg);
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.035),
+            transparent 55%
+        ),
+
+        var(--bg-1);
+
+    border:
+        1px solid
+        var(--border-1);
+
+    box-shadow:
+
+        inset 0 0 100px
+        rgba(255,255,255,.025),
+
+        var(--shadow-md);
+}
+
+
+.holo-controls {
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    bottom:
+        18px;
+
+    transform:
+        translateX(-50%);
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        8px 18px;
+
+    border-radius:
+        var(--r-pill);
+
+    color:
+        var(--text-2);
+
+    background:
+        rgba(0,0,0,.72);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:
+        blur(18px);
+
+    font-size:
+        12px;
+}
+
+
+/* ============================================================
+   35. QUICK ACTIONS
+   ============================================================ */
+
+.quick-actions {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        9px;
+
+    margin-top:
+        22px;
+}
+
+
+.quick-actions a {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        10px 17px;
+
+    border-radius:
+        var(--r-pill);
+
+    color:
+        var(--text-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        var(--border-1);
+
+    text-decoration:
+        none;
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+
+    transition:
+        .3s var(--ease);
+}
+
+
+.quick-actions a:hover {
+
+    color:
+        var(--c-neon);
+
+    border-color:
+        rgba(0,245,160,.25);
+
+    background:
+        rgba(0,245,160,.035);
+
+    transform:
+        translateY(-3px);
+}
+
+
+/* ============================================================
+   36. FOOTER
+   ============================================================ */
+
+.footer {
+
+    position:
+        relative;
+
+    padding:
+        90px 0 30px;
+
+    background:
+
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(0,0,0,.55)
+        );
+
+    border-top:
+        1px solid
+        var(--border-1);
+}
+
+
+.footer::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        15%;
+
+    right:
+        15%;
+
+    height:
+        1px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            #fff,
+            var(--c-neon),
+            #fff,
+            transparent
+        );
+
+    opacity:
+        .3;
+}
+
+
+.footer-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr 1fr;
+
+    gap:
+        50px;
+
+    margin-bottom:
+        55px;
+}
+
+
+.footer-col h4 {
+
+    margin-bottom:
+        15px;
+
+    color:
+        #fff;
+
+    font-size:
+        12px;
+
+    letter-spacing:
+        1px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.footer-col p,
+.footer-col a {
+
+    color:
+        var(--text-3);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.8;
+
+    text-decoration:
+        none;
+}
+
+
+.footer-col a {
+
+    display:
+        block;
+
+    padding:
+        3px 0;
+
+    transition:
+        .25s;
+}
+
+
+.footer-col a:hover {
+
+    color:
+        var(--c-neon);
+
+    transform:
+        translateX(4px);
+}
+
+
+/* ============================================================
+   37. FOOTER BOTTOM
+   ============================================================ */
+
+.footer-bottom {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        15px;
+
+    padding-top:
+        22px;
+
+    border-top:
+        1px solid
+        var(--border-1);
+
+    color:
+        var(--text-4);
+
+    font-size:
+        12px;
+}
+
+
+/* ============================================================
+   38. MOBILE MENU
+   ============================================================ */
+
+.mobile-menu-btn {
+
+    display:
+        none;
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    border:
+        1px solid
+        var(--border-1);
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:
+        #fff;
+
+    cursor:
+        pointer;
+}
+
+
+/* ============================================================
+   39. TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        height:
+            62px;
+
+        border-radius:
+            var(--r-lg);
+    }
+
+    .nav-links {
+
+        display:
+            none;
+
+        position:
+            absolute;
+
+        top:
+            calc(100% + 8px);
+
+        left:
+            0;
+
+        right:
+            0;
+
+        flex-direction:
+            column;
+
+        padding:
+            10px;
+
+        border-radius:
+            var(--r-lg);
+
+        background:
+            rgba(5,6,7,.97);
+
+        border:
+            1px solid
+            var(--border-1);
+
+        backdrop-filter:
+            blur(30px);
+    }
+
+    .nav-links.open {
+        display:
+            flex;
+    }
+
+    .nav-links li,
+    .nav-links li a {
+        width:
+            100%;
+    }
+
+    .mobile-menu-btn {
+
+        display:
+            grid;
+
+        place-items:
+            center;
+    }
+
+    .nav-right .btn {
+        display:
+            none;
+    }
+
+    .hero {
+
+        padding:
+            125px 0 70px;
+
+        min-height:
+            auto;
+    }
+
+    .hero-title {
+
+        font-size:
+            clamp(
+                2.5rem,
+                12vw,
+                4.5rem
+            );
+    }
+
+    .section {
+
+        padding:
+            75px 0;
+    }
+
+    .footer-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+}
+
+
+/* ============================================================
+   40. SMALL MOBILE
    ============================================================ */
 
 @media (max-width: 600px) {
-    .ai-chat-container {
-        bottom: 16px;
-        right: 16px;
+
+    .container {
+
+        width:
+            calc(100% - 28px);
     }
 
-    .ai-chat-window {
-        width: calc(100vw - 32px);
-        height: 75vh;
-        max-height: 75vh;
-        border-radius: 20px;
-        padding: 16px;
-        margin-bottom: 12px;
-        position: fixed;
-        bottom: 80px;
-        right: 16px;
-        left: 16px;
-        width: auto;
+    .navbar {
+
+        width:
+            calc(100% - 16px);
+
+        padding:
+            0 13px;
     }
 
-    .ai-chat-toggle {
-        width: 54px;
-        height: 54px;
-        font-size: 24px;
+    .nav-logo {
+        font-size:
+            16px;
     }
 
-    .ai-chat-header-title {
-        font-size: 14px;
+    .nav-logo .logo-icon {
+
+        width:
+            34px;
+
+        height:
+            34px;
     }
 
-    .ai-chat-input {
-        font-size: 13px;
-        padding: 8px 14px;
+    .hero-title {
+
+        font-size:
+            2.65rem;
+
+        letter-spacing:
+            -.055em;
     }
 
-    .ai-chat-send {
-        padding: 8px 16px;
-        font-size: 12px;
+    .hero-tagline {
+        font-size:
+            1rem;
     }
 
-    .ai-command-palette {
-        padding: 20px;
-        border-radius: 20px;
-        width: 95vw;
+    .hero-description {
+
+        font-size:
+            .9rem;
     }
 
-    .ai-command-palette input {
-        font-size: 14px;
-        padding: 12px 16px;
+    .hero-buttons {
+
+        flex-direction:
+            column;
     }
 
-    .ai-search-container {
-        flex-wrap: wrap;
-        border-radius: var(--r-lg);
-        padding: 4px;
+    .hero-buttons .btn {
+
+        width:
+            100%;
     }
 
-    .ai-search-input {
-        width: calc(100% - 48px);
-        order: 1;
-        padding: 10px 6px;
+    .course-grid,
+    .features-grid,
+    .equipment-grid,
+    .prac-grid,
+    .quiz-grid,
+    .res-grid {
+
+        grid-template-columns:
+            1fr;
     }
 
-    .ai-search-button {
-        width: 100%;
-        order: 2;
-        min-height: 40px;
-        font-size: 12px;
+    .stats-grid {
+
+        grid-template-columns:
+            1fr 1fr;
     }
 
-    .ai-search-icon {
-        order: 0;
-        padding: 0 10px;
+    .footer-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .footer-bottom {
+
+        flex-direction:
+            column;
+
+        text-align:
+            center;
+    }
+
+    .search-box {
+
+        border-radius:
+            var(--r-lg);
+
+        flex-wrap:
+            wrap;
+    }
+
+    .search-box input {
+
+        width:
+            calc(100% - 45px);
+
+        order:
+            1;
+    }
+
+    .search-box button {
+
+        width:
+            100%;
+
+        order:
+            2;
+    }
+
+    #hologramContainer {
+
+        height:
+            340px;
     }
 }
 
+
 /* ============================================================
-   09. REDUCED MOTION
+   41. REDUCED MOTION
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-    .ai-chat-toggle::after,
-    .ai-status-badge .dot,
-    .ai-chat-header-status .dot {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-    }
 
-    .ai-chat-window,
-    .ai-command-palette,
-    .ai-recommendation-card,
-    .ai-chat-toggle {
-        transition-duration: 0.01ms !important;
-    }
+    *,
+    *::before,
+    *::after {
 
-    .ai-typing-indicator span {
-        animation-duration: 0.01ms !important;
-    }
-}
+        animation-duration:
+            .01ms !important;
 
-/* ============================================================
-   10. DARK MODE COMPATIBILITY
-   ============================================================ */
+        animation-iteration-count:
+            1 !important;
 
-@media (prefers-color-scheme: light) {
-    .ai-chat-window {
-        background: rgba(255, 255, 255, 0.95);
-        border-color: rgba(0, 0, 0, 0.06);
-    }
+        scroll-behavior:
+            auto !important;
 
-    .ai-chat-header-title {
-        color: #0b0e1a;
-    }
-
-    .ai-message-bot {
-        background: rgba(0, 0, 0, 0.04);
-        color: #1a1f2e;
-    }
-
-    .ai-message-user {
-        background: rgba(124, 140, 255, 0.1);
-        color: #0b0e1a;
-    }
-
-    .ai-chat-input {
-        color: #0b0e1a;
-        border-color: rgba(0, 0, 0, 0.06);
-    }
-
-    .ai-chat-input::placeholder {
-        color: #8a94a6;
-    }
-
-    .ai-search-input {
-        color: #0b0e1a;
-    }
-
-    .ai-search-results {
-        background: rgba(255, 255, 255, 0.98);
-    }
-
-    .ai-command-palette {
-        background: rgba(255, 255, 255, 0.97);
-    }
-
-    .ai-command-palette input {
-        color: #0b0e1a;
-        background: rgba(0, 0, 0, 0.02);
-    }
-
-    .ai-recommendation-card {
-        background: rgba(255, 255, 255, 0.6);
-        border-color: rgba(0, 0, 0, 0.06);
-    }
-
-    .ai-recommendation-card h4 {
-        color: #0b0e1a;
+        transition-duration:
+            .01ms !important;
     }
 }
