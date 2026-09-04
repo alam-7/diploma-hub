@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diploma Hub · Gemini AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900;14..32,950&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           GEMINI THEME — Complete CSS
+           ============================================================ */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Inter", system-ui, sans-serif;
+            background: #060811;
+            color: #f0f4ff;
+            background:
+                radial-gradient(circle at 30% 10%, rgba(124, 140, 255, 0.08), transparent 40%),
+                radial-gradient(circle at 80% 90%, rgba(75, 201, 255, 0.06), transparent 35%),
+                linear-gradient(180deg, #060811, #0a0e1e 50%, #060811);
+        }
+
+        /* ============================================================
+           AI CHATBOT — COMPLETE STYLING
+           ============================================================ */
+
+        .ai-chat-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            font-family: "Inter", system-ui, sans-serif;
+        }
+
+        .ai-chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #7c8cff, #6fd4ff);
+            color: #0b0e1a;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            float: right;
+            position: relative;
+        }
+
+        .ai-chat-toggle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 45px rgba(111, 212, 255, 0.3);
+        }
+
+        .ai-chat-toggle::after {
+            content: "";
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #6fd4ff;
+            border: 2px solid #060811;
+            box-shadow: 0 0 20px rgba(111, 212, 255, 0.6);
+            animation: aiPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes aiPulse {
+            0%, 100% { opacity: 0.6; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .ai-chat-window {
+            display: none;
+            background: rgba(6, 8, 17, 0.95);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 16px;
+            width: 400px;
+            max-width: 90vw;
+            height: 500px;
+            max-height: 80vh;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            transition: all 0.4s ease;
+        }
+
+        .ai-chat-window.active {
+            display: flex;
+        }
+
+        .ai-chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 14px;
+            margin-bottom: 14px;
+        }
+
+        .ai-chat-header-title {
+            color: #f0f4ff;
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-chat-header-status {
+            color: #5d6b8f;
+            font-size: 11px;
+            background: rgba(111, 212, 255, 0.08);
+            padding: 4px 14px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ai-chat-header-status .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #6fd4ff;
+            animation: aiPulse 2s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 200px;
+        }
+
+        .ai-chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .ai-chat-messages::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background: linear-gradient(180deg, #7c8cff, #6fd4ff);
+        }
+
+        .ai-message-bot {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 12px 16px;
+            border-radius: 14px;
+            border-bottom-left-radius: 4px;
+            color: #d3ddf5;
+            font-size: 14px;
+            max-width: 85%;
+            align-self: flex-start;
+            line-height: 1.6;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .ai-message-user {
+            background: rgba(124, 140, 255, 0.12);
+            padding: 12px 16px;
+            border-radius: 14px;
+            border-bottom-right-radius: 4px;
+            color: #f0f4ff;
+            font-size: 14px;
+            max-width: 85%;
+            align-self: flex-end;
+            line-height: 1.6;
+            border: 1px solid rgba(124, 140, 255, 0.08);
+        }
+
+        .ai-message-loading {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 12px 16px;
+            border-radius: 14px;
+            border-bottom-left-radius: 4px;
+            color: #96a3c9;
+            font-size: 14px;
+            max-width: 85%;
+            align-self: flex-start;
+        }
+
+        .ai-message-error {
+            background: rgba(255, 70, 70, 0.08);
+            padding: 12px 16px;
+            border-radius: 14px;
+            color: #ff6b6b;
+            font-size: 14px;
+            max-width: 85%;
+            align-self: flex-start;
+            border: 1px solid rgba(255, 70, 70, 0.1);
+        }
+
+        .ai-chat-input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 12px;
+        }
+
+        .ai-chat-input {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            color: #f0f4ff;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .ai-chat-input::placeholder {
+            color: #5d6b8f;
+        }
+
+        .ai-chat-input:focus {
+            border-color: rgba(111, 212, 255, 0.3);
+            background: rgba(111, 212, 255, 0.02);
+            box-shadow: 0 0 0 3px rgba(111, 212, 255, 0.04);
+        }
+
+        .ai-chat-send {
+            padding: 10px 22px;
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(135deg, #7c8cff, #6fd4ff);
+            color: #0b0e1a;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .ai-chat-send:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 30px rgba(111, 212, 255, 0.2);
+        }
+
+        /* ============================================================
+           TYPING INDICATOR
+           ============================================================ */
+
+        .ai-typing-indicator {
+            display: flex;
+            gap: 6px;
+            padding: 8px 0;
+        }
+
+        .ai-typing-indicator span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(124, 140, 255, 0.4);
+            animation: aiTyping 1.4s ease-in-out infinite;
+        }
+
+        .ai-typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .ai-typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes aiTyping {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+
+        @media (max-width: 600px) {
+            .ai-chat-container {
+                bottom: 16px;
+                right: 16px;
+            }
+
+            .ai-chat-window {
+                width: calc(100vw - 32px);
+                height: 70vh;
+                max-height: 70vh;
+                border-radius: 20px;
+                padding: 16px;
+                position: fixed;
+                bottom: 80px;
+                right: 16px;
+                left: 16px;
+                width: auto;
+            }
+
+            .ai-chat-toggle {
+                width: 54px;
+                height: 54px;
+                font-size: 24px;
+            }
+
+            .ai-chat-input {
+                font-size: 13px;
+                padding: 8px 14px;
+            }
+
+            .ai-chat-send {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+        }
+
+        /* ============================================================
+           DEMO CONTENT STYLES
+           ============================================================ */
+
+        .container {
+            width: min(1280px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 950;
+            line-height: 1;
+            letter-spacing: -0.07em;
+            margin-bottom: 24px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(120deg, #f0f4ff, #dce3f5, #7c8cff, #6fd4ff, #b5eaff);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: geminiFlow 8s ease-in-out infinite;
+        }
+
+        @keyframes geminiFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-sub {
+            color: #d3ddf5;
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            margin-bottom: 12px;
+        }
+
+        .hero-desc {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #96a3c9;
+            font-size: 1rem;
+            line-height: 1.9;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 14px 32px;
+            border-radius: 999px;
+            border: none;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c8cff, #6fd4ff);
+            color: #0b0e1a;
+            box-shadow: 0 8px 30px rgba(111, 212, 255, 0.15);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 45px rgba(111, 212, 255, 0.25);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.03);
+            color: #6fd4ff;
+            border: 1px solid rgba(111, 212, 255, 0.2);
+        }
+
+        .btn-outline:hover {
+            background: rgba(111, 212, 255, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 30px 24px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(124, 140, 255, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card .icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: #f0f4ff;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #96a3c9;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 999px;
+            background: rgba(111, 212, 255, 0.04);
+            border: 1px solid rgba(111, 212, 255, 0.12);
+            color: #6fd4ff;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .status-badge .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6fd4ff;
+            margin-right: 8px;
+            animation: aiPulse 2s ease-in-out infinite;
+        }
+
+        /* ============================================================
+           API KEY NOTIFICATION
+           ============================================================ */
+
+        .api-notice {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            background: rgba(255, 70, 70, 0.1);
+            border: 1px solid rgba(255, 70, 70, 0.2);
+            border-radius: 16px;
+            padding: 16px 20px;
+            color: #ff6b6b;
+            font-size: 13px;
+            max-width: 320px;
+            backdrop-filter: blur(12px);
+            z-index: 9998;
+            display: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .api-notice.show {
+            display: block;
+        }
+
+        .api-notice a {
+            color: #6fd4ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .api-notice .close {
+            float: right;
+            cursor: pointer;
+            opacity: 0.6;
+            margin-left: 12px;
+        }
+
+        .api-notice .close:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .api-notice {
+                bottom: 80px;
+                right: 16px;
+                left: 16px;
+                max-width: none;
+                font-size: 12px;
+                padding: 12px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    DEMO CONTENT
+    ============================================================ -->
+
+    <div class="container">
+        <section class="hero">
+            <div>
+                <span class="status-badge">
+                    <span class="dot"></span> Gemini AI · Online
+                </span>
+                <h1 class="hero-title">
+                    <span class="gradient-text">Diploma Hub</span>
+                </h1>
+                <p class="hero-sub">AI‑powered learning · Gemini intelligence</p>
+                <p class="hero-desc">
+                    Click the chat button to ask Gemini anything about courses, 
+                    AI, or get personalized recommendations.
+                </p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="document.getElementById('chatToggle').click()">
+                        💬 Ask AI
+                    </button>
+                    <a href="#" class="btn btn-outline">Explore Courses</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <span class="icon">🧠</span>
+                <h3>AI Tutor</h3>
+                <p>Get instant answers about any topic with Gemini AI.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">📚</span>
+                <h3>Smart Courses</h3>
+                <p>AI-recommended learning paths tailored to you.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🚀</span>
+                <h3>Future Ready</h3>
+                <p>Built with cutting-edge AI technology for tomorrow.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================
+    AI CHATBOT — HTML
+    ============================================================ -->
+
+    <div class="ai-chat-container">
+        <!-- Chat Window -->
+        <div class="ai-chat-window" id="chatWindow">
+            <div class="ai-chat-header">
+                <span class="ai-chat-header-title">🧠 Gemini AI</span>
+                <span class="ai-chat-header-status">
+                    <span class="dot"></span> online
+                </span>
+            </div>
+            <div class="ai-chat-messages" id="chatMessages">
+                <div class="ai-message-bot">
+                    👋 Hi! I'm Gemini AI. Ask me anything about courses, 
+                    engineering, or get personalized recommendations!
+                </div>
+            </div>
+            <div class="ai-chat-input-area">
+                <input class="ai-chat-input" placeholder="Ask Gemini anything..." id="chatInput">
+                <button class="ai-chat-send" id="chatSend">Send</button>
+            </div>
+        </div>
+        <!-- Toggle Button -->
+        <button class="ai-chat-toggle" id="chatToggle">💬</button>
+    </div>
+
+    <!-- ============================================================
+    API KEY NOTIFICATION
+    ============================================================ -->
+
+    <div class="api-notice" id="apiNotice">
+        <span class="close" onclick="this.parentElement.classList.remove('show')">×</span>
+        <strong>⚠️ API Key Required</strong><br>
+        Get your free key at 
+        <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
+        and replace <code>YOUR_GEMINI_API_KEY</code> in the script.
+    </div>
+
+    <!-- ============================================================
+    JAVASCRIPT — COMPLETE AI FUNCTIONALITY
+    ============================================================ -->
+
+    <script>
+        // ============================================================
+        // 1. CONFIGURATION
+        // ============================================================
+
+        // 🔑 GET YOUR FREE API KEY: https://makersuite.google.com/app/apikey
+        const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY'; // <-- Replace with your key
+
+        const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + GEMINI_API_KEY;
+
+        // ============================================================
+        // 2. DOM ELEMENTS
+        // ============================================================
+
+        const chatToggle = document.getElementById('chatToggle');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatMessages = document.getElementById('chatMessages');
+
+        let isOpen = false;
+        let isProcessing = false;
+
+        // ============================================================
+        // 3. TOGGLE CHAT
+        // ============================================================
+
+        chatToggle.addEventListener('click', () => {
+            isOpen = !isOpen;
+            chatWindow.classList.toggle('active');
+            if (isOpen) {
+                chatInput.focus();
+            }
+        });
+
+        // ============================================================
+        // 4. SEND MESSAGE
+        // ============================================================
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || isProcessing) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            chatInput.value = '';
+            isProcessing = true;
+
+            // Show typing indicator
+            const typingId = showTypingIndicator();
+
+            try {
+                // Check if API key is set
+                if (GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
+                    throw new Error('Please set your Gemini API key in the script.');
+                }
+
+                // Call Gemini API
+                const response = await fetch(GEMINI_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are Gemini AI, a helpful assistant for Diploma Hub. 
+                                       You help students with courses, engineering, AI, and learning.
+                                       Answer concisely and helpfully. 
+                                       Question: ${message}`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+
+                // Remove typing indicator
+                removeTypingIndicator(typingId);
+
+                if (data.error) {
+                    throw new Error(data.error.message || 'API Error');
+                }
+
+                const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 
+                             'Sorry, I could not process that. Please try again.';
+
+                addMessage(reply, 'bot');
+
+            } catch (error) {
+                removeTypingIndicator(typingId);
+                addMessage('⚠️ ' + error.message, 'error');
+                console.error('Gemini API Error:', error);
+            }
+
+            isProcessing = false;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // ============================================================
+        // 5. HELPER FUNCTIONS
+        // ============================================================
+
+        function addMessage(text, type) {
+            const div = document.createElement('div');
+            div.className = 'ai-message-' + type;
+            div.textContent = text;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'ai-message-loading';
+            div.innerHTML = `
+                <div class="ai-typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        // ============================================================
+        // 6. EVENT LISTENERS
+        // ============================================================
+
+        chatSend.addEventListener('click', sendMessage);
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // ============================================================
+        // 7. API KEY CHECK
+        // ============================================================
+
+        // Show notice if API key is not set
+        if (GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
+            setTimeout(() => {
+                document.getElementById('apiNotice').classList.add('show');
+            }, 1000);
+        }
+
+        // ============================================================
+        // 8. KEYBOARD SHORTCUT (Cmd+K or Ctrl+K to open chat)
+        // ============================================================
+
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                chatToggle.click();
+            }
+        });
+
+        console.log('💬 Gemini AI Chat loaded!');
+        console.log('📝 Press Cmd+K (Mac) or Ctrl+K (Windows) to open chat');
+        console.log('🔑 Get your API key at: https://makersuite.google.com/app/apikey');
+    </script>
+
+</body>
+</html>
