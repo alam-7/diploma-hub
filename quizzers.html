@@ -1,273 +1,840 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quizzes - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        .page-header {
-            padding: 120px 0 40px;
-            text-align: center;
-        }
-        .page-header h1 {
-            font-size: 3rem;
-        }
-        .page-header p {
-            color: var(--gray-400);
-            font-size: 1.1rem;
-        }
-        .quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        .quiz-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 25px;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        .quiz-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--cyan-400);
-        }
-        .quiz-card .icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        .quiz-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-        .quiz-card .badge {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin: 5px 5px 5px 0;
-        }
-        .quiz-card .badge.easy {
-            background: rgba(34, 197, 94, 0.15);
-            color: #22c55e;
-        }
-        .quiz-card .badge.medium {
-            background: rgba(234, 179, 8, 0.15);
-            color: #eab308;
-        }
-        .quiz-card .badge.hard {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-        }
-        .quiz-card .info {
-            color: var(--gray-400);
-            font-size: 0.85rem;
-            margin: 10px 0;
-        }
-        .quiz-card .take-btn {
-            display: inline-block;
-            padding: 8px 20px;
-            background: var(--cyan-500);
-            color: var(--white);
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .quiz-card .take-btn:hover {
-            background: var(--cyan-600);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Practice MCQ quizzes for MSBTE Diploma subjects — unit-wise, difficulty-based, with instant scoring, best-score tracking, and unlimited attempts.">
+<meta name="keywords" content="MSBTE Quiz, Diploma MCQ, Practice Quiz, K-Scheme MCQ, Online Test">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Quizzes — DiplomaHub">
+<meta property="og:description" content="Practice MCQ quizzes for MSBTE Diploma subjects.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/quizzers.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quizzes — DiplomaHub">
+<meta name="twitter:description" content="Practice MCQ quizzes for MSBTE Diploma subjects.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/quizzers.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Quizzes — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input { padding-left: 44px; }
+    .filter-bar select { max-width: 170px; }
+
+    /* ================= STATS ================= */
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 130px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i { font-size: 1.3rem; color: var(--primary); }
+    .mini-stat .num { font-size: 1.25rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ================= QUIZ GRID ================= */
+    .quiz-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .quiz-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+    .quiz-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), #a855f7);
+        opacity: 0;
+        transition: opacity var(--transition);
+    }
+    .quiz-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        box-shadow: var(--shadow-glow);
+    }
+    .quiz-card:hover::before { opacity: 1; }
+
+    .quiz-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .quiz-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: var(--primary-glow);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+    }
+    .quiz-card.difficulty-easy .quiz-icon { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .quiz-card.difficulty-medium .quiz-icon { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .quiz-card.difficulty-hard .quiz-icon { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+    .quiz-bookmark {
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 1rem;
+        padding: 4px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .quiz-bookmark:hover { color: var(--primary); }
+    .quiz-bookmark.active { color: var(--primary); }
+
+    .quiz-badges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 4px;
+    }
+    .quiz-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+    .quiz-badge.unit { background: var(--primary-glow); color: var(--primary); }
+    .quiz-badge.easy { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .quiz-badge.medium { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .quiz-badge.hard { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .quiz-badge.new { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .quiz-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; }
+
+    .quiz-card h3 {
+        font-size: 1.02rem;
+        line-height: 1.4;
+        margin-bottom: 2px;
+    }
+    .quiz-card .quiz-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+    }
+
+    .quiz-meta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+    }
+    .quiz-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Progress bar per quiz */
+    .quiz-progress {
+        margin-top: 4px;
+    }
+    .quiz-progress-head {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+    }
+    .quiz-progress-bar {
+        height: 6px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+    .quiz-progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--primary), #a855f7);
+        transition: width 0.4s ease;
+    }
+    .quiz-progress-fill.high { background: linear-gradient(90deg, #22c55e, #16a34a); }
+    .quiz-progress-fill.mid { background: linear-gradient(90deg, #f59e0b, #ea580c); }
+    .quiz-progress-fill.low { background: linear-gradient(90deg, #ef4444, #b91c1c); }
+
+    /* Actions */
+    .quiz-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+    }
+    .quiz-actions button, .quiz-actions a {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 14px;
+        border-radius: var(--radius-pill);
+        font-size: 0.84rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .quiz-actions button:hover, .quiz-actions a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .quiz-actions .primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .quiz-actions .primary:hover {
+        background: var(--primary-dark);
+        color: var(--bg);
+        transform: translateY(-2px);
+    }
+
+    /* Empty state */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); margin-bottom: var(--space-md); }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .quiz-grid { grid-template-columns: 1fr; }
+    }
+</style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>DIPLOMA<span class="highlight">HUB</span></span>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="active">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html" class="active">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="courses.html">Courses</a> ›
+        <a href="#" id="bcCourse">Course</a> ›
+        <a href="#" id="bcSubject">Subject</a> ›
+        <span>Quizzes</span>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            📝 MCQ Quiz Library
+        </h1>
+        <p class="text-muted" id="pageSubtitle" style="max-width:700px;margin:0 auto;">
+            Practice MCQs, track your best scores, and test yourself.
+        </p>
+    </div>
+
+    <!-- ================= LOADING ================= -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-tabs"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- ================= NOT FOUND ================= -->
+    <div id="notFound" class="empty-state" style="display:none;" role="alert">
+        <i class="fas fa-search"></i>
+        <h3>Subject Not Found</h3>
+        <p id="notFoundMsg">We couldn't find quizzes for this subject.</p>
+        <a href="courses.html" class="btn btn-primary mt-2">
+            <i class="fas fa-arrow-left"></i> Browse Courses
+        </a>
+    </div>
+
+    <!-- ================= CONTENT ================= -->
+    <div id="content" style="display:none;">
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <i class="fas fa-list"></i>
+                <div>
+                    <div class="num" id="statTotal">0</div>
+                    <div class="label">Total Quizzes</div>
+                </div>
             </div>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="courses.html">Courses</a>
-                <a href="equipment.html">Equipment</a>
-                <a href="practicals.html">Practicals</a>
-                <a href="quizzes.html" class="active">Quizzes</a>
+            <div class="mini-stat">
+                <i class="fas fa-play-circle"></i>
+                <div>
+                    <div class="num" id="statAttempted">0</div>
+                    <div class="label">Attempted</div>
+                </div>
             </div>
-            <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
-                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
+            <div class="mini-stat">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <div class="num" id="statCompleted">0</div>
+                    <div class="label">Completed (70%+)</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-trophy"></i>
+                <div>
+                    <div class="num" id="statAvg">0%</div>
+                    <div class="label">Average Score</div>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <section class="page-header">
-        <div class="container">
-            <h1>Engineering <span class="gradient-text">Quizzes</span></h1>
-            <p>Test your knowledge with subject-wise quizzes and mock tests</p>
-        </div>
-    </section>
-
-    <section class="section" style="padding-top: 0;">
-        <div class="container">
-            <div class="quiz-grid" id="quizGrid"></div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>DIPLOMA HUB</h3>
-                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="practicals.html">Practicals</a>
-                    <a href="quizzes.html">Quizzes</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <a href="#">MSBTE Official</a>
-                    <a href="#">Lab Manuals</a>
-                    <a href="#">Question Papers</a>
-                    <a href="#">Notes</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms</a>
-                </div>
+        <!-- Filter -->
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput"
+                       placeholder="Search quizzes by title or unit…"
+                       oninput="applyFilters()"
+                       aria-label="Search quizzes">
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
-            </div>
+            <select id="unitFilter" onchange="applyFilters()" aria-label="Unit">
+                <option value="all">All Units</option>
+            </select>
+            <select id="diffFilter" onchange="applyFilters()" aria-label="Difficulty">
+                <option value="all">All Levels</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <select id="statusFilter" onchange="applyFilters()" aria-label="Status">
+                <option value="all">All Status</option>
+                <option value="new">Not Attempted</option>
+                <option value="attempted">Attempted</option>
+                <option value="completed">Completed (70%+)</option>
+            </select>
         </div>
-    </footer>
 
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/auth.js"></script>
-    <script>
-        const QUIZZES = [
-            { id: 1, title: 'Programming Fundamentals Quiz', subject: 'Programming Fundamentals', questions: 10, difficulty: 'easy', icon: '💻' },
-            { id: 2, title: 'Database Systems Quiz', subject: 'Database Systems', questions: 15, difficulty: 'medium', icon: '🗄️' },
-            { id: 3, title: 'Computer Networks Quiz', subject: 'Computer Networks', questions: 12, difficulty: 'hard', icon: '🌐' },
-            { id: 4, title: 'Engineering Mathematics Quiz', subject: 'Engineering Mathematics', questions: 10, difficulty: 'medium', icon: '📐' },
-            { id: 5, title: 'Web Development Quiz', subject: 'Web Development', questions: 8, difficulty: 'easy', icon: '🌍' },
-            { id: 6, title: 'Mock Test - Semester 3', subject: 'Comprehensive', questions: 20, difficulty: 'hard', icon: '📝' },
-        ];
+        <!-- Quiz Grid -->
+        <div class="quiz-grid" id="quizGrid"></div>
 
-        function renderQuizzes() {
-            const grid = document.getElementById('quizGrid');
-            grid.innerHTML = QUIZZES.map(q => `
-                <div class="quiz-card">
-                    <div class="icon">${q.icon}</div>
-                    <h3>${q.title}</h3>
-                    <div>
-                        <span class="badge ${q.difficulty}">${q.difficulty}</span>
-                        <span class="badge" style="background: rgba(6, 182, 212, 0.15); color: var(--cyan-400);">${q.questions} questions</span>
-                    </div>
-                    <div class="info">Subject: ${q.subject}</div>
-                    <button class="take-btn" onclick="startQuiz(${q.id})"><i class="fas fa-play"></i> Start Quiz</button>
-                </div>
-            `).join('');
-        }
+    </div>
 
-        function startQuiz(id) {
-            const quiz = QUIZZES.find(q => q.id === id);
-            alert(`Starting "${quiz.title}" - Good luck! 🎯`);
-            // In a real app, this would redirect to the quiz page
-            window.location.href = `quiz-take.html?id=${id}`;
-        }
+</div>
 
-        renderQuizzes();
-    </script>
-<!-- ============================================================
-FOOTER - FULLY WORKING WITH ALL LINKS
-============================================================ -->
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Copied!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <h3>DIPLOMA HUB</h3>
-                <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                <div class="social-links">
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
-                <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
-                <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
-                <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
-                <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
-            </div>
-
-            <!-- Column 3: MSBTE Resources -->
-            <div class="footer-col">
-                <h4>MSBTE Resources</h4>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Curriculum
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    K-Scheme Lab Manuals
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Official Website
-                </a>
-            </div>
-
-            <!-- Column 4: Support -->
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
-                <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
-            </div>
-
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
         </div>
-
-        <!-- Bottom Bar -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
         </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="questions.html">Questions</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
     </div>
 </footer>
 
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const subjectCode = params.get('code') || '311302';
+let subjectData = null;
+let courseData = null;
+let allQuizzes = [];
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function findSubject(code) {
+    const data = window.courseData || {};
+    for (const slug in data) {
+        const course = data[slug];
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            const found = subs.find(s => s.code === code);
+            if (found) {
+                return {
+                    subject: found,
+                    course: { ...course, slug },
+                    semesterName: course.semesters[sem].name
+                };
+            }
+        }
+    }
+    return null;
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ============================================================
+// UI STATE
+// ============================================================
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+}
+function showNotFound(msg) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'block';
+    if (msg) document.getElementById('notFoundMsg').textContent = msg;
+}
+function showContent() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+}
+
+// ============================================================
+// PLACEHOLDER QUIZZES GENERATOR
+// ============================================================
+function generateQuizzes(subject) {
+    const units = subject.units && subject.units.length
+        ? subject.units
+        : [{ unit: 1, title: 'Introduction', marks: '—' }];
+
+    const list = [];
+    let n = 1;
+    units.forEach((u) => {
+        const topic = u.title || `Unit ${u.unit}`;
+        // 2 quizzes per unit
+        list.push({
+            id: `quiz-${subject.code}-${u.unit}-1`,
+            title: `${topic} — Basic Quiz`,
+            desc: `Test basic understanding of ${topic}.`,
+            unit: u.unit,
+            difficulty: 'easy',
+            questions: 10,
+            time: 10,
+            marks: 10
+        });
+        list.push({
+            id: `quiz-${subject.code}-${u.unit}-2`,
+            title: `${topic} — Advanced Quiz`,
+            desc: `Deep practice covering application-level questions from ${topic}.`,
+            unit: u.unit,
+            difficulty: 'medium',
+            questions: 15,
+            time: 20,
+            marks: 15
+        });
+    });
+    return list;
+}
+
+// ============================================================
+// LOCALSTORAGE — BEST SCORES
+// ============================================================
+function getScores() {
+    try { return JSON.parse(localStorage.getItem('quizScores')) || {}; } catch(e) { return {}; }
+}
+function saveScore(id, percent) {
+    const scores = getScores();
+    const prev = scores[id] || { best: 0, attempts: 0, lastPercent: 0 };
+    scores[id] = {
+        best: Math.max(prev.best, percent),
+        attempts: prev.attempts + 1,
+        lastPercent: percent,
+        lastAttempt: Date.now()
+    };
+    localStorage.setItem('quizScores', JSON.stringify(scores));
+}
+
+// For demo: read best scores
+function getBest(id) {
+    const scores = getScores();
+    return scores[id] || { best: 0, attempts: 0 };
+}
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadQuizzes() {
+    showLoading();
+    setTimeout(() => {
+        const found = findSubject(subjectCode);
+        if (!found) {
+            showNotFound(`No subject found with code "${subjectCode}".`);
+            return;
+        }
+        subjectData = found.subject;
+        courseData = found.course;
+
+        allQuizzes = subjectData.quizzes && subjectData.quizzes.length
+            ? subjectData.quizzes
+            : generateQuizzes(subjectData);
+
+        // Breadcrumb
+        document.getElementById('bcCourse').textContent = courseData.name;
+        document.getElementById('bcCourse').href = `course-detail.html?course=${courseData.slug}`;
+        document.getElementById('bcSubject').textContent = subjectData.name;
+        document.getElementById('bcSubject').href = `subject.html?code=${subjectData.code}`;
+
+        // Title
+        document.title = `${subjectData.name} — Quizzes — DiplomaHub`;
+        document.getElementById('pageSubtitle').textContent =
+            `MCQ quizzes for ${subjectData.name} (${subjectData.code}) · ${found.semesterName}`;
+
+        // Populate unit filter
+        const unitFilter = document.getElementById('unitFilter');
+        const units = [...new Set(allQuizzes.map(q => q.unit))].sort((a,b) => a-b);
+        unitFilter.innerHTML = '<option value="all">All Units</option>' +
+            units.map(u => `<option value="${u}">Unit ${u}</option>`).join('');
+
+        showContent();
+        updateStats();
+        applyFilters();
+    }, 200);
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats() {
+    document.getElementById('statTotal').textContent = allQuizzes.length;
+
+    const scores = getScores();
+    let attempted = 0, completed = 0, totalBest = 0, countForAvg = 0;
+
+    allQuizzes.forEach(q => {
+        const s = scores[q.id];
+        if (s && s.attempts > 0) {
+            attempted++;
+            totalBest += s.best;
+            countForAvg++;
+            if (s.best >= 70) completed++;
+        }
+    });
+
+    document.getElementById('statAttempted').textContent = attempted;
+    document.getElementById('statCompleted').textContent = completed;
+    document.getElementById('statAvg').textContent =
+        (countForAvg ? Math.round(totalBest / countForAvg) : 0) + '%';
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const unit = document.getElementById('unitFilter').value;
+    const diff = document.getElementById('diffFilter').value;
+    const status = document.getElementById('statusFilter').value;
+
+    const scores = getScores();
+
+    let list = allQuizzes.filter(item => {
+        const matchQ = !q ||
+            item.title.toLowerCase().includes(q) ||
+            (item.desc || '').toLowerCase().includes(q);
+        const matchU = unit === 'all' || String(item.unit) === unit;
+        const matchD = diff === 'all' || item.difficulty === diff;
+
+        const s = scores[item.id];
+        const attempted = s && s.attempts > 0;
+        const completed = attempted && s.best >= 70;
+
+        let matchS = true;
+        if (status === 'new') matchS = !attempted;
+        else if (status === 'attempted') matchS = attempted;
+        else if (status === 'completed') matchS = completed;
+
+        return matchQ && matchU && matchD && matchS;
+    });
+
+    renderQuizzes(list);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderQuizzes(list) {
+    const grid = document.getElementById('quizGrid');
+    if (!list.length) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-question-circle"></i>
+                <h3>No quizzes found</h3>
+                <p>Try changing filters or search term.</p>
+            </div>`;
+        return;
+    }
+
+    const scores = getScores();
+
+    grid.innerHTML = list.map(q => {
+        const saved = isBookmarked(q.id);
+        const s = scores[q.id] || { best: 0, attempts: 0 };
+        const isNew = s.attempts === 0;
+        const diffLabel = q.difficulty.charAt(0).toUpperCase() + q.difficulty.slice(1);
+
+        const progressClass = s.best >= 70 ? 'high' : s.best >= 40 ? 'mid' : 'low';
+
+        return `
+            <div class="quiz-card difficulty-${q.difficulty}">
+                <div class="quiz-head">
+                    <div class="quiz-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <button class="quiz-bookmark ${saved ? 'active' : ''}"
+                            onclick="toggleBookmark('${q.id}')"
+                            aria-label="Bookmark quiz">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+
+                <div class="quiz-badges">
+                    <span class="quiz-badge unit"><i class="fas fa-layer-group"></i> Unit ${q.unit}</span>
+                    <span class="quiz-badge ${q.difficulty}"><i class="fas fa-signal"></i> ${diffLabel}</span>
+                    ${isNew
+                        ? '<span class="quiz-badge new"><i class="fas fa-sparkles"></i> New</span>'
+                        : s.best >= 70
+                            ? '<span class="quiz-badge done"><i class="fas fa-check-circle"></i> Passed</span>'
+                            : ''}
+                </div>
+
+                <h3>${escapeHtml(q.title)}</h3>
+                <p class="quiz-desc">${escapeHtml(q.desc || '')}</p>
+
+                <div class="quiz-meta">
+                    <span><i class="fas fa-list-ol"></i> ${q.questions} questions</span>
+                    <span><i class="fas fa-clock"></i> ${q.time} min</span>
+                    <span><i class="fas fa-star"></i> ${q.marks} marks</span>
+                </div>
+
+                <div class="quiz-progress">
+                    <div class="quiz-progress-head">
+                        <span>Best Score</span>
+                        <strong style="color:${s.best >= 70 ? 'var(--success)' : s.best >= 40 ? 'var(--warning)' : 'var(--text-muted)'};">
+                            ${s.best}%
+                        </strong>
+                    </div>
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill ${progressClass}" style="width:${s.best}%"></div>
+                    </div>
+                    <div class="quiz-progress-head" style="margin-top:6px;">
+                        <span>${s.attempts} attempt${s.attempts !== 1 ? 's' : ''}</span>
+                        ${s.best > 0 ? `<span>Last: ${s.lastPercent}%</span>` : ''}
+                    </div>
+                </div>
+
+                <div class="quiz-actions">
+                    <a href="quiz-take.html?id=${encodeURIComponent(q.id)}&code=${subjectData.code}" class="primary">
+                        <i class="fas fa-play"></i> ${isNew ? 'Start' : 'Retake'}
+                    </a>
+                    <a href="subject.html?code=${subjectData.code}">
+                        <i class="fas fa-th-large"></i> Subject
+                    </a>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('quizBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('quizBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) list.splice(i, 1); else list.push(id);
+    localStorage.setItem('quizBookmarks', JSON.stringify(list));
+    applyFilters();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadQuizzes();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
