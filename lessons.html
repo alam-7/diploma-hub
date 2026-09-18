@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Unit-wise lessons for MSBTE Diploma subjects. Learn concepts with structured content, mark progress, and navigate easily.">
+<meta name="keywords" content="MSBTE Lessons, Diploma Unit-wise, Study Material, K-Scheme Lessons">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lessons — DiplomaHub">
+<meta property="og:description" content="Unit-wise lessons for MSBTE Diploma subjects.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/lessons.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lessons — DiplomaHub">
+<meta name="twitter:description" content="Unit-wise lessons for MSBTE Diploma subjects.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/lessons.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Lessons — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= LESSONS LAYOUT ================= */
+    .lessons-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: var(--space-lg);
+        margin-top: var(--space-lg);
+        align-items: start;
+    }
+
+    /* ================= SIDEBAR ================= */
+    .lesson-sidebar {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-md);
+        position: sticky;
+        top: calc(var(--nav-height) + 16px);
+        max-height: calc(100vh - var(--nav-height) - 32px);
+        overflow-y: auto;
+    }
+    .lesson-sidebar h3 {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        margin-bottom: var(--space-sm);
+        padding: 0 var(--space-sm);
+    }
+    .unit-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .unit-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        transition: var(--transition);
+        border-left: 3px solid transparent;
+    }
+    .unit-item:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+    }
+    .unit-item.active {
+        background: var(--primary-glow);
+        color: var(--primary);
+        border-left-color: var(--primary);
+        font-weight: 600;
+    }
+    .unit-item.done .check {
+        color: var(--success);
+    }
+    .unit-item .check {
+        font-size: 0.8rem;
+        color: var(--text-dim);
+    }
+    .unit-item .title {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .sidebar-progress {
+        margin-top: var(--space-md);
+        padding: var(--space-md);
+        background: var(--bg-alt);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+    }
+    .sidebar-progress .label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .sidebar-progress .bar {
+        height: 6px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+    .sidebar-progress .fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--primary), #a855f7);
+        transition: width 0.4s ease;
+    }
+
+    /* ================= CONTENT PANEL ================= */
+    .lesson-content {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+        min-height: 500px;
+    }
+
+    .lesson-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--space-md);
+        margin-bottom: var(--space-lg);
+        padding-bottom: var(--space-md);
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+    }
+    .lesson-header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 6px;
+    }
+    .lesson-header .unit-badge {
+        display: inline-block;
+        background: var(--primary-glow);
+        color: var(--primary);
+        padding: 4px 14px;
+        border-radius: var(--radius-pill);
+        font-size: 0.78rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+    .lesson-header .marks-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: var(--radius-pill);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        font-size: 0.82rem;
+        color: var(--text-muted);
+    }
+
+    /* Lesson body (markdown-ish) */
+    .lesson-body {
+        font-size: 1rem;
+        line-height: 1.75;
+        color: var(--text);
+    }
+    .lesson-body h2 {
+        font-size: 1.3rem;
+        margin: var(--space-lg) 0 var(--space-sm);
+        color: var(--primary);
+    }
+    .lesson-body h3 {
+        font-size: 1.1rem;
+        margin: var(--space-md) 0 var(--space-sm);
+    }
+    .lesson-body p { margin-bottom: var(--space-sm); color: var(--text-muted); }
+    .lesson-body ul, .lesson-body ol {
+        margin: var(--space-sm) 0 var(--space-md) var(--space-lg);
+        color: var(--text-muted);
+    }
+    .lesson-body li { margin-bottom: 6px; }
+    .lesson-body code {
+        background: var(--bg-alt);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: var(--font-mono);
+        font-size: 0.88rem;
+        color: var(--primary);
+    }
+    .lesson-body pre {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: var(--space-md);
+        overflow-x: auto;
+        margin: var(--space-md) 0;
+        font-family: var(--font-mono);
+        font-size: 0.88rem;
+        color: var(--text);
+    }
+    .lesson-body blockquote {
+        border-left: 4px solid var(--primary);
+        padding: var(--space-sm) var(--space-md);
+        background: var(--primary-glow);
+        border-radius: var(--radius-sm);
+        margin: var(--space-md) 0;
+        color: var(--text);
+    }
+    .lesson-body table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: var(--space-md) 0;
+    }
+    .lesson-body th, .lesson-body td {
+        padding: 10px;
+        border: 1px solid var(--border);
+        text-align: left;
+    }
+    .lesson-body th { background: var(--bg-alt); }
+
+    /* Lesson footer (prev/next + mark) */
+    .lesson-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-md);
+        margin-top: var(--space-xl);
+        padding-top: var(--space-md);
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+    }
+    .lesson-footer .nav-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .lesson-footer button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: var(--radius-pill);
+        font-weight: 600;
+        font-size: 0.88rem;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        transition: var(--transition);
+    }
+    .lesson-footer button:hover:not(:disabled) {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .lesson-footer button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+    .mark-btn {
+        background: var(--primary) !important;
+        color: var(--bg) !important;
+        border-color: transparent !important;
+    }
+    .mark-btn:hover {
+        background: var(--primary-dark) !important;
+        color: var(--bg) !important;
+    }
+    .mark-btn.done {
+        background: var(--success) !important;
+        color: #fff !important;
+    }
+
+    /* Empty / not found */
+    .empty-state {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h2 { margin-bottom: 8px; }
+    .empty-state p { color: var(--text-muted); margin-bottom: var(--space-md); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .lessons-layout { grid-template-columns: 1fr; }
+        .lesson-sidebar {
+            position: static;
+            max-height: none;
+        }
+    }
+    @media (max-width: 600px) {
+        .lesson-content { padding: var(--space-md); }
+        .lesson-header h1 { font-size: 1.2rem; }
+        .lesson-body { font-size: 0.92rem; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="active">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="courses.html">Courses</a> ›
+        <a href="#" id="bcCourse">Course</a> ›
+        <a href="#" id="bcSubject">Subject</a> ›
+        <span>Lessons</span>
+    </div>
+
+    <!-- ================= LOADING ================= -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- ================= NOT FOUND ================= -->
+    <div id="notFound" class="empty-state" style="display:none;" role="alert">
+        <i class="fas fa-search"></i>
+        <h2>Subject Not Found</h2>
+        <p id="notFoundMsg">We couldn't find lessons for this subject.</p>
+        <a href="courses.html" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Browse Courses
+        </a>
+    </div>
+
+    <!-- ================= LAYOUT ================= -->
+    <div id="layout" class="lessons-layout" style="display:none;">
+
+        <!-- SIDEBAR -->
+        <aside class="lesson-sidebar" aria-label="Unit list">
+            <h3>Units</h3>
+            <ul class="unit-list" id="unitList"></ul>
+
+            <div class="sidebar-progress">
+                <div class="label">
+                    <span>Progress</span>
+                    <strong id="sideProgressText">0%</strong>
+                </div>
+                <div class="bar">
+                    <div class="fill" id="sideProgressFill"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENT -->
+        <main class="lesson-content" id="lessonContent" aria-live="polite">
+            <!-- Filled by JS -->
+        </main>
+
+    </div>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="resources.html">Notes</a>
+            <a href="resources.html">Books</a>
+            <a href="resources.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const subjectCode = params.get('code') || '311302';
+let subjectData = null;
+let courseData = null;
+let semesterName = '';
+let lessons = [];       // array of { unit, title, marks, content }
+let currentIndex = 0;
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function findSubject(code) {
+    const data = window.courseData || {};
+    for (const slug in data) {
+        const course = data[slug];
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            const found = subs.find(s => s.code === code);
+            if (found) {
+                return {
+                    subject: found,
+                    course: { ...course, slug },
+                    semester: sem,
+                    semesterName: course.semesters[sem].name
+                };
+            }
+        }
+    }
+    return null;
+}
+
+// ============================================================
+// UI STATE
+// ============================================================
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('layout').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+}
+function showNotFound(msg) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('layout').style.display = 'none';
+    document.getElementById('notFound').style.display = 'block';
+    if (msg) document.getElementById('notFoundMsg').textContent = msg;
+}
+function showLayout() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+    document.getElementById('layout').style.display = 'grid';
+}
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadLessons() {
+    showLoading();
+    setTimeout(() => {
+        const found = findSubject(subjectCode);
+        if (!found) {
+            showNotFound(`No subject found with code "${subjectCode}".`);
+            return;
+        }
+        subjectData = found.subject;
+        courseData = found.course;
+        semesterName = found.semesterName;
+
+        // Build lessons from units if available, else fall back to placeholder
+        if (subjectData.units && subjectData.units.length) {
+            lessons = subjectData.units.map((u, i) => ({
+                unit: u.unit ?? (i + 1),
+                title: u.title || `Unit ${i + 1}`,
+                marks: u.marks ?? '—',
+                desc: u.desc || '',
+                content: u.content || generatePlaceholderContent(u.title, u.desc)
+            }));
+        } else {
+            lessons = [{
+                unit: 1,
+                title: subjectData.name,
+                marks: '—',
+                desc: 'Introduction',
+                content: generatePlaceholderContent(subjectData.name, subjectData.description || '')
+            }];
+        }
+
+        // Breadcrumb
+        document.getElementById('bcCourse').textContent = courseData.name;
+        document.getElementById('bcCourse').href = `course-detail.html?course=${courseData.slug}`;
+        document.getElementById('bcSubject').textContent = subjectData.name;
+        document.getElementById('bcSubject').href = `subject.html?code=${subjectData.code}`;
+
+        // Title
+        document.title = `${subjectData.name} — Lessons — DiplomaHub`;
+
+        renderSidebar();
+        updateProgress();
+        showLayout();
+        loadUnit(0);
+    }, 200);
+}
+
+// ============================================================
+// PLACEHOLDER CONTENT
+// ============================================================
+function generatePlaceholderContent(title, desc) {
+    return `
+        <h2>Overview</h2>
+        <p>${escapeHtml(desc || `This unit introduces the key concepts of ${title}.`)}</p>
+
+        <h3>What you'll learn</h3>
+        <ul>
+            <li>Core definitions and terminology</li>
+            <li>Key principles and formulas</li>
+            <li>Practical applications &amp; examples</li>
+            <li>Common exam question patterns</li>
+        </ul>
+
+        <blockquote>
+            💡 Tip: Read the full lesson notes and try the <strong>MCQ quiz</strong>
+            for this unit after finishing.
+        </blockquote>
+
+        <h3>Detailed Notes</h3>
+        <p>
+            Comprehensive unit-wise content will appear here once uploaded.
+            Meanwhile, use the other sections (Notes, Books, Important Questions,
+            Solutions) from the subject dashboard.
+        </p>
+
+        <h3>Key Points</h3>
+        <ul>
+            <li><strong>Definition:</strong> Basic meaning of the topic.</li>
+            <li><strong>Formula / Rule:</strong> Apply where necessary.</li>
+            <li><strong>Example:</strong> Solved example for clarity.</li>
+        </ul>
+
+        <h3>Practice Questions</h3>
+        <ol>
+            <li>Define the main term.</li>
+            <li>Explain the process with a diagram.</li>
+            <li>Solve: Give a simple numerical/example.</li>
+        </ol>
+    `;
+}
+
+// ============================================================
+// RENDER SIDEBAR
+// ============================================================
+function renderSidebar() {
+    const list = document.getElementById('unitList');
+    list.innerHTML = lessons.map((l, i) => {
+        const done = isDone(subjectData.code, l.unit);
+        return `
+            <li class="unit-item ${done ? 'done' : ''}" data-idx="${i}" onclick="loadUnit(${i})">
+                <span class="title">Unit ${escapeHtml(l.unit)}: ${escapeHtml(l.title)}</span>
+                <span class="check">
+                    <i class="fas ${done ? 'fa-check-circle' : 'fa-circle'}"></i>
+                </span>
+            </li>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// LOAD UNIT
+// ============================================================
+function loadUnit(idx) {
+    if (idx < 0 || idx >= lessons.length) return;
+    currentIndex = idx;
+
+    const l = lessons[idx];
+    const isLast = idx === lessons.length - 1;
+    const isFirst = idx === 0;
+    const done = isDone(subjectData.code, l.unit);
+
+    const html = `
+        <div class="lesson-header">
+            <div style="flex:1;min-width:220px;">
+                <span class="unit-badge">Unit ${escapeHtml(l.unit)}</span>
+                <h1>${escapeHtml(l.title)}</h1>
+                <span class="marks-chip">
+                    <i class="fas fa-clipboard-check"></i> ${escapeHtml(l.marks)} marks
+                </span>
+            </div>
+            <button class="mark-btn ${done ? 'done' : ''}" id="markBtn" onclick="markComplete(${idx})">
+                <i class="fas ${done ? 'fa-check-circle' : 'fa-check'}"></i>
+                ${done ? 'Completed' : 'Mark as complete'}
+            </button>
+        </div>
+
+        <div class="lesson-body" id="lessonBody">
+            ${l.content}
+        </div>
+
+        <div class="lesson-footer">
+            <div class="nav-buttons">
+                <button onclick="loadUnit(${idx - 1})" ${isFirst ? 'disabled' : ''}>
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button onclick="loadUnit(${idx + 1})" ${isLast ? 'disabled' : ''}>
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div>
+                <a href="subject.html?code=${subjectData.code}" class="btn btn-outline" style="padding:10px 18px;">
+                    <i class="fas fa-th-large"></i> All Sections
+                </a>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('lessonContent').innerHTML = html;
+
+    // Scroll to top of content
+    document.getElementById('lessonContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Highlight in sidebar
+    document.querySelectorAll('.unit-item').forEach((el, i) => {
+        el.classList.toggle('active', i === idx);
+    });
+
+    // Update URL (deep link)
+    const url = new URL(window.location);
+    url.searchParams.set('code', subjectData.code);
+    url.searchParams.set('unit', l.unit);
+    window.history.replaceState({}, '', url);
+
+    updateProgress();
+}
+
+// ============================================================
+// PROGRESS / COMPLETE
+// ============================================================
+function getProgressMap() {
+    try { return JSON.parse(localStorage.getItem('lessonProgress')) || {}; } catch(e) { return {}; }
+}
+function saveProgressMap(map) {
+    localStorage.setItem('lessonProgress', JSON.stringify(map));
+}
+function isDone(code, unit) {
+    const map = getProgressMap();
+    return !!(map[code] && map[code].includes(unit));
+}
+function markComplete(idx) {
+    const l = lessons[idx];
+    const map = getProgressMap();
+    if (!map[subjectData.code]) map[subjectData.code] = [];
+    const i = map[subjectData.code].indexOf(l.unit);
+    if (i > -1) map[subjectData.code].splice(i, 1);
+    else map[subjectData.code].push(l.unit);
+    saveProgressMap(map);
+
+    // Update UI
+    const btn = document.getElementById('markBtn');
+    const done = isDone(subjectData.code, l.unit);
+    btn.classList.toggle('done', done);
+    btn.innerHTML = done
+        ? '<i class="fas fa-check-circle"></i> Completed'
+        : '<i class="fas fa-check"></i> Mark as complete';
+
+    // Re-render sidebar (to update check icons)
+    renderSidebar();
+    document.querySelectorAll('.unit-item')[idx].classList.add('active');
+
+    updateProgress();
+
+    // Also sync with subject-level progress
+    syncSubjectProgress();
+}
+
+function updateProgress() {
+    const map = getProgressMap();
+    const doneUnits = (map[subjectData.code] || []).length;
+    const total = lessons.length || 1;
+    const pct = Math.round((doneUnits / total) * 100);
+
+    const fill = document.getElementById('sideProgressFill');
+    const txt = document.getElementById('sideProgressText');
+    if (fill) fill.style.width = pct + '%';
+    if (txt) txt.textContent = pct + '%';
+}
+
+function syncSubjectProgress() {
+    const map = getProgressMap();
+    const doneUnits = (map[subjectData.code] || []).length;
+    const total = lessons.length || 1;
+    const pct = Math.round((doneUnits / total) * 100);
+
+    let subjProgress = {};
+    try { subjProgress = JSON.parse(localStorage.getItem('progress')) || {}; } catch(e) {}
+    subjProgress[subjectData.code] = pct;
+    localStorage.setItem('progress', JSON.stringify(subjProgress));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadLessons().valueOf?.(); // safe no-op if not promise
+
+// If URL has unit param, jump to that unit after load
+window.addEventListener('load', () => {
+    const unitParam = params.get('unit');
+    if (unitParam) {
+        setTimeout(() => {
+            const idx = lessons.findIndex(l => String(l.unit) === String(unitParam));
+            if (idx > -1) loadUnit(idx);
+        }, 500);
+    }
+});
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>
