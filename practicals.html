@@ -1,276 +1,1080 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practicals - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        .page-header {
-            padding: 120px 0 40px;
-            text-align: center;
-        }
-        .page-header h1 {
-            font-size: 3rem;
-        }
-        .page-header p {
-            color: var(--gray-400);
-            font-size: 1.1rem;
-        }
-        .search-filter {
-            max-width: 600px;
-            margin: 20px auto 40px;
-        }
-        .practical-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        .practical-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 25px;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        .practical-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--cyan-400);
-        }
-        .practical-card .num {
-            font-size: 0.8rem;
-            color: var(--gray-500);
-        }
-        .practical-card h3 {
-            margin: 8px 0;
-            font-size: 1.1rem;
-        }
-        .practical-card .badge {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: rgba(6, 182, 212, 0.15);
-            color: var(--cyan-400);
-        }
-        .practical-card p {
-            color: var(--gray-400);
-            font-size: 0.9rem;
-            margin: 10px 0;
-        }
-        .practical-card .status {
-            font-size: 0.8rem;
-            color: var(--gray-500);
-        }
-        .practical-card .status.completed {
-            color: #22c55e;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Lab manuals & practical experiments for MSBTE Diploma subjects — aim, apparatus, procedure, observations, and results. Download PDF lab manuals for free.">
+<meta name="keywords" content="MSBTE Practicals, Diploma Lab Manual, Experiments PDF, K-Scheme Practicals, Lab Work">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Practicals & Lab Manuals — DiplomaHub">
+<meta property="og:description" content="Lab manuals and practical experiments for MSBTE Diploma subjects.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/practicals.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Practicals & Lab Manuals — DiplomaHub">
+<meta name="twitter:description" content="Lab manuals and practical experiments for MSBTE Diploma subjects.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/practicals.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Practicals & Lab Manuals — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input { padding-left: 44px; }
+    .filter-bar select { max-width: 170px; }
+
+    /* ================= STATS ================= */
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 130px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i { font-size: 1.3rem; color: var(--primary); }
+    .mini-stat .num { font-size: 1.25rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ================= PRACTICALS LIST ================= */
+    .practicals-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+    }
+
+    .practical-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: var(--transition);
+    }
+    .practical-card:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow-glow);
+    }
+    .practical-card.completed {
+        border-left: 4px solid var(--success);
+    }
+    .practical-card.pending {
+        border-left: 4px solid var(--warning);
+    }
+
+    /* ---- Header ---- */
+    .p-header {
+        padding: var(--space-lg);
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(135deg, rgba(0,212,255,0.05), transparent);
+        cursor: pointer;
+        user-select: none;
+    }
+    .p-header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+    .p-badges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .p-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.72rem;
+        font-weight: 700;
+    }
+    .p-badge.unit { background: var(--primary-glow); color: var(--primary); }
+    .p-badge.marks { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .p-badge.easy { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .p-badge.medium { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .p-badge.hard { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .p-badge.completed { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .p-badge.pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+    .p-title {
+        font-size: 1.05rem;
+        line-height: 1.5;
+        margin-bottom: 4px;
+        color: var(--text);
+    }
+    .p-title .p-num {
+        color: var(--primary);
+        font-weight: 700;
+        margin-right: 6px;
+    }
+    .p-aim-short {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+    }
+
+    .p-toggle {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        flex-shrink: 0;
+    }
+    .p-toggle:hover { color: var(--primary); border-color: var(--primary); }
+    .p-toggle.open { transform: rotate(180deg); color: var(--primary); }
+
+    /* ---- Body ---- */
+    .p-body {
+        display: none;
+        padding: var(--space-lg);
+        animation: slideDown 0.3s ease;
+    }
+    .p-body.open { display: block; }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .p-section {
+        margin-bottom: var(--space-lg);
+    }
+    .p-section:last-child { margin-bottom: 0; }
+    .p-section-title {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--primary);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+    }
+    .p-section-title i { font-size: 0.9rem; }
+
+    .p-content {
+        font-size: 0.92rem;
+        line-height: 1.7;
+        color: var(--text-muted);
+    }
+    .p-content ul, .p-content ol {
+        margin: 6px 0 6px 20px;
+    }
+    .p-content li { margin-bottom: 4px; }
+
+    /* Apparatus list */
+    .apparatus-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 8px;
+    }
+    .apparatus-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: var(--bg-alt);
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        border-left: 2px solid var(--primary);
+    }
+    .apparatus-item i {
+        color: var(--primary);
+        font-size: 0.9rem;
+    }
+
+    /* Procedure steps */
+    .procedure-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .procedure-list li {
+        display: flex;
+        gap: 12px;
+        padding: 10px 12px;
+        background: var(--bg-alt);
+        border-radius: var(--radius-sm);
+        border-left: 3px solid var(--primary);
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    .procedure-list .p-step-num {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.74rem;
+    }
+
+    /* Result / observation box */
+    .result-box {
+        background: rgba(34,197,94,0.08);
+        border: 1px solid rgba(34,197,94,0.25);
+        border-left: 3px solid var(--success);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        font-size: 0.9rem;
+        color: var(--text);
+        line-height: 1.7;
+    }
+    .result-box strong { color: var(--success); }
+
+    .precaution-box {
+        background: rgba(245,158,11,0.08);
+        border: 1px solid rgba(245,158,11,0.25);
+        border-left: 3px solid var(--warning);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+    }
+    .precaution-box strong { color: var(--warning); }
+
+    /* Footer */
+    .p-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px var(--space-lg);
+        background: var(--bg-alt);
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+    }
+    .p-footer .meta {
+        display: flex;
+        gap: 14px;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        flex-wrap: wrap;
+    }
+    .p-footer .meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .p-footer .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .p-footer button, .p-footer a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: var(--radius-pill);
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .p-footer button:hover, .p-footer a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .p-footer .primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .p-footer .primary:hover {
+        background: var(--primary-dark);
+        color: var(--bg);
+    }
+    .p-footer button.active { color: var(--primary); }
+    .p-footer .done-btn {
+        background: var(--success);
+        color: #fff;
+        border-color: transparent;
+    }
+    .p-footer .done-btn:hover {
+        background: #16a34a;
+        color: #fff;
+    }
+
+    /* Empty */
+    .empty-state {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .p-footer { flex-direction: column; align-items: stretch; }
+        .p-footer .actions { justify-content: stretch; }
+        .p-footer .actions button, .p-footer .actions a { flex: 1; justify-content: center; }
+        .apparatus-grid { grid-template-columns: 1fr; }
+    }
+</style>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>DIPLOMA<span class="highlight">HUB</span></span>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="active">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html" class="active">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="courses.html">Courses</a> ›
+        <a href="#" id="bcCourse">Course</a> ›
+        <a href="#" id="bcSubject">Subject</a> ›
+        <span>Practicals</span>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            🧪 Practicals & Lab Manuals
+        </h1>
+        <p class="text-muted" id="pageSubtitle" style="max-width:700px;margin:0 auto;">
+            Experiments with aim, apparatus, procedure, and results.
+        </p>
+    </div>
+
+    <!-- ================= LOADING ================= -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-tabs"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- ================= NOT FOUND ================= -->
+    <div id="notFound" class="empty-state" style="display:none;" role="alert">
+        <i class="fas fa-search"></i>
+        <h3>Subject Not Found</h3>
+        <p id="notFoundMsg">We couldn't find practicals for this subject.</p>
+        <a href="courses.html" class="btn btn-primary mt-2">
+            <i class="fas fa-arrow-left"></i> Browse Courses
+        </a>
+    </div>
+
+    <!-- ================= CONTENT ================= -->
+    <div id="content" style="display:none;">
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <i class="fas fa-flask"></i>
+                <div>
+                    <div class="num" id="statTotal">0</div>
+                    <div class="label">Total Experiments</div>
+                </div>
             </div>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="courses.html">Courses</a>
-                <a href="equipment.html">Equipment</a>
-                <a href="practicals.html" class="active">Practicals</a>
-                <a href="quizzes.html">Quizzes</a>
+            <div class="mini-stat">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <div class="num" id="statDone">0</div>
+                    <div class="label">Completed</div>
+                </div>
             </div>
-            <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
-                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
+            <div class="mini-stat">
+                <i class="fas fa-hourglass-half"></i>
+                <div>
+                    <div class="num" id="statPending">0</div>
+                    <div class="label">Pending</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-layer-group"></i>
+                <div>
+                    <div class="num" id="statUnits">0</div>
+                    <div class="label">Units Covered</div>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header">
-        <div class="container">
-            <h1>Engineering <span class="gradient-text">Practicals</span></h1>
-            <p>Hands-on practical guides for your engineering diploma</p>
-            <div class="search-filter">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search practicals..." id="practicalSearch" onkeyup="filterPracticals()">
-                    <button onclick="filterPracticals()"><i class="fas fa-arrow-right"></i></button>
-                </div>
+        <!-- Filter -->
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput"
+                       placeholder="Search practicals by aim or apparatus…"
+                       oninput="applyFilters()"
+                       aria-label="Search practicals">
             </div>
+            <select id="unitFilter" onchange="applyFilters()" aria-label="Unit">
+                <option value="all">All Units</option>
+            </select>
+            <select id="statusFilter" onchange="applyFilters()" aria-label="Status">
+                <option value="all">All Status</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+            </select>
+            <select id="diffFilter" onchange="applyFilters()" aria-label="Difficulty">
+                <option value="all">All Levels</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
         </div>
-    </section>
 
-    <!-- PRACTICALS GRID -->
-    <section class="section" style="padding-top: 0;">
-        <div class="container">
-            <div class="practical-grid" id="practicalGrid"></div>
-        </div>
-    </section>
+        <!-- List -->
+        <div class="practicals-list" id="practicalsList"></div>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>DIPLOMA HUB</h3>
-                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="practicals.html">Practicals</a>
-                    <a href="quizzes.html">Quizzes</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <a href="#">MSBTE Official</a>
-                    <a href="#">Lab Manuals</a>
-                    <a href="#">Question Papers</a>
-                    <a href="#">Notes</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
-            </div>
-        </div>
-    </footer>
+    </div>
 
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/auth.js"></script>
-    <script>
-        // Sample practicals data
-        const PRACTICALS = [
-            { id: 1, title: 'Write a Program to Add Two Numbers', subject: 'Programming Fundamentals', aim: 'To write and execute a C program to add two numbers' },
-            { id: 2, title: 'Study of Vernier Caliper', subject: 'Engineering Workshop', aim: 'To study the parts and working of Vernier Caliper' },
-            { id: 3, title: 'Database Creation using SQL', subject: 'Database Systems', aim: 'To create and manage a database using SQL' },
-            { id: 4, title: 'Study of Microscope', subject: 'Applied Science', aim: 'To study the parts and working of a compound microscope' },
-            { id: 5, title: 'HTML Form Creation', subject: 'Web Development', aim: 'To create a responsive HTML form with validation' },
-        ];
+</div>
 
-        function renderPracticals() {
-            const grid = document.getElementById('practicalGrid');
-            grid.innerHTML = PRACTICALS.map(p => `
-                <div class="practical-card">
-                    <div class="num">Practical #${p.id}</div>
-                    <h3>${p.title}</h3>
-                    <span class="badge">${p.subject}</span>
-                    <p>${p.aim}</p>
-                    <div class="status">Not started</div>
-                </div>
-            `).join('');
-        }
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Copied!</span>
+</div>
 
-        function filterPracticals() {
-            const query = document.getElementById('practicalSearch').value.toLowerCase();
-            const grid = document.getElementById('practicalGrid');
-            const filtered = PRACTICALS.filter(p => 
-                p.title.toLowerCase().includes(query) || 
-                p.subject.toLowerCase().includes(query)
-            );
-            grid.innerHTML = filtered.map(p => `
-                <div class="practical-card">
-                    <div class="num">Practical #${p.id}</div>
-                    <h3>${p.title}</h3>
-                    <span class="badge">${p.subject}</span>
-                    <p>${p.aim}</p>
-                    <div class="status">Not started</div>
-                </div>
-            `).join('');
-        }
-
-        renderPracticals();
-    </script>
-<!-- ============================================================
-FOOTER - FULLY WORKING WITH ALL LINKS
-============================================================ -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <h3>DIPLOMA HUB</h3>
-                <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                <div class="social-links">
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
-                <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
-                <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
-                <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
-                <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
-            </div>
-
-            <!-- Column 3: MSBTE Resources -->
-            <div class="footer-col">
-                <h4>MSBTE Resources</h4>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Curriculum
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    K-Scheme Lab Manuals
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Official Website
-                </a>
-            </div>
-
-            <!-- Column 4: Support -->
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
-                <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
-            </div>
-
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
         </div>
-
-        <!-- Bottom Bar -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="questions.html">Questions</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
         </div>
     </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
 </footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const subjectCode = params.get('code') || '311302';
+let subjectData = null;
+let courseData = null;
+let allPracticals = [];
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function findSubject(code) {
+    const data = window.courseData || {};
+    for (const slug in data) {
+        const course = data[slug];
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            const found = subs.find(s => s.code === code);
+            if (found) {
+                return {
+                    subject: found,
+                    course: { ...course, slug },
+                    semesterName: course.semesters[sem].name
+                };
+            }
+        }
+    }
+    return null;
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ============================================================
+// UI STATE
+// ============================================================
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+}
+function showNotFound(msg) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'block';
+    if (msg) document.getElementById('notFoundMsg').textContent = msg;
+}
+function showContent() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+}
+
+// ============================================================
+// PLACEHOLDER PRACTICALS GENERATOR
+// ============================================================
+function generatePracticals(subject) {
+    const units = subject.units && subject.units.length
+        ? subject.units
+        : [{ unit: 1, title: 'Introduction', marks: '—' }];
+
+    const templates = [
+        {
+            title: 'To study the basic concept of "{topic}"',
+            diff: 'easy',
+            aim: 'To understand the fundamental principles of "{topic}" through hands-on experiment.',
+            apparatus: ['Measuring instrument', 'Connecting wires', 'Power supply', 'Multimeter', 'Observation table'],
+            procedure: [
+                'Set up the apparatus as per the circuit diagram.',
+                'Verify all connections before switching on the power.',
+                'Take initial readings for the given input.',
+                'Vary the input in steps and note the corresponding output.',
+                'Record all observations in the observation table.'
+            ],
+            observation: 'Input vs Output readings tabulated across 5 sets.',
+            result: 'Verified the basic principle of "{topic}" successfully.',
+            precautions: [
+                'Check all connections before powering on.',
+                'Do not exceed the rated values of components.',
+                'Handle instruments carefully.'
+            ]
+        },
+        {
+            title: 'To verify the working of "{topic}"',
+            diff: 'medium',
+            aim: 'To verify the operational behaviour of "{topic}" under different conditions.',
+            apparatus: ['Experimental setup', 'CRO / Meter', 'Connecting probes', 'Variac / Source', 'Load'],
+            procedure: [
+                'Connect the setup as shown in the diagram.',
+                'Set the initial condition to minimum load.',
+                'Slowly increase the load and monitor readings.',
+                'Record the readings at 5 different points.',
+                'Plot a graph between input and output.'
+            ],
+            observation: 'Graph plotted shows the expected relationship.',
+            result: 'Observed that "{topic}" behaves as per the theoretical prediction.',
+            precautions: [
+                'Avoid short circuits.',
+                'Use insulated tools only.',
+                'Turn off the supply after the experiment.'
+            ]
+        },
+        {
+            title: 'To demonstrate "{topic}" with a practical application',
+            diff: 'hard',
+            aim: 'To apply the concept of "{topic}" to a real-world engineering problem.',
+            apparatus: ['Working model', 'Multimeter', 'CRO', 'Load bank', 'Connecting wires'],
+            procedure: [
+                'Assemble the working model as per design.',
+                'Test the model under no-load condition.',
+                'Apply load in incremental steps.',
+                'Observe and record the performance parameters.',
+                'Compare results with theoretical values.'
+            ],
+            observation: 'Performance observed matches within 5% of theoretical values.',
+            result: 'Successfully demonstrated the application of "{topic}".',
+            precautions: [
+                'Ensure proper earthing.',
+                'Do not touch live terminals.',
+                'Follow lab safety rules strictly.'
+            ]
+        }
+    ];
+
+    const list = [];
+    let n = 1;
+    units.forEach((u) => {
+        const topic = u.title || `Unit ${u.unit}`;
+        templates.forEach((t, j) => {
+            list.push({
+                id: `prac-${subject.code}-${u.unit}-${j}`,
+                number: n++,
+                title: t.title.replace(/{topic}/g, topic),
+                aim: t.aim.replace(/{topic}/g, topic),
+                unit: u.unit,
+                difficulty: t.diff,
+                marks: 25,
+                apparatus: t.apparatus,
+                procedure: t.procedure,
+                observation: t.observation.replace(/{topic}/g, topic),
+                result: t.result.replace(/{topic}/g, topic),
+                precautions: t.precautions,
+                pdf: '#'
+            });
+        });
+    });
+    return list;
+}
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadPracticals() {
+    showLoading();
+    setTimeout(() => {
+        const found = findSubject(subjectCode);
+        if (!found) {
+            showNotFound(`No subject found with code "${subjectCode}".`);
+            return;
+        }
+        subjectData = found.subject;
+        courseData = found.course;
+
+        allPracticals = subjectData.practicals && subjectData.practicals.length
+            ? subjectData.practicals
+            : generatePracticals(subjectData);
+
+        // Breadcrumb
+        document.getElementById('bcCourse').textContent = courseData.name;
+        document.getElementById('bcCourse').href = `course-detail.html?course=${courseData.slug}`;
+        document.getElementById('bcSubject').textContent = subjectData.name;
+        document.getElementById('bcSubject').href = `subject.html?code=${subjectData.code}`;
+
+        // Title
+        document.title = `${subjectData.name} — Practicals — DiplomaHub`;
+        document.getElementById('pageSubtitle').textContent =
+            `Practicals for ${subjectData.name} (${subjectData.code}) · ${found.semesterName}`;
+
+        // Populate unit filter
+        const unitFilter = document.getElementById('unitFilter');
+        const units = [...new Set(allPracticals.map(p => p.unit))].sort((a,b) => a-b);
+        unitFilter.innerHTML = '<option value="all">All Units</option>' +
+            units.map(u => `<option value="${u}">Unit ${u}</option>`).join('');
+
+        showContent();
+        updateStats();
+        applyFilters();
+    }, 200);
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats() {
+    const done = getCompletedCount();
+    document.getElementById('statTotal').textContent = allPracticals.length;
+    document.getElementById('statDone').textContent = done;
+    document.getElementById('statPending').textContent = allPracticals.length - done;
+    document.getElementById('statUnits').textContent =
+        [...new Set(allPracticals.map(p => p.unit))].length;
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const unit = document.getElementById('unitFilter').value;
+    const status = document.getElementById('statusFilter').value;
+    const diff = document.getElementById('diffFilter').value;
+
+    let list = allPracticals.filter(p => {
+        const matchQ = !q ||
+            p.title.toLowerCase().includes(q) ||
+            p.aim.toLowerCase().includes(q) ||
+            (p.apparatus || []).join(' ').toLowerCase().includes(q);
+        const matchU = unit === 'all' || String(p.unit) === unit;
+        const matchD = diff === 'all' || p.difficulty === diff;
+        const isDone = isCompleted(p.id);
+        const matchS = status === 'all' ||
+                       (status === 'completed' && isDone) ||
+                       (status === 'pending' && !isDone);
+        return matchQ && matchU && matchD && matchS;
+    });
+
+    renderPracticals(list);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderPracticals(list) {
+    const wrap = document.getElementById('practicalsList');
+    if (!list.length) {
+        wrap.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-flask"></i>
+                <h3>No practicals found</h3>
+                <p>Try changing filters or search term.</p>
+            </div>`;
+        return;
+    }
+
+    wrap.innerHTML = list.map(p => {
+        const saved = isBookmarked(p.id);
+        const done = isCompleted(p.id);
+        const diffLabel = p.difficulty.charAt(0).toUpperCase() + p.difficulty.slice(1);
+        const cardClass = done ? 'completed' : 'pending';
+
+        return `
+            <div class="practical-card ${cardClass}" id="card-${p.id}">
+                <!-- Header -->
+                <div class="p-header" onclick="toggleBody('${p.id}')">
+                    <div class="p-header-top">
+                        <div style="flex:1;min-width:200px;">
+                            <div class="p-badges mb-1">
+                                <span class="p-badge unit"><i class="fas fa-layer-group"></i> Unit ${p.unit}</span>
+                                <span class="p-badge ${p.difficulty}"><i class="fas fa-signal"></i> ${diffLabel}</span>
+                                <span class="p-badge ${done ? 'completed' : 'pending'}">
+                                    <i class="fas ${done ? 'fa-check-circle' : 'fa-hourglass-half'}"></i>
+                                    ${done ? 'Completed' : 'Pending'}
+                                </span>
+                            </div>
+                            <div class="p-title">
+                                <span class="p-num">Exp ${p.number}.</span>${escapeHtml(p.title)}
+                            </div>
+                            <div class="p-aim-short">
+                                <strong>Aim:</strong> ${escapeHtml(p.aim)}
+                            </div>
+                        </div>
+                        <button class="p-toggle" id="toggle-${p.id}" aria-label="Expand">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="p-body" id="body-${p.id}">
+
+                    <!-- Aim -->
+                    <div class="p-section">
+                        <div class="p-section-title"><i class="fas fa-bullseye"></i> Aim</div>
+                        <div class="p-content">${escapeHtml(p.aim)}</div>
+                    </div>
+
+                    <!-- Apparatus -->
+                    ${p.apparatus ? `
+                        <div class="p-section">
+                            <div class="p-section-title"><i class="fas fa-tools"></i> Apparatus Required</div>
+                            <div class="apparatus-grid">
+                                ${p.apparatus.map(a => `
+                                    <div class="apparatus-item">
+                                        <i class="fas fa-check"></i> ${escapeHtml(a)}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Procedure -->
+                    ${p.procedure ? `
+                        <div class="p-section">
+                            <div class="p-section-title"><i class="fas fa-list-ol"></i> Procedure</div>
+                            <ol class="procedure-list">
+                                ${p.procedure.map((step, i) => `
+                                    <li>
+                                        <span class="p-step-num">${i + 1}</span>
+                                        <div>${escapeHtml(step)}</div>
+                                    </li>
+                                `).join('')}
+                            </ol>
+                        </div>
+                    ` : ''}
+
+                    <!-- Observation -->
+                    ${p.observation ? `
+                        <div class="p-section">
+                            <div class="p-section-title"><i class="fas fa-eye"></i> Observation</div>
+                            <div class="p-content">${escapeHtml(p.observation)}</div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Result -->
+                    ${p.result ? `
+                        <div class="p-section">
+                            <div class="p-section-title"><i class="fas fa-check-circle"></i> Result</div>
+                            <div class="result-box">
+                                <strong>✓</strong> ${escapeHtml(p.result)}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Precautions -->
+                    ${p.precautions && p.precautions.length ? `
+                        <div class="p-section">
+                            <div class="p-section-title"><i class="fas fa-exclamation-triangle"></i> Precautions</div>
+                            <div class="precaution-box">
+                                <ul style="margin:0 0 0 20px;">
+                                    ${p.precautions.map(x => `<li>${escapeHtml(x)}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Footer -->
+                    <div class="p-footer">
+                        <div class="meta">
+                            <span><i class="fas fa-star"></i> ${p.marks} marks</span>
+                            <span><i class="fas fa-list-ol"></i> ${(p.procedure || []).length} steps</span>
+                            <span><i class="fas fa-clock"></i> ~30 min</span>
+                        </div>
+                        <div class="actions">
+                            <button onclick="copyProcedure('${p.id}')" title="Copy procedure">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                            <button onclick="toggleBookmark('${p.id}')"
+                                    class="${saved ? 'active' : ''}"
+                                    title="Bookmark">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                            <button class="done-btn" onclick="toggleComplete('${p.id}')" title="Mark complete">
+                                <i class="fas ${done ? 'fa-times-circle' : 'fa-check-circle'}"></i>
+                                ${done ? 'Undo' : 'Mark Done'}
+                            </button>
+                            <a href="${p.pdf || '#'}" download class="primary" title="Download lab manual">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// TOGGLE BODY
+// ============================================================
+function toggleBody(id) {
+    const body = document.getElementById('body-' + id);
+    const toggle = document.getElementById('toggle-' + id);
+    if (!body || !toggle) return;
+    const isOpen = body.classList.toggle('open');
+    toggle.classList.toggle('open', isOpen);
+    toggle.innerHTML = isOpen
+        ? '<i class="fas fa-chevron-up"></i>'
+        : '<i class="fas fa-chevron-down"></i>';
+}
+
+// ============================================================
+// COMPLETE / UNDO
+// ============================================================
+function getCompleted() {
+    try { return JSON.parse(localStorage.getItem('completedPracticals')) || []; } catch(e) { return []; }
+}
+function isCompleted(id) { return getCompleted().includes(id); }
+function getCompletedCount() { return getCompleted().length; }
+
+function toggleComplete(id) {
+    let list = getCompleted();
+    const i = list.indexOf(id);
+    if (i > -1) list.splice(i, 1); else list.push(id);
+    localStorage.setItem('completedPracticals', JSON.stringify(list));
+    showToast(i > -1 ? 'Marked as pending' : 'Marked as completed!');
+    updateStats();
+    applyFilters();
+}
+
+// ============================================================
+// COPY
+// ============================================================
+function copyProcedure(id) {
+    const p = allPracticals.find(x => x.id === id);
+    if (!p) return;
+    const text =
+`Exp ${p.number}: ${p.title}
+
+Aim: ${p.aim}
+
+Apparatus:
+${(p.apparatus || []).map(a => '- ' + a).join('\n')}
+
+Procedure:
+${(p.procedure || []).map((s, i) => `${i + 1}. ${s}`).join('\n')}
+
+Observation: ${p.observation || ''}
+Result: ${p.result || ''}
+
+Precautions:
+${(p.precautions || []).map(x => '- ' + x).join('\n')}
+
+--- via DiplomaHub`;
+
+    navigator.clipboard.writeText(text)
+        .then(() => showToast('Procedure copied!'))
+        .catch(() => showToast('Copy failed'));
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('practicalBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('practicalBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) list.splice(i, 1); else list.push(id);
+    localStorage.setItem('practicalBookmarks', JSON.stringify(list));
+    applyFilters();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadPracticals();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
