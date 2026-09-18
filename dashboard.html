@@ -1,424 +1,993 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        .dashboard-page {
-            padding: 100px 20px 60px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .dashboard-header h1 {
-            font-size: 2rem;
-        }
-        .dashboard-header .user-info {
-            color: var(--gray-400);
-        }
-        .dashboard-header .user-info .name {
-            color: var(--white);
-            font-weight: 600;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 25px;
-            text-align: center;
-        }
-        .stat-card .number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--cyan-400);
-        }
-        .stat-card .label {
-            color: var(--gray-400);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
-        .dashboard-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 25px;
-        }
-        .dashboard-card h3 {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .dashboard-card h3 i {
-            color: var(--cyan-400);
-        }
-        .dashboard-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        .dashboard-card ul li {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-between;
-            color: var(--gray-300);
-        }
-        .dashboard-card ul li:last-child {
-            border-bottom: none;
-        }
-        .dashboard-card ul li .status {
-            color: var(--cyan-400);
-            font-size: 0.85rem;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--glass-border);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        .progress-bar .fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--cyan-400), #3b82f6);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-        .empty-state {
-            text-align: center;
-            color: var(--gray-400);
-            padding: 30px 0;
-        }
-        .empty-state i {
-            font-size: 2.5rem;
-            color: var(--gray-500);
-            margin-bottom: 10px;
-        }
-        .sign-out-btn {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        .sign-out-btn:hover {
-            background: rgba(239, 68, 68, 0.25);
-        }
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            .dashboard-header {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Your personalized DiplomaHub dashboard — track progress, continue learning, view bookmarks, and see recent activity.">
+<meta name="keywords" content="DiplomaHub Dashboard, Student Dashboard, MSBTE Progress">
+<meta name="robots" content="noindex, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dashboard — DiplomaHub">
+<meta property="og:description" content="Track your learning progress on DiplomaHub.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/dashboard.html">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/dashboard.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Dashboard — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= DASHBOARD LAYOUT ================= */
+    .dash-hero {
+        background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(168,85,247,0.06));
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+        margin-top: var(--space-lg);
+        margin-bottom: var(--space-lg);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-lg);
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+    }
+    .dash-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%; right: -15%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(0,212,255,0.15), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    .dash-hero-left {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        min-width: 260px;
+    }
+    .dash-avatar {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #fff;
+        flex-shrink: 0;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.3), 0 0 0 4px var(--surface), 0 0 0 6px var(--primary-glow);
+        letter-spacing: -1px;
+        user-select: none;
+    }
+    .dash-hero h1 {
+        font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+        margin-bottom: 4px;
+    }
+    .dash-hero p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    .dash-hero-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+    .dash-hero-actions a, .dash-hero-actions button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 16px;
+        border-radius: var(--radius-pill);
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .dash-hero-actions a:hover, .dash-hero-actions button:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .dash-hero-actions .danger:hover {
+        border-color: var(--error);
+        color: var(--error);
+        background: rgba(239,68,68,0.1);
+    }
+
+    /* ================= STATS ================= */
+    .dash-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: var(--space-md);
+        margin-bottom: var(--space-lg);
+    }
+    .dash-stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-md);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: var(--transition);
+    }
+    .dash-stat:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .dash-stat .icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    .dash-stat .icon.xp { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .dash-stat .icon.level { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .dash-stat .icon.streak { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .dash-stat .icon.bookmark { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .dash-stat .icon.lesson { background: rgba(6,182,212,0.15); color: #06b6d4; }
+    .dash-stat .icon.quiz { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+    .dash-stat .icon.practical { background: rgba(244,63,94,0.15); color: #f43f5e; }
+    .dash-stat .icon.download { background: rgba(16,185,129,0.15); color: #10b981; }
+    .dash-stat .num {
+        font-size: 1.3rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+    .dash-stat .label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+    }
+
+    /* ================= GRID ================= */
+    .dash-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: var(--space-lg);
+        margin-bottom: var(--space-lg);
+    }
+    @media (max-width: 900px) {
+        .dash-grid { grid-template-columns: 1fr; }
+    }
+
+    .dash-panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+    }
+    .dash-panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: var(--space-md);
+        flex-wrap: wrap;
+    }
+    .dash-panel-head h3 {
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .dash-panel-head h3 i { color: var(--primary); }
+    .dash-panel-head a {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--primary);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .dash-panel-head a:hover { text-decoration: underline; }
+
+    /* ================= CONTINUE LEARNING ================= */
+    .continue-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .continue-item {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 14px;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        color: var(--text);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+    .continue-item:hover {
+        border-color: var(--primary);
+        transform: translateX(4px);
+    }
+    .continue-item .ci-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 10px;
+        background: var(--primary-glow);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+    .continue-item .ci-body {
+        flex: 1;
+        min-width: 0;
+    }
+    .continue-item .ci-title {
+        font-size: 0.92rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .continue-item .ci-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+    }
+    .continue-item .ci-bar {
+        height: 5px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+    .continue-item .ci-bar span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), #a855f7);
+        transition: width 0.5s ease;
+    }
+
+    /* ================= ACTIVITY ================= */
+    .activity-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .activity-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.88rem;
+    }
+    .activity-list li:last-child { border-bottom: none; }
+    .activity-list .a-icon {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        background: var(--primary-glow);
+        color: var(--primary);
+    }
+    .activity-list .a-body { flex: 1; min-width: 0; }
+    .activity-list .a-title {
+        color: var(--text);
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .activity-list .a-time {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        margin-top: 2px;
+    }
+    .activity-list .a-badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--primary);
+        background: var(--primary-glow);
+        padding: 2px 10px;
+        border-radius: var(--radius-pill);
+        align-self: center;
+    }
+
+    /* ================= BOOKMARKS ================= */
+    .bm-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 10px;
+    }
+    .bm-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+    .bm-item:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .bm-item i {
+        color: var(--primary);
+        font-size: 0.95rem;
+        flex-shrink: 0;
+    }
+
+    /* ================= QUICK LINKS ================= */
+    .quick-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+    }
+    .quick-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 10px;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        color: var(--text-muted);
+        transition: var(--transition);
+        text-align: center;
+        gap: 8px;
+        font-size: 0.82rem;
+        font-weight: 500;
+    }
+    .quick-card:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+        transform: translateY(-3px);
+    }
+    .quick-card i {
+        font-size: 1.4rem;
+        color: var(--primary);
+    }
+
+    /* ================= EMPTY STATE ================= */
+    .empty-mini {
+        text-align: center;
+        padding: 24px 12px;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+    }
+    .empty-mini i {
+        font-size: 2rem;
+        color: var(--text-dim);
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    /* ================= LOADING ================= */
+    .loading-screen {
+        text-align: center;
+        padding: var(--space-2xl);
+    }
+    .loading-screen .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--surface);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        margin: 0 auto var(--space-md);
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+</style>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>DIPLOMA<span class="highlight">HUB</span></span>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="dashboard.html" class="btn btn-outline active" style="padding:6px 16px;">
+            <i class="fas fa-th-large"></i> Dashboard
+        </a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <span>Dashboard</span>
+    </div>
+
+    <!-- LOADING -->
+    <div id="loading" class="loading-screen">
+        <div class="spinner"></div>
+        <p class="text-muted">Loading your dashboard…</p>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="dashContent" style="display:none;">
+
+        <!-- HERO -->
+        <section class="dash-hero">
+            <div class="dash-hero-left">
+                <div class="dash-avatar" id="heroAvatar">U</div>
+                <div>
+                    <h1 id="welcomeText">Hello!</h1>
+                    <p id="welcomeSub">Ready to continue your learning journey?</p>
+                </div>
             </div>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="courses.html">Courses</a>
-                <a href="equipment.html">Equipment</a>
-                <a href="practicals.html">Practicals</a>
-                <a href="quizzes.html">Quizzes</a>
-            </div>
-            <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="themeIcon"></i>
+            <div class="dash-hero-actions">
+                <a href="profile.html">
+                    <i class="fas fa-user-cog"></i> Profile
+                </a>
+                <a href="resources.html">
+                    <i class="fas fa-layer-group"></i> Resources
+                </a>
+                <button class="danger" onclick="handleSignOut()">
+                    <i class="fas fa-sign-out-alt"></i> Sign out
                 </button>
-                <a href="dashboard.html" class="btn btn-primary btn-sm" id="authBtn">Dashboard</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
-        </div>
-    </nav>
+        </section>
 
-    <!-- DASHBOARD -->
-    <section class="dashboard-page">
-        <div class="dashboard-header">
-            <div>
-                <h1>My <span class="gradient-text">Dashboard</span></h1>
-                <p class="user-info" id="userDisplay">Welcome back, <span class="name">Student</span>! 👋</p>
-            </div>
-            <div>
-                <button class="sign-out-btn" onclick="signOut()">
-                    <i class="fas fa-sign-out-alt"></i> Sign Out
-                </button>
-            </div>
-        </div>
+        <!-- STATS -->
+        <div class="dash-stats" id="statsGrid"></div>
 
-        <!-- Stats -->
-        <div class="stats-grid" id="statsGrid">
-            <div class="stat-card">
-                <div class="number" id="statXP">0</div>
-                <div class="label">XP Points</div>
+        <!-- GRID ROW 1 -->
+        <div class="dash-grid">
+
+            <!-- Continue Learning -->
+            <div class="dash-panel">
+                <div class="dash-panel-head">
+                    <h3><i class="fas fa-play-circle"></i> Continue Learning</h3>
+                    <a href="courses.html">Browse all <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="continue-list" id="continueList"></div>
             </div>
-            <div class="stat-card">
-                <div class="number" id="statLevel">1</div>
-                <div class="label">Level</div>
+
+            <!-- Recent Activity -->
+            <div class="dash-panel">
+                <div class="dash-panel-head">
+                    <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                </div>
+                <ul class="activity-list" id="activityList"></ul>
             </div>
-            <div class="stat-card">
-                <div class="number" id="statStreak">0</div>
-                <div class="label">Day Streak</div>
-            </div>
-            <div class="stat-card">
-                <div class="number" id="statBookmarks">0</div>
-                <div class="label">Bookmarks</div>
-            </div>
+
         </div>
 
-        <!-- Dashboard Grid -->
-        <div class="dashboard-grid">
-            <!-- Left: Progress -->
-            <div class="dashboard-card">
-                <h3><i class="fas fa-chart-line"></i> Your Progress</h3>
-                <div id="progressContent">
-                    <div class="empty-state">
-                        <i class="fas fa-book"></i>
-                        <p>Start learning to track your progress!</p>
-                        <a href="courses.html" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                            Explore Courses
-                        </a>
-                    </div>
+        <!-- GRID ROW 2 -->
+        <div class="dash-grid">
+
+            <!-- Bookmarks -->
+            <div class="dash-panel">
+                <div class="dash-panel-head">
+                    <h3><i class="fas fa-bookmark"></i> Your Bookmarks</h3>
+                    <a href="resources.html">See all <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="bm-grid" id="bookmarkGrid"></div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="dash-panel">
+                <div class="dash-panel-head">
+                    <h3><i class="fas fa-bolt"></i> Quick Links</h3>
+                </div>
+                <div class="quick-grid">
+                    <a class="quick-card" href="courses.html"><i class="fas fa-graduation-cap"></i> Courses</a>
+                    <a class="quick-card" href="notes.html"><i class="fas fa-sticky-note"></i> Notes</a>
+                    <a class="quick-card" href="books.html"><i class="fas fa-book"></i> Books</a>
+                    <a class="quick-card" href="papers.html"><i class="fas fa-file-alt"></i> Papers</a>
+                    <a class="quick-card" href="practicals.html"><i class="fas fa-flask"></i> Practicals</a>
+                    <a class="quick-card" href="quizzers.html"><i class="fas fa-question-circle"></i> Quizzes</a>
+                    <a class="quick-card" href="equipment.html"><i class="fas fa-tools"></i> Equipment</a>
+                    <a class="quick-card" href="msbte.html"><i class="fas fa-link"></i> MSBTE</a>
+                    <a class="quick-card" href="ai.html"><i class="fas fa-robot"></i> AI</a>
+                    <a class="quick-card" href="search.html"><i class="fas fa-search"></i> Search</a>
                 </div>
             </div>
 
-            <!-- Right: Recent Activity -->
-            <div class="dashboard-card">
-                <h3><i class="fas fa-clock"></i> Recent Activity</h3>
-                <ul id="recentActivity">
-                    <li style="color: var(--gray-400); text-align: center; padding: 20px;">
-                        No activity yet. Start learning!
-                    </li>
-                </ul>
-            </div>
         </div>
-    </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>DIPLOMA HUB</h3>
-                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="practicals.html">Practicals</a>
-                    <a href="quizzes.html">Quizzes</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    </div>
 
-    <script src="js/auth.js"></script>
-    <script>
-        // ============================================
-        // DASHBOARD - LOAD USER DATA
-        // ============================================
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Check if auth.js loaded
-            if (typeof initSupabase !== 'function') {
-                alert('⚠️ Authentication not loaded. Please refresh.');
-                return;
-            }
-            
-            // Initialize Supabase
-            initSupabase();
-            
-            // Check if user is logged in
-            const user = await getCurrentUser();
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // Update user info
-            const name = user.user_metadata?.full_name || user.email || 'Student';
-            document.querySelector('#userDisplay .name').textContent = name;
-            
-            // Load profile
-            const profile = await getProfile(user.id);
-            if (profile) {
-                document.getElementById('statXP').textContent = profile.xp || 0;
-                document.getElementById('statLevel').textContent = profile.level || 1;
-                document.getElementById('statStreak').textContent = profile.study_streak || 0;
-            }
-            
-            // Load bookmarks
-            const bookmarks = await getBookmarks();
-            document.getElementById('statBookmarks').textContent = bookmarks.length;
-            
-            // Load progress
-            const progress = await getUserProgress();
-            if (progress.length > 0) {
-                const totalProgress = progress.reduce((sum, p) => sum + (p.progress_percentage || 0), 0) / progress.length;
-                renderProgress(progress, Math.round(totalProgress));
-            }
-            
-            // Load recent activity (quiz attempts)
-            const attempts = await getQuizHistory();
-            if (attempts && attempts.length > 0) {
-                renderRecentActivity(attempts.slice(0, 5));
-            }
-        });
+</div>
 
-        // ============================================
-        // RENDER FUNCTIONS
-        // ============================================
-        function renderProgress(progress, total) {
-            const container = document.getElementById('progressContent');
-            
-            // Show only first 3 subjects
-            const top3 = progress.slice(0, 3);
-            
-            container.innerHTML = `
-                <div style="margin-bottom: 15px;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
-                        <span>Overall Progress</span>
-                        <span>${total}%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="fill" style="width: ${total}%"></div>
-                    </div>
-                </div>
-                ${top3.map(p => `
-                    <div style="margin-bottom: 12px;">
-                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
-                            <span>${p.subject_id || 'Subject'}</span>
-                            <span>${p.progress_percentage || 0}%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="fill" style="width: ${p.progress_percentage || 0}%"></div>
-                        </div>
-                    </div>
-                `).join('')}
-                ${progress.length > 3 ? `<p style="color: var(--gray-400); font-size: 0.8rem;">+ ${progress.length - 3} more subjects</p>` : ''}
-            `;
-        }
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
 
-        function renderRecentActivity(attempts) {
-            const container = document.getElementById('recentActivity');
-            container.innerHTML = attempts.map(a => `
-                <li>
-                    <span>📝 Quiz: ${a.quiz_id || 'Quiz'}</span>
-                    <span class="status">${a.score || 0}%</span>
-                </li>
-            `).join('');
-        }
-    </script>
-<!-- ============================================================
-FOOTER - FULLY WORKING WITH ALL LINKS
-============================================================ -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <h3>DIPLOMA HUB</h3>
-                <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                <div class="social-links">
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
-                <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
-                <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
-                <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
-                <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
-            </div>
-
-            <!-- Column 3: MSBTE Resources -->
-            <div class="footer-col">
-                <h4>MSBTE Resources</h4>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Curriculum
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    K-Scheme Lab Manuals
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Official Website
-                </a>
-            </div>
-
-            <!-- Column 4: Support -->
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
-                <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
-            </div>
-
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
         </div>
-
-        <!-- Bottom Bar -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>MSBTE Resources</h4>
+            <a href="https://msbte.ac.in/" target="_blank" rel="noopener">🏛️ MSBTE Official</a>
+            <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">📖 Curriculum</a>
+            <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">🔬 Lab Manuals</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
         </div>
     </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
 </footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function getSession() {
+    try {
+        const s = localStorage.getItem('dh_session') || sessionStorage.getItem('dh_session');
+        if (!s) return null;
+        const p = JSON.parse(s);
+        if (p.expiresAt && p.expiresAt < Date.now()) return null;
+        return p;
+    } catch(e) { return null; }
+}
+
+function getAvatarColor(email) {
+    const colors = ['#00d4ff', '#a855f7', '#f59e0b', '#22c55e', '#ef4444', '#06b6d4', '#8b5cf6', '#10b981'];
+    let hash = 0;
+    for (let i = 0; i < email.length; i++) hash = email.charCodeAt(i) + ((hash << 5) - hash);
+    return colors[Math.abs(hash) % colors.length];
+}
+
+function getInitials(name, email) {
+    const src = (name || email || 'U').trim();
+    const parts = src.split(/\s+/);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return src.substring(0, 2).toUpperCase();
+}
+
+function timeAgo(ts) {
+    const diff = Date.now() - ts;
+    const s = Math.floor(diff / 1000);
+    if (s < 60) return 'Just now';
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m} min ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h} hr ago`;
+    const d = Math.floor(h / 24);
+    if (d < 7) return `${d} day${d > 1 ? 's' : ''} ago`;
+    return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function getGreeting() {
+    const h = new Date().getHours();
+    if (h < 12) return 'Good morning';
+    if (h < 17) return 'Good afternoon';
+    return 'Good evening';
+}
+
+// ============================================================
+// LOAD STATS
+// ============================================================
+function computeStats() {
+    // Bookmarks total
+    const bmKeys = ['noteBookmarks','bookBookmarks','questionBookmarks','answerBookmarks','practicalBookmarks','quizBookmarks','paperBookmarks','equipmentBookmarks','searchBookmarks','resourceBookmarks','msbteBookmarks'];
+    let totalBookmarks = 0;
+    bmKeys.forEach(k => {
+        try {
+            const arr = JSON.parse(localStorage.getItem(k)) || [];
+            totalBookmarks += arr.length;
+        } catch(e) {}
+    });
+
+    // Lessons
+    let lessonsDone = 0;
+    try {
+        const map = JSON.parse(localStorage.getItem('lessonProgress')) || {};
+        for (const code in map) lessonsDone += (map[code] || []).length;
+    } catch(e) {}
+
+    // Quizzes
+    let quizAttempts = 0;
+    try {
+        const scores = JSON.parse(localStorage.getItem('quizScores')) || {};
+        for (const id in scores) quizAttempts += (scores[id].attempts || 0);
+    } catch(e) {}
+
+    // Practicals
+    let pracDone = 0;
+    try { pracDone = (JSON.parse(localStorage.getItem('completedPracticals')) || []).length; } catch(e) {}
+
+    // Downloads
+    let downloads = 0;
+    ['noteDownloads','bookDownloads','paperDownloads','resourceDownloads'].forEach(k => {
+        try {
+            const obj = JSON.parse(localStorage.getItem(k)) || {};
+            for (const id in obj) downloads += obj[id];
+        } catch(e) {}
+    });
+
+    // XP (weighted)
+    const xp = (lessonsDone * 10) + (quizAttempts * 20) + (pracDone * 30) + (totalBookmarks * 5);
+    const level = Math.max(1, Math.floor(Math.sqrt(xp / 50)) + 1);
+
+    // Streak (from activity log)
+    let streak = 0;
+    try {
+        const days = JSON.parse(localStorage.getItem('dh_activity_days')) || [];
+        const today = new Date().toDateString();
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+        // Get unique sorted days
+        const unique = [...new Set(days)].sort().reverse();
+        if (unique.length) {
+            if (unique[0] === today || unique[0] === yesterday) {
+                streak = 1;
+                for (let i = 1; i < unique.length; i++) {
+                    const prevDate = new Date(unique[i - 1]);
+                    const currDate = new Date(unique[i]);
+                    const diffDays = Math.round((prevDate - currDate) / 86400000);
+                    if (diffDays === 1) streak++;
+                    else break;
+                }
+            }
+        }
+    } catch(e) {}
+
+    // Record today
+    try {
+        const days = JSON.parse(localStorage.getItem('dh_activity_days')) || [];
+        if (!days.includes(new Date().toDateString())) {
+            days.push(new Date().toDateString());
+            if (days.length > 365) days.splice(0, days.length - 365);
+            localStorage.setItem('dh_activity_days', JSON.stringify(days));
+        }
+    } catch(e) {}
+
+    return {
+        xp, level, streak, bookmarks: totalBookmarks,
+        lessons: lessonsDone, quizzes: quizAttempts,
+        practicals: pracDone, downloads
+    };
+}
+
+// ============================================================
+// RENDER STATS
+// ============================================================
+function renderStats(s) {
+    const stats = [
+        { icon: 'fa-star', cls: 'xp', num: s.xp, label: 'XP Points' },
+        { icon: 'fa-trophy', cls: 'level', num: s.level, label: 'Level' },
+        { icon: 'fa-fire', cls: 'streak', num: s.streak, label: 'Day Streak' },
+        { icon: 'fa-bookmark', cls: 'bookmark', num: s.bookmarks, label: 'Bookmarks' },
+        { icon: 'fa-book-open', cls: 'lesson', num: s.lessons, label: 'Lessons Done' },
+        { icon: 'fa-question-circle', cls: 'quiz', num: s.quizzes, label: 'Quiz Attempts' },
+        { icon: 'fa-flask', cls: 'practical', num: s.practicals, label: 'Practicals' },
+        { icon: 'fa-download', cls: 'download', num: s.downloads, label: 'Downloads' }
+    ];
+    document.getElementById('statsGrid').innerHTML = stats.map(st => `
+        <div class="dash-stat">
+            <div class="icon ${st.cls}"><i class="fas ${st.icon}"></i></div>
+            <div>
+                <div class="num">${st.num}</div>
+                <div class="label">${st.label}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ============================================================
+// CONTINUE LEARNING (from lessonProgress map)
+// ============================================================
+function renderContinue() {
+    const list = document.getElementById('continueList');
+    let progressMap = {};
+    try { progressMap = JSON.parse(localStorage.getItem('lessonProgress')) || {}; } catch(e) {}
+
+    const data = window.courseData || {};
+
+    // Find subjects with progress
+    const items = [];
+    for (const code in progressMap) {
+        const units = progressMap[code] || [];
+        if (!units.length) continue;
+
+        // Find subject name
+        let name = code;
+        let totalUnits = units.length;
+        for (const slug in data) {
+            const c = data[slug];
+            for (const sem in c.semesters) {
+                const sub = (c.semesters[sem].subjects || []).find(s => s.code === code);
+                if (sub) {
+                    name = sub.name;
+                    totalUnits = (sub.units || []).length || units.length;
+                }
+            }
+        }
+
+        const pct = Math.min(100, Math.round((units.length / totalUnits) * 100));
+        items.push({ code, name, done: units.length, total: totalUnits, pct });
+    }
+
+    items.sort((a, b) => b.pct - a.pct);
+
+    if (!items.length) {
+        list.innerHTML = `
+            <div class="empty-mini">
+                <i class="fas fa-book-open"></i>
+                <p>You haven't started any lessons yet.</p>
+                <a href="courses.html" class="btn btn-primary btn-sm mt-1" style="display:inline-flex;">
+                    <i class="fas fa-rocket"></i> Start Learning
+                </a>
+            </div>
+        `;
+        return;
+    }
+
+    list.innerHTML = items.slice(0, 5).map(it => `
+        <a class="continue-item" href="lessons.html?code=${it.code}">
+            <div class="ci-icon">📘</div>
+            <div class="ci-body">
+                <div class="ci-title">${it.name}</div>
+                <div class="ci-meta">
+                    <span>${it.done}/${it.total} units</span>
+                    <span>${it.pct}%</span>
+                </div>
+                <div class="ci-bar"><span style="width:${it.pct}%"></span></div>
+            </div>
+        </a>
+    `).join('');
+}
+
+// ============================================================
+// RECENT ACTIVITY
+// ============================================================
+function renderActivity() {
+    const list = document.getElementById('activityList');
+    let log = [];
+    try { log = JSON.parse(localStorage.getItem('dh_activity_log')) || []; } catch(e) {}
+
+    if (!log.length) {
+        list.innerHTML = `
+            <li class="empty-mini" style="border:none;justify-content:center;">
+                <i class="fas fa-history"></i>
+                <p>No activity yet. Start learning!</p>
+            </li>
+        `;
+        return;
+    }
+
+    list.innerHTML = log.slice(0, 8).map(a => `
+        <li>
+            <div class="a-icon"><i class="fas ${a.icon || 'fa-circle'}"></i></div>
+            <div class="a-body">
+                <div class="a-title">${a.title || 'Activity'}</div>
+                <div class="a-time">${timeAgo(a.ts)}</div>
+            </div>
+            ${a.badge ? `<span class="a-badge">${a.badge}</span>` : ''}
+        </li>
+    `).join('');
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function renderBookmarks() {
+    const grid = document.getElementById('bookmarkGrid');
+    const sources = [
+        { key: 'noteBookmarks', type: 'Notes', icon: 'fa-sticky-note', url: 'notes.html' },
+        { key: 'bookBookmarks', type: 'Books', icon: 'fa-book', url: 'books.html' },
+        { key: 'paperBookmarks', type: 'Papers', icon: 'fa-file-alt', url: 'papers.html' },
+        { key: 'quizBookmarks', type: 'Quizzes', icon: 'fa-question-circle', url: 'quizzers.html' },
+        { key: 'equipmentBookmarks', type: 'Equipment', icon: 'fa-tools', url: 'equipment.html' },
+        { key: 'msbteBookmarks', type: 'MSBTE', icon: 'fa-link', url: 'msbte.html' }
+    ];
+
+    const items = [];
+    sources.forEach(src => {
+        try {
+            const arr = JSON.parse(localStorage.getItem(src.key)) || [];
+            if (arr.length > 0) {
+                items.push({ type: src.type, icon: src.icon, url: src.url, count: arr.length });
+            }
+        } catch(e) {}
+    });
+
+    if (!items.length) {
+        grid.innerHTML = `
+            <div class="empty-mini">
+                <i class="fas fa-bookmark"></i>
+                <p>No bookmarks yet.</p>
+                <a href="resources.html" class="btn btn-outline btn-sm mt-1" style="display:inline-flex;">
+                    <i class="fas fa-search"></i> Browse Content
+                </a>
+            </div>
+        `;
+        return;
+    }
+
+    grid.innerHTML = items.map(b => `
+        <a class="bm-item" href="${b.url}">
+            <i class="fas ${b.icon}"></i>
+            <span>${b.type}</span>
+            <span style="margin-left:auto;color:var(--primary);font-weight:700;">${b.count}</span>
+        </a>
+    `).join('');
+}
+
+// ============================================================
+// SIGN OUT
+// ============================================================
+function handleSignOut() {
+    if (!confirm('Sign out of your account?')) return;
+    localStorage.removeItem('dh_session');
+    sessionStorage.removeItem('dh_session');
+    showToast('Signed out');
+    setTimeout(() => { window.location.href = 'index.html'; }, 700);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+(function init() {
+    const session = getSession();
+
+    if (!session || !session.user) {
+        // Not logged in → go to login
+        window.location.href = 'login.html?next=dashboard.html';
+        return;
+    }
+
+    const user = session.user;
+
+    // Hero
+    document.getElementById('heroAvatar').textContent = getInitials(user.name, user.email);
+    document.getElementById('heroAvatar').style.background =
+        `linear-gradient(135deg, ${getAvatarColor(user.email)}, ${getAvatarColor(user.email)}dd)`;
+
+    const greeting = getGreeting();
+    const firstName = (user.name || user.email || 'Student').split(' ')[0];
+    document.getElementById('welcomeText').textContent = `${greeting}, ${firstName}! 👋`;
+    document.getElementById('welcomeSub').textContent =
+        `Ready to continue your ${user.branch ? 'Diploma' : 'learning'} journey? Let's go!`;
+
+    // Render
+    const stats = computeStats();
+    renderStats(stats);
+    renderContinue();
+    renderActivity();
+    renderBookmarks();
+
+    // Show
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('dashContent').style.display = 'block';
+})();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
