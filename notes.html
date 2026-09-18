@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Download free MSBTE Diploma notes PDF for all subjects — unit-wise, exam-focused, and easy to revise.">
+<meta name="keywords" content="MSBTE Notes, Diploma Notes PDF, Unit-wise Notes, K-Scheme Notes, Free Study Material">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Notes — DiplomaHub">
+<meta property="og:description" content="Free MSBTE Diploma notes PDF — unit-wise and exam-ready.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/notes.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Notes — DiplomaHub">
+<meta name="twitter:description" content="Free MSBTE Diploma notes PDF — unit-wise and exam-ready.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/notes.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Notes — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input {
+        padding-left: 44px;
+    }
+    .filter-bar select {
+        max-width: 180px;
+    }
+
+    /* ================= STATS ROW ================= */
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 140px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i {
+        font-size: 1.4rem;
+        color: var(--primary);
+    }
+    .mini-stat .num {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+    .mini-stat .label {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+    }
+
+    /* ================= NOTES GRID ================= */
+    .notes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .note-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+    .note-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), #a855f7);
+        opacity: 0;
+        transition: opacity var(--transition);
+    }
+    .note-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        box-shadow: var(--shadow-glow);
+    }
+    .note-card:hover::before { opacity: 1; }
+
+    .note-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .note-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+    .note-icon.pdf { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .note-icon.doc { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .note-icon.ppt { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .note-icon.img { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+
+    .note-bookmark {
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 1rem;
+        padding: 4px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .note-bookmark:hover { color: var(--primary); }
+    .note-bookmark.active { color: var(--primary); }
+
+    .note-card h3 {
+        font-size: 1.02rem;
+        line-height: 1.4;
+        margin-bottom: 2px;
+    }
+    .note-card .note-meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+    }
+    .note-card .note-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .note-card .note-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        flex: 1;
+    }
+
+    .note-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+    }
+    .note-actions button, .note-actions a {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 9px 12px;
+        border-radius: var(--radius-pill);
+        font-size: 0.82rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .note-actions button:hover, .note-actions a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .note-actions .primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .note-actions .primary:hover {
+        background: var(--primary-dark);
+        color: var(--bg);
+    }
+
+    /* Empty state */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); }
+
+    /* ================= PDF MODAL ================= */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(6px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        width: 100%;
+        max-width: 1000px;
+        height: 90vh;
+        max-height: 800px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+    }
+    .modal-header h3 {
+        font-size: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .modal-close {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.4rem;
+        cursor: pointer;
+        padding: 4px 10px;
+        border-radius: 6px;
+        transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--surface); color: var(--error); }
+    .modal-body {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+    }
+    .modal-body iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    .modal-body .no-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 40px;
+        text-align: center;
+        color: var(--text-muted);
+    }
+    .modal-body .no-preview i {
+        font-size: 3rem;
+        color: var(--warning);
+        margin-bottom: 16px;
+    }
+
+    @media (max-width: 600px) {
+        .notes-grid { grid-template-columns: 1fr; }
+        .modal-content { height: 95vh; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="active">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="courses.html">Courses</a> ›
+        <a href="#" id="bcCourse">Course</a> ›
+        <a href="#" id="bcSubject">Subject</a> ›
+        <span>Notes</span>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            📖 Notes Library
+        </h1>
+        <p class="text-muted" id="pageSubtitle" style="max-width:700px;margin:0 auto;">
+            Downloadable notes for revision and exam prep.
+        </p>
+    </div>
+
+    <!-- ================= LOADING ================= -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-tabs"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- ================= NOT FOUND ================= -->
+    <div id="notFound" class="empty-state" style="display:none;" role="alert">
+        <i class="fas fa-search"></i>
+        <h3>Subject Not Found</h3>
+        <p id="notFoundMsg">We couldn't find notes for this subject.</p>
+        <a href="courses.html" class="btn btn-primary mt-2">
+            <i class="fas fa-arrow-left"></i> Browse Courses
+        </a>
+    </div>
+
+    <!-- ================= CONTENT ================= -->
+    <div id="content" style="display:none;">
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <i class="fas fa-file-pdf"></i>
+                <div>
+                    <div class="num" id="statCount">0</div>
+                    <div class="label">Total Notes</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-layer-group"></i>
+                <div>
+                    <div class="num" id="statUnits">0</div>
+                    <div class="label">Units Covered</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-download"></i>
+                <div>
+                    <div class="num" id="statDownloads">0</div>
+                    <div class="label">Downloads</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search notes by title or unit…"
+                    oninput="applyFilters()"
+                    aria-label="Search notes"
+                >
+            </div>
+            <select id="unitFilter" onchange="applyFilters()" aria-label="Filter by unit">
+                <option value="all">All Units</option>
+            </select>
+            <select id="sortSelect" onchange="applyFilters()" aria-label="Sort notes">
+                <option value="default">Sort: Default</option>
+                <option value="az">A → Z</option>
+                <option value="za">Z → A</option>
+                <option value="unit">By Unit</option>
+            </select>
+        </div>
+
+        <!-- Notes Grid -->
+        <div class="notes-grid" id="notesGrid"></div>
+
+    </div>
+
+</div>
+
+<!-- ================= PDF MODAL ================= -->
+<div class="modal-overlay" id="pdfModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Notes Preview</h3>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <a id="modalDownload" href="#" download class="btn btn-primary" style="padding:6px 14px;font-size:0.8rem;">
+                    <i class="fas fa-download"></i> Download
+                </a>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+            </div>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="resources.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="papers.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const subjectCode = params.get('code') || '311302';
+let subjectData = null;
+let courseData = null;
+let allNotes = [];
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function formatBytes(bytes) {
+    if (!bytes) return '—';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+function findSubject(code) {
+    const data = window.courseData || {};
+    for (const slug in data) {
+        const course = data[slug];
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            const found = subs.find(s => s.code === code);
+            if (found) {
+                return {
+                    subject: found,
+                    course: { ...course, slug },
+                    semesterName: course.semesters[sem].name
+                };
+            }
+        }
+    }
+    return null;
+}
+
+// ============================================================
+// UI STATE
+// ============================================================
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+}
+function showNotFound(msg) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'block';
+    if (msg) document.getElementById('notFoundMsg').textContent = msg;
+}
+function showContent() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+}
+
+// ============================================================
+// GENERATE PLACEHOLDER NOTES (if subject has no notes in data)
+// ============================================================
+function generateNotes(subject) {
+    const units = subject.units && subject.units.length
+        ? subject.units
+        : [{ unit: 1, title: 'Introduction', marks: '—' }];
+
+    return units.map((u, i) => ({
+        id: `note-${subject.code}-${u.unit}`,
+        title: `Unit ${u.unit}: ${u.title || 'Notes'}`,
+        unit: u.unit,
+        desc: `Complete revision notes for Unit ${u.unit} — ${u.title || subject.name}.`,
+        size: 300 * 1024 + i * 45 * 1024, // placeholder size
+        type: 'pdf',
+        url: '#', // replace with real PDF when available
+        downloads: Math.floor(Math.random() * 500) + 50
+    }));
+}
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadNotes() {
+    showLoading();
+    setTimeout(() => {
+        const found = findSubject(subjectCode);
+        if (!found) {
+            showNotFound(`No subject found with code "${subjectCode}".`);
+            return;
+        }
+        subjectData = found.subject;
+        courseData = found.course;
+
+        // Use real notes if provided, else generate placeholders
+        allNotes = subjectData.notes && subjectData.notes.length
+            ? subjectData.notes
+            : generateNotes(subjectData);
+
+        // Breadcrumb
+        document.getElementById('bcCourse').textContent = courseData.name;
+        document.getElementById('bcCourse').href = `course-detail.html?course=${courseData.slug}`;
+        document.getElementById('bcSubject').textContent = subjectData.name;
+        document.getElementById('bcSubject').href = `subject.html?code=${subjectData.code}`;
+
+        // Title
+        document.title = `${subjectData.name} — Notes — DiplomaHub`;
+        document.getElementById('pageSubtitle').textContent =
+            `Notes for ${subjectData.name} (${subjectData.code}) · ${found.semesterName}`;
+
+        // Populate unit filter
+        const unitFilter = document.getElementById('unitFilter');
+        const uniqueUnits = [...new Set(allNotes.map(n => n.unit))].sort((a,b) => a-b);
+        unitFilter.innerHTML = '<option value="all">All Units</option>' +
+            uniqueUnits.map(u => `<option value="${u}">Unit ${u}</option>`).join('');
+
+        // Stats
+        document.getElementById('statCount').textContent = allNotes.length;
+        document.getElementById('statUnits').textContent = uniqueUnits.length;
+        document.getElementById('statDownloads').textContent =
+            allNotes.reduce((sum, n) => sum + (n.downloads || 0), 0);
+
+        showContent();
+        applyFilters();
+    }, 200);
+}
+
+// ============================================================
+// FILTERS + SORT + RENDER
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const unit = document.getElementById('unitFilter').value;
+    const sort = document.getElementById('sortSelect').value;
+
+    let list = allNotes.filter(n => {
+        const matchQ = !q ||
+            n.title.toLowerCase().includes(q) ||
+            (n.desc || '').toLowerCase().includes(q);
+        const matchU = unit === 'all' || String(n.unit) === unit;
+        return matchQ && matchU;
+    });
+
+    if (sort === 'az') list.sort((a,b) => a.title.localeCompare(b.title));
+    else if (sort === 'za') list.sort((a,b) => b.title.localeCompare(a.title));
+    else if (sort === 'unit') list.sort((a,b) => a.unit - b.unit);
+
+    renderNotes(list);
+}
+
+function renderNotes(list) {
+    const grid = document.getElementById('notesGrid');
+    if (!list.length) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-file-alt"></i>
+                <h3>No notes found</h3>
+                <p>Try a different search term or unit filter.</p>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(n => {
+        const iconClass = n.type === 'doc' ? 'doc' : n.type === 'ppt' ? 'ppt' : n.type === 'img' ? 'img' : 'pdf';
+        const iconFa = n.type === 'doc' ? 'fa-file-word'
+                      : n.type === 'ppt' ? 'fa-file-powerpoint'
+                      : n.type === 'img' ? 'fa-file-image'
+                      : 'fa-file-pdf';
+        const saved = isBookmarked(n.id);
+
+        return `
+            <div class="note-card">
+                <div class="note-head">
+                    <div class="note-icon ${iconClass}">
+                        <i class="fas ${iconFa}"></i>
+                    </div>
+                    <button class="note-bookmark ${saved ? 'active' : ''}"
+                            onclick="toggleBookmark('${n.id}')"
+                            aria-label="Bookmark">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+                <h3>${escapeHtml(n.title)}</h3>
+                <div class="note-meta">
+                    <span><i class="fas fa-layer-group"></i> Unit ${escapeHtml(n.unit)}</span>
+                    <span><i class="fas fa-hdd"></i> ${formatBytes(n.size)}</span>
+                    <span><i class="fas fa-download"></i> ${n.downloads || 0}</span>
+                </div>
+                <p class="note-desc">${escapeHtml(n.desc || '')}</p>
+                <div class="note-actions">
+                    <button onclick="openPreview('${n.id}')">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>
+                    <a href="${n.url}" download class="primary" onclick="trackDownload('${n.id}')">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('noteBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('noteBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) list.splice(i, 1); else list.push(id);
+    localStorage.setItem('noteBookmarks', JSON.stringify(list));
+    applyFilters();
+}
+
+// ============================================================
+// PDF PREVIEW MODAL
+// ============================================================
+function openPreview(id) {
+    const note = allNotes.find(n => n.id === id);
+    if (!note) return;
+
+    document.getElementById('modalTitle').textContent = note.title;
+    document.getElementById('modalDownload').href = note.url;
+
+    const body = document.getElementById('modalBody');
+    if (!note.url || note.url === '#') {
+        body.innerHTML = `
+            <div class="no-preview">
+                <i class="fas fa-file-pdf"></i>
+                <h3>Preview not available</h3>
+                <p>The PDF for this note hasn't been uploaded yet.<br>Check back soon!</p>
+            </div>`;
+    } else {
+        body.innerHTML = `<iframe src="${note.url}#toolbar=1&navpanes=0" title="${escapeHtml(note.title)}"></iframe>`;
+    }
+
+    document.getElementById('pdfModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('pdfModal').classList.remove('show');
+    document.getElementById('modalBody').innerHTML = '';
+    document.body.style.overflow = '';
+}
+
+// Close on ESC
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+});
+
+// ============================================================
+// DOWNLOAD TRACKER
+// ============================================================
+function trackDownload(id) {
+    const note = allNotes.find(n => n.id === id);
+    if (note) note.downloads = (note.downloads || 0) + 1;
+
+    let stat = {};
+    try { stat = JSON.parse(localStorage.getItem('noteDownloads')) || {}; } catch(e) {}
+    stat[id] = (stat[id] || 0) + 1;
+    localStorage.setItem('noteDownloads', JSON.stringify(stat));
+
+    document.getElementById('statDownloads').textContent =
+        allNotes.reduce((sum, n) => sum + (n.downloads || 0), 0);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadNotes();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>
