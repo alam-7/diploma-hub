@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Official MSBTE resources — curriculum, syllabus PDFs, lab manuals, question papers, results, circulars, academic calendar, e-content, and contact. Everything a Diploma student needs.">
+<meta name="keywords" content="MSBTE Official, MSBTE Curriculum, MSBTE Syllabus, MSBTE Lab Manuals, MSBTE Results, MSBTE Circulars, MSBTE e-Content">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="MSBTE Official Resources — DiplomaHub">
+<meta property="og:description" content="All official MSBTE links in one place — curriculum, syllabus, lab manuals, papers, results.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/msbte.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MSBTE Official Resources — DiplomaHub">
+<meta name="twitter:description" content="All official MSBTE links in one place.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/msbte.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>MSBTE Official Resources — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input { padding-left: 44px; }
+
+    /* ================= STATS ================= */
+    .stats-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 130px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i { font-size: 1.2rem; color: var(--primary); }
+    .mini-stat .num { font-size: 1.2rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* ================= CATEGORY CHIPS ================= */
+    .cat-chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .cat-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .cat-chip:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .cat-chip.active {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: var(--primary);
+    }
+    .cat-chip .count {
+        background: rgba(0,0,0,0.15);
+        padding: 1px 7px;
+        border-radius: var(--radius-pill);
+        font-size: 0.68rem;
+    }
+
+    /* ================= MSBTE GRID ================= */
+    .msbte-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .msbte-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+    .msbte-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        opacity: 0;
+        transition: opacity var(--transition);
+    }
+    .msbte-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        box-shadow: var(--shadow-glow);
+    }
+    .msbte-card:hover::before { opacity: 1; }
+
+    /* Category color strips */
+    .msbte-card[data-cat="curriculum"]::before { background: linear-gradient(90deg,#00d4ff,#0099cc); }
+    .msbte-card[data-cat="syllabus"]::before { background: linear-gradient(90deg,#22c55e,#16a34a); }
+    .msbte-card[data-cat="lab"]::before { background: linear-gradient(90deg,#a855f7,#7c3aed); }
+    .msbte-card[data-cat="papers"]::before { background: linear-gradient(90deg,#f59e0b,#ea580c); }
+    .msbte-card[data-cat="results"]::before { background: linear-gradient(90deg,#f43f5e,#e11d48); }
+    .msbte-card[data-cat="circulars"]::before { background: linear-gradient(90deg,#06b6d4,#0891b2); }
+    .msbte-card[data-cat="calendar"]::before { background: linear-gradient(90deg,#8b5cf6,#6d28d9); }
+    .msbte-card[data-cat="econtent"]::before { background: linear-gradient(90deg,#10b981,#059669); }
+    .msbte-card[data-cat="contact"]::before { background: linear-gradient(90deg,#eab308,#ca8a04); }
+
+    .msbte-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .msbte-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+    .msbte-icon.curriculum { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .msbte-icon.syllabus { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .msbte-icon.lab { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .msbte-icon.papers { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .msbte-icon.results { background: rgba(244,63,94,0.15); color: #f43f5e; }
+    .msbte-icon.circulars { background: rgba(6,182,212,0.15); color: #06b6d4; }
+    .msbte-icon.calendar { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+    .msbte-icon.econtent { background: rgba(16,185,129,0.15); color: #10b981; }
+    .msbte-icon.contact { background: rgba(234,179,8,0.15); color: #eab308; }
+
+    .msbte-bookmark {
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 1rem;
+        padding: 4px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .msbte-bookmark:hover { color: var(--primary); }
+    .msbte-bookmark.active { color: var(--primary); }
+
+    .msbte-cat {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        width: fit-content;
+        background: var(--primary-glow);
+        color: var(--primary);
+    }
+
+    .msbte-card h3 {
+        font-size: 1rem;
+        line-height: 1.4;
+        margin-bottom: 2px;
+    }
+    .msbte-card .msbte-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        flex: 1;
+    }
+    .msbte-card .msbte-url {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        font-family: var(--font-mono);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .msbte-card .msbte-meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 0.72rem;
+        color: var(--text-dim);
+    }
+
+    .msbte-actions {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+    }
+    .msbte-actions button, .msbte-actions a {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 9px 12px;
+        border-radius: var(--radius-pill);
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .msbte-actions button:hover, .msbte-actions a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .msbte-actions .primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .msbte-actions .primary:hover {
+        background: var(--primary-dark);
+        color: var(--bg);
+    }
+
+    /* Empty */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); }
+
+    /* Info banner */
+    .info-banner {
+        background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(168,85,247,0.06));
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--primary);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        margin-bottom: var(--space-lg);
+    }
+    .info-banner h3 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        color: var(--primary);
+    }
+    .info-banner p {
+        color: var(--text-muted);
+        line-height: 1.7;
+        font-size: 0.92rem;
+    }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .msbte-grid { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <span>MSBTE Resources</span>
+    </div>
+
+    <!-- HEADER -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            🏛️ Official MSBTE Resources
+        </h1>
+        <p class="text-muted" style="max-width:700px;margin:0 auto;">
+            Every important MSBTE link — curriculum, syllabus, lab manuals, papers, results, circulars, and more.
+        </p>
+    </div>
+
+    <!-- INFO BANNER -->
+    <div class="info-banner">
+        <h3><i class="fas fa-info-circle"></i> Note</h3>
+        <p>
+            All links below point to <strong>official MSBTE portals</strong> and open in a new tab.
+            DiplomaHub is not affiliated with MSBTE — this is a community-curated reference.
+            If a link is broken, use the report button or contact us.
+        </p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+        <div class="mini-stat">
+            <i class="fas fa-link"></i>
+            <div>
+                <div class="num" id="statTotal">0</div>
+                <div class="label">Total Links</div>
+            </div>
+        </div>
+        <div class="mini-stat">
+            <i class="fas fa-tags"></i>
+            <div>
+                <div class="num" id="statCategories">0</div>
+                <div class="label">Categories</div>
+            </div>
+        </div>
+        <div class="mini-stat">
+            <i class="fas fa-check-circle"></i>
+            <div>
+                <div class="num" id="statVerified">0</div>
+                <div class="label">Verified</div>
+            </div>
+        </div>
+        <div class="mini-stat">
+            <i class="fas fa-bookmark"></i>
+            <div>
+                <div class="num" id="statBookmarks">0</div>
+                <div class="label">Bookmarked</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH + CATEGORY CHIPS -->
+    <div class="filter-bar">
+        <div class="search-wrap">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput"
+                   placeholder="Search MSBTE resources…"
+                   oninput="applyFilters()"
+                   aria-label="Search MSBTE resources">
+        </div>
+    </div>
+
+    <div class="cat-chips" id="catChips"></div>
+
+    <!-- GRID -->
+    <div class="msbte-grid" id="msbteGrid"></div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>MSBTE Resources</h4>
+            <a href="https://msbte.ac.in/" target="_blank" rel="noopener">MSBTE Official</a>
+            <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">Curriculum Search</a>
+            <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">Lab Manuals</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+// ============================================================
+// DATA — all MSBTE resources
+// ============================================================
+const MSBTE_DATA = [
+    // ---------- CURRICULUM ----------
+    {
+        id: 'curriculum-search',
+        cat: 'curriculum',
+        catLabel: 'Curriculum',
+        icon: 'fa-book',
+        title: 'MSBTE e-Content & Curriculum Search',
+        desc: 'Official search portal to find curriculum for any MSBTE Diploma programme, branch, and semester.',
+        url: 'https://econtent.msbte.edu.in/curriculum_search/',
+        verified: true,
+        updated: '2026-08'
+    },
+    {
+        id: 'curriculum-k-scheme',
+        cat: 'curriculum',
+        catLabel: 'Curriculum',
+        icon: 'fa-book',
+        title: 'K-Scheme Curriculum',
+        desc: 'Latest K-Scheme curriculum with all subjects, credits, marks distribution, and unit-wise weightage.',
+        url: 'https://econtent.msbte.edu.in/curriculum_search/',
+        verified: true,
+        updated: '2026-08'
+    },
+    {
+        id: 'curriculum-i-scheme',
+        cat: 'curriculum',
+        catLabel: 'Curriculum',
+        icon: 'fa-book',
+        title: 'I-Scheme Curriculum (Legacy)',
+        desc: 'Previous I-Scheme curriculum for students enrolled before K-Scheme rollout.',
+        url: 'https://econtent.msbte.edu.in/curriculum_search/',
+        verified: true,
+        updated: '2024-06'
+    },
+
+    // ---------- SYLLABUS ----------
+    {
+        id: 'syllabus-download',
+        cat: 'syllabus',
+        catLabel: 'Syllabus',
+        icon: 'fa-file-pdf',
+        title: 'Download Syllabus PDFs',
+        desc: 'Subject-wise official syllabus PDFs for all branches and semesters under K-Scheme.',
+        url: 'https://econtent.msbte.edu.in/curriculum_search/',
+        verified: true,
+        updated: '2026-08'
+    },
+    {
+        id: 'syllabus-co',
+        cat: 'syllabus',
+        catLabel: 'Syllabus',
+        icon: 'fa-laptop-code',
+        title: 'Computer Engineering Syllabus',
+        desc: 'Full CO branch syllabus — all 6 semesters with theory and practical subject details.',
+        url: 'https://econtent.msbte.edu.in/curriculum_search/',
+        verified: true,
+        updated: '2026-08'
+    },
+    {
+        id: 'syllabus-me',
+        cat: 'syllabus',
+        catLabel: 'Syllabus',
+        icon: 'fa-cog',
+        title: 'Mechanical Engineering Syllabus',
+        desc: 'Full ME branch syllabus — all 6 semesters with credits and marks.',
+        url: 'https://econtent.msbte.edu.in/curriculum_search/',
+        verified: true,
+        updated: '2026-08'
+    },
+    {
+        id: 'syllabus-civil',
+        cat: 'syllabus',
+        catLabel: 'Syllabus',
+        icon: 'fa-hard-hat',
+        title: 'Civil Engineering Syllabus',
+        desc: 'Full CE branch syllabus — all 6 semesters with theory and practical subjects.',
+        url: 'https://econtent.msbte.edu.in/curriculum_search/',
+        verified: true,
+        updated: '2026-08'
+    },
+    {
+        id: 'syllabus-ee',
+        cat: 'syllabus',
+        catLabel: 'Syllabus',
+        icon: 'fa-bolt',
+        title: 'Electrical Engineering Syllabus',
+        desc: 'Full EE branch syllabus — all 6 semesters with credits and marks.',
+        url: 'https://econtent.msbte.edu.in/curriculum_search/',
+        verified: true,
+        updated: '2026-08'
+    },
+
+    // ---------- LAB MANUALS ----------
+    {
+        id: 'lab-manuals',
+        cat: 'lab',
+        catLabel: 'Lab Manuals',
+        icon: 'fa-flask',
+        title: 'Official MSBTE Lab Manuals',
+        desc: 'Download practical lab manuals for all K-Scheme subjects — experiments, procedures, and observations.',
+        url: 'https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k',
+        verified: true,
+        updated: '2026-08'
+    },
+    {
+        id: 'lab-manuals-i',
+        cat: 'lab',
+        catLabel: 'Lab Manuals',
+        icon: 'fa-flask',
+        title: 'I-Scheme Lab Manuals',
+        desc: 'Legacy I-Scheme lab manuals for practicals.',
+        url: 'https://curriculum.msbte.edu.in/',
+        verified: true,
+        updated: '2024-06'
+    },
+
+    // ---------- QUESTION PAPERS ----------
+    {
+        id: 'papers-archive',
+        cat: 'papers',
+        catLabel: 'Question Papers',
+        icon: 'fa-file-alt',
+        title: 'MSBTE Question Papers Archive',
+        desc: 'Official previous year question papers for Winter & Summer exams across all branches.',
+        url: 'https://msbte.ac.in/',
+        verified: true,
+        updated: '2026-06'
+    },
+    {
+        id: 'papers-models',
+        cat: 'papers',
+        catLabel: 'Question Papers',
+        icon: 'fa-file-alt',
+        title: 'Model Question Papers',
+        desc: 'Sample and model question papers released by MSBTE for exam preparation.',
+        url: 'https://msbte.ac.in/',
+        verified: true,
+        updated: '2026-06'
+    },
+
+    // ---------- RESULTS ----------
+    {
+        id: 'results-portal',
+        cat: 'results',
+        catLabel: 'Results',
+        icon: 'fa-award',
+        title: 'MSBTE Result Portal',
+        desc: 'Check your semester results — Winter & Summer exams for all Diploma programmes.',
+        url: 'https://msbte.ac.in/',
+        verified: true,
+        updated: '2026-06'
+    },
+    {
+        id: 'results-reval',
+        cat: 'results',
+        catLabel: 'Results',
+        icon: 'fa-redo',
+        title: 'Revaluation & Photocopy',
+        desc: 'Apply for revaluation, rechecking, or photocopy of your answer sheet.',
+        url: 'https://msbte.ac.in/',
+        verified: true,
+        updated: '2026-06'
+    },
+
+    // ---------- CIRCULARS ----------
+    {
+        id: 'circulars',
+        cat: 'circulars',
+        catLabel: 'Circulars',
+        icon: 'fa-bullhorn',
+        title: 'MSBTE Circulars & Notices',
+        desc: 'Latest circulars and notices for exams, results, syllabus changes, and academic updates.',
+        url: 'https://msbte.ac.in/',
+        verified: true,
+        updated: '2026-09'
+    },
+    {
+        id: 'notifications',
+        cat: 'circulars',
+        catLabel: 'Circulars',
+        icon: 'fa-bell',
+        title: 'Exam Notifications',
+        desc: 'Time-table, hall ticket, exam centre, and paper-related notifications.',
+        url: 'https://msbte.ac.in/',
+        verified: true,
+        updated: '2026-09'
+    },
+
+    // ---------- ACADEMIC CALENDAR ----------
+    {
+        id: 'calendar',
+        cat: 'calendar',
+        catLabel: 'Calendar',
+        icon: 'fa-calendar-alt',
+        title: 'MSBTE Academic Calendar',
+        desc: 'Official academic calendar — term dates, exam windows, holidays, and events.',
+        url: 'https://msbte.ac.in/',
+        verified: true,
+        updated: '2026-08'
+    },
+
+    // ---------- E-CONTENT ----------
+    {
+        id: 'econtent',
+        cat: 'econtent',
+        catLabel: 'e-Content',
+        icon: 'fa-photo-video',
+        title: 'MSBTE e-Content Portal',
+        desc: 'Official e-content — videos, animations, PDFs, and interactive material for all subjects.',
+        url: 'https://econtent.msbte.edu.in/',
+        verified: true,
+        updated: '2026-08'
+    },
+    {
+        id: 'econtent-videos',
+        cat: 'econtent',
+        catLabel: 'e-Content',
+        icon: 'fa-video',
+        title: 'Subject Video Lectures',
+        desc: 'Curated video lectures and demonstrations by MSBTE faculty.',
+        url: 'https://econtent.msbte.edu.in/',
+        verified: true,
+        updated: '2026-08'
+    },
+
+    // ---------- CONTACT ----------
+    {
+        id: 'contact',
+        cat: 'contact',
+        catLabel: 'Contact',
+        icon: 'fa-phone',
+        title: 'MSBTE Contact & Support',
+        desc: 'Official contact details — regional offices, helplines, and email support.',
+        url: 'https://msbte.ac.in/',
+        verified: true,
+        updated: '2026-08'
+    }
+];
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function prettyUrl(url) {
+    return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let activeCat = 'all';
+
+// ============================================================
+// INIT
+// ============================================================
+(function init() {
+    // Stats
+    document.getElementById('statTotal').textContent = MSBTE_DATA.length;
+    document.getElementById('statCategories').textContent =
+        new Set(MSBTE_DATA.map(r => r.cat)).size;
+    document.getElementById('statVerified').textContent =
+        MSBTE_DATA.filter(r => r.verified).length;
+    updateBookmarkStat();
+
+    renderCatChips();
+    renderResources(MSBTE_DATA);
+})();
+
+function updateBookmarkStat() {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('msbteBookmarks')) || []; } catch(e) {}
+    document.getElementById('statBookmarks').textContent = list.length;
+}
+
+// ============================================================
+// CATEGORY CHIPS
+// ============================================================
+function renderCatChips() {
+    const counts = { all: MSBTE_DATA.length };
+    MSBTE_DATA.forEach(r => counts[r.cat] = (counts[r.cat] || 0) + 1);
+
+    const cats = [
+        { key: 'all', label: 'All', icon: 'fa-layer-group' },
+        { key: 'curriculum', label: 'Curriculum', icon: 'fa-book' },
+        { key: 'syllabus', label: 'Syllabus', icon: 'fa-file-pdf' },
+        { key: 'lab', label: 'Lab Manuals', icon: 'fa-flask' },
+        { key: 'papers', label: 'Papers', icon: 'fa-file-alt' },
+        { key: 'results', label: 'Results', icon: 'fa-award' },
+        { key: 'circulars', label: 'Circulars', icon: 'fa-bullhorn' },
+        { key: 'calendar', label: 'Calendar', icon: 'fa-calendar-alt' },
+        { key: 'econtent', label: 'e-Content', icon: 'fa-photo-video' },
+        { key: 'contact', label: 'Contact', icon: 'fa-phone' }
+    ];
+
+    document.getElementById('catChips').innerHTML = cats.map(c => {
+        const n = counts[c.key] || 0;
+        if (n === 0 && c.key !== 'all') return '';
+        return `
+            <div class="cat-chip ${activeCat === c.key ? 'active' : ''}"
+                 onclick="setCat('${c.key}')">
+                <i class="fas ${c.icon}"></i> ${c.label}
+                <span class="count">${n}</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function setCat(cat) {
+    activeCat = cat;
+    renderCatChips();
+    applyFilters();
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    let list = MSBTE_DATA.filter(r => {
+        const matchC = activeCat === 'all' || r.cat === activeCat;
+        const matchQ = !q ||
+            r.title.toLowerCase().includes(q) ||
+            r.desc.toLowerCase().includes(q) ||
+            (r.url || '').toLowerCase().includes(q);
+        return matchC && matchQ;
+    });
+
+    renderResources(list);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderResources(list) {
+    const grid = document.getElementById('msbteGrid');
+    if (!list.length) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-search"></i>
+                <h3>No resources found</h3>
+                <p>Try a different search term or category.</p>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(r => {
+        const saved = isBookmarked(r.id);
+        return `
+            <div class="msbte-card" data-cat="${r.cat}">
+                <div class="msbte-head">
+                    <div class="msbte-icon ${r.cat}">
+                        <i class="fas ${r.icon}"></i>
+                    </div>
+                    <button class="msbte-bookmark ${saved ? 'active' : ''}"
+                            onclick="toggleBookmark('${r.id}')"
+                            aria-label="Bookmark">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+
+                <span class="msbte-cat">${escapeHtml(r.catLabel)}</span>
+
+                <h3>${escapeHtml(r.title)}</h3>
+                <p class="msbte-desc">${escapeHtml(r.desc)}</p>
+
+                <div class="msbte-url">
+                    <i class="fas fa-globe"></i> ${escapeHtml(prettyUrl(r.url))}
+                </div>
+
+                <div class="msbte-meta">
+                    ${r.verified ? '<span><i class="fas fa-check-circle" style="color:var(--success);"></i> Verified</span>' : ''}
+                    ${r.updated ? `<span><i class="fas fa-sync"></i> Updated ${escapeHtml(r.updated)}</span>` : ''}
+                </div>
+
+                <div class="msbte-actions">
+                    <button onclick="copyLink('${r.id}')" title="Copy link">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="primary">
+                        <i class="fas fa-external-link-alt"></i> Open
+                    </a>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('msbteBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('msbteBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) { list.splice(i, 1); showToast('Bookmark removed'); }
+    else { list.push(id); showToast('Bookmarked!'); }
+    localStorage.setItem('msbteBookmarks', JSON.stringify(list));
+    updateBookmarkStat();
+    applyFilters();
+}
+
+// ============================================================
+// COPY LINK
+// ============================================================
+function copyLink(id) {
+    const r = MSBTE_DATA.find(x => x.id === id);
+    if (!r) return;
+    navigator.clipboard.writeText(r.url)
+        .then(() => showToast('Link copied!'))
+        .catch(() => showToast('Copy failed'));
+}
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>
