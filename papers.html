@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Download MSBTE Diploma previous year question papers — Winter & Summer, all semesters, solved & unsolved PDFs for all branches. Free exam preparation.">
+<meta name="keywords" content="MSBTE Question Papers, Diploma Previous Year Papers, Winter Summer Papers, Solved Papers, K-Scheme PYQ">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Question Papers — DiplomaHub">
+<meta property="og:description" content="Previous year MSBTE Diploma question papers — solved & unsolved PDFs.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/papers.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Question Papers — DiplomaHub">
+<meta name="twitter:description" content="Previous year MSBTE Diploma question papers.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/papers.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Question Papers — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input { padding-left: 44px; }
+    .filter-bar select { max-width: 160px; }
+
+    /* ================= STATS ================= */
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 130px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i { font-size: 1.3rem; color: var(--primary); }
+    .mini-stat .num { font-size: 1.25rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ================= PAPERS GRID ================= */
+    .papers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .paper-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+    .paper-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), #a855f7);
+        opacity: 0;
+        transition: opacity var(--transition);
+    }
+    .paper-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        box-shadow: var(--shadow-glow);
+    }
+    .paper-card:hover::before { opacity: 1; }
+
+    .paper-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .paper-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: rgba(0,212,255,0.15);
+        color: #00d4ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+    .paper-icon.winter { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    .paper-icon.summer { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+    .paper-bookmark {
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 1rem;
+        padding: 4px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .paper-bookmark:hover { color: var(--primary); }
+    .paper-bookmark.active { color: var(--primary); }
+
+    .paper-year-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.72rem;
+        font-weight: 700;
+        background: var(--primary-glow);
+        color: var(--primary);
+        width: fit-content;
+    }
+
+    .paper-card h3 {
+        font-size: 1rem;
+        line-height: 1.45;
+        margin-bottom: 2px;
+    }
+    .paper-sub {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .paper-badges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .paper-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+    .paper-badge.solved { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .paper-badge.unsolved { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .paper-badge.theory { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .paper-badge.practical { background: rgba(255,200,0,0.15); color: #ffcc00; }
+    .paper-badge.sem { background: var(--primary-glow); color: var(--primary); }
+
+    .paper-meta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+    }
+    .paper-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .paper-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: auto;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+    }
+    .paper-actions button, .paper-actions a {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 9px 12px;
+        border-radius: var(--radius-pill);
+        font-size: 0.82rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .paper-actions button:hover, .paper-actions a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .paper-actions .primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .paper-actions .primary:hover {
+        background: var(--primary-dark);
+        color: var(--bg);
+    }
+
+    /* Empty */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); }
+
+    /* ================= MODAL ================= */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(6px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        width: 100%;
+        max-width: 1000px;
+        height: 90vh;
+        max-height: 800px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+    }
+    .modal-header h3 {
+        font-size: 0.95rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .modal-close {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.4rem;
+        cursor: pointer;
+        padding: 4px 10px;
+        border-radius: 6px;
+        transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--surface); color: var(--error); }
+    .modal-body {
+        flex: 1;
+        overflow: hidden;
+    }
+    .modal-body iframe { width: 100%; height: 100%; border: none; }
+    .modal-body .no-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 40px;
+        text-align: center;
+        color: var(--text-muted);
+    }
+    .modal-body .no-preview i {
+        font-size: 3rem;
+        color: var(--warning);
+        margin-bottom: 16px;
+    }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .papers-grid { grid-template-columns: 1fr; }
+        .modal-content { height: 95vh; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="active">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="courses.html">Courses</a> ›
+        <a href="#" id="bcCourse">Course</a> ›
+        <a href="#" id="bcSubject">Subject</a> ›
+        <span>Question Papers</span>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            📋 Previous Year Question Papers
+        </h1>
+        <p class="text-muted" id="pageSubtitle" style="max-width:700px;margin:0 auto;">
+            Winter & Summer papers · Solved & Unsolved PDFs.
+        </p>
+    </div>
+
+    <!-- ================= LOADING ================= -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-tabs"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- ================= NOT FOUND ================= -->
+    <div id="notFound" class="empty-state" style="display:none;" role="alert">
+        <i class="fas fa-search"></i>
+        <h3>Subject Not Found</h3>
+        <p id="notFoundMsg">We couldn't find papers for this subject.</p>
+        <a href="courses.html" class="btn btn-primary mt-2">
+            <i class="fas fa-arrow-left"></i> Browse Courses
+        </a>
+    </div>
+
+    <!-- ================= CONTENT ================= -->
+    <div id="content" style="display:none;">
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <i class="fas fa-file-alt"></i>
+                <div>
+                    <div class="num" id="statTotal">0</div>
+                    <div class="label">Total Papers</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <div class="num" id="statSolved">0</div>
+                    <div class="label">Solved</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-hourglass-half"></i>
+                <div>
+                    <div class="num" id="statUnsolved">0</div>
+                    <div class="label">Unsolved</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-calendar"></i>
+                <div>
+                    <div class="num" id="statYears">0</div>
+                    <div class="label">Years Covered</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput"
+                       placeholder="Search papers by year, exam, semester…"
+                       oninput="applyFilters()"
+                       aria-label="Search papers">
+            </div>
+            <select id="yearFilter" onchange="applyFilters()" aria-label="Year">
+                <option value="all">All Years</option>
+            </select>
+            <select id="semFilter" onchange="applyFilters()" aria-label="Semester">
+                <option value="all">All Semesters</option>
+            </select>
+            <select id="typeFilter" onchange="applyFilters()" aria-label="Exam Type">
+                <option value="all">All Exam Types</option>
+                <option value="Winter">Winter</option>
+                <option value="Summer">Summer</option>
+            </select>
+            <select id="statusFilter" onchange="applyFilters()" aria-label="Solved status">
+                <option value="all">All Status</option>
+                <option value="solved">Solved</option>
+                <option value="unsolved">Unsolved</option>
+            </select>
+            <select id="sortSelect" onchange="applyFilters()" aria-label="Sort">
+                <option value="year-desc">Sort: Newest</option>
+                <option value="year-asc">Oldest</option>
+                <option value="az">A → Z</option>
+            </select>
+        </div>
+
+        <!-- Papers Grid -->
+        <div class="papers-grid" id="papersGrid"></div>
+
+    </div>
+
+</div>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-overlay" id="pdfModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Paper Preview</h3>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <a id="modalDownload" href="#" download class="btn btn-primary" style="padding:6px 14px;font-size:0.8rem;">
+                    <i class="fas fa-download"></i> Download
+                </a>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+            </div>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Copied!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="questions.html">Questions</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const subjectCode = params.get('code') || '311302';
+let subjectData = null;
+let courseData = null;
+let allPapers = [];
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function findSubject(code) {
+    const data = window.courseData || {};
+    for (const slug in data) {
+        const course = data[slug];
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            const found = subs.find(s => s.code === code);
+            if (found) {
+                return {
+                    subject: found,
+                    course: { ...course, slug },
+                    semester: sem,
+                    semesterName: course.semesters[sem].name
+                };
+            }
+        }
+    }
+    return null;
+}
+
+// ============================================================
+// UI STATE
+// ============================================================
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+}
+function showNotFound(msg) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'block';
+    if (msg) document.getElementById('notFoundMsg').textContent = msg;
+}
+function showContent() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+}
+
+// ============================================================
+// PLACEHOLDER PAPERS GENERATOR
+// ============================================================
+function generatePapers(subject, semester) {
+    const currentYear = new Date().getFullYear();
+    const years = [currentYear - 1, currentYear - 2, currentYear - 3, currentYear - 4, currentYear - 5];
+    const exams = ['Winter', 'Summer'];
+    const list = [];
+    let n = 1;
+
+    years.forEach(year => {
+        exams.forEach(exam => {
+            list.push({
+                id: `paper-${subject.code}-${year}-${exam.toLowerCase()}`,
+                title: `${subject.name} — ${exam} ${year}`,
+                year: year,
+                exam: exam,
+                semester: semester,
+                semesterName: `Semester ${semester}`,
+                type: subject.type || 'Theory',
+                marks: subject.marks || 100,
+                solved: Math.random() > 0.4,
+                pages: 4,
+                size: 500 * 1024 + Math.floor(Math.random() * 500 * 1024),
+                url: '#'
+            });
+            n++;
+        });
+    });
+
+    // Sort newest first
+    return list.sort((a, b) => b.year - a.year || (b.exam === 'Winter' ? 1 : -1));
+}
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadPapers() {
+    showLoading();
+    setTimeout(() => {
+        const found = findSubject(subjectCode);
+        if (!found) {
+            showNotFound(`No subject found with code "${subjectCode}".`);
+            return;
+        }
+        subjectData = found.subject;
+        courseData = found.course;
+
+        allPapers = subjectData.papers && subjectData.papers.length
+            ? subjectData.papers
+            : generatePapers(subjectData, found.semester);
+
+        // Breadcrumb
+        document.getElementById('bcCourse').textContent = courseData.name;
+        document.getElementById('bcCourse').href = `course-detail.html?course=${courseData.slug}`;
+        document.getElementById('bcSubject').textContent = subjectData.name;
+        document.getElementById('bcSubject').href = `subject.html?code=${subjectData.code}`;
+
+        // Title
+        document.title = `${subjectData.name} — Question Papers — DiplomaHub`;
+        document.getElementById('pageSubtitle').textContent =
+            `Previous year papers for ${subjectData.name} (${subjectData.code}) · ${found.semesterName}`;
+
+        // Populate year filter
+        const years = [...new Set(allPapers.map(p => p.year))].sort((a, b) => b - a);
+        const yearFilter = document.getElementById('yearFilter');
+        yearFilter.innerHTML = '<option value="all">All Years</option>' +
+            years.map(y => `<option value="${y}">${y}</option>`).join('');
+
+        // Populate semester filter
+        const sems = [...new Set(allPapers.map(p => p.semester))].sort((a, b) => a - b);
+        const semFilter = document.getElementById('semFilter');
+        semFilter.innerHTML = '<option value="all">All Semesters</option>' +
+            sems.map(s => `<option value="${s}">Semester ${s}</option>`).join('');
+
+        // Stats
+        document.getElementById('statTotal').textContent = allPapers.length;
+        document.getElementById('statSolved').textContent =
+            allPapers.filter(p => p.solved).length;
+        document.getElementById('statUnsolved').textContent =
+            allPapers.filter(p => !p.solved).length;
+        document.getElementById('statYears').textContent = years.length;
+
+        showContent();
+        applyFilters();
+    }, 200);
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const year = document.getElementById('yearFilter').value;
+    const sem = document.getElementById('semFilter').value;
+    const type = document.getElementById('typeFilter').value;
+    const status = document.getElementById('statusFilter').value;
+    const sort = document.getElementById('sortSelect').value;
+
+    let list = allPapers.filter(p => {
+        const matchQ = !q ||
+            p.title.toLowerCase().includes(q) ||
+            String(p.year).includes(q) ||
+            (p.exam || '').toLowerCase().includes(q);
+        const matchY = year === 'all' || String(p.year) === year;
+        const matchS = sem === 'all' || String(p.semester) === sem;
+        const matchT = type === 'all' || p.exam === type;
+        const matchSt = status === 'all' ||
+            (status === 'solved' && p.solved) ||
+            (status === 'unsolved' && !p.solved);
+        return matchQ && matchY && matchS && matchT && matchSt;
+    });
+
+    // Sort
+    if (sort === 'year-desc') list.sort((a, b) => b.year - a.year);
+    else if (sort === 'year-asc') list.sort((a, b) => a.year - b.year);
+    else if (sort === 'az') list.sort((a, b) => a.title.localeCompare(b.title));
+
+    renderPapers(list);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderPapers(list) {
+    const grid = document.getElementById('papersGrid');
+    if (!list.length) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-file-alt"></i>
+                <h3>No papers found</h3>
+                <p>Try changing filters or search term.</p>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(p => {
+        const saved = isBookmarked(p.id);
+        const iconClass = p.exam === 'Winter' ? 'winter' : 'summer';
+        const typeClass = (p.type || '').toLowerCase() === 'theory' ? 'theory' : 'practical';
+
+        return `
+            <div class="paper-card">
+                <div class="paper-head">
+                    <div class="paper-icon ${iconClass}">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <button class="paper-bookmark ${saved ? 'active' : ''}"
+                            onclick="toggleBookmark('${p.id}')"
+                            aria-label="Bookmark paper">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+
+                <span class="paper-year-badge">
+                    <i class="fas fa-calendar"></i> ${p.exam} ${p.year}
+                </span>
+
+                <h3>${escapeHtml(p.title)}</h3>
+                <div class="paper-sub">
+                    <i class="fas fa-graduation-cap"></i> ${escapeHtml(p.semesterName)}
+                </div>
+
+                <div class="paper-badges">
+                    <span class="paper-badge sem">
+                        <i class="fas fa-layer-group"></i> Sem ${p.semester}
+                    </span>
+                    <span class="paper-badge ${typeClass}">
+                        <i class="fas fa-${typeClass === 'theory' ? 'book' : 'flask'}"></i>
+                        ${p.type}
+                    </span>
+                    <span class="paper-badge ${p.solved ? 'solved' : 'unsolved'}">
+                        <i class="fas ${p.solved ? 'fa-check-circle' : 'fa-clock'}"></i>
+                        ${p.solved ? 'Solved' : 'Unsolved'}
+                    </span>
+                </div>
+
+                <div class="paper-meta">
+                    <span><i class="fas fa-star"></i> ${p.marks} marks</span>
+                    <span><i class="fas fa-file-pdf"></i> ${p.pages} pages</span>
+                    <span><i class="fas fa-hdd"></i> ${formatBytes(p.size)}</span>
+                </div>
+
+                <div class="paper-actions">
+                    <button onclick="openPreview('${p.id}')">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                    <a href="${p.url}" download class="primary"
+                       onclick="trackDownload('${p.id}')">
+                        <i class="fas fa-download"></i> PDF
+                    </a>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function formatBytes(bytes) {
+    if (!bytes) return '—';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('paperBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('paperBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) list.splice(i, 1); else list.push(id);
+    localStorage.setItem('paperBookmarks', JSON.stringify(list));
+    applyFilters();
+}
+
+// ============================================================
+// PREVIEW MODAL
+// ============================================================
+function openPreview(id) {
+    const p = allPapers.find(x => x.id === id);
+    if (!p) return;
+
+    document.getElementById('modalTitle').textContent = p.title;
+    document.getElementById('modalDownload').href = p.url;
+
+    const body = document.getElementById('modalBody');
+    if (!p.url || p.url === '#') {
+        body.innerHTML = `
+            <div class="no-preview">
+                <i class="fas fa-file-pdf"></i>
+                <h3>Preview not available</h3>
+                <p>This paper's PDF hasn't been uploaded yet.<br>Check back soon!</p>
+            </div>`;
+    } else {
+        body.innerHTML = `<iframe src="${p.url}#toolbar=1&navpanes=0" title="${escapeHtml(p.title)}"></iframe>`;
+    }
+
+    document.getElementById('pdfModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('pdfModal').classList.remove('show');
+    document.getElementById('modalBody').innerHTML = '';
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+});
+
+// ============================================================
+// DOWNLOAD TRACKER
+// ============================================================
+function trackDownload(id) {
+    const p = allPapers.find(x => x.id === id);
+    if (!p) return;
+    let stat = {};
+    try { stat = JSON.parse(localStorage.getItem('paperDownloads')) || {}; } catch(e) {}
+    stat[id] = (stat[id] || 0) + 1;
+    localStorage.setItem('paperDownloads', JSON.stringify(stat));
+    showToast('Download started!');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadPapers();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>
