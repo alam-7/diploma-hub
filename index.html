@@ -1,425 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DIPLOMA HUB – Understand Engineering. Learn Practically.</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        /* ... (keep all existing styles) ... */
-        
-        /* Add these fixes */
-        .feature-card {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-        .theme-toggle, .mobile-menu-btn {
-            pointer-events: auto;
-            cursor: pointer;
-            z-index: 1001;
-        }
-        .course-card {
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="DiplomaHub — Free MSBTE Diploma notes, PDFs, MCQs, question papers, practicals & lab manuals for Computer, Mechanical, Civil, Electrical & Electronics Engineering. K-Scheme 2026.">
+<meta name="keywords" content="MSBTE, Diploma, Notes, PDF, MCQ, Question Papers, K-Scheme, Computer Engineering, Mechanical, Civil, Electrical">
+<meta name="author" content="DiplomaHub">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="DiplomaHub — Free MSBTE Diploma Study Material">
+<meta property="og:description" content="Notes, PDFs, MCQs, papers & practicals for all MSBTE Diploma branches. 100% free.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DiplomaHub — Free MSBTE Diploma Study Material">
+<meta name="twitter:description" content="Notes, PDFs, MCQs, papers & practicals for all MSBTE Diploma branches.">
+<meta name="twitter:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+<link rel="apple-touch-icon" href="assets/images/icon-192.png">
+
+<title>DiplomaHub — Free MSBTE Diploma Notes, PDFs & MCQs</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "DiplomaHub",
+  "url": "https://alam-7.github.io/diploma-hub/",
+  "description": "Free MSBTE Diploma study platform with notes, PDFs, MCQs, and question papers.",
+  "sameAs": ["https://github.com/alam-7/diploma-hub"]
+}
+</script>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html" style="display:flex;align-items:center;gap:10px;">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>DIPLOMA<span class="highlight">HUB</span></span>
-                </a>
-            </div>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html" class="active">Home</a>
-                <a href="courses.html">Courses</a>
-                <a href="equipment.html">Equipment</a>
-                <a href="practicals.html">Practicals</a>
-                <a href="quizzes.html">Quizzes</a>
-                <a href="resources.html">Resources</a>
-                <a href="about.html">About</a>
-            </div>
-            <div class="nav-right">
-                <!-- FIXED: Added ID and aria-label -->
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
-                <!-- FIXED: Added ID for auth UI updates -->
-                <a href="login.html" id="authBtn" class="btn btn-primary btn-sm">Sign In</a>
-                <!-- FIXED: Added aria-label -->
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
-                    <i class="fas fa-bars" id="mobileMenuIcon"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="hero-pattern"></div>
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="gradient-text">DIPLOMA HUB</span>
-                </h1>
-                <p class="hero-tagline">
-                    "Understand Engineering. Learn Practically. Build the Future."
-                </p>
-                <p class="hero-description">
-                    Your digital companion for Diploma Engineering — curriculum, concepts,
-                    practicals, equipment, notes, lab resources and exam preparation.
-                </p>
-                <div class="hero-buttons">
-                    <a href="courses.html" class="btn btn-primary btn-lg">
-                        <i class="fas fa-book-open"></i> EXPLORE COURSES
-                    </a>
-                    <a href="dashboard.html" class="btn btn-outline btn-lg">
-                        <i class="fas fa-rocket"></i> START LEARNING
-                    </a>
-                </div>
-                <div class="hero-search">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="globalSearch" placeholder="Search subjects, concepts, equipment, practicals..." 
-                               onkeydown="if(event.key==='Enter') performSearch()" aria-label="Search" />
-                        <button onclick="performSearch()" aria-label="Search">
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+    <h1>Understand Engineering.<br>Learn Practically. Build the Future.</h1>
+    <p>Your digital companion for MSBTE Diploma Engineering — curriculum, concepts, practicals, equipment, notes, lab resources, and exam preparation. 100% free, always.</p>
+    <div class="flex-center gap-2" style="flex-wrap:wrap;">
+        <a href="courses.html" class="btn btn-primary">
+            <i class="fas fa-graduation-cap"></i> Browse Courses
+        </a>
+        <a href="quizzers.html" class="btn btn-outline">
+            <i class="fas fa-question-circle"></i> Take a Quiz
+        </a>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- ================= STATS ================= -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="num" id="statCourses">5+</div>
+            <div class="label">Engineering Courses</div>
+        </div>
+        <div class="stat-card">
+            <div class="num" id="statSubjects">60+</div>
+            <div class="label">Subjects Covered</div>
+        </div>
+        <div class="stat-card">
+            <div class="num" id="statEquipment">200+</div>
+            <div class="label">Equipment Items</div>
+        </div>
+        <div class="stat-card">
+            <div class="num" id="statQuestions">1000+</div>
+            <div class="label">Practice Questions</div>
+        </div>
+    </section>
+
+    <!-- ================= COURSES PREVIEW ================= -->
+    <section>
+        <h2 style="font-size:1.8rem;margin-bottom:8px;">📚 Browse Courses</h2>
+        <p class="text-muted mb-3">All MSBTE branches · K-Scheme 2026 · 6 semesters each</p>
+
+        <div class="dashboard-grid" id="courseGrid">
+            <!-- Filled by JS -->
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="courses.html" class="btn btn-outline">
+                View All Courses <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ================= FEATURES ================= -->
+    <section class="mt-3" style="margin-top:48px;">
+        <h2 style="font-size:1.8rem;margin-bottom:8px;">✨ Everything You Need</h2>
+        <p class="text-muted mb-3">One platform. All study material.</p>
+
+        <div class="dashboard-grid">
+            <div class="dash-card">
+                <i class="fas fa-book-open"></i>
+                <h3>📚 Lessons</h3>
+                <p>Unit-wise lessons for every subject</p>
+            </div>
+            <div class="dash-card">
+                <i class="fas fa-sticky-note"></i>
+                <h3>📖 Notes</h3>
+                <p>Quick revision notes in PDF</p>
+            </div>
+            <div class="dash-card">
+                <i class="fas fa-book"></i>
+                <h3>📕 Books</h3>
+                <p>Textbooks & reference PDFs</p>
+            </div>
+            <div class="dash-card">
+                <i class="fas fa-pen"></i>
+                <h3>✍️ Questions</h3>
+                <p>Important exam-focused questions</p>
+            </div>
+            <div class="dash-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>✅ Answers</h3>
+                <p>Step-by-step solutions</p>
+            </div>
+            <div class="dash-card">
+                <i class="fas fa-flask"></i>
+                <h3>🧪 Practicals</h3>
+                <p>Lab manuals & experiments</p>
+            </div>
+            <div class="dash-card">
+                <i class="fas fa-question-circle"></i>
+                <h3>📝 MCQ Quiz</h3>
+                <p>Practice & test yourself</p>
+            </div>
+            <div class="dash-card">
+                <i class="fas fa-file-alt"></i>
+                <h3>📋 Papers</h3>
+                <p>Previous year question papers</p>
+            </div>
+            <div class="dash-card">
+                <i class="fas fa-link"></i>
+                <h3>🔗 MSBTE</h3>
+                <p>Official resources & links</p>
             </div>
         </div>
     </section>
 
-    <!-- COURSES SECTION -->
-    <section class="section" id="coursesSection">
-        <div class="container">
-            <div class="section-header">
-                <h2>Explore <span class="gradient-text">Courses</span></h2>
-                <p>Choose your engineering discipline and start learning</p>
+    <!-- ================= WHY US ================= -->
+    <section class="mt-3" style="margin-top:48px;">
+        <h2 style="font-size:1.8rem;margin-bottom:8px;">🚀 Why DiplomaHub?</h2>
+        <div class="dashboard-grid mt-3">
+            <div class="dash-card">
+                <i class="fas fa-bolt" style="color:#f59e0b;"></i>
+                <h3>Fast & Lightweight</h3>
+                <p>Loads in under 2 seconds</p>
             </div>
-            <div class="course-grid" id="courseGrid">
-                <!-- Dynamically rendered by JavaScript -->
+            <div class="dash-card">
+                <i class="fas fa-wifi" style="color:#22c55e;"></i>
+                <h3>Works Offline</h3>
+                <p>Install as app, study anywhere</p>
             </div>
-        </div>
-    </section>
-
-    <!-- FEATURES SECTION - FIXED: Changed divs to anchors -->
-    <section class="section bg-dark">
-        <div class="container">
-            <div class="section-header">
-                <h2>What You'll <span class="gradient-text">Discover</span></h2>
-                <p>Everything you need for your diploma engineering journey</p>
+            <div class="dash-card">
+                <i class="fas fa-mobile-alt" style="color:#00d4ff;"></i>
+                <h3>Mobile First</h3>
+                <p>Perfect on every device</p>
             </div>
-            <div class="features-grid">
-                <a href="equipment.html" class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-microscope"></i></div>
-                    <h3>Equipment Library</h3>
-                    <p>200+ engineering equipment with detailed explanations, parts, and safety</p>
-                </a>
-                <a href="practicals.html" class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-flask"></i></div>
-                    <h3>Practicals &amp; Labs</h3>
-                    <p>Step-by-step practical guides with viva questions and observations</p>
-                </a>
-                <a href="quizzes.html" class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-question-circle"></i></div>
-                    <h3>Quizzes &amp; Exams</h3>
-                    <p>Practice quizzes, mock tests, and exam preparation tools</p>
-                </a>
-                <a href="dashboard.html" class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
-                    <h3>Study Planner</h3>
-                    <p>Plan your studies, track progress, and stay organized</p>
-                </a>
-                <a href="dashboard.html" class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-trophy"></i></div>
-                    <h3>Gamification</h3>
-                    <p>Earn XP, unlock achievements, and level up your learning</p>
-                </a>
-                <a href="dashboard.html" class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-bookmark"></i></div>
-                    <h3>My Library</h3>
-                    <p>Bookmark and organize your favorite content</p>
-                </a>
+            <div class="dash-card">
+                <i class="fas fa-lock" style="color:#a855f7;"></i>
+                <h3>Free Forever</h3>
+                <p>No login required to browse</p>
             </div>
         </div>
     </section>
 
-    <!-- STATS SECTION (unchanged) -->
-    <section class="section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">5+</div>
-                    <div class="stat-label">Engineering Courses</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">200+</div>
-                    <div class="stat-label">Equipment Items</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label">Concepts &amp; Lessons</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">1000+</div>
-                    <div class="stat-label">Practice Questions</div>
-                </div>
-            </div>
-        </div>
+    <!-- ================= CTA ================= -->
+    <section class="mt-3" style="margin-top:48px;text-align:center;padding:48px 24px;background:var(--surface);border:1px solid var(--border);border-radius:16px;">
+        <h2 style="font-size:1.8rem;margin-bottom:8px;">Ready to start learning?</h2>
+        <p class="text-muted mb-3">Pick your branch and dive in.</p>
+        <a href="courses.html" class="btn btn-primary">
+            <i class="fas fa-rocket"></i> Get Started
+        </a>
     </section>
 
-    <!-- FOOTER - FIXED: Removed placeholder href="#" -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>DIPLOMA HUB</h3>
-                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                    <div class="social-links">
-                        <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="practicals.html">Practicals</a>
-                    <a href="quizzes.html">Quizzes</a>
-                    <a href="resources.html">Resources</a>
-                </div>
-                <div class="footer-col">
-                    <h4>MSBTE Resources</h4>
-                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener">MSBTE Official</a>
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">Curriculum Search</a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">Lab Manuals</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
-            </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
         </div>
-    </footer>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="resources.html">Notes</a>
+            <a href="resources.html">Books</a>
+            <a href="resources.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
 
-    <!-- SCRIPTS -->
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/auth.js"></script>
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// Toggle mobile menu
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
 
-    <script>
-        (function() {
-            'use strict';
+// Close menu when clicking a link
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
 
-            // FIXED: Added error handling and better theme management
-            function loadTheme() {
-                try {
-                    var saved = localStorage.getItem('theme');
-                    var icon = document.getElementById('themeIcon');
-                    if (saved === 'light') {
-                        document.body.setAttribute('data-theme', 'light');
-                        if (icon) icon.className = 'fas fa-sun';
-                    } else {
-                        document.body.removeAttribute('data-theme');
-                        if (icon) icon.className = 'fas fa-moon';
-                    }
-                } catch (e) {
-                    console.error('Error loading theme:', e);
-                }
+// Render course cards from data
+(function renderCourses() {
+    const grid = document.getElementById('courseGrid');
+    const data = window.courseData || {};
+
+    // Fallback if data missing
+    if (!Object.keys(data).length) {
+        grid.innerHTML = '<p class="text-muted">Courses loading…</p>';
+        return;
+    }
+
+    let html = '';
+    let totalSubjects = 0;
+
+    for (const slug in data) {
+        const c = data[slug];
+        const semCount = Object.keys(c.semesters).length;
+
+        // Count subjects
+        let subCount = 0;
+        for (const s in c.semesters) {
+            subCount += (c.semesters[s].subjects || []).length;
+        }
+        totalSubjects += subCount;
+
+        html += `
+            <a href="course-detail.html?course=${slug}" class="dash-card">
+                <div style="font-size:2.5rem;line-height:1;">${c.icon || '📘'}</div>
+                <h3 style="margin-top:10px;">${c.name}</h3>
+                <p><strong>Code:</strong> ${c.code} · ${semCount} Semesters</p>
+                <p class="text-muted" style="font-size:0.8rem;">${subCount} subjects</p>
+            </a>
+        `;
+    }
+
+    grid.innerHTML = html;
+
+    // Update live stats
+    document.getElementById('statCourses').textContent = Object.keys(data).length + '+';
+    document.getElementById('statSubjects').textContent = totalSubjects + '+';
+})();
+
+// Animate stats on scroll (optional)
+(function animateStats() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.style.transform = 'scale(1.05)';
+                setTimeout(() => e.target.style.transform = 'scale(1)', 300);
             }
+        });
+    }, { threshold: 0.5 });
 
-            window.toggleTheme = function() {
-                try {
-                    var body = document.body;
-                    var icon = document.getElementById('themeIcon');
-                    if (body.getAttribute('data-theme') === 'light') {
-                        body.removeAttribute('data-theme');
-                        if (icon) icon.className = 'fas fa-moon';
-                        localStorage.setItem('theme', 'dark');
-                    } else {
-                        body.setAttribute('data-theme', 'light');
-                        if (icon) icon.className = 'fas fa-sun';
-                        localStorage.setItem('theme', 'light');
-                    }
-                } catch (e) {
-                    console.error('Error toggling theme:', e);
-                }
-            };
+    document.querySelectorAll('.stat-card').forEach(el => observer.observe(el));
+})();
 
-            window.toggleMobileMenu = function() {
-                try {
-                    var nav = document.getElementById('navLinks');
-                    var icon = document.getElementById('mobileMenuIcon');
-                    if (nav) {
-                        nav.classList.toggle('open');
-                        if (icon) {
-                            if (nav.classList.contains('open')) {
-                                icon.className = 'fas fa-times';
-                            } else {
-                                icon.className = 'fas fa-bars';
-                            }
-                        }
-                    }
-                } catch (e) {
-                    console.error('Error toggling mobile menu:', e);
-                }
-            };
-
-            window.performSearch = function() {
-                try {
-                    var input = document.getElementById('globalSearch');
-                    var query = input ? input.value.trim() : '';
-                    if (query) {
-                        window.location.href = 'search.html?q=' + encodeURIComponent(query);
-                    }
-                } catch (e) {
-                    console.error('Error performing search:', e);
-                }
-            };
-
-            // FIXED: Better auth UI handling
-            async function updateAuthUI() {
-                var btn = document.getElementById('authBtn');
-                if (!btn) {
-                    console.warn('Auth button not found');
-                    return;
-                }
-                
-                try {
-                    if (typeof getCurrentUser === 'function') {
-                        var user = await getCurrentUser();
-                        if (user) {
-                            var name = user.user_metadata?.full_name || user.email || 'Dashboard';
-                            btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
-                            btn.href = 'dashboard.html';
-                            return;
-                        }
-                    }
-                } catch (e) {
-                    console.warn('Error getting current user:', e);
-                }
-                
-                try {
-                    var stored = localStorage.getItem('user');
-                    if (stored) {
-                        var user = JSON.parse(stored);
-                        var name = user?.user_metadata?.full_name || user?.email || 'Dashboard';
-                        btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
-                        btn.href = 'dashboard.html';
-                        return;
-                    }
-                } catch (e) {
-                    console.warn('Error parsing stored user:', e);
-                }
-                
-                btn.innerHTML = 'Sign In';
-                btn.href = 'login.html';
-            }
-
-            // FIXED: Better course rendering with error handling
-            function renderCourses() {
-                var grid = document.getElementById('courseGrid');
-                if (!grid) {
-                    console.warn('Course grid not found');
-                    return;
-                }
-                
-                try {
-                    var courses = [];
-                    
-                    // Try to get courses from data.js if available
-                    if (typeof window.COURSES !== 'undefined' && Array.isArray(window.COURSES)) {
-                        courses = window.COURSES;
-                    } else if (typeof getCourses === 'function') {
-                        courses = getCourses();
-                    }
-                    
-                    // Fallback to hardcoded courses if no data source
-                    if (!courses.length) {
-                        courses = [
-                            { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻',
-                                description: 'Study of computers, programming, networks, and software development.' },
-                            { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️',
-                                description: 'Study of machines, manufacturing, thermodynamics, and mechanical systems.' },
-                            { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️',
-                                description: 'Study of construction, infrastructure, surveying, and structural design.' },
-                            { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡',
-                                description: 'Study of electrical systems, power generation, motors, and control systems.' },
-                            { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡',
-                                description: 'Study of electronic circuits, communication systems, signal processing, and IoT.' }
-                        ];
-                    }
-                    
-                    grid.innerHTML = courses.map(function(course) {
-                        return `
-                            <a href="course-detail.html?course=${encodeURIComponent(course.slug)}" class="course-card" style="display:block;text-decoration:none;color:inherit;">
-                                <span class="icon">${course.icon || '📘'}</span>
-                                <h3>${course.name}</h3>
-                                <p>${course.description || 'Learn more about this engineering discipline.'}</p>
-                                <span class="card-link">Explore Course <i class="fas fa-arrow-right"></i></span>
-                            </a>
-                        `;
-                    }).join('');
-                    
-                } catch (e) {
-                    console.error('Error rendering courses:', e);
-                    grid.innerHTML = '<p style="text-align:center;color:#8888bb;">Error loading courses. Please try again.</p>';
-                }
-            }
-
-            // FIXED: Better initialization with error handling
-            document.addEventListener('DOMContentLoaded', function() {
-                try {
-                    loadTheme();
-                    updateAuthUI();
-                    renderCourses();
-                    
-                    if (typeof initSupabase === 'function') {
-                        initSupabase().catch(function(e) {
-                            console.warn('Supabase initialization failed:', e);
-                        });
-                    }
-                    
-                    // Add event listeners for nav links to close mobile menu
-                    var navLinks = document.querySelectorAll('.nav-links a');
-                    navLinks.forEach(function(link) {
-                        link.addEventListener('click', function() {
-                            var nav = document.getElementById('navLinks');
-                            if (nav && nav.classList.contains('open')) {
-                                toggleMobileMenu();
-                            }
-                        });
-                    });
-                    
-                    console.log('✅ Diploma Hub loaded successfully!');
-                } catch (e) {
-                    console.error('Error initializing page:', e);
-                }
-            });
-
-        })();
-    </script>
+// PWA Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ Service Worker registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
