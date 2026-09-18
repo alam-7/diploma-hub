@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Course Detail - DiplomaHub</title>
+<meta name="description" content="Browse MSBTE Diploma courses, semesters, and subjects. Free notes, PDFs, MCQs for Computer, Mechanical, Civil Engineering.">
+<title>Course Detail — DiplomaHub</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -20,6 +21,7 @@
         <a href="resources.html">Resources</a>
         <a href="ai.html">AI</a>
     </div>
+    <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
 </nav>
 
 <div class="container">
@@ -27,14 +29,14 @@
         <i class="fas fa-arrow-left"></i> Back to Courses
     </a>
 
-    <!-- Loading skeleton -->
+    <!-- Loading Skeleton -->
     <div id="loading" class="skeleton">
         <div class="skeleton-header"></div>
         <div class="skeleton-tabs"></div>
         <div class="skeleton-table"></div>
     </div>
 
-    <!-- Error state -->
+    <!-- Error State -->
     <div id="error" class="error-state" style="display:none;">
         <i class="fas fa-exclamation-triangle"></i>
         <h2>Data Not Available</h2>
@@ -48,9 +50,40 @@
     <div id="content" style="display:none;"></div>
 </div>
 
-<!-- Load course data -->
-<script src="js/msbte-k-scheme-data.js"></script>
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="resources.html">Notes</a>
+            <a href="resources.html">Books</a>
+            <a href="resources.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License</p>
+    </div>
+</footer>
 
+<script src="js/msbte-k-scheme-data.js"></script>
 <script>
 const params = new URLSearchParams(window.location.search);
 const courseSlug = params.get('course') || 'computer-engineering';
@@ -78,19 +111,13 @@ function showContent(html) {
 function loadCourse() {
     showLoading();
     try {
-        // Handle both global var names
-        const data = window.courseData || window.msbteData || window.coursesData;
-        if (!data) throw new Error('courseData not found in msbte-k-scheme-data.js');
-        
+        const data = window.courseData || window.msbteData;
+        if (!data) throw new Error('courseData not found');
         const course = data[courseSlug];
         if (!course) throw new Error('Course not found: ' + courseSlug);
-
         renderCourse(course);
-
-        // Cache for offline
         localStorage.setItem('lastCourse_' + courseSlug, JSON.stringify(course));
     } catch (err) {
-        // Try cache fallback
         const cached = localStorage.getItem('lastCourse_' + courseSlug);
         if (cached) {
             console.warn('Using cached data:', err.message);
@@ -102,15 +129,13 @@ function loadCourse() {
 }
 
 function renderCourse(course) {
-    const semKeys = Object.keys(course.semesters).map(Number).sort((a,b) => a-b);
+    const semKeys = Object.keys(course.semesters).map(Number).sort((a,b)=>a-b);
     let tabsHtml = '';
     semKeys.forEach(s => {
-        tabsHtml += `<button class="semester-tab" onclick="showSemester(${s})">
-            ${course.semesters[s].name}
-        </button>`;
+        tabsHtml += `<button class="semester-tab" onclick="showSemester(${s})">${course.semesters[s].name}</button>`;
     });
 
-    const html = `
+    showContent(`
         <div class="course-header">
             <div class="course-icon">${course.icon || '📘'}</div>
             <div class="course-info">
@@ -121,9 +146,7 @@ function renderCourse(course) {
         </div>
         <div class="semester-tabs">${tabsHtml}</div>
         <div id="semesterContent"></div>
-    `;
-    showContent(html);
-
+    `);
     window._currentCourse = course;
     showSemester(semKeys[0]);
 }
@@ -134,42 +157,35 @@ function showSemester(sem) {
     if (!semData) return;
 
     let tableHtml = `
-        <h2 class="semester-title">📘 ${semData.name}
-            <small>${semData.subjects.length} subjects</small>
-        </h2>
+        <h2 class="semester-title">📘 ${semData.name} <small>${semData.subjects.length} subjects</small></h2>
         <table class="subjects-table">
-            <thead>
-                <tr>
-                    <th>Code</th><th>Subject Name</th>
-                    <th>Type</th><th>Credits</th><th>Marks</th>
-                </tr>
-            </thead>
+            <thead><tr><th>Code</th><th>Subject</th><th>Type</th><th>Credits</th><th>Marks</th></tr></thead>
             <tbody>
     `;
     semData.subjects.forEach(s => {
         const cls = s.type === 'Theory' ? 'theory' : 'practical';
         tableHtml += `
-            <tr onclick="location.href='subject.html?code=${s.code}'" style="cursor:pointer">
+            <tr onclick="location.href='subject.html?code=${s.code}'">
                 <td><strong>${s.code}</strong></td>
                 <td>${s.name}</td>
                 <td><span class="type-tag ${cls}">${s.type}</span></td>
                 <td>${s.credits}</td>
                 <td>${s.marks}</td>
-            </tr>
-        `;
+            </tr>`;
     });
     tableHtml += '</tbody></table>';
 
     document.getElementById('semesterContent').innerHTML = tableHtml;
-
     document.querySelectorAll('.semester-tab').forEach(t => {
         t.classList.toggle('active', t.textContent.trim() === semData.name);
     });
 }
 
-// Auto-load
+function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('show');
+}
+
 loadCourse();
 </script>
-
 </body>
 </html>
