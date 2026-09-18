@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Step-by-step solutions for MSBTE Diploma important questions. Unit-wise answers, solved examples, formulas, and downloadable solution PDFs.">
+<meta name="keywords" content="MSBTE Answers, Diploma Solutions, Step-by-Step Answers, Solved Questions, K-Scheme Solutions">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Answers & Solutions — DiplomaHub">
+<meta property="og:description" content="Step-by-step solutions for MSBTE Diploma subjects.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/answers.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Answers & Solutions — DiplomaHub">
+<meta name="twitter:description" content="Step-by-step solutions for MSBTE Diploma subjects.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/answers.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Answers & Solutions — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input { padding-left: 44px; }
+    .filter-bar select { max-width: 170px; }
+
+    /* ================= STATS ================= */
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 130px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i { font-size: 1.3rem; color: var(--primary); }
+    .mini-stat .num { font-size: 1.25rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ================= ANSWERS LIST ================= */
+    .answers-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+    }
+
+    .answer-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: var(--transition);
+    }
+    .answer-card:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow-glow);
+    }
+
+    /* ---- Question header ---- */
+    .a-question {
+        padding: var(--space-lg);
+        background: linear-gradient(135deg, rgba(0,212,255,0.05), transparent);
+        border-bottom: 1px solid var(--border);
+        position: relative;
+    }
+    .a-question .q-label {
+        display: inline-block;
+        background: var(--primary);
+        color: var(--bg);
+        padding: 2px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.7rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .a-question .q-text {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        margin-bottom: 12px;
+    }
+    .a-badges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .a-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.72rem;
+        font-weight: 700;
+    }
+    .a-badge.unit { background: var(--primary-glow); color: var(--primary); }
+    .a-badge.marks { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .a-badge.easy { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .a-badge.medium { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .a-badge.hard { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+    /* ---- Answer body ---- */
+    .a-body {
+        padding: var(--space-lg);
+    }
+    .a-section {
+        margin-bottom: var(--space-lg);
+    }
+    .a-section:last-child { margin-bottom: 0; }
+    .a-section-title {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--primary);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+    }
+    .a-section-title i { font-size: 0.9rem; }
+
+    /* Steps */
+    .steps-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .step {
+        display: flex;
+        gap: 14px;
+        padding: 12px 14px;
+        background: var(--bg-alt);
+        border-radius: var(--radius-sm);
+        border-left: 3px solid var(--primary);
+        font-size: 0.92rem;
+        line-height: 1.6;
+    }
+    .step .step-num {
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.78rem;
+    }
+    .step .step-body { flex: 1; color: var(--text); }
+    .step .step-body strong { color: var(--primary); }
+
+    /* Formula / Diagram / Example blocks */
+    .note-block {
+        background: var(--bg-alt);
+        border-left: 3px solid var(--primary);
+        border-radius: var(--radius-sm);
+        padding: 12px 16px;
+        margin: 10px 0;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        color: var(--text-muted);
+    }
+    .note-block.formula { border-left-color: #a855f7; }
+    .note-block.formula code {
+        background: rgba(168,85,247,0.12);
+        color: #a855f7;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: var(--font-mono);
+        font-size: 0.88rem;
+    }
+    .note-block.diagram { border-left-color: #00d4ff; }
+    .note-block.example { border-left-color: var(--success); }
+    .note-block.tip { border-left-color: var(--warning); }
+
+    .note-block .nb-title {
+        font-weight: 700;
+        color: var(--text);
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.85rem;
+    }
+
+    /* Footer */
+    .a-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px var(--space-lg);
+        background: var(--bg-alt);
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+    }
+    .a-footer .meta {
+        display: flex;
+        gap: 14px;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        flex-wrap: wrap;
+    }
+    .a-footer .meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .a-footer .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .a-footer button, .a-footer a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: var(--radius-pill);
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .a-footer button:hover, .a-footer a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .a-footer .primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .a-footer .primary:hover {
+        background: var(--primary-dark);
+        color: var(--bg);
+    }
+    .a-footer button.active { color: var(--primary); }
+
+    /* Empty */
+    .empty-state {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .a-question .q-text { font-size: 0.95rem; }
+        .a-footer { flex-direction: column; align-items: stretch; }
+        .a-footer .actions { justify-content: stretch; }
+        .a-footer .actions button, .a-footer .actions a { flex: 1; justify-content: center; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="active">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="courses.html">Courses</a> ›
+        <a href="#" id="bcCourse">Course</a> ›
+        <a href="#" id="bcSubject">Subject</a> ›
+        <span>Answers</span>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            ✅ Answers & Solutions
+        </h1>
+        <p class="text-muted" id="pageSubtitle" style="max-width:700px;margin:0 auto;">
+            Step-by-step solutions for important questions.
+        </p>
+    </div>
+
+    <!-- ================= LOADING ================= -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-tabs"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- ================= NOT FOUND ================= -->
+    <div id="notFound" class="empty-state" style="display:none;" role="alert">
+        <i class="fas fa-search"></i>
+        <h3>Subject Not Found</h3>
+        <p id="notFoundMsg">We couldn't find solutions for this subject.</p>
+        <a href="courses.html" class="btn btn-primary mt-2">
+            <i class="fas fa-arrow-left"></i> Browse Courses
+        </a>
+    </div>
+
+    <!-- ================= CONTENT ================= -->
+    <div id="content" style="display:none;">
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <div class="num" id="statSolved">0</div>
+                    <div class="label">Solved</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-layer-group"></i>
+                <div>
+                    <div class="num" id="statUnits">0</div>
+                    <div class="label">Units</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-list-ol"></i>
+                <div>
+                    <div class="num" id="statSteps">0</div>
+                    <div class="label">Steps Total</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-file-pdf"></i>
+                <div>
+                    <div class="num" id="statPdf">0</div>
+                    <div class="label">PDF Solutions</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput"
+                       placeholder="Search solutions…"
+                       oninput="applyFilters()"
+                       aria-label="Search solutions">
+            </div>
+            <select id="unitFilter" onchange="applyFilters()" aria-label="Unit">
+                <option value="all">All Units</option>
+            </select>
+            <select id="diffFilter" onchange="applyFilters()" aria-label="Difficulty">
+                <option value="all">All Levels</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <select id="marksFilter" onchange="applyFilters()" aria-label="Marks">
+                <option value="all">All Marks</option>
+                <option value="2">2 marks</option>
+                <option value="4">4 marks</option>
+                <option value="6">6 marks</option>
+                <option value="8">8 marks</option>
+            </select>
+        </div>
+
+        <!-- List -->
+        <div class="answers-list" id="answersList"></div>
+
+    </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Copied!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="questions.html">Questions</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const subjectCode = params.get('code') || '311302';
+let subjectData = null;
+let courseData = null;
+let allAnswers = [];
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function findSubject(code) {
+    const data = window.courseData || {};
+    for (const slug in data) {
+        const course = data[slug];
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            const found = subs.find(s => s.code === code);
+            if (found) {
+                return {
+                    subject: found,
+                    course: { ...course, slug },
+                    semesterName: course.semesters[sem].name
+                };
+            }
+        }
+    }
+    return null;
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ============================================================
+// UI STATE
+// ============================================================
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+}
+function showNotFound(msg) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'block';
+    if (msg) document.getElementById('notFoundMsg').textContent = msg;
+}
+function showContent() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+}
+
+// ============================================================
+// PLACEHOLDER ANSWER GENERATOR
+// ============================================================
+function generateAnswers(subject) {
+    const units = subject.units && subject.units.length
+        ? subject.units
+        : [{ unit: 1, title: 'Introduction', marks: 4 }];
+
+    const templates = [
+        {
+            text: 'Define the term "{topic}" and explain its significance.',
+            marks: 2, diff: 'easy',
+            steps: [
+                '<strong>Definition:</strong> "{topic}" is defined as the fundamental concept that describes …',
+                '<strong>Significance:</strong> It helps engineers to understand the behaviour of systems and apply the concept in real-world design.',
+                '<strong>Example:</strong> A common example is observed in practical applications where "{topic}" plays a key role.'
+            ],
+            formula: 'Concept of {topic}: $\\text{value} = f(x)$',
+            example: 'For a simple case, if x = 5, then f(x) = 5 × 2 = 10.'
+        },
+        {
+            text: 'Explain the working principle of "{topic}" with a neat diagram.',
+            marks: 4, diff: 'medium',
+            steps: [
+                '<strong>Step 1 — Input:</strong> The initial state is set up based on the given requirements.',
+                '<strong>Step 2 — Process:</strong> The system undergoes the main transformation using the principle of "{topic}".',
+                '<strong>Step 3 — Output:</strong> The final result is obtained.',
+                '<strong>Diagram:</strong> Draw the labelled diagram showing input → process → output.'
+            ],
+            formula: 'Efficiency η = (Output / Input) × 100%',
+            example: 'If input = 100 units and output = 80 units, then η = 80%.'
+        },
+        {
+            text: 'State the advantages and disadvantages of "{topic}".',
+            marks: 4, diff: 'medium',
+            steps: [
+                '<strong>Advantages:</strong> High efficiency, simple to implement, cost-effective, and widely used in industry.',
+                '<strong>Disadvantages:</strong> Sensitive to specific conditions, may require maintenance, and has some limitations at extreme conditions.'
+            ],
+            tip: 'In exams, list at least 3 advantages and 2 disadvantages for full marks.'
+        },
+        {
+            text: 'Solve: Apply the concept of "{topic}" to the given problem.',
+            marks: 6, diff: 'hard',
+            steps: [
+                '<strong>Given:</strong> Extract all given data from the question.',
+                '<strong>To find:</strong> Identify what needs to be calculated.',
+                '<strong>Formula:</strong> Write the relevant formula.',
+                '<strong>Solution:</strong> Substitute the values and simplify step-by-step.',
+                '<strong>Result:</strong> State the final answer with proper units.'
+            ],
+            formula: 'Result = f(given values)',
+            example: 'Numerical: Given x = 10, y = 5. Find z = x² + y². → z = 100 + 25 = 125.'
+        }
+    ];
+
+    const list = [];
+    let n = 1;
+    units.forEach((u) => {
+        const topic = u.title || `Unit ${u.unit}`;
+        templates.forEach((t, j) => {
+            const answer = {
+                id: `ans-${subject.code}-${u.unit}-${j}`,
+                number: n++,
+                question: t.text.replace(/{topic}/g, topic),
+                unit: u.unit,
+                marks: t.marks,
+                difficulty: t.diff,
+                steps: t.steps.map(s => s.replace(/{topic}/g, topic)),
+                formula: t.formula ? t.formula.replace(/{topic}/g, topic) : null,
+                example: t.example || null,
+                tip: t.tip || null,
+                pdf: '#'
+            };
+            list.push(answer);
+        });
+    });
+    return list;
+}
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadAnswers() {
+    showLoading();
+    setTimeout(() => {
+        const found = findSubject(subjectCode);
+        if (!found) {
+            showNotFound(`No subject found with code "${subjectCode}".`);
+            return;
+        }
+        subjectData = found.subject;
+        courseData = found.course;
+
+        allAnswers = subjectData.answers && subjectData.answers.length
+            ? subjectData.answers
+            : generateAnswers(subjectData);
+
+        // Breadcrumb
+        document.getElementById('bcCourse').textContent = courseData.name;
+        document.getElementById('bcCourse').href = `course-detail.html?course=${courseData.slug}`;
+        document.getElementById('bcSubject').textContent = subjectData.name;
+        document.getElementById('bcSubject').href = `subject.html?code=${subjectData.code}`;
+
+        // Title
+        document.title = `${subjectData.name} — Answers — DiplomaHub`;
+        document.getElementById('pageSubtitle').textContent =
+            `Step-by-step solutions for ${subjectData.name} (${subjectData.code}) · ${found.semesterName}`;
+
+        // Populate unit filter
+        const unitFilter = document.getElementById('unitFilter');
+        const units = [...new Set(allAnswers.map(a => a.unit))].sort((a,b) => a-b);
+        unitFilter.innerHTML = '<option value="all">All Units</option>' +
+            units.map(u => `<option value="${u}">Unit ${u}</option>`).join('');
+
+        // Stats
+        document.getElementById('statSolved').textContent = allAnswers.length;
+        document.getElementById('statUnits').textContent = units.length;
+        document.getElementById('statSteps').textContent =
+            allAnswers.reduce((s, a) => s + (a.steps || []).length, 0);
+        document.getElementById('statPdf').textContent =
+            allAnswers.filter(a => a.pdf && a.pdf !== '#').length;
+
+        showContent();
+        applyFilters();
+    }, 200);
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const unit = document.getElementById('unitFilter').value;
+    const diff = document.getElementById('diffFilter').value;
+    const marks = document.getElementById('marksFilter').value;
+
+    let list = allAnswers.filter(a => {
+        const matchQ = !q ||
+            a.question.toLowerCase().includes(q) ||
+            a.steps.join(' ').toLowerCase().includes(q);
+        const matchU = unit === 'all' || String(a.unit) === unit;
+        const matchD = diff === 'all' || a.difficulty === diff;
+        const matchM = marks === 'all' || String(a.marks) === marks;
+        return matchQ && matchU && matchD && matchM;
+    });
+
+    renderAnswers(list);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderAnswers(list) {
+    const wrap = document.getElementById('answersList');
+    if (!list.length) {
+        wrap.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-check-circle"></i>
+                <h3>No solutions found</h3>
+                <p>Try changing filters or search term.</p>
+            </div>`;
+        return;
+    }
+
+    wrap.innerHTML = list.map(a => {
+        const saved = isBookmarked(a.id);
+        const diffLabel = a.difficulty.charAt(0).toUpperCase() + a.difficulty.slice(1);
+
+        let bodyHtml = '';
+
+        if (a.steps && a.steps.length) {
+            bodyHtml += `
+                <div class="a-section">
+                    <div class="a-section-title"><i class="fas fa-list-ol"></i> Step-by-Step Solution</div>
+                    <ol class="steps-list">
+                        ${a.steps.map((s, i) => `
+                            <li class="step">
+                                <span class="step-num">${i + 1}</span>
+                                <div class="step-body">${s}</div>
+                            </li>
+                        `).join('')}
+                    </ol>
+                </div>`;
+        }
+
+        if (a.formula) {
+            bodyHtml += `
+                <div class="a-section">
+                    <div class="a-section-title"><i class="fas fa-square-root-variable"></i> Formula / Principle</div>
+                    <div class="note-block formula">
+                        <code>${escapeHtml(a.formula)}</code>
+                    </div>
+                </div>`;
+        }
+
+        if (a.example) {
+            bodyHtml += `
+                <div class="a-section">
+                    <div class="a-section-title"><i class="fas fa-lightbulb"></i> Solved Example</div>
+                    <div class="note-block example">
+                        <span class="nb-title">Example</span>
+                        ${escapeHtml(a.example)}
+                    </div>
+                </div>`;
+        }
+
+        if (a.tip) {
+            bodyHtml += `
+                <div class="a-section">
+                    <div class="a-section-title"><i class="fas fa-star"></i> Exam Tip</div>
+                    <div class="note-block tip">
+                        ${escapeHtml(a.tip)}
+                    </div>
+                </div>`;
+        }
+
+        return `
+            <div class="answer-card" id="card-${a.id}">
+                <!-- Question -->
+                <div class="a-question">
+                    <span class="q-label">Question ${a.number}</span>
+                    <div class="q-text">${escapeHtml(a.question)}</div>
+                    <div class="a-badges">
+                        <span class="a-badge unit"><i class="fas fa-layer-group"></i> Unit ${a.unit}</span>
+                        <span class="a-badge marks"><i class="fas fa-star"></i> ${a.marks} marks</span>
+                        <span class="a-badge ${a.difficulty}"><i class="fas fa-signal"></i> ${diffLabel}</span>
+                    </div>
+                </div>
+
+                <!-- Answer Body -->
+                <div class="a-body">
+                    ${bodyHtml}
+                </div>
+
+                <!-- Footer -->
+                <div class="a-footer">
+                    <div class="meta">
+                        <span><i class="fas fa-check-circle" style="color:var(--success);"></i> Verified</span>
+                        <span><i class="fas fa-list-ol"></i> ${(a.steps || []).length} steps</span>
+                        <span><i class="fas fa-clock"></i> ~${a.marks * 2} min read</span>
+                    </div>
+                    <div class="actions">
+                        <a href="questions.html?code=${subjectData.code}#card-${a.id}" title="View related question">
+                            <i class="fas fa-question-circle"></i> Related Q
+                        </a>
+                        <button onclick="copyAnswer('${a.id}')" title="Copy solution">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button onclick="toggleBookmark('${a.id}')"
+                                class="${saved ? 'active' : ''}"
+                                title="Bookmark">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                        <a href="${a.pdf || '#'}" download class="primary" title="Download PDF">
+                            <i class="fas fa-download"></i> PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// COPY
+// ============================================================
+function copyAnswer(id) {
+    const a = allAnswers.find(x => x.id === id);
+    if (!a) return;
+    const text =
+`Q${a.number}. ${a.question}
+[Unit ${a.unit} · ${a.marks} marks · ${a.difficulty}]
+
+Solution Steps:
+${(a.steps || []).map((s, i) => `${i + 1}. ${s.replace(/<[^>]+>/g, '')}`).join('\n')}
+
+${a.formula ? `Formula: ${a.formula}\n` : ''}
+${a.example ? `Example: ${a.example}\n` : ''}
+--- via DiplomaHub`;
+
+    navigator.clipboard.writeText(text)
+        .then(() => showToast('Solution copied!'))
+        .catch(() => showToast('Copy failed'));
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('answerBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('answerBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) list.splice(i, 1); else list.push(id);
+    localStorage.setItem('answerBookmarks', JSON.stringify(list));
+    applyFilters();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadAnswers();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>
