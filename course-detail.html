@@ -3,16 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Browse MSBTE Diploma courses, semesters, and subjects. Free notes, PDFs, MCQs for Computer, Mechanical, Civil Engineering.">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="View all semesters and subjects for MSBTE Diploma Engineering courses. Computer, Mechanical, Civil, Electrical & Electronics Engineering — 6 semesters, all subjects with credits and marks.">
+<meta name="keywords" content="MSBTE Course Detail, Diploma Semesters, Diploma Subjects, K-Scheme, Course Curriculum">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Course Detail — DiplomaHub">
+<meta property="og:description" content="All semesters & subjects for MSBTE Diploma Engineering branches.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/course-detail.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Course Detail — DiplomaHub">
+<meta name="twitter:description" content="All semesters & subjects for MSBTE Diploma Engineering branches.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/course-detail.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
 <title>Course Detail — DiplomaHub</title>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+<!-- ================= NAVBAR ================= -->
 <nav class="navbar">
-    <div class="nav-logo">🎓 DIPLOMA HUB</div>
-    <div class="nav-links">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
         <a href="index.html">Home</a>
         <a href="courses.html" class="active">Courses</a>
         <a href="equipment.html">Equipment</a>
@@ -20,36 +43,81 @@
         <a href="quizzers.html">Quizzes</a>
         <a href="resources.html">Resources</a>
         <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
     </div>
-    <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
 </nav>
 
 <div class="container">
-    <a href="courses.html" class="back-link">
-        <i class="fas fa-arrow-left"></i> Back to Courses
-    </a>
 
-    <!-- Loading Skeleton -->
-    <div id="loading" class="skeleton">
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" id="breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="courses.html">Courses</a> ›
+        <span id="bcBranch">Branch</span>
+    </div>
+
+    <!-- ================= LOADING SKELETON ================= -->
+    <div id="loading" class="skeleton" aria-live="polite" aria-busy="true">
         <div class="skeleton-header"></div>
         <div class="skeleton-tabs"></div>
         <div class="skeleton-table"></div>
     </div>
 
-    <!-- Error State -->
-    <div id="error" class="error-state" style="display:none;">
+    <!-- ================= ERROR STATE ================= -->
+    <div id="error" class="error-state" style="display:none;" role="alert" aria-live="assertive">
         <i class="fas fa-exclamation-triangle"></i>
         <h2>Data Not Available</h2>
-        <p>Course data could not be loaded. Please try again later.</p>
-        <button onclick="loadCourse()" class="retry-btn">
+        <p id="errorMessage">Course data could not be loaded. Please try again later.</p>
+        <button onclick="loadCourse()" class="retry-btn" aria-label="Retry loading">
             <i class="fas fa-redo"></i> Retry
         </button>
+        <a href="courses.html" class="btn btn-outline" style="margin-left:12px;">
+            <i class="fas fa-arrow-left"></i> Back to Courses
+        </a>
     </div>
 
-    <!-- Content -->
+    <!-- ================= CONTENT ================= -->
     <div id="content" style="display:none;"></div>
+
+    <!-- ================= QUICK ACTIONS ================= -->
+    <section id="quickActions" style="display:none;margin-top:40px;">
+        <h2 style="font-size:1.4rem;margin-bottom:16px;">⚡ Quick Actions</h2>
+        <div class="dashboard-grid">
+            <a href="resources.html" class="dash-card">
+                <i class="fas fa-download"></i>
+                <h3>📥 Download Notes</h3>
+                <p>All subjects, all semesters</p>
+            </a>
+            <a href="quizzers.html" class="dash-card">
+                <i class="fas fa-question-circle"></i>
+                <h3>📝 Take a Quiz</h3>
+                <p>Practice MCQs</p>
+            </a>
+            <a href="papers.html" class="dash-card">
+                <i class="fas fa-file-alt"></i>
+                <h3>📋 Question Papers</h3>
+                <p>Previous year papers</p>
+            </a>
+            <a href="practicals.html" class="dash-card">
+                <i class="fas fa-flask"></i>
+                <h3>🧪 Practicals</h3>
+                <p>Lab manuals</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- ================= INFO SECTION ================= -->
+    <section id="infoSection" style="display:none;margin-top:40px;padding:32px;background:var(--surface);border:1px solid var(--border);border-radius:16px;">
+        <h2 style="font-size:1.4rem;margin-bottom:16px;">📘 About This Course</h2>
+        <p class="text-muted" id="aboutCourse"></p>
+    </section>
+
 </div>
 
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
     <div class="footer-grid">
         <div>
@@ -79,113 +147,305 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>© 2026 DiplomaHub · MIT License</p>
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
     </div>
 </footer>
 
+<!-- ================= SCRIPTS ================= -->
 <script src="js/msbte-k-scheme-data.js"></script>
 <script>
+// ============================================================
+// STATE
+// ============================================================
 const params = new URLSearchParams(window.location.search);
 const courseSlug = params.get('course') || 'computer-engineering';
+let currentCourse = null;
+let currentSemester = null;
 
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// UI HELPERS
+// ============================================================
 function showLoading() {
     document.getElementById('loading').style.display = 'block';
+    document.getElementById('loading').setAttribute('aria-busy', 'true');
     document.getElementById('error').style.display = 'none';
     document.getElementById('content').style.display = 'none';
+    document.getElementById('quickActions').style.display = 'none';
+    document.getElementById('infoSection').style.display = 'none';
 }
 
 function showError(msg) {
     document.getElementById('loading').style.display = 'none';
+    document.getElementById('loading').setAttribute('aria-busy', 'false');
     document.getElementById('content').style.display = 'none';
+    document.getElementById('quickActions').style.display = 'none';
+    document.getElementById('infoSection').style.display = 'none';
     document.getElementById('error').style.display = 'block';
-    console.error('Course load error:', msg);
+    document.getElementById('errorMessage').textContent = msg || 'Course data could not be loaded. Please try again later.';
+    console.error('[CourseDetail] Error:', msg);
 }
 
-function showContent(html) {
+function showContent() {
     document.getElementById('loading').style.display = 'none';
+    document.getElementById('loading').setAttribute('aria-busy', 'false');
     document.getElementById('error').style.display = 'none';
     document.getElementById('content').style.display = 'block';
-    document.getElementById('content').innerHTML = html;
+    document.getElementById('quickActions').style.display = 'block';
+    document.getElementById('infoSection').style.display = 'block';
 }
 
+// ============================================================
+// LOAD COURSE
+// ============================================================
 function loadCourse() {
     showLoading();
-    try {
-        const data = window.courseData || window.msbteData;
-        if (!data) throw new Error('courseData not found');
-        const course = data[courseSlug];
-        if (!course) throw new Error('Course not found: ' + courseSlug);
-        renderCourse(course);
-        localStorage.setItem('lastCourse_' + courseSlug, JSON.stringify(course));
-    } catch (err) {
-        const cached = localStorage.getItem('lastCourse_' + courseSlug);
-        if (cached) {
-            console.warn('Using cached data:', err.message);
-            renderCourse(JSON.parse(cached));
-        } else {
+
+    // Simulate async delay (remove in prod if not needed)
+    setTimeout(() => {
+        try {
+            const data = window.courseData || window.msbteData || window.coursesData;
+
+            if (!data) {
+                throw new Error('Course data file not loaded. Check js/msbte-k-scheme-data.js');
+            }
+
+            const course = data[courseSlug];
+            if (!course) {
+                throw new Error(`Course "${courseSlug}" not found in data.`);
+            }
+
+            // Validate structure
+            if (!course.semesters || !Object.keys(course.semesters).length) {
+                throw new Error('Course has no semester data.');
+            }
+
+            renderCourse(course);
+
+            // Cache for offline
+            try {
+                localStorage.setItem('lastCourse_' + courseSlug, JSON.stringify(course));
+            } catch (e) {
+                console.warn('Cache write failed:', e);
+            }
+
+        } catch (err) {
+            console.warn('[CourseDetail] Live load failed:', err.message);
+
+            // Try cache fallback
+            try {
+                const cached = localStorage.getItem('lastCourse_' + courseSlug);
+                if (cached) {
+                    console.info('[CourseDetail] Using cached data');
+                    renderCourse(JSON.parse(cached));
+                    return;
+                }
+            } catch (e) {
+                console.warn('Cache read failed:', e);
+            }
+
             showError(err.message);
         }
-    }
+    }, 200); // small delay so skeleton is visible
 }
 
+// ============================================================
+// RENDER COURSE
+// ============================================================
 function renderCourse(course) {
-    const semKeys = Object.keys(course.semesters).map(Number).sort((a,b)=>a-b);
-    let tabsHtml = '';
-    semKeys.forEach(s => {
-        tabsHtml += `<button class="semester-tab" onclick="showSemester(${s})">${course.semesters[s].name}</button>`;
-    });
+    currentCourse = course;
 
-    showContent(`
+    // Update breadcrumb
+    document.getElementById('bcBranch').textContent = course.name;
+
+    // Update title
+    document.title = `${course.name} — DiplomaHub`;
+
+    // Sort semesters
+    const semKeys = Object.keys(course.semesters).map(Number).sort((a, b) => a - b);
+
+    // Build tabs
+    const tabsHtml = semKeys.map(s => `
+        <button
+            class="semester-tab"
+            data-sem="${s}"
+            onclick="showSemester(${s})"
+            aria-label="${course.semesters[s].name}"
+        >
+            ${course.semesters[s].name}
+        </button>
+    `).join('');
+
+    // Build header + tabs + content container
+    const html = `
         <div class="course-header">
-            <div class="course-icon">${course.icon || '📘'}</div>
+            <div class="course-icon" aria-hidden="true">${course.icon || '📘'}</div>
             <div class="course-info">
-                <h1>${course.name}</h1>
-                <p><strong>Code:</strong> ${course.code}</p>
-                <p>${course.description || ''}</p>
+                <h1>${escapeHtml(course.name)}</h1>
+                <p><strong>Code:</strong> ${escapeHtml(course.code)}</p>
+                <p>${escapeHtml(course.description || '')}</p>
+                <span class="badge">
+                    <i class="fas fa-check-circle"></i>
+                    ${semKeys.length} Semesters · ${countSubjects(course)} Subjects
+                </span>
             </div>
         </div>
-        <div class="semester-tabs">${tabsHtml}</div>
-        <div id="semesterContent"></div>
-    `);
-    window._currentCourse = course;
+        <div class="semester-tabs" role="tablist">
+            ${tabsHtml}
+        </div>
+        <div id="semesterContent" role="tabpanel"></div>
+    `;
+
+    document.getElementById('content').innerHTML = html;
+
+    // Fill info section
+    document.getElementById('aboutCourse').textContent =
+        course.description
+            ? course.description + ` This branch is offered by MSBTE under the K-Scheme and covers ${semKeys.length} semesters of theory and practical subjects.`
+            : `MSBTE Diploma in ${course.name} — K-Scheme.`;
+
+    showContent();
+
+    // Default to first semester
     showSemester(semKeys[0]);
 }
 
+// ============================================================
+// SHOW SEMESTER
+// ============================================================
 function showSemester(sem) {
-    const course = window._currentCourse;
-    const semData = course.semesters[sem];
-    if (!semData) return;
+    if (!currentCourse) return;
 
+    const semData = currentCourse.semesters[sem];
+    if (!semData || !semData.subjects) {
+        document.getElementById('semesterContent').innerHTML =
+            '<p class="text-muted">No subjects listed for this semester.</p>';
+        return;
+    }
+
+    currentSemester = sem;
+
+    // Build table
     let tableHtml = `
-        <h2 class="semester-title">📘 ${semData.name} <small>${semData.subjects.length} subjects</small></h2>
-        <table class="subjects-table">
-            <thead><tr><th>Code</th><th>Subject</th><th>Type</th><th>Credits</th><th>Marks</th></tr></thead>
+        <h2 class="semester-title">
+            📘 ${escapeHtml(semData.name)}
+            <small>${semData.subjects.length} subjects</small>
+        </h2>
+        <div style="overflow-x:auto;">
+        <table class="subjects-table" role="table">
+            <thead>
+                <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Subject Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Credits</th>
+                    <th scope="col">Marks</th>
+                </tr>
+            </thead>
             <tbody>
     `;
+
     semData.subjects.forEach(s => {
-        const cls = s.type === 'Theory' ? 'theory' : 'practical';
+        const typeClass = (s.type || '').toLowerCase() === 'theory' ? 'theory' : 'practical';
         tableHtml += `
-            <tr onclick="location.href='subject.html?code=${s.code}'">
-                <td><strong>${s.code}</strong></td>
-                <td>${s.name}</td>
-                <td><span class="type-tag ${cls}">${s.type}</span></td>
-                <td>${s.credits}</td>
-                <td>${s.marks}</td>
-            </tr>`;
+            <tr
+                onclick="location.href='subject.html?code=${encodeURIComponent(s.code)}'"
+                tabindex="0"
+                role="link"
+                onkeypress="if(event.key==='Enter')location.href='subject.html?code=${encodeURIComponent(s.code)}'"
+                aria-label="Open subject ${escapeHtml(s.name)}"
+            >
+                <td><strong>${escapeHtml(s.code)}</strong></td>
+                <td>${escapeHtml(s.name)}</td>
+                <td><span class="type-tag ${typeClass}">${escapeHtml(s.type)}</span></td>
+                <td>${s.credits ?? '—'}</td>
+                <td>${s.marks ?? '—'}</td>
+            </tr>
+        `;
     });
-    tableHtml += '</tbody></table>';
+
+    tableHtml += `
+            </tbody>
+        </table>
+        </div>
+    `;
 
     document.getElementById('semesterContent').innerHTML = tableHtml;
+
+    // Highlight active tab
     document.querySelectorAll('.semester-tab').forEach(t => {
-        t.classList.toggle('active', t.textContent.trim() === semData.name);
+        const isActive = Number(t.dataset.sem) === sem;
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    // Update URL without reload (deep link)
+    const newUrl = new URL(window.location);
+    newUrl.searchParams.set('course', courseSlug);
+    newUrl.searchParams.set('sem', sem);
+    window.history.replaceState({}, '', newUrl);
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function countSubjects(course) {
+    let n = 0;
+    for (const s in course.semesters) {
+        n += (course.semesters[s].subjects || []).length;
+    }
+    return n;
+}
+
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadCourse();
+
+// Handle URL param for semester deep link
+window.addEventListener('DOMContentLoaded', () => {
+    const semParam = params.get('sem');
+    if (semParam) {
+        // Wait for loadCourse to finish
+        setTimeout(() => {
+            if (currentCourse && currentCourse.semesters[semParam]) {
+                showSemester(Number(semParam));
+            }
+        }, 400);
+    }
+});
+
+// ============================================================
+// PWA
+// ============================================================
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
     });
 }
-
-function toggleMenu() {
-    document.querySelector('.nav-links').classList.toggle('show');
-}
-
-loadCourse();
 </script>
 </body>
 </html>
