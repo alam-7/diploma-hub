@@ -1,302 +1,1118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        .resources-page {
-            padding: 100px 20px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .resources-page h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-        }
-        .resources-page .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-        }
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        .resource-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 30px;
-            transition: var(--transition);
-        }
-        .resource-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
-        }
-        .resource-card .icon {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .resource-card h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .resource-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 16px;
-        }
-        .resource-card .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            text-decoration: none;
-        }
-        .resource-card .btn-primary {
-            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-            color: #fff;
-        }
-        .resource-card .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
-        }
-        .resource-card .btn-outline {
-            background: transparent;
-            color: var(--neon-blue);
-            border: 2px solid var(--neon-blue);
-        }
-        .resource-card .btn-outline:hover {
-            background: rgba(0, 212, 255, 0.05);
-        }
-        .disclaimer-box {
-            background: var(--darker-bg);
-            border-left: 4px solid var(--neon-blue);
-            padding: 20px 25px;
-            border-radius: var(--radius);
-            margin-top: 30px;
-        }
-        .disclaimer-box p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin: 0;
-        }
-        .disclaimer-box a {
-            color: var(--neon-blue);
-            text-decoration: none;
-        }
-        .disclaimer-box a:hover {
-            text-decoration: underline;
-        }
-        .quick-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 20px 0 30px;
-        }
-        .quick-links a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 18px;
-            border-radius: 30px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            transition: var(--transition);
-            text-decoration: none;
-        }
-        .quick-links a:hover {
-            border-color: var(--neon-blue);
-            color: var(--neon-blue);
-        }
-        @media (max-width: 768px) {
-            .resources-page h1 {
-                font-size: 2rem;
-            }
-            .resource-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="All study resources in one place — Notes, Books, Papers, Questions, Answers, Practicals, and MCQ quizzes for MSBTE Diploma students. Free PDFs and downloads.">
+<meta name="keywords" content="MSBTE Resources, Diploma Notes, Books PDF, Question Papers, Practicals, MCQs, Study Material">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Resources — DiplomaHub">
+<meta property="og:description" content="All MSBTE Diploma resources — notes, books, papers, questions, practicals, quizzes.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/resources.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Resources — DiplomaHub">
+<meta name="twitter:description" content="All MSBTE Diploma resources in one place.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/resources.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Resources — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input { padding-left: 44px; }
+    .filter-bar select { max-width: 180px; }
+
+    /* ================= STATS ================= */
+    .stats-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 120px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i { font-size: 1.2rem; color: var(--primary); }
+    .mini-stat .num { font-size: 1.2rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* ================= TYPE CHIPS ================= */
+    .type-chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-md);
+    }
+    .type-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .type-chip:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .type-chip.active {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: var(--primary);
+    }
+    .type-chip .count {
+        background: rgba(0,0,0,0.15);
+        padding: 1px 8px;
+        border-radius: var(--radius-pill);
+        font-size: 0.7rem;
+        margin-left: 4px;
+    }
+    .type-chip.active .count {
+        background: rgba(0,0,0,0.2);
+    }
+
+    /* ================= RESOURCES GRID ================= */
+    .resources-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .resource-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+    .resource-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        transition: opacity var(--transition);
+        opacity: 0;
+    }
+    .resource-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        box-shadow: var(--shadow-glow);
+    }
+    .resource-card:hover::before { opacity: 1; }
+
+    /* Type-specific top strip colors */
+    .resource-card[data-type="note"]::before { background: linear-gradient(90deg,#00d4ff,#0099cc); }
+    .resource-card[data-type="book"]::before { background: linear-gradient(90deg,#a855f7,#7c3aed); }
+    .resource-card[data-type="paper"]::before { background: linear-gradient(90deg,#f59e0b,#ea580c); }
+    .resource-card[data-type="question"]::before { background: linear-gradient(90deg,#22c55e,#16a34a); }
+    .resource-card[data-type="answer"]::before { background: linear-gradient(90deg,#10b981,#059669); }
+    .resource-card[data-type="practical"]::before { background: linear-gradient(90deg,#f43f5e,#e11d48); }
+    .resource-card[data-type="quiz"]::before { background: linear-gradient(90deg,#06b6d4,#0891b2); }
+    .resource-card[data-type="video"]::before { background: linear-gradient(90deg,#ef4444,#dc2626); }
+
+    .res-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .res-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        background: var(--primary-glow);
+        color: var(--primary);
+    }
+    .res-icon.note { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .res-icon.book { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .res-icon.paper { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .res-icon.question { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .res-icon.answer { background: rgba(16,185,129,0.15); color: #10b981; }
+    .res-icon.practical { background: rgba(244,63,94,0.15); color: #f43f5e; }
+    .res-icon.quiz { background: rgba(6,182,212,0.15); color: #06b6d4; }
+    .res-icon.video { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+    .res-bookmark {
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 1rem;
+        padding: 4px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .res-bookmark:hover { color: var(--primary); }
+    .res-bookmark.active { color: var(--primary); }
+
+    .res-badges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .res-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.7rem;
+        font-weight: 700;
+        background: var(--primary-glow);
+        color: var(--primary);
+    }
+    .res-badge.type-note { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .res-badge.type-book { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .res-badge.type-paper { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .res-badge.type-question { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .res-badge.type-answer { background: rgba(16,185,129,0.15); color: #10b981; }
+    .res-badge.type-practical { background: rgba(244,63,94,0.15); color: #f43f5e; }
+    .res-badge.type-quiz { background: rgba(6,182,212,0.15); color: #06b6d4; }
+    .res-badge.type-video { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+    .resource-card h3 {
+        font-size: 0.98rem;
+        line-height: 1.45;
+        margin-bottom: 2px;
+    }
+    .res-subject {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .res-desc {
+        font-size: 0.83rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        flex: 1;
+    }
+    .res-meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 0.72rem;
+        color: var(--text-muted);
+    }
+    .res-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .res-actions {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+    }
+    .res-actions button, .res-actions a {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.78rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .res-actions button:hover, .res-actions a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .res-actions .primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .res-actions .primary:hover {
+        background: var(--primary-dark);
+        color: var(--bg);
+    }
+
+    /* Empty */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); }
+
+    /* Modal */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(6px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        width: 100%;
+        max-width: 1000px;
+        height: 90vh;
+        max-height: 800px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+    }
+    .modal-header h3 {
+        font-size: 0.95rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .modal-close {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.4rem;
+        cursor: pointer;
+        padding: 4px 10px;
+        border-radius: 6px;
+    }
+    .modal-close:hover { background: var(--surface); color: var(--error); }
+    .modal-body { flex: 1; overflow: hidden; }
+    .modal-body iframe { width: 100%; height: 100%; border: none; }
+    .modal-body .no-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 40px;
+        text-align: center;
+        color: var(--text-muted);
+    }
+    .modal-body .no-preview i {
+        font-size: 3rem;
+        color: var(--warning);
+        margin-bottom: 16px;
+    }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .resources-grid { grid-template-columns: 1fr; }
+        .filter-bar select { max-width: 100%; }
+    }
+</style>
 </head>
 <body>
-    <!-- ============================================
-    NAVBAR
-    ============================================ -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>DIPLOMA<span class="highlight">HUB</span></span>
-            </div>
-            
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="courses.html">Courses</a>
-                <a href="equipment.html">Equipment</a>
-                <a href="practicals.html">Practicals</a>
-                <a href="quizzes.html">Quizzes</a>
-                <a href="resources.html" class="active">Resources</a>
-                <a href="about.html">About</a>
-            </div>
 
-            <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
-                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html" class="active">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <span id="bcCurrent">All Resources</span>
+    </div>
+
+    <!-- HEADER -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            📚 Resources Library
+        </h1>
+        <p class="text-muted" id="pageSubtitle" style="max-width:700px;margin:0 auto;">
+            Notes, Books, Papers, Questions, Answers, Practicals, Quizzes — all in one place.
+        </p>
+    </div>
+
+    <!-- LOADING -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-tabs"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="content" style="display:none;">
+
+        <!-- STATS -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <i class="fas fa-layer-group"></i>
+                <div>
+                    <div class="num" id="statTotal">0</div>
+                    <div class="label">Total Resources</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-file-pdf"></i>
+                <div>
+                    <div class="num" id="statPdf">0</div>
+                    <div class="label">PDF Files</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-book"></i>
+                <div>
+                    <div class="num" id="statSubjects">0</div>
+                    <div class="label">Subjects</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-download"></i>
+                <div>
+                    <div class="num" id="statDownloads">0</div>
+                    <div class="label">Downloads</div>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <!-- ============================================
-    RESOURCES CONTENT
-    ============================================ -->
-    <section class="resources-page">
-        <div class="container">
-            <h1>📚 Official <span class="gradient-text">Resources</span></h1>
-            <p class="subtitle">Direct links to official MSBTE portals for your diploma curriculum and lab manuals</p>
+        <!-- TYPE CHIPS -->
+        <div class="type-chips" id="typeChips"></div>
 
-            <!-- Quick Links -->
-            <div class="quick-links">
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt"></i> MSBTE Official
-                </a>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt"></i> Curriculum Search
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt"></i> Lab Manuals
-                </a>
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput"
+                       placeholder="Search resources by title, subject, description…"
+                       oninput="applyFilters()"
+                       aria-label="Search resources">
             </div>
+            <select id="subjectFilter" onchange="applyFilters()" aria-label="Subject">
+                <option value="all">All Subjects</option>
+            </select>
+            <select id="semFilter" onchange="applyFilters()" aria-label="Semester">
+                <option value="all">All Semesters</option>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+            </select>
+            <select id="sortSelect" onchange="applyFilters()" aria-label="Sort">
+                <option value="default">Sort: Default</option>
+                <option value="az">A → Z</option>
+                <option value="za">Z → A</option>
+                <option value="type">By Type</option>
+                <option value="subject">By Subject</option>
+            </select>
+        </div>
 
-            <!-- Resource Cards -->
-            <div class="resource-grid">
-                <!-- Card 1: Curriculum -->
-                <div class="resource-card">
-                    <span class="icon">📖</span>
-                    <h3>MSBTE Curriculum Search</h3>
-                    <p>Search for subject codes, syllabi, and curriculum details for your specific scheme and semester. Compliant with NEP 2020.</p>
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt"></i> Visit Curriculum Portal
-                    </a>
-                </div>
+        <!-- GRID -->
+        <div class="resources-grid" id="resourcesGrid"></div>
 
-                <!-- Card 2: Lab Manuals -->
-                <div class="resource-card">
-                    <span class="icon">🔬</span>
-                    <h3>MSBTE K-Scheme Lab Manuals</h3>
-                    <p>Access official lab manuals for all semesters. Select your semester and subject to view or download the manual.</p>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt"></i> Visit Lab Manual Portal
-                    </a>
-                </div>
+    </div>
 
-                <!-- Card 3: Official Website -->
-                <div class="resource-card">
-                    <span class="icon">🏛️</span>
-                    <h3>MSBTE Official Website</h3>
-                    <p>The official website of the Maharashtra State Board of Technical Education. Find announcements, results, and more.</p>
-                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt"></i> Visit MSBTE
-                    </a>
-                </div>
+</div>
 
-                <!-- Card 4: Coming Soon - Question Papers -->
-                <div class="resource-card">
-                    <span class="icon">📝</span>
-                    <h3>Question Papers</h3>
-                    <p>Access previous years' question papers to practice and prepare for your exams effectively.</p>
-                    <a href="#" class="btn btn-outline" style="pointer-events: none; opacity: 0.6;">
-                        <i class="fas fa-clock"></i> Coming Soon
-                    </a>
-                </div>
-            </div>
-
-            <!-- Disclaimer -->
-            <div class="disclaimer-box">
-                <p>
-                    <i class="fas fa-info-circle" style="color: var(--neon-blue);"></i> 
-                    All curriculum, lab manuals, and official content are the property of the 
-                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener">Maharashtra State Board of Technical Education (MSBTE)</a>. 
-                    External links are provided for convenience. Students should always verify the latest information from the official MSBTE website.
-                </p>
+<!-- MODAL -->
+<div class="modal-overlay" id="pdfModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Resource Preview</h3>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <a id="modalDownload" href="#" download class="btn btn-primary" style="padding:6px 14px;font-size:0.8rem;">
+                    <i class="fas fa-download"></i> Download
+                </a>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
             </div>
         </div>
-    </section>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
 
-    <!-- ============================================
-    FOOTER
-    ============================================ -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>DIPLOMA HUB</h3>
-                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="papers.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const focusSubjectCode = params.get('code'); // optional — filter to one subject
+
+let allResources = [];
+let activeType = 'all';
+let courseDataGlobal = null;
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+function formatBytes(bytes) {
+    if (!bytes) return '—';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+// ============================================================
+// BUILD UNIFIED RESOURCE FEED
+// ============================================================
+function buildFeed() {
+    const data = window.courseData || {};
+    courseDataGlobal = data;
+    const feed = [];
+
+    for (const slug in data) {
+        const course = data[slug];
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            subs.forEach(sub => {
+                // If focusSubjectCode set, only include that subject
+                if (focusSubjectCode && sub.code !== focusSubjectCode) return;
+
+                // NOTES
+                (sub.notes || []).forEach(n => {
+                    feed.push({
+                        id: 'note-' + n.id,
+                        type: 'note',
+                        typeLabel: 'Notes',
+                        icon: 'fa-sticky-note',
+                        title: n.title || 'Notes',
+                        desc: n.desc || 'Notes PDF',
+                        subjectName: sub.name,
+                        subjectCode: sub.code,
+                        semester: Number(sem),
+                        courseName: course.name,
+                        unit: n.unit,
+                        size: n.size,
+                        url: n.url,
+                        downloads: n.downloads || 0
+                    });
+                });
+
+                // BOOKS
+                (sub.books || []).forEach(b => {
+                    feed.push({
+                        id: 'book-' + b.id,
+                        type: 'book',
+                        typeLabel: 'Book',
+                        icon: 'fa-book',
+                        title: b.title || 'Book',
+                        desc: `${b.author || ''} · ${b.publisher || ''}`.trim() || 'Reference book',
+                        subjectName: sub.name,
+                        subjectCode: sub.code,
+                        semester: Number(sem),
+                        courseName: course.name,
+                        size: b.size,
+                        url: b.url,
+                        downloads: b.downloads || 0
+                    });
+                });
+
+                // PAPERS
+                (sub.papers || []).forEach(p => {
+                    feed.push({
+                        id: 'paper-' + p.id,
+                        type: 'paper',
+                        typeLabel: 'Paper',
+                        icon: 'fa-file-alt',
+                        title: p.title || 'Question Paper',
+                        desc: `${p.exam} ${p.year} · ${p.solved ? 'Solved' : 'Unsolved'}`,
+                        subjectName: sub.name,
+                        subjectCode: sub.code,
+                        semester: Number(sem),
+                        courseName: course.name,
+                        size: p.size,
+                        url: p.url,
+                        downloads: 0
+                    });
+                });
+
+                // QUESTIONS
+                (sub.questions || []).forEach(q => {
+                    feed.push({
+                        id: 'q-' + q.id,
+                        type: 'question',
+                        typeLabel: 'Questions',
+                        icon: 'fa-pen',
+                        title: q.text ? q.text.slice(0, 70) + '…' : 'Important Question',
+                        desc: `Unit ${q.unit} · ${q.marks} marks · ${q.difficulty}`,
+                        subjectName: sub.name,
+                        subjectCode: sub.code,
+                        semester: Number(sem),
+                        courseName: course.name,
+                        unit: q.unit,
+                        size: 0,
+                        url: `questions.html?code=${sub.code}`,
+                        downloads: 0,
+                        internal: true
+                    });
+                });
+
+                // ANSWERS
+                (sub.answers || []).forEach(a => {
+                    feed.push({
+                        id: 'a-' + a.id,
+                        type: 'answer',
+                        typeLabel: 'Answers',
+                        icon: 'fa-check-circle',
+                        title: a.question ? a.question.slice(0, 70) + '…' : 'Solution',
+                        desc: `Unit ${a.unit} · ${a.marks} marks`,
+                        subjectName: sub.name,
+                        subjectCode: sub.code,
+                        semester: Number(sem),
+                        courseName: course.name,
+                        unit: a.unit,
+                        size: 0,
+                        url: `answers.html?code=${sub.code}`,
+                        downloads: 0,
+                        internal: true
+                    });
+                });
+
+                // PRACTICALS
+                (sub.practicals || []).forEach(p => {
+                    feed.push({
+                        id: 'prac-' + p.id,
+                        type: 'practical',
+                        typeLabel: 'Practical',
+                        icon: 'fa-flask',
+                        title: p.title || 'Practical',
+                        desc: p.aim ? p.aim.slice(0, 80) + '…' : 'Lab experiment',
+                        subjectName: sub.name,
+                        subjectCode: sub.code,
+                        semester: Number(sem),
+                        courseName: course.name,
+                        unit: p.unit,
+                        size: 0,
+                        url: p.pdf || `practicals.html?code=${sub.code}`,
+                        downloads: 0
+                    });
+                });
+
+                // QUIZZES
+                (sub.quizzes || []).forEach(qz => {
+                    feed.push({
+                        id: 'quiz-' + qz.id,
+                        type: 'quiz',
+                        typeLabel: 'Quiz',
+                        icon: 'fa-question-circle',
+                        title: qz.title || 'Quiz',
+                        desc: `${qz.questions} questions · ${qz.time} min · ${qz.difficulty}`,
+                        subjectName: sub.name,
+                        subjectCode: sub.code,
+                        semester: Number(sem),
+                        courseName: course.name,
+                        unit: qz.unit,
+                        size: 0,
+                        url: `quiz-take.html?id=${qz.id}&code=${sub.code}`,
+                        downloads: 0,
+                        internal: true
+                    });
+                });
+            });
+        }
+    }
+
+    return feed;
+}
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadResources() {
+    const loading = document.getElementById('loading');
+    const content = document.getElementById('content');
+
+    setTimeout(() => {
+        allResources = buildFeed();
+
+        // If no data in courseData, show empty state
+        if (!allResources.length) {
+            // Demo resources so page is not empty
+            allResources = generateDemoResources();
+        }
+
+        // Subject filter
+        const subjects = [...new Set(allResources.map(r => r.subjectName))].sort();
+        const subjectFilter = document.getElementById('subjectFilter');
+        subjectFilter.innerHTML = '<option value="all">All Subjects</option>' +
+            subjects.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+
+        // Stats
+        document.getElementById('statTotal').textContent = allResources.length;
+        document.getElementById('statPdf').textContent =
+            allResources.filter(r => r.url && r.url.endsWith('.pdf')).length || allResources.length;
+        document.getElementById('statSubjects').textContent = subjects.length;
+        document.getElementById('statDownloads').textContent =
+            allResources.reduce((s, r) => s + (r.downloads || 0), 0);
+
+        // Type chips
+        renderTypeChips();
+
+        // Update breadcrumb if focus subject
+        if (focusSubjectCode && allResources[0]) {
+            document.getElementById('bcCurrent').textContent = allResources[0].subjectName;
+            document.getElementById('pageSubtitle').textContent =
+                `All resources for ${allResources[0].subjectName} (${focusSubjectCode})`;
+        }
+
+        loading.style.display = 'none';
+        content.style.display = 'block';
+        applyFilters();
+    }, 200);
+}
+
+// ============================================================
+// DEMO RESOURCES (if courseData is empty)
+// ============================================================
+function generateDemoResources() {
+    const demo = [];
+    const types = [
+        { type: 'note', typeLabel: 'Notes', icon: 'fa-sticky-note' },
+        { type: 'book', typeLabel: 'Book', icon: 'fa-book' },
+        { type: 'paper', typeLabel: 'Paper', icon: 'fa-file-alt' },
+        { type: 'question', typeLabel: 'Questions', icon: 'fa-pen' },
+        { type: 'answer', typeLabel: 'Answers', icon: 'fa-check-circle' },
+        { type: 'practical', typeLabel: 'Practical', icon: 'fa-flask' },
+        { type: 'quiz', typeLabel: 'Quiz', icon: 'fa-question-circle' }
+    ];
+    const subjects = [
+        { name: 'Basic Mathematics', code: '311302', sem: 1 },
+        { name: 'Programming in C', code: '312303', sem: 2 },
+        { name: 'Data Structure Using C', code: '313301', sem: 3 },
+        { name: 'DBMS', code: '313302', sem: 3 }
+    ];
+    let i = 1;
+    subjects.forEach(sub => {
+        types.forEach(t => {
+            demo.push({
+                id: 'demo-' + i++,
+                type: t.type,
+                typeLabel: t.typeLabel,
+                icon: t.icon,
+                title: `${sub.name} — ${t.typeLabel} ${i}`,
+                desc: `Demo ${t.typeLabel.toLowerCase()} content for ${sub.name}.`,
+                subjectName: sub.name,
+                subjectCode: sub.code,
+                semester: sub.sem,
+                courseName: 'Computer Engineering',
+                size: 500 * 1024,
+                url: '#',
+                downloads: Math.floor(Math.random() * 200)
+            });
+        });
+    });
+    return demo;
+}
+
+// ============================================================
+// TYPE CHIPS
+// ============================================================
+function renderTypeChips() {
+    const typeCounts = { all: allResources.length };
+    allResources.forEach(r => {
+        typeCounts[r.type] = (typeCounts[r.type] || 0) + 1;
+    });
+
+    const chips = [
+        { key: 'all', label: 'All', icon: 'fa-layer-group' },
+        { key: 'note', label: 'Notes', icon: 'fa-sticky-note' },
+        { key: 'book', label: 'Books', icon: 'fa-book' },
+        { key: 'paper', label: 'Papers', icon: 'fa-file-alt' },
+        { key: 'question', label: 'Questions', icon: 'fa-pen' },
+        { key: 'answer', label: 'Answers', icon: 'fa-check-circle' },
+        { key: 'practical', label: 'Practicals', icon: 'fa-flask' },
+        { key: 'quiz', label: 'Quizzes', icon: 'fa-question-circle' }
+    ];
+
+    document.getElementById('typeChips').innerHTML = chips.map(c => {
+        const count = typeCounts[c.key] || 0;
+        if (count === 0 && c.key !== 'all') return '';
+        return `
+            <div class="type-chip ${activeType === c.key ? 'active' : ''}"
+                 onclick="setType('${c.key}')">
+                <i class="fas ${c.icon}"></i> ${c.label}
+                <span class="count">${count}</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function setType(type) {
+    activeType = type;
+    renderTypeChips();
+    applyFilters();
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const subject = document.getElementById('subjectFilter').value;
+    const sem = document.getElementById('semFilter').value;
+    const sort = document.getElementById('sortSelect').value;
+
+    let list = allResources.filter(r => {
+        const matchT = activeType === 'all' || r.type === activeType;
+        const matchQ = !q ||
+            r.title.toLowerCase().includes(q) ||
+            (r.desc || '').toLowerCase().includes(q) ||
+            r.subjectName.toLowerCase().includes(q);
+        const matchSub = subject === 'all' || r.subjectName === subject;
+        const matchSem = sem === 'all' || String(r.semester) === sem;
+        return matchT && matchQ && matchSub && matchSem;
+    });
+
+    if (sort === 'az') list.sort((a, b) => a.title.localeCompare(b.title));
+    else if (sort === 'za') list.sort((a, b) => b.title.localeCompare(a.title));
+    else if (sort === 'type') list.sort((a, b) => a.type.localeCompare(b.type));
+    else if (sort === 'subject') list.sort((a, b) => a.subjectName.localeCompare(b.subjectName));
+
+    renderResources(list);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderResources(list) {
+    const grid = document.getElementById('resourcesGrid');
+    if (!list.length) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-search"></i>
+                <h3>No resources found</h3>
+                <p>Try a different filter or search term.</p>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(r => {
+        const saved = isBookmarked(r.id);
+        return `
+            <div class="resource-card" data-type="${r.type}">
+                <div class="res-head">
+                    <div class="res-icon ${r.type}">
+                        <i class="fas ${r.icon}"></i>
                     </div>
+                    <button class="res-bookmark ${saved ? 'active' : ''}"
+                            onclick="toggleBookmark('${r.id}')"
+                            aria-label="Bookmark">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
                 </div>
-
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="practicals.html">Practicals</a>
-                    <a href="quizzes.html">Quizzes</a>
-                    <a href="resources.html">Resources</a>
+                <div class="res-badges">
+                    <span class="res-badge type-${r.type}">
+                        <i class="fas ${r.icon}"></i> ${escapeHtml(r.typeLabel)}
+                    </span>
+                    ${r.unit ? `<span class="res-badge"><i class="fas fa-layer-group"></i> Unit ${r.unit}</span>` : ''}
                 </div>
-
-                <div class="footer-col">
-                    <h4>Official Resources</h4>
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">MSBTE Curriculum</a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">Lab Manuals</a>
-                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener">MSBTE Official</a>
+                <h3>${escapeHtml(r.title)}</h3>
+                <div class="res-subject">
+                    <i class="fas fa-book"></i>
+                    ${escapeHtml(r.subjectName)} · Sem ${r.semester}
                 </div>
-
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms</a>
+                <p class="res-desc">${escapeHtml(r.desc || '')}</p>
+                <div class="res-meta">
+                    ${r.size ? `<span><i class="fas fa-hdd"></i> ${formatBytes(r.size)}</span>` : ''}
+                    ${r.downloads ? `<span><i class="fas fa-download"></i> ${r.downloads}</span>` : ''}
+                    <span><i class="fas fa-graduation-cap"></i> ${escapeHtml(r.courseName)}</span>
+                </div>
+                <div class="res-actions">
+                    <button onclick="openResource('${r.id}')">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                    <a href="${r.url}" ${r.internal ? '' : 'download'}
+                       class="primary" onclick="trackDownload('${r.id}')">
+                        <i class="fas fa-${r.internal ? 'arrow-right' : 'download'}"></i>
+                        ${r.internal ? 'Open' : 'Download'}
+                    </a>
                 </div>
             </div>
+        `;
+    }).join('');
+}
 
-            <div class="footer-bottom">
-                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
-            </div>
-        </div>
-    </footer>
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('resourceBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('resourceBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) { list.splice(i, 1); showToast('Bookmark removed'); }
+    else { list.push(id); showToast('Bookmarked!'); }
+    localStorage.setItem('resourceBookmarks', JSON.stringify(list));
+    applyFilters();
+}
 
-    <!-- ============================================
-    SCRIPTS
-    ============================================ -->
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/auth.js"></script>
+// ============================================================
+// PREVIEW MODAL
+// ============================================================
+function openResource(id) {
+    const r = allResources.find(x => x.id === id);
+    if (!r) return;
+
+    // Internal pages → open directly
+    if (r.internal || (r.url && !r.url.endsWith('.pdf') && r.url !== '#')) {
+        window.location.href = r.url;
+        return;
+    }
+
+    document.getElementById('modalTitle').textContent = r.title;
+    document.getElementById('modalDownload').href = r.url;
+
+    const body = document.getElementById('modalBody');
+    if (!r.url || r.url === '#') {
+        body.innerHTML = `
+            <div class="no-preview">
+                <i class="fas fa-file-pdf"></i>
+                <h3>Preview not available</h3>
+                <p>This resource's PDF hasn't been uploaded yet.</p>
+            </div>`;
+    } else {
+        body.innerHTML = `<iframe src="${r.url}#toolbar=1&navpanes=0" title="${escapeHtml(r.title)}"></iframe>`;
+    }
+
+    document.getElementById('pdfModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('pdfModal').classList.remove('show');
+    document.getElementById('modalBody').innerHTML = '';
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+});
+
+// ============================================================
+// DOWNLOAD TRACKER
+// ============================================================
+function trackDownload(id) {
+    const r = allResources.find(x => x.id === id);
+    if (r) r.downloads = (r.downloads || 0) + 1;
+
+    let stat = {};
+    try { stat = JSON.parse(localStorage.getItem('resourceDownloads')) || {}; } catch(e) {}
+    stat[id] = (stat[id] || 0) + 1;
+    localStorage.setItem('resourceDownloads', JSON.stringify(stat));
+
+    document.getElementById('statDownloads').textContent =
+        allResources.reduce((s, r) => s + (r.downloads || 0), 0);
+
+    if (!r || !r.internal) showToast('Download started!');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadResources();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
