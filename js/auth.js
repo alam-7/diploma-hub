@@ -1,268 +1,555 @@
-// ============================================================
-// AUTHENTICATION MODULE WITH SUPABASE
-// ============================================================
-// This file handles authentication for DIPLOMA HUB
-// ============================================================
+/* ============================================================
+   DIPLOMA HUB — AUTHENTICATION MODULE
+   File: js/auth.js
+   Version: 2.0.0
+   Updated: 2026-09
 
-// ============================================================
-// SUPABASE CONFIGURATION
-// ============================================================
-// IMPORTANT: Replace these with YOUR actual Supabase credentials
-// You can find these in your Supabase Dashboard:
-// Settings → API → Project URL and anon public key
-// ============================================================
+   Requires: js/app.js (DH namespace)
 
-var SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE'; // Example: 'https://abcdefghijklm.supabase.co'
-var SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE'; // Long string starting with 'eyJ...'
+   Public API (window.Auth):
+   - Auth.init()                 → initialize, detect Supabase
+   - Auth.isReady()              → has Supabase been detected?
+   - Auth.signIn(email, pw, rem) → login
+   - Auth.signUp(data)           → register
+   - Auth.signOut()              → logout
+   - Auth.getUser()              → current user object
+   - Auth.isLoggedIn()           → boolean
+   - Auth.isAdmin()              → boolean
+   - Auth.resetPassword(email)   → send reset link
+   - Auth.updatePassword(newPw)  → change password
+   - Auth.updateProfile(data)    → update name/branch/bio
+   - Auth.verifyOTP(email, code) → email verification
+   - Auth.resendOTP(email)       → resend verification code
+   - Auth.requireLogin()         → guard: redirect if not logged in
+   - Auth.requireAdmin()         → guard: redirect if not admin
+   - Auth.onAuthChange(cb)       → listen to auth state changes
+   - Auth.loginWithGoogle()      → OAuth
+   ============================================================ */
 
-var supabaseClient = null;
+(function () {
+    'use strict';
 
-// ============================================================
-// INITIALIZE SUPABASE
-// ============================================================
-function initSupabase() {
-    try {
-        // Check if Supabase SDK is loaded
-        if (typeof window.supabase === 'undefined') {
-            console.error('❌ Supabase SDK not loaded!');
-            console.error('Make sure this script is in your HTML:');
-            console.error('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>');
-            return null;
-        }
+    const Auth = window.Auth = window.Auth || {};
 
-        // Validate credentials
-        if (!SUPABASE_URL || SUPABASE_URL === 'YOUR_SUPABASE_URL_HERE') {
-            console.error('❌ Supabase URL not configured!');
-            console.error('Please replace SUPABASE_URL in js/auth.js with your actual Supabase URL');
-            return null;
-        }
+    // ============================================================
+    // CONFIG
+    // ============================================================
+    const SESSION_KEY = 'dh_session';
+    const ADMIN_SESSION_KEY = 'dh_admin_session';
+    const MOCK_USERS_KEY = 'dh_mock_users';
+    const MOCK_ADMINS_KEY = 'dh_mock_admins';
+    const PENDING_SIGNUP_KEY = 'dh_pending_signup';
 
-        if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY_HERE') {
-            console.error('❌ Supabase anon key not configured!');
-            console.error('Please replace SUPABASE_ANON_KEY in js/auth.js with your actual anon key');
-            return null;
-        }
+    const SESSION_HOURS_USER = 24 * 30;  // 30 days (remember me)
+    const SESSION_HOURS_USER_SHORT = 24; // 1 day
+    const SESSION_HOURS_ADMIN = 8;
 
-        // Create Supabase client
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Supabase initialized successfully!');
-        
-        return supabaseClient;
-    } catch (e) {
-        console.error('❌ Failed to initialize Supabase:', e.message);
-        return null;
-    }
-}
+    // ============================================================
+    // STATE
+    // ============================================================
+    let supabaseClient = null;
+    let listeners = [];
 
-// ============================================================
-// GET CURRENT USER
-// ============================================================
-async function getCurrentUser() {
-    try {
-        if (!supabaseClient) {
-            initSupabase();
-        }
-        
-        if (!supabaseClient) {
-            console.warn('Supabase not available. Checking localStorage...');
-            return getLocalUser();
-        }
-        
-        var { data: { user }, error } = await supabaseClient.auth.getUser();
-        
-        if (error) {
-            console.warn('Supabase getUser error:', error.message);
-            return getLocalUser();
-        }
-        
-        if (user) {
-            // Store in localStorage for session persistence
-            localStorage.setItem('user', JSON.stringify(user));
-            return user;
-        }
-        
-        return null;
-    } catch (e) {
-        console.warn('Error getting current user:', e.message);
-        return getLocalUser();
-    }
-}
+    // ============================================================
+    // INIT
+    // ============================================================
+    Auth.init = function () {
+        // Detect Supabase if available
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            supabaseClient = window.supabaseClient;
+            console.log('[Auth] Supabase detected ✅');
 
-// ============================================================
-// GET LOCAL USER (FALLBACK)
-// ============================================================
-function getLocalUser() {
-    try {
-        var storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            return JSON.parse(storedUser);
-        }
-    } catch (e) {
-        console.warn('Error parsing local user:', e.message);
-    }
-    return null;
-}
+            // Listen to Supabase auth state changes
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                console.log('[Auth] State changed:', event);
+                listeners.forEach(cb => {
+                    try { cb(event, session); } catch (e) { console.warn(e); }
+                });
 
-// ============================================================
-// SIGN UP
-// ============================================================
-async function signUp(email, password, fullName) {
-    try {
-        if (!supabaseClient) {
-            initSupabase();
-        }
-        
-        if (!supabaseClient) {
-            throw new Error('Supabase not initialized. Please configure your credentials.');
-        }
-        
-        var { data, error } = await supabaseClient.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    full_name: fullName || email.split('@')[0]
+                // Auto-sync with local session
+                if (event === 'SIGNED_IN' && session && session.user) {
+                    // don't overwrite roles here — pages handle it
+                } else if (event === 'SIGNED_OUT') {
+                    DH.auth.logout();
                 }
-            }
-        });
-        
-        if (error) throw error;
-        
-        if (data.user) {
-            localStorage.setItem('user', JSON.stringify(data.user));
-            console.log('✅ User signed up successfully!');
+            });
+        } else {
+            console.log('[Auth] No Supabase — using mock mode');
         }
-        
-        return { user: data.user, error: null };
-    } catch (e) {
-        console.error('❌ Signup error:', e.message);
-        return { user: null, error: e.message };
-    }
-}
 
-// ============================================================
-// SIGN IN
-// ============================================================
-async function signIn(email, password) {
-    try {
+        // Seed mock admins once
+        seedMockAdmins();
+
+        return Auth;
+    };
+
+    Auth.isReady = function () {
+        return !!supabaseClient;
+    };
+
+    function getClient() {
         if (!supabaseClient) {
-            initSupabase();
+            supabaseClient = window.supabaseClient || null;
         }
-        
-        if (!supabaseClient) {
-            throw new Error('Supabase not initialized. Please configure your credentials.');
-        }
-        
-        var { data, error } = await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
-        
-        if (error) throw error;
-        
-        if (data.user) {
-            localStorage.setItem('user', JSON.stringify(data.user));
-            console.log('✅ User signed in successfully!');
-        }
-        
-        return { user: data.user, error: null };
-    } catch (e) {
-        console.error('❌ Login error:', e.message);
-        return { user: null, error: e.message };
+        return supabaseClient;
     }
-}
 
-// ============================================================
-// SIGN OUT
-// ============================================================
-async function signOut() {
-    try {
-        if (supabaseClient) {
-            var { error } = await supabaseClient.auth.signOut();
-            if (error) {
-                console.warn('Supabase signout error:', error.message);
+    // ============================================================
+    // MOCK HELPERS
+    // ============================================================
+    function seedMockAdmins() {
+        const existing = DH.storage.get(MOCK_ADMINS_KEY, null);
+        if (existing && Array.isArray(existing) && existing.length) return;
+
+        DH.storage.set(MOCK_ADMINS_KEY, [
+            { email: 'admin@diplomahub.app', password: 'admin123', name: 'Super Admin', role: 'admin' },
+            { email: 'mod@diplomahub.app', password: 'mod123', name: 'Moderator', role: 'moderator' }
+        ]);
+    }
+
+    function getMockUsers() {
+        return DH.storage.get(MOCK_USERS_KEY, []);
+    }
+    function saveMockUsers(users) {
+        DH.storage.set(MOCK_USERS_KEY, users);
+    }
+    function getMockAdmins() {
+        return DH.storage.get(MOCK_ADMINS_KEY, []);
+    }
+
+    function mockDelay(ms) {
+        return new Promise(r => setTimeout(r, ms || 700));
+    }
+
+    // ============================================================
+    // USER SESSION BUILD
+    // ============================================================
+    function buildUserPayload(user, role) {
+        return {
+            id: user.id,
+            email: user.email,
+            name: user.name || (user.email || '').split('@')[0],
+            branch: user.branch || '',
+            semester: user.semester || null,
+            bio: user.bio || '',
+            role: role || 'student',
+            verified: !!user.verified,
+            provider: user.provider || 'email'
+        };
+    }
+
+    function saveUserSession(user, remember, role) {
+        const payload = {
+            user: buildUserPayload(user, role),
+            token: 'dh-' + Date.now(),
+            role: role || 'student',
+            createdAt: Date.now(),
+            expiresAt: Date.now() + (remember ? SESSION_HOURS_USER : SESSION_HOURS_USER_SHORT) * 60 * 60 * 1000
+        };
+
+        if (remember) {
+            DH.storage.set(SESSION_KEY, payload);
+            DH.session.remove(SESSION_KEY);
+        } else {
+            DH.session.set(SESSION_KEY, payload);
+            DH.storage.remove(SESSION_KEY);
+        }
+
+        // Also log activity
+        DH.logActivity('fa-sign-in-alt', 'Signed in');
+
+        return payload;
+    }
+
+    function saveAdminSession(user, remember, role) {
+        const payload = {
+            user: buildUserPayload(user, role),
+            token: 'dh-admin-' + Date.now(),
+            role: role,
+            createdAt: Date.now(),
+            expiresAt: Date.now() + SESSION_HOURS_ADMIN * 60 * 60 * 1000
+        };
+
+        if (remember) {
+            DH.storage.set(ADMIN_SESSION_KEY, payload);
+            DH.session.remove(ADMIN_SESSION_KEY);
+        } else {
+            DH.session.set(ADMIN_SESSION_KEY, payload);
+            DH.storage.remove(ADMIN_SESSION_KEY);
+        }
+
+        return payload;
+    }
+
+    // ============================================================
+    // SIGN IN
+    // ============================================================
+    Auth.signIn = async function (email, password, remember) {
+        if (!email || !password) {
+            throw new Error('Email and password are required');
+        }
+        email = email.trim().toLowerCase();
+
+        const client = getClient();
+
+        // ---------- SUPABASE ----------
+        if (client && client.auth) {
+            const { data, error } = await client.auth.signInWithPassword({ email, password });
+            if (error) throw new Error(error.message);
+
+            const user = data.user;
+            if (!user) throw new Error('Sign in failed');
+
+            // Check role
+            let role = 'student';
+            try {
+                const { data: profile } = await client
+                    .from('profiles')
+                    .select('role, name, branch, semester, bio, verified')
+                    .eq('id', user.id)
+                    .single();
+                if (profile) {
+                    role = profile.role || 'student';
+                    user.name = profile.name || user.user_metadata?.name || '';
+                    user.branch = profile.branch || '';
+                    user.semester = profile.semester || null;
+                    user.bio = profile.bio || '';
+                    user.verified = !!profile.verified;
+                }
+            } catch (e) { /* ignore */ }
+
+            // Save session
+            if (role === 'admin' || role === 'moderator') {
+                saveAdminSession(user, remember, role);
             }
+            const session = saveUserSession(user, remember, role);
+
+            // Save remembered email
+            if (remember) DH.storage.set('dh_remembered_email', email);
+
+            return { user: session.user, session };
         }
-    } catch (e) {
-        console.warn('Supabase signout error:', e.message);
-    }
-    
-    // Clear local storage
-    localStorage.removeItem('user');
-    localStorage.removeItem('supabase.auth.token');
-    
-    console.log('✅ User signed out successfully!');
-    
-    // Redirect to home
-    window.location.href = 'index.html';
-}
 
-// ============================================================
-// CHECK IF LOGGED IN
-// ============================================================
-function isLoggedIn() {
-    var user = localStorage.getItem('user');
-    return !!user;
-}
+        // ---------- MOCK ----------
+        await mockDelay(700);
 
-// ============================================================
-// UPDATE AUTH UI
-// ============================================================
-async function updateAuthUI() {
-    var btn = document.getElementById('authBtn');
-    if (!btn) return;
-    
-    try {
-        var user = await getCurrentUser();
-        if (user) {
-            var name = user.user_metadata?.full_name || user.email || 'Dashboard';
-            btn.innerHTML = '<i class="fas fa-user"></i> ' + name;
-            btn.href = 'dashboard.html';
+        // Check admins first
+        const admins = getMockAdmins();
+        const admin = admins.find(a => a.email === email && a.password === password);
+        if (admin) {
+            const session = saveAdminSession(admin, remember, admin.role);
+            saveUserSession(admin, remember, admin.role);
+            return { user: session.user, session, admin: true };
+        }
+
+        // Check users
+        const users = getMockUsers();
+        const user = users.find(u => u.email === email && u.password === password);
+        if (!user) throw new Error('Invalid email or password');
+
+        const session = saveUserSession(user, remember, 'student');
+        if (remember) DH.storage.set('dh_remembered_email', email);
+        return { user: session.user, session };
+    };
+
+    // ============================================================
+    // SIGN UP
+    // ============================================================
+    Auth.signUp = async function (data) {
+        const { email, password, name, branch, semester } = data || {};
+        if (!email || !password || !name) {
+            throw new Error('Name, email and password are required');
+        }
+        email = email.trim().toLowerCase();
+
+        const client = getClient();
+
+        // ---------- SUPABASE ----------
+        if (client && client.auth) {
+            const { data: res, error } = await client.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { name, branch, semester: Number(semester) || null },
+                    emailRedirectTo: window.location.origin + '/diploma-hub/dashboard.html'
+                }
+            });
+            if (error) throw new Error(error.message);
+
+            // If email confirmation required
+            if (res.user && !res.session) {
+                DH.storage.set(PENDING_SIGNUP_KEY, { name, email, branch, semester });
+                return { user: res.user, needsVerification: true };
+            }
+
+            if (res.session) {
+                const session = saveUserSession(res.user, true, 'student');
+                return { user: session.user, session };
+            }
+            return { user: res.user };
+        }
+
+        // ---------- MOCK ----------
+        await mockDelay(800);
+
+        const users = getMockUsers();
+        if (users.some(u => u.email === email)) {
+            throw new Error('An account with this email already exists');
+        }
+
+        const newUser = {
+            id: 'u-' + Date.now(),
+            email, password, // in real app password never stored plaintext
+            name,
+            branch: branch || '',
+            semester: Number(semester) || null,
+            role: 'student',
+            verified: false,
+            createdAt: Date.now()
+        };
+
+        users.push(newUser);
+        saveMockUsers(users);
+        DH.storage.set(PENDING_SIGNUP_KEY, { name, email, branch, semester });
+
+        return { user: newUser, needsVerification: true };
+    };
+
+    // ============================================================
+    // SIGN OUT
+    // ============================================================
+    Auth.signOut = async function () {
+        const client = getClient();
+        if (client && client.auth) {
+            try { await client.auth.signOut(); } catch (e) {}
+        }
+        DH.auth.logout();
+        DH.adminAuth.logout();
+        DH.logActivity('fa-sign-out-alt', 'Signed out');
+        return true;
+    };
+
+    // ============================================================
+    // GET USER
+    // ============================================================
+    Auth.getUser = function () {
+        const session = DH.auth.current();
+        return session ? session.user : null;
+    };
+
+    Auth.isLoggedIn = function () {
+        return DH.auth.isLoggedIn();
+    };
+
+    Auth.isAdmin = function () {
+        const admin = DH.adminAuth.current();
+        return !!admin;
+    };
+
+    Auth.getRole = function () {
+        const session = DH.auth.current();
+        return session ? (session.role || session.user.role || 'student') : null;
+    };
+
+    // ============================================================
+    // RESET PASSWORD
+    // ============================================================
+    Auth.resetPassword = async function (email) {
+        if (!email) throw new Error('Email is required');
+        email = email.trim().toLowerCase();
+
+        const client = getClient();
+        if (client && client.auth) {
+            const { error } = await client.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/diploma-hub/reset-password.html'
+            });
+            if (error) throw new Error(error.message);
+        } else {
+            await mockDelay(700);
+        }
+        return true;
+    };
+
+    // ============================================================
+    // UPDATE PASSWORD
+    // ============================================================
+    Auth.updatePassword = async function (newPassword) {
+        if (!newPassword || newPassword.length < 8) {
+            throw new Error('Password must be at least 8 characters');
+        }
+
+        const client = getClient();
+        if (client && client.auth) {
+            const { error } = await client.auth.updateUser({ password: newPassword });
+            if (error) throw new Error(error.message);
+        } else {
+            await mockDelay(700);
+        }
+        return true;
+    };
+
+    // ============================================================
+    // UPDATE PROFILE
+    // ============================================================
+    Auth.updateProfile = async function (data) {
+        const session = DH.auth.current();
+        if (!session) throw new Error('Not signed in');
+
+        const client = getClient();
+        if (client && client.auth) {
+            const { error } = await client.auth.updateUser({
+                data: {
+                    name: data.name,
+                    branch: data.branch,
+                    semester: data.semester,
+                    bio: data.bio
+                }
+            });
+            if (error) throw new Error(error.message);
+
+            // Try updating profile table too
+            try {
+                await client.from('profiles').update({
+                    name: data.name,
+                    branch: data.branch,
+                    semester: data.semester,
+                    bio: data.bio
+                }).eq('id', session.user.id);
+            } catch (e) { /* ignore if table missing */ }
+        } else {
+            await mockDelay(600);
+        }
+
+        // Update local session
+        const updated = { ...session };
+        updated.user = { ...updated.user, ...data };
+        if (localStorage.getItem(SESSION_KEY)) DH.storage.set(SESSION_KEY, updated);
+        else DH.session.set(SESSION_KEY, updated);
+
+        return updated.user;
+    };
+
+    // ============================================================
+    // EMAIL VERIFICATION (OTP)
+    // ============================================================
+    Auth.verifyOTP = async function (email, code) {
+        if (!email || !code) throw new Error('Email and code are required');
+
+        const client = getClient();
+        if (client && client.auth) {
+            const { data, error } = await client.auth.verifyOtp({
+                email, token: code, type: 'signup'
+            });
+            if (error) throw new Error(error.message);
+            if (data && data.session) {
+                // Sign in user
+                const session = saveUserSession(data.user, true, 'student');
+                return { user: session.user, session };
+            }
+            return { user: data.user };
+        }
+
+        // Mock: any 6-digit code except 000000 works
+        await mockDelay(700);
+        if (code === '000000') throw new Error('Invalid code');
+        if (code.length !== 6) throw new Error('Enter a 6-digit code');
+
+        // Activate pending user
+        const pending = DH.storage.get(PENDING_SIGNUP_KEY, null);
+        if (!pending) throw new Error('No pending signup found');
+
+        const users = getMockUsers();
+        const idx = users.findIndex(u => u.email === pending.email);
+        if (idx > -1) {
+            users[idx].verified = true;
+            saveMockUsers(users);
+            const session = saveUserSession(users[idx], true, 'student');
+            DH.storage.remove(PENDING_SIGNUP_KEY);
+            return { user: session.user, session };
+        }
+
+        throw new Error('User not found');
+    };
+
+    Auth.resendOTP = async function (email) {
+        const client = getClient();
+        if (client && client.auth) {
+            const { error } = await client.auth.resend({ type: 'signup', email });
+            if (error) throw new Error(error.message);
+        } else {
+            await mockDelay(600);
+        }
+        return true;
+    };
+
+    // ============================================================
+    // GOOGLE OAUTH
+    // ============================================================
+    Auth.loginWithGoogle = async function () {
+        const client = getClient();
+        if (client && client.auth) {
+            const { error } = await client.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin + '/diploma-hub/dashboard.html'
+                }
+            });
+            if (error) throw new Error(error.message);
             return;
         }
-    } catch (e) {
-        console.warn('Error updating auth UI:', e.message);
+
+        // Mock Google login
+        await mockDelay(900);
+        const user = {
+            id: 'google-' + Date.now(),
+            email: 'student@gmail.com',
+            name: 'Google Student',
+            provider: 'google',
+            verified: true
+        };
+        const session = saveUserSession(user, true, 'student');
+        return { user: session.user, session };
+    };
+
+    // ============================================================
+    // GUARDS
+    // ============================================================
+    Auth.requireLogin = function (redirect) {
+        if (!Auth.isLoggedIn()) {
+            const next = encodeURIComponent(redirect || (window.location.pathname + window.location.search));
+            window.location.href = 'login.html?next=' + next;
+            return false;
+        }
+        return true;
+    };
+
+    Auth.requireAdmin = function () {
+        if (!Auth.isAdmin()) {
+            window.location.href = 'admin-login.html';
+            return false;
+        }
+        return true;
+    };
+
+    // ============================================================
+    // AUTH CHANGE LISTENER
+    // ============================================================
+    Auth.onAuthChange = function (cb) {
+        if (typeof cb === 'function') listeners.push(cb);
+    };
+
+    // ============================================================
+    // AUTO-INIT ON LOAD
+    // ============================================================
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', Auth.init);
+    } else {
+        Auth.init();
     }
-    
-    btn.innerHTML = 'Sign In';
-    btn.href = 'login.html';
-}
 
-// ============================================================
-// PROTECT ROUTE (For dashboard and protected pages)
-// ============================================================
-async function protectRoute() {
-    var user = await getCurrentUser();
-    if (!user) {
-        window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.pathname);
-        return false;
-    }
-    return true;
-}
+    // ============================================================
+    // LOG
+    // ============================================================
+    console.log('%c🔐 Auth module ready', 'color:#22c55e;font-weight:700;');
 
-// ============================================================
-// EXPORT FUNCTIONS
-// ============================================================
-if (typeof window !== 'undefined') {
-    window.initSupabase = initSupabase;
-    window.getCurrentUser = getCurrentUser;
-    window.signUp = signUp;
-    window.signIn = signIn;
-    window.signOut = signOut;
-    window.isLoggedIn = isLoggedIn;
-    window.updateAuthUI = updateAuthUI;
-    window.protectRoute = protectRoute;
-}
-
-// ============================================================
-// INITIALIZE ON PAGE LOAD
-// ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('✅ Auth module loaded successfully!');
-    
-    // Initialize Supabase
-    initSupabase();
-    
-    // Update auth UI
-    updateAuthUI();
-});
+})();
