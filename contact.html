@@ -1,483 +1,1050 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--dark-bg, #0a0a1a);
-            color: var(--text-primary, #e0e0ff);
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .gradient-text {
-            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Contact DiplomaHub — send feedback, report a bug, suggest a feature, or ask a question. We reply within 24–48 hours.">
+<meta name="keywords" content="Contact DiplomaHub, Feedback, Support, Bug Report, Feature Request, MSBTE Help">
+<meta name="robots" content="index, follow">
 
-        /* Navbar */
-        .navbar {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            background: rgba(10, 10, 26, 0.85); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            padding: 0 20px; height: 72px; display: flex; align-items: center;
-        }
-        .nav-container { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; }
-        .nav-logo a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
-        .nav-logo i { color: var(--neon-blue, #00d4ff); font-size: 1.8rem; }
-        .nav-logo .highlight {
-            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
-        .nav-links a { color: var(--text-secondary, #8888bb); font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; text-decoration: none; }
-        .nav-links a:hover { color: var(--neon-blue, #00d4ff); }
-        .nav-links a.active { color: var(--neon-blue, #00d4ff); }
-        .nav-right { display: flex; align-items: center; gap: 15px; }
-        .theme-toggle {
-            background: transparent; border: none; color: var(--text-secondary, #8888bb);
-            font-size: 1.2rem; cursor: pointer; padding: 8px; border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        .theme-toggle:hover { color: var(--neon-blue, #00d4ff); background: rgba(0, 212, 255, 0.05); }
-        .mobile-menu-btn {
-            display: none; background: transparent; border: none;
-            color: var(--text-primary, #e0e0ff); font-size: 1.5rem; cursor: pointer;
-        }
-        .btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 10px 22px; border-radius: 50px; font-weight: 600;
-            font-size: 0.9rem; cursor: pointer; border: none;
-            transition: all 0.3s ease; text-decoration: none;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
-            color: #fff;
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 212, 255, 0.2); }
-        .btn-sm { padding: 8px 18px; font-size: 0.85rem; }
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contact — DiplomaHub">
+<meta property="og:description" content="Get in touch with the DiplomaHub team.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/contact.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
 
-        /* Contact Page */
-        .contact-page { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
-        .page-header { text-align: center; margin-bottom: 50px; }
-        .page-header h1 { font-size: 3rem; font-weight: 800; margin-bottom: 10px; }
-        .page-header .subtitle { color: var(--text-secondary, #8888bb); font-size: 1.15rem; max-width: 600px; margin: 0 auto; }
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact — DiplomaHub">
+<meta name="twitter:description" content="Get in touch with the DiplomaHub team.">
 
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 50px; }
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/contact.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
 
-        /* Contact Info Cards */
-        .contact-info { display: flex; flex-direction: column; gap: 20px; }
-        .info-card {
-            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
-            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
-            border-radius: 16px; padding: 25px; transition: all 0.3s ease;
-            display: flex; align-items: center; gap: 20px;
-        }
-        .info-card:hover { border-color: var(--neon-blue, #00d4ff); transform: translateY(-5px); }
-        .info-card .icon {
-            width: 60px; height: 60px; border-radius: 50%;
-            background: rgba(0, 212, 255, 0.1); display: flex;
-            align-items: center; justify-content: center; font-size: 1.5rem;
-            color: var(--neon-blue, #00d4ff); flex-shrink: 0;
-        }
-        .info-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
-        .info-card p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; }
+<title>Contact — DiplomaHub</title>
 
-        /* Contact Form */
-        .contact-form {
-            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
-            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
-            border-radius: 16px; padding: 30px;
-        }
-        .contact-form h2 { font-size: 1.8rem; margin-bottom: 25px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; color: var(--text-secondary, #8888bb); font-weight: 500; }
-        .form-group input, .form-group textarea {
-            width: 100%; padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.1));
-            border-radius: 8px; color: var(--text-primary, #e0e0ff);
-            font-size: 0.95rem; font-family: inherit;
-            transition: all 0.3s ease;
-        }
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none; border-color: var(--neon-blue, #00d4ff);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.05);
-        }
-        .form-group textarea { resize: vertical; min-height: 120px; }
-        .btn-submit {
-            width: 100%; padding: 14px;
-            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
-            border: none; border-radius: 50px; color: #fff;
-            font-size: 1rem; font-weight: 600; cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-submit:hover { box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); transform: translateY(-2px); }
-        .success-message {
-            display: none; text-align: center; padding: 20px;
-            background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 8px; color: #22c55e; margin-top: 20px;
-        }
-        .error-message {
-            display: none; text-align: center; padding: 20px;
-            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 8px; color: #ef4444; margin-top: 20px;
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 
-        /* FAQ Section */
-        .faq-section { margin-top: 60px; }
-        .faq-section h2 { text-align: center; font-size: 2rem; margin-bottom: 30px; }
-        .faq-item {
-            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
-            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            border-radius: 12px; padding: 20px; margin-bottom: 15px;
-        }
-        .faq-item h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--neon-blue, #00d4ff); }
-        .faq-item p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; }
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact DiplomaHub",
+    "url": "https://alam-7.github.io/diploma-hub/contact.html"
+}
+</script>
 
-        /* Footer */
-        .footer {
-            background: var(--darker-bg, #05050f);
-            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            padding: 60px 0 30px; margin-top: 20px;
-        }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .footer-col h3 { font-size: 1.3rem; margin-bottom: 12px; }
-        .footer-col h4 { font-size: 1rem; color: var(--text-secondary, #8888bb); margin-bottom: 12px; }
-        .footer-col p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; max-width: 300px; }
-        .footer-col a { display: block; color: var(--text-secondary, #8888bb); padding: 5px 0; transition: all 0.3s ease; font-size: 0.95rem; text-decoration: none; }
-        .footer-col a:hover { color: var(--neon-blue, #00d4ff); transform: translateX(4px); }
-        .social-links { display: flex; gap: 14px; margin-top: 16px; }
-        .social-links a {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 42px; height: 42px; border-radius: 50%;
-            background: var(--glass-bg, rgba(255, 255, 255, 0.03));
-            border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            transition: all 0.3s ease;
-        }
-        .social-links a:hover {
-            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
-            border-color: transparent; color: #fff;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
-        }
-        .footer-bottom {
-            border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08));
-            padding-top: 20px; display: flex; justify-content: space-between;
-            align-items: center; color: var(--text-secondary, #8888bb);
-            font-size: 0.9rem; flex-wrap: wrap; gap: 10px;
-        }
-        .footer-bottom i.fa-heart { color: #f43f5e; }
+<style>
+    /* ================= HERO ================= */
+    .contact-hero {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: radial-gradient(circle at top, var(--primary-glow), transparent 60%);
+        border-radius: var(--radius-lg);
+        margin-top: var(--space-lg);
+        margin-bottom: var(--space-xl);
+    }
+    .contact-hero h1 {
+        font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+        margin-bottom: var(--space-sm);
+        background: linear-gradient(135deg, var(--primary), #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .contact-hero p {
+        max-width: 640px;
+        margin: 0 auto;
+        color: var(--text-muted);
+        line-height: 1.7;
+        font-size: 1rem;
+    }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .contact-grid { grid-template-columns: 1fr; }
-            .page-header h1 { font-size: 2.2rem; }
-            .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
-            .footer-bottom { flex-direction: column; text-align: center; }
-            .nav-links {
-                display: none; position: absolute; top: 72px; left: 0; width: 100%;
-                background: rgba(10, 10, 26, 0.95); backdrop-filter: blur(20px);
-                flex-direction: column; padding: 24px; gap: 16px;
-                border-bottom: 1px solid var(--glass-border);
-            }
-            .nav-links.open { display: flex; }
-            .mobile-menu-btn { display: block; }
-        }
-        @media (max-width: 480px) {
-            .footer-grid { grid-template-columns: 1fr; }
-            .contact-page { padding: 100px 15px 30px; }
-        }
-    </style>
+    /* ================= LAYOUT ================= */
+    .contact-layout {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: var(--space-lg);
+        align-items: start;
+        margin-bottom: var(--space-2xl);
+    }
+    @media (max-width: 900px) {
+        .contact-layout { grid-template-columns: 1fr; }
+    }
+
+    /* ================= FORM ================= */
+    .form-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+    }
+    .form-card h2 {
+        font-size: 1.35rem;
+        margin-bottom: 6px;
+    }
+    .form-card > p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: var(--space-lg);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+    }
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .field.full { grid-column: 1 / -1; }
+    .field label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .field label i {
+        color: var(--primary);
+        font-size: 0.85rem;
+    }
+    .field label .required {
+        color: var(--error);
+        margin-left: 2px;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+        width: 100%;
+        font-size: 0.92rem;
+        padding: 12px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text);
+        transition: var(--transition);
+        font-family: inherit;
+    }
+    .field textarea {
+        resize: vertical;
+        min-height: 130px;
+        line-height: 1.6;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .field input.invalid,
+    .field select.invalid,
+    .field textarea.invalid {
+        border-color: var(--error);
+        box-shadow: 0 0 0 3px rgba(239,68,68,0.15);
+    }
+
+    .field-error {
+        font-size: 0.78rem;
+        color: var(--error);
+        display: none;
+        align-items: center;
+        gap: 4px;
+    }
+    .field-error.show { display: flex; }
+
+    .char-counter {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        text-align: right;
+        margin-top: 2px;
+    }
+    .char-counter.warn { color: var(--warning); }
+    .char-counter.danger { color: var(--error); }
+
+    .form-actions {
+        margin-top: var(--space-lg);
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+    .form-actions button {
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.92rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .form-actions button:hover:not(:disabled) {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+    .form-actions button.primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .form-actions button.primary:hover:not(:disabled) {
+        background: var(--primary-dark);
+        color: var(--bg);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-glow);
+    }
+    .form-actions button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    .form-actions .spinner-mini {
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(10,10,26,0.3);
+        border-top-color: var(--bg);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ================= SUCCESS ================= */
+    .success-state {
+        display: none;
+        text-align: center;
+        padding: var(--space-xl) var(--space-md);
+    }
+    .success-state.show { display: block; }
+    .success-icon {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        background: rgba(34,197,94,0.15);
+        color: var(--success);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.4rem;
+        margin: 0 auto var(--space-md);
+        animation: pop 0.5s ease;
+    }
+    @keyframes pop {
+        0% { transform: scale(0.4); opacity: 0; }
+        70% { transform: scale(1.15); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    .success-state h2 {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+    .success-state p {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+        line-height: 1.65;
+        max-width: 420px;
+        margin: 0 auto var(--space-lg);
+    }
+
+    /* ================= SIDEBAR ================= */
+    .contact-side {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    .side-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+    }
+    .side-card h3 {
+        font-size: 1rem;
+        margin-bottom: var(--space-md);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .side-card h3 i { color: var(--primary); }
+
+    .contact-channel {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+        text-decoration: none;
+        color: var(--text);
+        transition: var(--transition);
+    }
+    .contact-channel:last-child { border-bottom: none; }
+    .contact-channel:hover { transform: translateX(4px); }
+    .contact-channel:hover .cc-label { color: var(--primary); }
+
+    .cc-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+    .cc-icon.email { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .cc-icon.whatsapp { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .cc-icon.github { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .cc-icon.linkedin { background: rgba(59,130,246,0.15); color: #3b82f6; }
+
+    .cc-body { flex: 1; min-width: 0; }
+    .cc-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+    .cc-value {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        word-break: break-all;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .copy-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .copy-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .hours-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid var(--border);
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row .day { color: var(--text-muted); }
+    .hours-row .time { color: var(--text); font-weight: 600; }
+    .hours-row .closed { color: var(--error); }
+
+    .response-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: var(--radius-pill);
+        font-size: 0.75rem;
+        font-weight: 700;
+        background: rgba(34,197,94,0.15);
+        color: var(--success);
+        margin-top: var(--space-sm);
+    }
+
+    /* ================= FAQ ================= */
+    .faq-section {
+        margin-top: var(--space-2xl);
+    }
+    .faq-section h2 {
+        font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+        margin-bottom: var(--space-sm);
+        text-align: center;
+    }
+    .faq-section > p {
+        text-align: center;
+        color: var(--text-muted);
+        margin-bottom: var(--space-xl);
+    }
+    .faq-list {
+        max-width: 820px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .faq-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        transition: var(--transition);
+    }
+    .faq-item:hover { border-color: var(--primary); }
+    .faq-item.open {
+        border-color: var(--primary);
+        background: var(--surface-hover);
+    }
+    .faq-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        cursor: pointer;
+        user-select: none;
+    }
+    .faq-head h4 {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 0;
+        color: var(--text);
+    }
+    .faq-toggle {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+        transition: var(--transition);
+    }
+    .faq-item.open .faq-toggle {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+        transform: rotate(180deg);
+    }
+    .faq-body {
+        display: none;
+        padding: 0 20px 18px;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+        animation: slideDown 0.3s ease;
+    }
+    .faq-item.open .faq-body { display: block; }
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .faq-body a { color: var(--primary); text-decoration: underline; }
+
+    /* ================= ALERT ================= */
+    .alert {
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 0.88rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.5;
+        margin-bottom: var(--space-md);
+    }
+    .alert.error {
+        background: rgba(239,68,68,0.1);
+        border: 1px solid rgba(239,68,68,0.3);
+        color: #fca5a5;
+    }
+    .alert i { margin-top: 2px; }
+    .alert.hidden { display: none; }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .form-grid { grid-template-columns: 1fr; }
+        .form-card { padding: var(--space-lg); }
+        .form-actions { flex-direction: column-reverse; }
+        .form-actions button { width: 100%; justify-content: center; }
+    }
+</style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>DIPLOMA<span class="highlight">HUB</span></span>
-                </a>
-            </div>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="courses.html">Courses</a>
-                <a href="equipment.html">Equipment</a>
-                <a href="practicals.html">Practicals</a>
-                <a href="quizzes.html">Quizzes</a>
-                <a href="resources.html">Resources</a>
-                <a href="about.html">About</a>
-            </div>
-            <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
-                <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars" id="mobileMenuIcon"></i></button>
-            </div>
-        </div>
-    </nav>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="btn btn-outline active" style="padding:6px 16px;">Contact</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
 
-    <!-- CONTACT PAGE -->
-    <section class="contact-page">
-        <div class="container">
-            <div class="page-header">
-                <h1>Get in <span class="gradient-text">Touch</span></h1>
-                <p class="subtitle">Have questions or feedback? We'd love to hear from you!</p>
-            </div>
+<div class="container">
 
-            <div class="contact-grid">
-                <!-- Contact Info -->
-                <div class="contact-info">
-                    <div class="info-card">
-                        <div class="icon"><i class="fas fa-envelope"></i></div>
-                        <div>
-                            <h3>Email Us</h3>
-                            <p>support@diplomahub.com</p>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="icon"><i class="fas fa-phone"></i></div>
-                        <div>
-                            <h3>Call Us</h3>
-                            <p>+91 12345 67890</p>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div>
-                            <h3>Location</h3>
-                            <p>Maharashtra, India</p>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="icon"><i class="fas fa-clock"></i></div>
-                        <div>
-                            <h3>Working Hours</h3>
-                            <p>Monday - Saturday: 9 AM - 6 PM</p>
-                        </div>
-                    </div>
-                </div>
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <span>Contact</span>
+    </div>
 
-                <!-- Contact Form -->
-                <div class="contact-form">
-                    <h2>Send us a <span class="gradient-text">Message</span></h2>
-                    <form id="contactForm" onsubmit="return handleSubmit(event)">
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" placeholder="Enter your full name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" id="email" placeholder="Enter your email address" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" placeholder="What is this about?" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" placeholder="Type your message here..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn-submit">
-                            <i class="fas fa-paper-plane"></i> Send Message
-                        </button>
-                    </form>
-                    <div class="success-message" id="successMessage">
-                        <i class="fas fa-check-circle"></i> Your message has been sent successfully!
-                    </div>
-                    <div class="error-message" id="errorMessage">
-                        <i class="fas fa-exclamation-circle"></i> Please fill all fields correctly.
-                    </div>
-                </div>
-            </div>
-
-            <!-- FAQ Section -->
-            <div class="faq-section">
-                <h2>Frequently Asked <span class="gradient-text">Questions</span></h2>
-                <div class="faq-item">
-                    <h3>Is DIPLOMA HUB free to use?</h3>
-                    <p>Yes! DIPLOMA HUB is completely free for all diploma engineering students.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>Which courses are available?</h3>
-                    <p>We cover all 5 major engineering branches: Computer, Mechanical, Civil, Electrical, and Electronics & Telecommunication.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How accurate is the curriculum data?</h3>
-                    <p>Our data is based on the official MSBTE K-Scheme curriculum. We recommend verifying with official MSBTE sources.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How can I contribute?</h3>
-                    <p>You can contribute by providing feedback, reporting bugs, or suggesting improvements through this contact form.</p>
-                </div>
-            </div>
-        </div>
+    <!-- HERO -->
+    <section class="contact-hero">
+        <h1>Get in Touch</h1>
+        <p>
+            Have a question, feedback, bug report, or feature suggestion?
+            We'd love to hear from you. Use the form below or reach out through any of our direct channels.
+        </p>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>DIPLOMA HUB</h3>
-                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                    <div class="social-links">
-                        <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    <!-- LAYOUT -->
+    <div class="contact-layout">
+
+        <!-- FORM -->
+        <div class="form-card" id="formCard">
+            <h2>Send us a message</h2>
+            <p>We typically respond within 24–48 hours.</p>
+
+            <div class="alert error hidden" id="errorAlert" role="alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText"></span>
+            </div>
+
+            <form id="contactForm" onsubmit="handleSubmit(event)" novalidate>
+                <div class="form-grid">
+
+                    <!-- Name -->
+                    <div class="field">
+                        <label for="name">
+                            <i class="fas fa-user"></i> Full name <span class="required">*</span>
+                        </label>
+                        <input type="text"
+                               id="name"
+                               name="name"
+                               placeholder="e.g. Aditya Sharma"
+                               autocomplete="name"
+                               required
+                               oninput="clearError('name')">
+                        <div class="field-error" id="nameError">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
+                        </div>
                     </div>
+
+                    <!-- Email -->
+                    <div class="field">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i> Email address <span class="required">*</span>
+                        </label>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               placeholder="you@example.com"
+                               autocomplete="email"
+                               required
+                               oninput="clearError('email')">
+                        <div class="field-error" id="emailError">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <!-- Subject -->
+                    <div class="field full">
+                        <label for="subject">
+                            <i class="fas fa-tag"></i> Subject <span class="required">*</span>
+                        </label>
+                        <select id="subject" name="subject" required onchange="clearError('subject')">
+                            <option value="">Choose a topic…</option>
+                            <option value="General Inquiry">💬 General Inquiry</option>
+                            <option value="Bug Report">🐛 Bug Report</option>
+                            <option value="Feature Request">✨ Feature Request</option>
+                            <option value="Content Correction">📝 Content Correction</option>
+                            <option value="Partnership">🤝 Partnership / Collaboration</option>
+                            <option value="Other">📦 Other</option>
+                        </select>
+                        <div class="field-error" id="subjectError">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="field full">
+                        <label for="message">
+                            <i class="fas fa-comment-dots"></i> Message <span class="required">*</span>
+                        </label>
+                        <textarea id="message"
+                                  name="message"
+                                  placeholder="Tell us what's on your mind…"
+                                  required
+                                  maxlength="1000"
+                                  oninput="onMessageInput()"></textarea>
+                        <div class="char-counter" id="charCounter">0 / 1000</div>
+                        <div class="field-error" id="messageError">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="practicals.html">Practicals</a>
-                    <a href="quizzes.html">Quizzes</a>
-                    <a href="resources.html">Resources</a>
+
+                <div class="form-actions">
+                    <button type="button" onclick="resetForm()">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                    <button type="submit" class="primary" id="submitBtn">
+                        <span id="submitLabel">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </span>
+                    </button>
                 </div>
-                <div class="footer-col">
-                    <h4>MSBTE Resources</h4>
-                    <a href="https://msbte.ac.in/" target="_blank" rel="noopener">MSBTE Official</a>
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">Curriculum Search</a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">Lab Manuals</a>
+            </form>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="form-card success-state" id="successState">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Message sent!</h2>
+            <p>
+                Thank you for reaching out. We've received your message and will get back
+                to you at <strong id="sentToEmail">your email</strong> within 24–48 hours.
+            </p>
+            <button class="btn btn-primary" onclick="sendAnother()">
+                <i class="fas fa-plus"></i> Send another message
+            </button>
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="contact-side">
+
+            <!-- Direct channels -->
+            <div class="side-card">
+                <h3><i class="fas fa-bolt"></i> Direct Contact</h3>
+
+                <div class="contact-channel">
+                    <div class="cc-icon email"><i class="fas fa-envelope"></i></div>
+                    <div class="cc-body">
+                        <div class="cc-label">Email</div>
+                        <div class="cc-value">support@diplomahub.app</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyText('support@diplomahub.app')" aria-label="Copy email">
+                        <i class="fas fa-copy"></i>
+                    </button>
                 </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms</a>
+
+                <a class="contact-channel" href="https://wa.me/919999999999" target="_blank" rel="noopener">
+                    <div class="cc-icon whatsapp"><i class="fab fa-whatsapp"></i></div>
+                    <div class="cc-body">
+                        <div class="cc-label">WhatsApp</div>
+                        <div class="cc-value">+91 99999 99999</div>
+                    </div>
+                </a>
+
+                <a class="contact-channel" href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener">
+                    <div class="cc-icon github"><i class="fab fa-github"></i></div>
+                    <div class="cc-body">
+                        <div class="cc-label">GitHub</div>
+                        <div class="cc-value">alam-7/diploma-hub</div>
+                    </div>
+                </a>
+
+                <a class="contact-channel" href="https://linkedin.com" target="_blank" rel="noopener">
+                    <div class="cc-icon linkedin"><i class="fab fa-linkedin"></i></div>
+                    <div class="cc-body">
+                        <div class="cc-label">LinkedIn</div>
+                        <div class="cc-value">DiplomaHub</div>
+                    </div>
+                </a>
+
+                <div style="text-align:center;margin-top:12px;">
+                    <span class="response-badge">
+                        <i class="fas fa-clock"></i> Avg. reply: 24–48 hrs
+                    </span>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart" style="color: #f43f5e;"></i> for engineering students</p>
+
+            <!-- Office Hours -->
+            <div class="side-card">
+                <h3><i class="fas fa-calendar-alt"></i> Office Hours</h3>
+                <div class="hours-row">
+                    <span class="day">Mon – Fri</span>
+                    <span class="time">9:00 AM – 7:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Saturday</span>
+                    <span class="time">10:00 AM – 4:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Sunday</span>
+                    <span class="closed">Closed</span>
+                </div>
+                <p style="font-size:0.75rem;color:var(--text-dim);margin-top:10px;line-height:1.5;">
+                    All times in IST (GMT+5:30). Messages sent outside hours will be answered next working day.
+                </p>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <p>Quick answers to the most common queries.</p>
+
+        <div class="faq-list" id="faqList"></div>
+    </section>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+            <div style="display:flex;gap:12px;margin-top:12px;">
+                <a href="https://github.com/alam-7/diploma-hub" target="_blank" rel="noopener" aria-label="GitHub" style="width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;color:var(--text-muted);">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" aria-label="LinkedIn" style="width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;color:var(--text-muted);">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" aria-label="YouTube" style="width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;color:var(--text-muted);">
+                    <i class="fab fa-youtube"></i>
+                </a>
             </div>
         </div>
-    </footer>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+            <a href="resources.html">Resources</a>
+        </div>
+        <div>
+            <h4>MSBTE Resources</h4>
+            <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i>
+                MSBTE Curriculum
+                <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--primary);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
+            </a>
+            <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i>
+                K-Scheme Lab Manuals
+                <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--primary);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
+            </a>
+            <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i>
+                MSBTE Official Website
+            </a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
 
-    <script>
-        // Theme Management
-        function loadTheme() {
+<!-- ================= SCRIPTS ================= -->
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+function showError(msg) {
+    document.getElementById('errorAlert').classList.remove('hidden');
+    document.getElementById('errorText').textContent = msg;
+}
+function hideAlert() {
+    document.getElementById('errorAlert').classList.add('hidden');
+}
+function setError(id, msg) {
+    const input = document.getElementById(id);
+    const errEl = document.getElementById(id + 'Error');
+    if (input) {
+        input.classList.add('invalid');
+        input.setAttribute('aria-invalid', 'true');
+    }
+    if (errEl) {
+        errEl.querySelector('span').textContent = msg;
+        errEl.classList.add('show');
+    }
+}
+function clearError(id) {
+    const input = document.getElementById(id);
+    const errEl = document.getElementById(id + 'Error');
+    if (input) {
+        input.classList.remove('invalid');
+        input.removeAttribute('aria-invalid');
+    }
+    if (errEl) errEl.classList.remove('show');
+}
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// ============================================================
+// MESSAGE COUNTER
+// ============================================================
+function onMessageInput() {
+    clearError('message');
+    const val = document.getElementById('message').value;
+    const counter = document.getElementById('charCounter');
+    counter.textContent = `${val.length} / 1000`;
+    counter.classList.remove('warn', 'danger');
+    if (val.length > 900) counter.classList.add('danger');
+    else if (val.length > 750) counter.classList.add('warn');
+}
+
+// ============================================================
+// SUBMIT
+// ============================================================
+async function handleSubmit(e) {
+    e.preventDefault();
+    hideAlert();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value.trim();
+
+    ['name','email','subject','message'].forEach(clearError);
+
+    let valid = true;
+
+    if (!name) { setError('name', 'Please enter your name'); valid = false; }
+    else if (name.length < 2) { setError('name', 'Name is too short'); valid = false; }
+
+    if (!email) { setError('email', 'Please enter your email'); valid = false; }
+    else if (!validateEmail(email)) { setError('email', 'Invalid email format'); valid = false; }
+
+    if (!subject) { setError('subject', 'Please choose a subject'); valid = false; }
+
+    if (!message) { setError('message', 'Please write your message'); valid = false; }
+    else if (message.length < 10) { setError('message', 'Message is too short (min 10 chars)'); valid = false; }
+    else if (message.length > 1000) { setError('message', 'Message is too long (max 1000 chars)'); valid = false; }
+
+    if (!valid) {
+        showError('Please fix the highlighted fields and try again.');
+        return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    const label = document.getElementById('submitLabel');
+    btn.disabled = true;
+    label.innerHTML = '<span class="spinner-mini"></span> Sending…';
+
+    try {
+        // Supabase-ready
+        if (window.supabaseClient && typeof window.supabaseClient.from === 'function') {
+            const { error } = await window.supabaseClient.from('contact_messages').insert([{
+                name, email, subject, message, created_at: new Date().toISOString()
+            }]);
+            if (error) throw new Error(error.message);
+        } else {
+            await new Promise(r => setTimeout(r, 900));
+            // Save to local
             try {
-                var saved = localStorage.getItem('theme');
-                var icon = document.getElementById('themeIcon');
-                if (saved === 'light') {
-                    document.body.setAttribute('data-theme', 'light');
-                    if (icon) icon.className = 'fas fa-sun';
-                } else {
-                    document.body.removeAttribute('data-theme');
-                    if (icon) icon.className = 'fas fa-moon';
-                }
-            } catch (e) {
-                console.error('Error loading theme:', e);
-            }
+                const msgs = JSON.parse(localStorage.getItem('dh_contact_messages')) || [];
+                msgs.push({ name, email, subject, message, ts: Date.now() });
+                localStorage.setItem('dh_contact_messages', JSON.stringify(msgs));
+            } catch(e) {}
         }
 
-        function toggleTheme() {
-            try {
-                var body = document.body;
-                var icon = document.getElementById('themeIcon');
-                if (body.getAttribute('data-theme') === 'light') {
-                    body.removeAttribute('data-theme');
-                    if (icon) icon.className = 'fas fa-moon';
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    body.setAttribute('data-theme', 'light');
-                    if (icon) icon.className = 'fas fa-sun';
-                    localStorage.setItem('theme', 'light');
-                }
-            } catch (e) {
-                console.error('Error toggling theme:', e);
-            }
-        }
+        // Success
+        document.getElementById('sentToEmail').textContent = email;
+        document.getElementById('formCard').style.display = 'none';
+        document.getElementById('successState').classList.add('show');
+        showToast('Message sent!');
 
-        // Mobile Menu
-        function toggleMobileMenu() {
-            try {
-                var nav = document.getElementById('navLinks');
-                var icon = document.getElementById('mobileMenuIcon');
-                if (nav) {
-                    nav.classList.toggle('open');
-                    if (icon) {
-                        icon.className = nav.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
-                    }
-                }
-            } catch (e) {
-                console.error('Error toggling mobile menu:', e);
-            }
-        }
+    } catch (err) {
+        console.error('Submit error:', err);
+        showError(err.message || 'Failed to send. Please try again.');
+    } finally {
+        btn.disabled = false;
+        label.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    }
+}
 
-        // Contact Form Handler
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            var name = document.getElementById('name').value.trim();
-            var email = document.getElementById('email').value.trim();
-            var subject = document.getElementById('subject').value.trim();
-            var message = document.getElementById('message').value.trim();
-            var successMessage = document.getElementById('successMessage');
-            var errorMessage = document.getElementById('errorMessage');
-            
-            // Hide messages
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
-            
-            // Validate
-            if (!name || !email || !subject || !message) {
-                errorMessage.style.display = 'block';
-                return false;
-            }
-            
-            // Simple email validation
-            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                errorMessage.textContent = 'Please enter a valid email address.';
-                errorMessage.style.display = 'block';
-                return false;
-            }
-            
-            // Simulate sending (replace with actual API call)
-            setTimeout(function() {
-                successMessage.style.display = 'block';
-                document.getElementById('contactForm').reset();
-                
-                // Hide success message after 5 seconds
-                setTimeout(function() {
-                    successMessage.style.display = 'none';
-                }, 5000);
-            }, 1000);
-            
-            return false;
-        }
+// ============================================================
+// RESET / ANOTHER
+// ============================================================
+function resetForm() {
+    document.getElementById('contactForm').reset();
+    document.getElementById('charCounter').textContent = '0 / 1000';
+    ['name','email','subject','message'].forEach(clearError);
+    hideAlert();
+    showToast('Form cleared');
+}
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadTheme();
-            
-            // Close mobile menu on link click
-            var navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(function(link) {
-                link.addEventListener('click', function() {
-                    var nav = document.getElementById('navLinks');
-                    if (nav && nav.classList.contains('open')) {
-                        toggleMobileMenu();
-                    }
-                });
-            });
-            
-            console.log('✅ Contact page loaded successfully!');
-        });
-    </script>
+function sendAnother() {
+    document.getElementById('successState').classList.remove('show');
+    document.getElementById('formCard').style.display = 'block';
+    document.getElementById('contactForm').reset();
+    document.getElementById('charCounter').textContent = '0 / 1000';
+    hideAlert();
+    window.scrollTo({ top: 300, behavior: 'smooth' });
+}
+
+// ============================================================
+// COPY
+// ============================================================
+function copyText(text) {
+    navigator.clipboard.writeText(text)
+        .then(() => showToast('Copied!'))
+        .catch(() => showToast('Copy failed'));
+}
+
+// ============================================================
+// FAQ
+// ============================================================
+const FAQS = [
+    {
+        q: 'Is DiplomaHub free to use?',
+        a: 'Yes! DiplomaHub is completely free for all MSBTE Diploma Engineering students. No hidden paywalls, no premium tiers — everything is accessible to everyone.'
+    },
+    {
+        q: 'Which branches and semesters are supported?',
+        a: 'We cover all major MSBTE branches (CO, ME, CE, EE, EJ, and more) across all 6 semesters, based on the latest K-Scheme curriculum.'
+    },
+    {
+        q: 'How accurate is the curriculum data?',
+        a: 'Our data is based on the official MSBTE K-Scheme curriculum. However, we always recommend cross-verifying with <a href="https://msbte.ac.in/" target="_blank" rel="noopener">msbte.ac.in</a> for the latest updates.'
+    },
+    {
+        q: 'Can I download notes, papers, and PDFs?',
+        a: 'Yes! All notes, books, papers, and practicals are downloadable as PDFs. Look for the Download button on each resource card.'
+    },
+    {
+        q: 'Do I need an account to use DiplomaHub?',
+        a: 'No — you can browse most content as a guest. However, signing in unlocks bookmarks, progress tracking, quiz history, and a personalized dashboard.'
+    },
+    {
+        q: 'How can I contribute or report an issue?',
+        a: 'Use the contact form above! Choose "Bug Report" or "Feature Request" as the subject. We review every submission.'
+    },
+    {
+        q: 'Is my data safe?',
+        a: 'Yes. All progress and bookmarks are stored locally on your device. We don\'t sell or share your data with anyone.'
+    },
+    {
+        q: 'Can I use DiplomaHub offline?',
+        a: 'Yes! Install DiplomaHub as a Progressive Web App (PWA) from your browser menu → "Add to Home Screen". It works offline after the first visit.'
+    }
+];
+
+function renderFaq() {
+    const wrap = document.getElementById('faqList');
+    wrap.innerHTML = FAQS.map((f, i) => `
+        <div class="faq-item" id="faq-${i}">
+            <div class="faq-head" onclick="toggleFaq(${i})" role="button" tabindex="0"
+                 onkeypress="if(event.key==='Enter')toggleFaq(${i})">
+                <h4>${f.q}</h4>
+                <div class="faq-toggle"><i class="fas fa-chevron-down"></i></div>
+            </div>
+            <div class="faq-body">${f.a}</div>
+        </div>
+    `).join('');
+}
+
+function toggleFaq(i) {
+    const el = document.getElementById('faq-' + i);
+    const isOpen = el.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(x => x.classList.remove('open'));
+    // Toggle clicked
+    if (!isOpen) el.classList.add('open');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderFaq();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
