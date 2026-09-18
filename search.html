@@ -1,442 +1,1148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search Results - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        /* ── Page ── */
-        .search-page {
-            padding: 110px 20px 60px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        /* ── Search Box ── */
-        .search-box-large {
-            display: flex;
-            align-items: center;
-            background: var(--glass-bg, rgba(255,255,255,0.03));
-            border: 2px solid var(--glass-border, rgba(0,212,255,0.1));
-            border-radius: 50px;
-            padding: 5px;
-            transition: 0.3s;
-            margin-bottom: 30px;
-        }
-        .search-box-large:focus-within {
-            border-color: var(--neon-blue, #00d4ff);
-            box-shadow: 0 0 30px rgba(0,212,255,0.1);
-        }
-        .search-box-large i {
-            padding: 0 15px;
-            color: var(--text-secondary, #8888bb);
-            font-size: 1.1rem;
-        }
-        .search-box-large input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 15px 0;
-            color: var(--text-primary, #e0e0ff);
-            font-size: 1.1rem;
-            outline: none;
-        }
-        .search-box-large input::placeholder {
-            color: var(--text-secondary, #8888bb);
-        }
-        .search-box-large button {
-            background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc));
-            border: none;
-            color: #fff;
-            padding: 12px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        .search-box-large button:hover {
-            box-shadow: 0 0 30px rgba(0,212,255,0.2);
-        }
-        /* ── Results ── */
-        .result-stats {
-            color: var(--text-secondary, #8888bb);
-            margin-bottom: 20px;
-        }
-        .result-group {
-            margin-bottom: 25px;
-        }
-        .result-group h3 {
-            font-size: 1rem;
-            color: var(--text-secondary, #8888bb);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--glass-border, rgba(0,212,255,0.08));
-            padding-bottom: 8px;
-        }
-        .result-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 15px;
-            background: var(--glass-bg, rgba(255,255,255,0.03));
-            border-radius: 10px;
-            border: 1px solid var(--glass-border, rgba(0,212,255,0.08));
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .result-item:hover {
-            border-color: var(--neon-blue, #00d4ff);
-            transform: translateX(5px);
-        }
-        .result-item .icon {
-            font-size: 1.5rem;
-            width: 40px;
-            text-align: center;
-        }
-        .result-item .info {
-            flex: 1;
-        }
-        .result-item .info .title {
-            font-weight: 500;
-        }
-        .result-item .info .desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary, #8888bb);
-        }
-        .result-item .badge {
-            font-size: 0.7rem;
-            padding: 3px 10px;
-            border-radius: 20px;
-            background: rgba(0,212,255,0.15);
-            color: var(--neon-blue, #00d4ff);
-        }
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary, #8888bb);
-        }
-        .no-results i {
-            font-size: 4rem;
-            color: var(--text-secondary, #8888bb);
-            margin-bottom: 20px;
-        }
-        .no-results h2 {
-            color: var(--text-primary, #e0e0ff);
-            margin-bottom: 10px;
-        }
-        .suggestions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        .suggestions span {
-            background: var(--glass-bg, rgba(255,255,255,0.03));
-            border: 1px solid var(--glass-border, rgba(0,212,255,0.08));
-            padding: 6px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-        .suggestions span:hover {
-            border-color: var(--neon-blue, #00d4ff);
-            color: var(--neon-blue, #00d4ff);
-        }
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary, #8888bb);
-        }
-        .empty-state i {
-            font-size: 4rem;
-            color: var(--text-secondary, #8888bb);
-            margin-bottom: 20px;
-        }
-        .empty-state h2 {
-            color: var(--text-primary, #e0e0ff);
-            margin-bottom: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Search everything on DiplomaHub — subjects, lessons, notes, books, papers, questions, answers, practicals, quizzes, equipment. Instant results.">
+<meta name="keywords" content="Search MSBTE, Diploma Search, Find Notes, Find Papers, Equipment Search">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Search — DiplomaHub">
+<meta property="og:description" content="Search everything on DiplomaHub.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/search.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Search — DiplomaHub">
+<meta name="twitter:description" content="Search everything on DiplomaHub.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/search.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Search — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= SEARCH HERO ================= */
+    .search-hero {
+        text-align: center;
+        padding: var(--space-xl) var(--space-md) var(--space-lg);
+    }
+    .search-hero h1 {
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        margin-bottom: 8px;
+    }
+    .search-hero p {
+        color: var(--text-muted);
+        margin-bottom: var(--space-lg);
+    }
+
+    /* ================= SEARCH BOX ================= */
+    .search-box-wrap {
+        max-width: 780px;
+        margin: 0 auto var(--space-lg);
+        position: relative;
+    }
+    .search-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--radius-pill);
+        padding: 6px 6px 6px 20px;
+        transition: var(--transition);
+        box-shadow: var(--shadow-sm);
+    }
+    .search-box:focus-within {
+        border-color: var(--primary);
+        box-shadow: var(--shadow-glow);
+    }
+    .search-box > i {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+    }
+    .search-box input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 12px 0;
+        color: var(--text);
+        font-size: 1rem;
+        outline: none;
+        box-shadow: none;
+    }
+    .search-box input:focus { box-shadow: none; border: none; }
+    .search-box .clear-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        cursor: pointer;
+        display: none;
+        border-radius: 50%;
+        transition: var(--transition);
+    }
+    .search-box .clear-btn:hover { color: var(--error); background: var(--surface); }
+    .search-box .clear-btn.show { display: inline-flex; }
+    .search-box .kbd {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-family: var(--font-mono);
+        white-space: nowrap;
+    }
+
+    /* Recent */
+    .recent-wrap {
+        max-width: 780px;
+        margin: 0 auto var(--space-lg);
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    .recent-label {
+        font-size: 0.78rem;
+        color: var(--text-dim);
+        margin-right: 4px;
+    }
+    .recent-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .recent-chip:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .recent-chip i { font-size: 0.7rem; }
+
+    /* ================= STATS ROW ================= */
+    .stats-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-md);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 130px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .mini-stat i { font-size: 1.1rem; color: var(--primary); }
+    .mini-stat .num { font-size: 1.1rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* ================= TYPE CHIPS ================= */
+    .type-chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-md);
+    }
+    .type-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .type-chip:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .type-chip.active {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: var(--primary);
+    }
+    .type-chip .count {
+        background: rgba(0,0,0,0.15);
+        padding: 1px 7px;
+        border-radius: var(--radius-pill);
+        font-size: 0.68rem;
+    }
+
+    /* ================= RESULTS ================= */
+    .results-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-md);
+        padding: 10px 4px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+    .results-info strong { color: var(--text); }
+
+    .results-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .result-item {
+        display: flex;
+        gap: 14px;
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--border);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+        color: var(--text);
+    }
+    .result-item:hover {
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        transform: translateX(4px);
+        box-shadow: var(--shadow-glow);
+    }
+    .result-item.focused {
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    .result-item[data-type="subject"] { border-left-color: #00d4ff; }
+    .result-item[data-type="note"] { border-left-color: #22c55e; }
+    .result-item[data-type="book"] { border-left-color: #a855f7; }
+    .result-item[data-type="paper"] { border-left-color: #f59e0b; }
+    .result-item[data-type="question"] { border-left-color: #06b6d4; }
+    .result-item[data-type="answer"] { border-left-color: #10b981; }
+    .result-item[data-type="practical"] { border-left-color: #f43f5e; }
+    .result-item[data-type="quiz"] { border-left-color: #8b5cf6; }
+    .result-item[data-type="equipment"] { border-left-color: #eab308; }
+    .result-item[data-type="lesson"] { border-left-color: #3b82f6; }
+
+    .result-icon {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.15rem;
+        background: var(--primary-glow);
+        color: var(--primary);
+        flex-shrink: 0;
+    }
+    .result-icon.subject { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .result-icon.note { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .result-icon.book { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .result-icon.paper { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .result-icon.question { background: rgba(6,182,212,0.15); color: #06b6d4; }
+    .result-icon.answer { background: rgba(16,185,129,0.15); color: #10b981; }
+    .result-icon.practical { background: rgba(244,63,94,0.15); color: #f43f5e; }
+    .result-icon.quiz { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+    .result-icon.equipment { background: rgba(234,179,8,0.15); color: #eab308; }
+    .result-icon.lesson { background: rgba(59,130,246,0.15); color: #3b82f6; }
+
+    .result-body {
+        flex: 1;
+        min-width: 0;
+    }
+    .result-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+        flex-wrap: wrap;
+    }
+    .result-title {
+        font-size: 0.98rem;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+    .result-title mark {
+        background: rgba(0,212,255,0.25);
+        color: var(--primary);
+        padding: 0 3px;
+        border-radius: 3px;
+    }
+    .result-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 2px 8px;
+        border-radius: var(--radius-pill);
+        font-size: 0.66rem;
+        font-weight: 700;
+        background: var(--primary-glow);
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+    .result-desc {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    .result-desc mark {
+        background: rgba(0,212,255,0.15);
+        color: var(--primary);
+        padding: 0 2px;
+        border-radius: 2px;
+    }
+    .result-meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        margin-top: 6px;
+    }
+    .result-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .result-bookmark {
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 0.95rem;
+        padding: 6px 8px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: var(--transition);
+        align-self: flex-start;
+    }
+    .result-bookmark:hover { color: var(--primary); background: var(--surface); }
+    .result-bookmark.active { color: var(--primary); }
+
+    /* Empty / Welcome */
+    .empty-state, .welcome-state {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i, .welcome-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3, .welcome-state h3 { margin-bottom: 8px; }
+    .empty-state p, .welcome-state p { color: var(--text-muted); margin-bottom: var(--space-md); }
+
+    .suggestion-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+        max-width: 720px;
+        margin: 0 auto;
+    }
+    .suggestion-card {
+        padding: 14px;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition);
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+    .suggestion-card:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .suggestion-card i {
+        display: block;
+        font-size: 1.4rem;
+        margin-bottom: 6px;
+        color: var(--primary);
+    }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .search-box { padding-left: 14px; }
+        .search-box .kbd { display: none; }
+        .result-item { padding: 12px; gap: 10px; }
+        .result-icon { width: 36px; height: 36px; min-width: 36px; font-size: 1rem; }
+        .result-title { font-size: 0.9rem; }
+    }
+</style>
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>DIPLOMA<span class="highlight">HUB</span></span>
-            </div>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="courses.html">Courses</a>
-                <a href="equipment.html">Equipment</a>
-                <a href="practicals.html">Practicals</a>
-                <a href="quizzes.html">Quizzes</a>
-                <a href="resources.html">Resources</a>
-                <a href="about.html">About</a>
-            </div>
-            <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
-                <a href="login.html" class="btn btn-primary btn-sm" id="authBtn">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-            </div>
-        </div>
-    </nav>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="search.html" class="active">Search</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
 
-    <!-- ===== SEARCH PAGE ===== -->
-    <div class="search-page" id="searchPage">
-        <div class="search-box-large">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search for anything..." onkeydown="if(event.key==='Enter') performSearch()" />
-            <button onclick="performSearch()">Search</button>
+<div class="container">
+
+    <!-- ================= SEARCH HERO ================= -->
+    <div class="search-hero">
+        <h1>🔍 Search Everything</h1>
+        <p>Find subjects, notes, books, papers, questions, equipment — instantly.</p>
+
+        <div class="search-box-wrap">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text"
+                       id="searchInput"
+                       placeholder="Try 'matrices', 'multimeter', 'DBMS', 'winter 2024'…"
+                       autocomplete="off"
+                       autofocus
+                       aria-label="Search">
+                <button class="clear-btn" id="clearBtn" onclick="clearSearch()" aria-label="Clear">
+                    <i class="fas fa-times"></i>
+                </button>
+                <span class="kbd">Ctrl + K</span>
+            </div>
         </div>
-        <div id="searchResults">
-            <!-- Results appear here -->
+
+        <!-- Recent searches -->
+        <div class="recent-wrap" id="recentWrap" style="display:none;"></div>
+    </div>
+
+    <!-- ================= STATS ================= -->
+    <div class="stats-row" id="statsRow" style="display:none;">
+        <div class="mini-stat">
+            <i class="fas fa-list"></i>
+            <div>
+                <div class="num" id="statResults">0</div>
+                <div class="label">Results</div>
+            </div>
+        </div>
+        <div class="mini-stat">
+            <i class="fas fa-stopwatch"></i>
+            <div>
+                <div class="num" id="statTime">0 ms</div>
+                <div class="label">Search Time</div>
+            </div>
+        </div>
+        <div class="mini-stat">
+            <i class="fas fa-tags"></i>
+            <div>
+                <div class="num" id="statTypes">0</div>
+                <div class="label">Types Matched</div>
+            </div>
+        </div>
+        <div class="mini-stat">
+            <i class="fas fa-database"></i>
+            <div>
+                <div class="num" id="statIndex">0</div>
+                <div class="label">Items Indexed</div>
+            </div>
         </div>
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>DIPLOMA HUB</h3>
-                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
+    <!-- ================= TYPE CHIPS ================= -->
+    <div class="type-chips" id="typeChips"></div>
+
+    <!-- ================= RESULTS ================= -->
+    <div id="resultsWrap"></div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="papers.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script src="js/equipment-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+let currentQuery = params.get('q') || '';
+let activeType = 'all';
+let focusedIndex = -1;
+let searchIndex = [];   // unified index of all searchable items
+let currentResults = [];
+const DEBOUNCE_MS = 180;
+let debounceTimer = null;
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function highlight(text, q) {
+    if (!q) return escapeHtml(text);
+    const esc = escapeHtml(text);
+    const regex = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    return esc.replace(regex, '<mark>$1</mark>');
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function debounce(fn, ms) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(fn, ms);
+}
+
+// ============================================================
+// BUILD INDEX
+// ============================================================
+function buildIndex() {
+    const items = [];
+
+    // ---------- COURSES / SUBJECTS ----------
+    const cData = window.courseData || {};
+    for (const slug in cData) {
+        const course = cData[slug];
+
+        // Course itself
+        items.push({
+            id: 'course-' + slug,
+            type: 'subject',
+            typeLabel: 'Course',
+            icon: 'fa-graduation-cap',
+            title: course.name,
+            desc: course.description || '',
+            meta: course.code || '',
+            url: `course-detail.html?course=${slug}`,
+            keywords: [course.name, course.code, course.description].join(' ').toLowerCase()
+        });
+
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            subs.forEach(sub => {
+                // SUBJECT
+                items.push({
+                    id: 'subject-' + sub.code,
+                    type: 'subject',
+                    typeLabel: 'Subject',
+                    icon: 'fa-book',
+                    title: sub.name,
+                    desc: `${sub.type} · ${sub.credits} credits · ${sub.marks} marks`,
+                    meta: `${course.name} · Sem ${sem}`,
+                    url: `subject.html?code=${sub.code}`,
+                    keywords: [sub.name, sub.code, sub.type].join(' ').toLowerCase()
+                });
+
+                // LESSONS (units)
+                (sub.units || []).forEach(u => {
+                    items.push({
+                        id: 'lesson-' + sub.code + '-u' + u.unit,
+                        type: 'lesson',
+                        typeLabel: 'Lesson',
+                        icon: 'fa-book-open',
+                        title: `Unit ${u.unit}: ${u.title || 'Lesson'}`,
+                        desc: u.desc || `Lesson for ${sub.name}`,
+                        meta: sub.name,
+                        url: `lessons.html?code=${sub.code}&unit=${u.unit}`,
+                        keywords: [u.title, sub.name, sub.code, 'unit ' + u.unit].join(' ').toLowerCase()
+                    });
+                });
+
+                // NOTES
+                (sub.notes || []).forEach(n => {
+                    items.push({
+                        id: 'note-' + n.id,
+                        type: 'note',
+                        typeLabel: 'Notes',
+                        icon: 'fa-sticky-note',
+                        title: n.title || 'Notes',
+                        desc: n.desc || '',
+                        meta: `${sub.name} · Unit ${n.unit || '—'}`,
+                        url: `notes.html?code=${sub.code}`,
+                        keywords: [n.title, n.desc, sub.name, sub.code].join(' ').toLowerCase()
+                    });
+                });
+
+                // BOOKS
+                (sub.books || []).forEach(b => {
+                    items.push({
+                        id: 'book-' + b.id,
+                        type: 'book',
+                        typeLabel: 'Book',
+                        icon: 'fa-book',
+                        title: b.title || 'Book',
+                        desc: `${b.author || ''} · ${b.publisher || ''}`.trim(),
+                        meta: sub.name,
+                        url: `books.html?code=${sub.code}`,
+                        keywords: [b.title, b.author, b.publisher, sub.name].join(' ').toLowerCase()
+                    });
+                });
+
+                // PAPERS
+                (sub.papers || []).forEach(p => {
+                    items.push({
+                        id: 'paper-' + p.id,
+                        type: 'paper',
+                        typeLabel: 'Paper',
+                        icon: 'fa-file-alt',
+                        title: p.title || `Paper ${p.year || ''}`,
+                        desc: `${p.exam || ''} ${p.year || ''} · ${p.solved ? 'Solved' : 'Unsolved'}`,
+                        meta: sub.name,
+                        url: `papers.html?code=${sub.code}`,
+                        keywords: [p.title, p.exam, p.year, sub.name].join(' ').toLowerCase()
+                    });
+                });
+
+                // QUESTIONS
+                (sub.questions || []).forEach(q => {
+                    items.push({
+                        id: 'q-' + q.id,
+                        type: 'question',
+                        typeLabel: 'Question',
+                        icon: 'fa-pen',
+                        title: (q.text || '').slice(0, 80),
+                        desc: `Unit ${q.unit} · ${q.marks} marks`,
+                        meta: sub.name,
+                        url: `questions.html?code=${sub.code}`,
+                        keywords: [q.text, sub.name, sub.code].join(' ').toLowerCase()
+                    });
+                });
+
+                // ANSWERS
+                (sub.answers || []).forEach(a => {
+                    items.push({
+                        id: 'a-' + a.id,
+                        type: 'answer',
+                        typeLabel: 'Answer',
+                        icon: 'fa-check-circle',
+                        title: (a.question || 'Solution').slice(0, 80),
+                        desc: `Unit ${a.unit} · ${a.marks} marks`,
+                        meta: sub.name,
+                        url: `answers.html?code=${sub.code}`,
+                        keywords: [a.question, sub.name].join(' ').toLowerCase()
+                    });
+                });
+
+                // PRACTICALS
+                (sub.practicals || []).forEach(p => {
+                    items.push({
+                        id: 'prac-' + p.id,
+                        type: 'practical',
+                        typeLabel: 'Practical',
+                        icon: 'fa-flask',
+                        title: p.title || 'Practical',
+                        desc: (p.aim || '').slice(0, 90),
+                        meta: sub.name,
+                        url: `practicals.html?code=${sub.code}`,
+                        keywords: [p.title, p.aim, sub.name].join(' ').toLowerCase()
+                    });
+                });
+
+                // QUIZZES
+                (sub.quizzes || []).forEach(qz => {
+                    items.push({
+                        id: 'quiz-' + qz.id,
+                        type: 'quiz',
+                        typeLabel: 'Quiz',
+                        icon: 'fa-question-circle',
+                        title: qz.title || 'Quiz',
+                        desc: `${qz.questions} Qs · ${qz.time} min · ${qz.difficulty}`,
+                        meta: sub.name,
+                        url: `quiz-take.html?id=${qz.id}&code=${sub.code}`,
+                        keywords: [qz.title, sub.name, sub.code].join(' ').toLowerCase()
+                    });
+                });
+            });
+        }
+    }
+
+    // ---------- EQUIPMENT ----------
+    const equip = window.EQUIPMENT || window.equipment || window.equipmentData || [];
+    equip.forEach(e => {
+        const slug = e.slug || (e.name || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+        items.push({
+            id: 'equip-' + slug,
+            type: 'equipment',
+            typeLabel: 'Equipment',
+            icon: 'fa-tools',
+            title: e.name,
+            desc: e.purpose || e.description || '',
+            meta: e.category || '',
+            url: `equipment-detail.html?slug=${slug}`,
+            keywords: [e.name, e.category, e.purpose, e.description].join(' ').toLowerCase()
+        });
+    });
+
+    return items;
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+function runSearch(q) {
+    q = (q || '').trim();
+    focusedIndex = -1;
+
+    const start = performance.now();
+
+    // If empty query — show welcome
+    if (!q) {
+        currentResults = [];
+        document.getElementById('statsRow').style.display = 'none';
+        document.getElementById('typeChips').innerHTML = '';
+        renderWelcome();
+        return;
+    }
+
+    const lowerQ = q.toLowerCase();
+
+    // Filter by query (multi-word, all must match)
+    const words = lowerQ.split(/\s+/).filter(Boolean);
+    let results = searchIndex.filter(item => {
+        const haystack = item.keywords + ' ' + (item.title || '').toLowerCase() + ' ' + (item.meta || '').toLowerCase();
+        return words.every(w => haystack.includes(w));
+    });
+
+    // Sort by type priority + relevance
+    const priority = { subject: 0, lesson: 1, note: 2, book: 3, paper: 4, question: 5, answer: 6, practical: 7, quiz: 8, equipment: 9 };
+    results.sort((a, b) => {
+        const tp = (priority[a.type] || 99) - (priority[b.type] || 99);
+        if (tp !== 0) return tp;
+        // title matches first
+        const aTitle = a.title.toLowerCase().includes(lowerQ) ? 0 : 1;
+        const bTitle = b.title.toLowerCase().includes(lowerQ) ? 0 : 1;
+        return aTitle - bTitle;
+    });
+
+    currentResults = results;
+    const elapsed = Math.round(performance.now() - start);
+
+    // Update stats
+    document.getElementById('statResults').textContent = results.length;
+    document.getElementById('statTime').textContent = elapsed + ' ms';
+    document.getElementById('statTypes').textContent =
+        new Set(results.map(r => r.type)).size;
+    document.getElementById('statIndex').textContent = searchIndex.length;
+    document.getElementById('statsRow').style.display = 'flex';
+
+    renderTypeChips(results);
+    renderResults(results, q);
+    saveRecent(q);
+    updateClearBtn();
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderWelcome() {
+    const wrap = document.getElementById('resultsWrap');
+    wrap.innerHTML = `
+        <div class="welcome-state">
+            <i class="fas fa-search"></i>
+            <h3>Start typing to search</h3>
+            <p>Search across <strong>${searchIndex.length}</strong> items — subjects, notes, books, papers, equipment, and more.</p>
+            <div class="suggestion-grid">
+                <div class="suggestion-card" onclick="quickSearch('matrices')">
+                    <i class="fas fa-calculator"></i> matrices
                 </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="practicals.html">Practicals</a>
-                    <a href="quizzes.html">Quizzes</a>
-                    <a href="resources.html">Resources</a>
+                <div class="suggestion-card" onclick="quickSearch('programming in c')">
+                    <i class="fas fa-code"></i> programming in c
                 </div>
-                <div class="footer-col">
-                    <h4>MSBTE Resources</h4>
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">📖 MSBTE Curriculum</a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 K-Scheme Lab Manuals</a>
-                    <a href="https://msbte.ac.in/" target="_blank">🏛️ MSBTE Official</a>
+                <div class="suggestion-card" onclick="quickSearch('dbms')">
+                    <i class="fas fa-database"></i> DBMS
                 </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms</a>
+                <div class="suggestion-card" onclick="quickSearch('multimeter')">
+                    <i class="fas fa-tools"></i> multimeter
                 </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with ❤️ for engineering students</p>
+                <div class="suggestion-card" onclick="quickSearch('winter 2024')">
+                    <i class="fas fa-file-alt"></i> winter 2024
+                </div>
+                <div class="suggestion-card" onclick="quickSearch('practical')">
+                    <i class="fas fa-flask"></i> practical
+                </div>
             </div>
         </div>
-    </footer>
+    `;
+}
 
-    <!-- ===== SCRIPTS ===== -->
-    <script>
-        // ============================================================
-        // SEARCH DATA (embedded so it always works)
-        // ============================================================
-        var SEARCH_DATA = {
-            equipment: [
-                { slug: 'vernier-caliper', name: 'Vernier Caliper', category: 'Measuring Instruments', purpose: 'Precision measurement of length, depth, and dimensions' },
-                { slug: 'digital-multimeter', name: 'Digital Multimeter', category: 'Electrical & Electronic', purpose: 'Measurement of voltage, current, and resistance' },
-                { slug: 'oscilloscope', name: 'Oscilloscope', category: 'Electrical & Electronic', purpose: 'Visualizes electrical signals over time' },
-                { slug: 'function-generator', name: 'Function Generator', category: 'Electrical & Electronic', purpose: 'Generates various waveforms for testing circuits' },
-                { slug: 'dc-power-supply', name: 'DC Power Supply', category: 'Electrical & Electronic', purpose: 'Provides regulated DC voltage for electronic circuits' },
-                { slug: 'breadboard', name: 'Breadboard', category: 'Electrical & Electronic', purpose: 'Platform for building electronic circuits without soldering' },
-                { slug: 'soldering-iron', name: 'Soldering Iron', category: 'Electrical & Electronic', purpose: 'Tool for soldering electronic components' },
-                { slug: 'centre-lathe-machine', name: 'Centre Lathe Machine', category: 'Mechanical Workshop', purpose: 'Performs turning, facing, threading operations' },
-                { slug: 'drilling-machine', name: 'Drilling Machine', category: 'Mechanical Workshop', purpose: 'Creates holes in materials using rotary tools' },
-                { slug: 'milling-machine', name: 'Milling Machine', category: 'Mechanical Workshop', purpose: 'Performs cutting operations using rotating cutters' },
-                { slug: 'grinding-machine', name: 'Grinding Machine', category: 'Mechanical Workshop', purpose: 'Produces smooth finishes using abrasive wheels' },
-                { slug: 'welding-machine', name: 'Welding Machine', category: 'Mechanical Workshop', purpose: 'Joins metal pieces using electric arc' },
-                { slug: 'total-station', name: 'Total Station', category: 'Civil & Surveying', purpose: 'Integrated electronic distance and angle measurement' },
-                { slug: 'auto-level', name: 'Auto Level', category: 'Civil & Surveying', purpose: 'Self-leveling instrument for height measurement' },
-                { slug: 'theodolite', name: 'Theodolite', category: 'Civil & Surveying', purpose: 'Precise measurement of horizontal and vertical angles' },
-                { slug: 'slump-cone', name: 'Slump Cone', category: 'Civil & Surveying', purpose: 'Measures workability of fresh concrete' },
-                { slug: 'transformer', name: 'Transformer', category: 'Power Systems', purpose: 'Converts AC voltage from one level to another' },
-                { slug: 'dc-motor', name: 'DC Motor', category: 'Power Systems', purpose: 'Converts electrical energy to mechanical motion' },
-                { slug: 'signal-generator', name: 'Signal Generator', category: 'Communication', purpose: 'Produces electrical signals of various frequencies' },
-                { slug: 'spectrum-analyzer', name: 'Spectrum Analyzer', category: 'Communication', purpose: 'Measures signal frequency spectrum and power' }
-            ],
-            courses: [
-                { slug: 'computer-engineering', name: 'Computer Engineering', icon: '💻', description: 'Study of computers, programming, networks, and software development.' },
-                { slug: 'mechanical-engineering', name: 'Mechanical Engineering', icon: '⚙️', description: 'Study of machines, manufacturing, thermodynamics, and mechanical systems.' },
-                { slug: 'civil-engineering', name: 'Civil Engineering', icon: '🏗️', description: 'Study of construction, infrastructure, surveying, and structural design.' },
-                { slug: 'electrical-engineering', name: 'Electrical Engineering', icon: '⚡', description: 'Study of electrical systems, power generation, motors, and control systems.' },
-                { slug: 'electronics-telecommunication', name: 'Electronics & Telecommunication', icon: '📡', description: 'Study of electronic circuits, communication systems, signal processing, and IoT.' }
-            ]
-        };
+function renderTypeChips(results) {
+    const counts = { all: results.length };
+    results.forEach(r => counts[r.type] = (counts[r.type] || 0) + 1);
 
-        // ============================================================
-        // PERFORM SEARCH
-        // ============================================================
-        function performSearch() {
-            var input = document.getElementById('searchInput');
-            var query = input.value.trim().toLowerCase();
-            var resultsDiv = document.getElementById('searchResults');
+    const types = [
+        { key: 'all', label: 'All', icon: 'fa-layer-group' },
+        { key: 'subject', label: 'Subjects', icon: 'fa-book' },
+        { key: 'lesson', label: 'Lessons', icon: 'fa-book-open' },
+        { key: 'note', label: 'Notes', icon: 'fa-sticky-note' },
+        { key: 'book', label: 'Books', icon: 'fa-book' },
+        { key: 'paper', label: 'Papers', icon: 'fa-file-alt' },
+        { key: 'question', label: 'Questions', icon: 'fa-pen' },
+        { key: 'answer', label: 'Answers', icon: 'fa-check-circle' },
+        { key: 'practical', label: 'Practicals', icon: 'fa-flask' },
+        { key: 'quiz', label: 'Quizzes', icon: 'fa-question-circle' },
+        { key: 'equipment', label: 'Equipment', icon: 'fa-tools' }
+    ];
 
-            // ── Empty query ──
-            if (!query) {
-                resultsDiv.innerHTML =
-                    '<div class="empty-state">' +
-                    '<i class="fas fa-search"></i>' +
-                    '<h2>Enter a Search Term</h2>' +
-                    '<p>Type something to start searching</p>' +
-                    '</div>';
-                return;
-            }
+    document.getElementById('typeChips').innerHTML = types.map(t => {
+        const c = counts[t.key] || 0;
+        if (c === 0 && t.key !== 'all') return '';
+        return `
+            <div class="type-chip ${activeType === t.key ? 'active' : ''}"
+                 onclick="setType('${t.key}')">
+                <i class="fas ${t.icon}"></i> ${t.label}
+                <span class="count">${c}</span>
+            </div>
+        `;
+    }).join('');
+}
 
-            // ── Search ──
-            var equipmentMatches = SEARCH_DATA.equipment.filter(function(e) {
-                return e.name.toLowerCase().indexOf(query) !== -1 ||
-                    e.category.toLowerCase().indexOf(query) !== -1 ||
-                    e.purpose.toLowerCase().indexOf(query) !== -1;
-            });
+function setType(type) {
+    activeType = type;
+    runSearch(currentQuery);
+}
 
-            var courseMatches = SEARCH_DATA.courses.filter(function(c) {
-                return c.name.toLowerCase().indexOf(query) !== -1 ||
-                    c.description.toLowerCase().indexOf(query) !== -1;
-            });
+function renderResults(results, q) {
+    const wrap = document.getElementById('resultsWrap');
 
-            var total = equipmentMatches.length + courseMatches.length;
+    let list = results;
+    if (activeType !== 'all') list = list.filter(r => r.type === activeType);
 
-            // ── No results ──
-            if (total === 0) {
-                resultsDiv.innerHTML =
-                    '<div class="no-results">' +
-                    '<i class="fas fa-search"></i>' +
-                    '<h2>No Results Found</h2>' +
-                    '<p>We couldn\'t find anything matching "<strong>' + query + '</strong>"</p>' +
-                    '<div class="suggestions">' +
-                    '<span onclick="quickSearch(\'oscilloscope\')">oscilloscope</span>' +
-                    '<span onclick="quickSearch(\'lathe\')">lathe</span>' +
-                    '<span onclick="quickSearch(\'computer\')">computer</span>' +
-                    '<span onclick="quickSearch(\'civil\')">civil</span>' +
-                    '<span onclick="quickSearch(\'multimeter\')">multimeter</span>' +
-                    '</div>' +
-                    '</div>';
-                return;
-            }
+    if (!list.length) {
+        wrap.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-search-minus"></i>
+                <h3>No results for "${escapeHtml(q)}"</h3>
+                <p>Try a different keyword, or clear the type filter.</p>
+            </div>`;
+        return;
+    }
 
-            // ── Build results ──
-            var html = '<div class="result-stats">Found ' + total + ' results for "<strong>' + query + '</strong>"</div>';
+    wrap.innerHTML = `
+        <div class="results-info">
+            <span>Showing <strong>${list.length}</strong> of ${results.length} result${results.length !== 1 ? 's' : ''}</span>
+            <span>Use <span class="kbd" style="padding:2px 8px;">↑ ↓</span> to navigate, <span class="kbd" style="padding:2px 8px;">Enter</span> to open</span>
+        </div>
+        <div class="results-list" id="resultsList">
+            ${list.map((r, i) => {
+                const saved = isBookmarked(r.id);
+                return `
+                    <a class="result-item" data-type="${r.type}"
+                       data-index="${i}"
+                       href="${r.url}"
+                       onmouseenter="focusedIndex=${i}"
+                       aria-label="${escapeHtml(r.title)}">
+                        <div class="result-icon ${r.type}">
+                            <i class="fas ${r.icon}"></i>
+                        </div>
+                        <div class="result-body">
+                            <div class="result-head">
+                                <span class="result-title">${highlight(r.title, q)}</span>
+                                <span class="result-badge">${escapeHtml(r.typeLabel)}</span>
+                            </div>
+                            ${r.desc ? `<div class="result-desc">${highlight(r.desc, q)}</div>` : ''}
+                            ${r.meta ? `<div class="result-meta"><span><i class="fas fa-tag"></i> ${escapeHtml(r.meta)}</span></div>` : ''}
+                        </div>
+                        <button class="result-bookmark ${saved ? 'active' : ''}"
+                                onclick="event.preventDefault();event.stopPropagation();toggleBookmark('${r.id}')"
+                                aria-label="Bookmark">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </a>
+                `;
+            }).join('')}
+        </div>
+    `;
+}
 
-            if (equipmentMatches.length > 0) {
-                html += '<div class="result-group">' +
-                    '<h3><i class="fas fa-microscope"></i> Equipment (' + equipmentMatches.length + ')</h3>';
-                equipmentMatches.forEach(function(e) {
-                    html += '<div class="result-item" onclick="location.href=\'equipment-detail.html?slug=' + e.slug +
-                        '\'">' +
-                        '<div class="icon">🔧</div>' +
-                        '<div class="info">' +
-                        '<div class="title">' + e.name + '</div>' +
-                        '<div class="desc">' + e.category + ' • ' + e.purpose.substring(0, 80) + '...</div>' +
-                        '</div>' +
-                        '<span class="badge">' + e.category + '</span>' +
-                        '</div>';
-                });
-                html += '</div>';
-            }
+// ============================================================
+// RECENT SEARCHES
+// ============================================================
+function saveRecent(q) {
+    if (!q || q.length < 2) return;
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('recentSearches')) || []; } catch(e) {}
+    list = list.filter(x => x.toLowerCase() !== q.toLowerCase());
+    list.unshift(q);
+    list = list.slice(0, 6);
+    localStorage.setItem('recentSearches', JSON.stringify(list));
+    renderRecent();
+}
 
-            if (courseMatches.length > 0) {
-                html += '<div class="result-group">' +
-                    '<h3><i class="fas fa-graduation-cap"></i> Courses (' + courseMatches.length + ')</h3>';
-                courseMatches.forEach(function(c) {
-                    html += '<div class="result-item" onclick="location.href=\'course-detail.html?course=' + c.slug +
-                        '\'">' +
-                        '<div class="icon">' + (c.icon || '📚') + '</div>' +
-                        '<div class="info">' +
-                        '<div class="title">' + c.name + '</div>' +
-                        '<div class="desc">' + c.description + '</div>' +
-                        '</div>' +
-                        '<span class="badge">Course</span>' +
-                        '</div>';
-                });
-                html += '</div>';
-            }
+function renderRecent() {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('recentSearches')) || []; } catch(e) {}
+    const wrap = document.getElementById('recentWrap');
+    if (!list.length) {
+        wrap.style.display = 'none';
+        return;
+    }
+    wrap.style.display = 'flex';
+    wrap.innerHTML = `
+        <span class="recent-label"><i class="fas fa-history"></i> Recent:</span>
+        ${list.map(q => `
+            <span class="recent-chip" onclick="quickSearch('${escapeHtml(q)}')">
+                <i class="fas fa-search"></i> ${escapeHtml(q)}
+            </span>
+        `).join('')}
+        <span class="recent-chip" onclick="clearRecent()" style="color:var(--error);">
+            <i class="fas fa-trash"></i> Clear
+        </span>
+    `;
+}
 
-            resultsDiv.innerHTML = html;
-        }
+function clearRecent() {
+    localStorage.removeItem('recentSearches');
+    renderRecent();
+    showToast('Recent searches cleared');
+}
 
-        // ============================================================
-        // QUICK SEARCH
-        // ============================================================
-        function quickSearch(term) {
-            document.getElementById('searchInput').value = term;
-            performSearch();
-        }
+// ============================================================
+// QUICK SEARCH
+// ============================================================
+function quickSearch(q) {
+    document.getElementById('searchInput').value = q;
+    currentQuery = q;
+    runSearch(q);
+    window.scrollTo({ top: 250, behavior: 'smooth' });
+}
 
-        // ============================================================
-        // THEME / MOBILE (small helpers)
-        // ============================================================
-        function toggleTheme() {
-            var body = document.body;
-            var icon = document.getElementById('themeIcon');
-            if (body.getAttribute('data-theme') === 'light') {
-                body.removeAttribute('data-theme');
-                if (icon) icon.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                if (icon) icon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'light');
-            }
-        }
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    currentQuery = '';
+    activeType = 'all';
+    runSearch('');
+    updateClearBtn();
+    document.getElementById('searchInput').focus();
+}
 
-        function toggleMobileMenu() {
-            var nav = document.getElementById('navLinks');
-            if (nav) nav.classList.toggle('open');
-        }
+function updateClearBtn() {
+    const btn = document.getElementById('clearBtn');
+    const input = document.getElementById('searchInput');
+    btn.classList.toggle('show', input.value.length > 0);
+}
 
-        // ============================================================
-        // ON PAGE LOAD
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load query from URL
-            var params = new URLSearchParams(window.location.search);
-            var q = params.get('q');
-            if (q) {
-                document.getElementById('searchInput').value = q;
-                performSearch();
-            } else {
-                // Show default empty state
-                document.getElementById('searchResults').innerHTML =
-                    '<div class="empty-state">' +
-                    '<i class="fas fa-search"></i>' +
-                    '<h2>Search for Anything</h2>' +
-                    '<p>Search across courses, equipment, practicals, and quizzes</p>' +
-                    '<div class="suggestions">' +
-                    '<span onclick="quickSearch(\'oscilloscope\')">🔍 oscilloscope</span>' +
-                    '<span onclick="quickSearch(\'lathe\')">🔍 lathe</span>' +
-                    '<span onclick="quickSearch(\'computer\')">💻 computer</span>' +
-                    '<span onclick="quickSearch(\'civil\')">🏗️ civil</span>' +
-                    '<span onclick="quickSearch(\'multimeter\')">🔌 multimeter</span>' +
-                    '</div>' +
-                    '</div>';
-            }
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('searchBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('searchBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) { list.splice(i, 1); showToast('Bookmark removed'); }
+    else { list.push(id); showToast('Bookmarked!'); }
+    localStorage.setItem('searchBookmarks', JSON.stringify(list));
+    runSearch(currentQuery);
+}
 
-            // Load theme
-            var savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.body.setAttribute('data-theme', 'light');
-                var icon = document.getElementById('themeIcon');
-                if (icon) icon.className = 'fas fa-sun';
-            }
-        });
-    </script>
+// ============================================================
+// INPUT LISTENER
+// ============================================================
+document.getElementById('searchInput').addEventListener('input', e => {
+    currentQuery = e.target.value;
+    activeType = 'all';
+    updateClearBtn();
+    debounce(() => runSearch(currentQuery), DEBOUNCE_MS);
+});
 
+// ============================================================
+// KEYBOARD SHORTCUTS
+// ============================================================
+document.addEventListener('keydown', e => {
+    // Ctrl/Cmd + K → focus search
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+        document.getElementById('searchInput').select();
+        return;
+    }
+
+    // Escape → clear
+    if (e.key === 'Escape') {
+        clearSearch();
+        return;
+    }
+
+    // Arrow navigation
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        const items = document.querySelectorAll('.result-item');
+        if (!items.length) return;
+        e.preventDefault();
+        focusedIndex = e.key === 'ArrowDown'
+            ? Math.min(focusedIndex + 1, items.length - 1)
+            : Math.max(focusedIndex - 1, 0);
+        items.forEach((el, i) => el.classList.toggle('focused', i === focusedIndex));
+        items[focusedIndex].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    // Enter → open focused
+    if (e.key === 'Enter' && focusedIndex > -1) {
+        const items = document.querySelectorAll('.result-item');
+        if (items[focusedIndex]) items[focusedIndex].click();
+    }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+(function init() {
+    searchIndex = buildIndex();
+    document.getElementById('statIndex').textContent = searchIndex.length;
+    renderRecent();
+
+    if (currentQuery) {
+        document.getElementById('searchInput').value = currentQuery;
+        runSearch(currentQuery);
+    } else {
+        renderWelcome();
+    }
+})();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
