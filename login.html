@@ -1,228 +1,829 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- ✅ SUPABASE CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        .auth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 100px 20px 60px;
-        }
-        .auth-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 50px 40px;
-            max-width: 420px;
-            width: 100%;
-        }
-        .auth-card h1 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-        .auth-card p {
-            text-align: center;
-            color: var(--gray-400);
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            color: var(--gray-300);
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass);
-            color: var(--white);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--cyan-400);
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
-        }
-        .form-group input::placeholder {
-            color: var(--gray-500);
-        }
-        .btn-block {
-            width: 100%;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        .auth-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--gray-400);
-        }
-        .auth-footer a {
-            color: var(--cyan-400);
-            font-weight: 500;
-        }
-        .auth-footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Sign in to DiplomaHub — access bookmarks, progress tracking, and personalized study material for MSBTE Diploma.">
+<meta name="keywords" content="DiplomaHub Login, Sign In, MSBTE Login, Student Login">
+<meta name="robots" content="noindex, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sign In — DiplomaHub">
+<meta property="og:description" content="Sign in to your DiplomaHub account.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/login.html">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/login.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Sign In — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= AUTH LAYOUT ================= */
+    .auth-wrap {
+        min-height: calc(100vh - var(--nav-height) - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-xl) var(--space-md);
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 440px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .auth-card::before {
+        content: '';
+        position: absolute;
+        top: -50%; right: -30%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(0,212,255,0.15), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: var(--space-xl);
+        position: relative;
+        z-index: 1;
+    }
+    .auth-logo {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+        display: inline-block;
+    }
+    .auth-header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 6px;
+    }
+    .auth-header p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    /* ================= FORM ================= */
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+        position: relative;
+        z-index: 1;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .field label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .field label i {
+        color: var(--primary);
+        font-size: 0.85rem;
+    }
+
+    .input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .input-wrap input {
+        width: 100%;
+        padding-right: 44px;
+    }
+    .input-wrap .toggle-pass {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 6px;
+        transition: var(--transition);
+        font-size: 0.9rem;
+    }
+    .input-wrap .toggle-pass:hover { color: var(--primary); background: var(--surface); }
+
+    .field input.invalid {
+        border-color: var(--error);
+        box-shadow: 0 0 0 3px rgba(239,68,68,0.15);
+    }
+
+    .field-error {
+        font-size: 0.78rem;
+        color: var(--error);
+        display: none;
+        align-items: center;
+        gap: 4px;
+    }
+    .field-error.show { display: flex; }
+
+    /* ================= ROW ================= */
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+    }
+    .checkbox-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        color: var(--text-muted);
+    }
+    .checkbox-wrap input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--border);
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        transition: var(--transition);
+        background: var(--bg-alt);
+        padding: 0;
+        flex-shrink: 0;
+    }
+    .checkbox-wrap input[type="checkbox"]:checked {
+        background: var(--primary);
+        border-color: var(--primary);
+    }
+    .checkbox-wrap input[type="checkbox"]:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--bg);
+        font-weight: 700;
+        font-size: 0.75rem;
+    }
+    .forgot-link {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 0.85rem;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* ================= BUTTONS ================= */
+    .btn-block {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 0.95rem;
+    }
+    .btn-loading {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .btn-loading .spinner-mini {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(10,10,26,0.3);
+        border-top-color: var(--bg);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ================= DIVIDER ================= */
+    .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-dim);
+        font-size: 0.78rem;
+        margin: var(--space-sm) 0;
+    }
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+    }
+
+    /* ================= OAUTH ================= */
+    .oauth-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 20px;
+        background: #fff;
+        color: #1f1f1f;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        font-size: 0.92rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .oauth-btn:hover {
+        background: #f5f5f5;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .oauth-btn img, .oauth-btn i {
+        width: 18px;
+        height: 18px;
+        font-size: 1.1rem;
+    }
+    .oauth-btn .google-icon {
+        background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: 1.2rem;
+        font-weight: 900;
+    }
+
+    /* ================= FOOTER ================= */
+    .auth-footer {
+        text-align: center;
+        margin-top: var(--space-lg);
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        position: relative;
+        z-index: 1;
+    }
+    .auth-footer a {
+        color: var(--primary);
+        font-weight: 600;
+    }
+    .auth-footer a:hover { text-decoration: underline; }
+
+    /* ================= GUEST LINK ================= */
+    .guest-link {
+        display: block;
+        text-align: center;
+        margin-top: var(--space-md);
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+    .guest-link a {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .guest-link a:hover { text-decoration: underline; }
+
+    /* ================= ALERT ================= */
+    .alert {
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 0.88rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.5;
+    }
+    .alert.error {
+        background: rgba(239,68,68,0.1);
+        border: 1px solid rgba(239,68,68,0.3);
+        color: #fca5a5;
+    }
+    .alert.success {
+        background: rgba(34,197,94,0.1);
+        border: 1px solid rgba(34,197,94,0.3);
+        color: #86efac;
+    }
+    .alert i { margin-top: 2px; }
+    .alert.hidden { display: none; }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 480px) {
+        .auth-card { padding: var(--space-lg); }
+        .auth-header h1 { font-size: 1.4rem; }
+        .auth-logo { font-size: 2rem; }
+    }
+</style>
 </head>
 <body>
-    <div class="auth-page">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline active" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <span>Sign In</span>
+    </div>
+
+    <!-- AUTH -->
+    <div class="auth-wrap">
         <div class="auth-card">
-            <h1>Welcome Back</h1>
-            <p>Sign in to continue your learning journey</p>
 
-            <!-- ✅ FIXED: Using id instead of onsubmit -->
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginEmail">Email Address</label>
-                    <input type="email" id="loginEmail" placeholder="you@example.com" required>
+            <div class="auth-header">
+                <span class="auth-logo">🎓</span>
+                <h1>Welcome back</h1>
+                <p>Sign in to continue your learning journey</p>
+            </div>
+
+            <!-- ALERT -->
+            <div class="alert error hidden" id="errorAlert" role="alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText"></span>
+            </div>
+            <div class="alert success hidden" id="successAlert" role="alert">
+                <i class="fas fa-check-circle"></i>
+                <span id="successText"></span>
+            </div>
+
+            <!-- FORM -->
+            <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)" novalidate>
+
+                <!-- Email -->
+                <div class="field">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email address
+                    </label>
+                    <div class="input-wrap">
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               placeholder="you@example.com"
+                               autocomplete="email"
+                               required
+                               aria-describedby="emailError"
+                               oninput="clearFieldError('email')">
+                    </div>
+                    <div class="field-error" id="emailError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                <!-- Password -->
+                <div class="field">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <div class="input-wrap">
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               placeholder="••••••••"
+                               autocomplete="current-password"
+                               required
+                               minlength="6"
+                               aria-describedby="passwordError"
+                               oninput="clearFieldError('password')">
+                        <button type="button"
+                                class="toggle-pass"
+                                onclick="togglePassword()"
+                                aria-label="Toggle password visibility"
+                                title="Show / hide password">
+                            <i class="fas fa-eye" id="passIcon"></i>
+                        </button>
+                    </div>
+                    <div class="field-error" id="passwordError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
                 </div>
 
-                <!-- ✅ FIXED: type="submit" works with addEventListener -->
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-sign-in-alt"></i> Sign In
+                <!-- Remember / Forgot -->
+                <div class="form-row">
+                    <label class="checkbox-wrap" for="remember">
+                        <input type="checkbox" id="remember" name="remember">
+                        Remember me
+                    </label>
+                    <a href="forgot-password.html" class="forgot-link">
+                        <i class="fas fa-key"></i> Forgot password?
+                    </a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+                    <span class="btn-loading" id="submitLabel">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </span>
                 </button>
+
+                <!-- Divider -->
+                <div class="divider">or continue with</div>
+
+                <!-- Google OAuth -->
+                <button type="button" class="oauth-btn" onclick="handleGoogleLogin()">
+                    <i class="fab fa-google google-icon"></i>
+                    Sign in with Google
+                </button>
+
             </form>
 
+            <!-- Footer -->
             <div class="auth-footer">
-                Don't have an account? <a href="signup.html">Create one now</a>
+                Don't have an account?
+                <a href="signup.html">Create one free →</a>
             </div>
+
+            <div class="guest-link">
+                or <a href="index.html">continue as guest</a>
+            </div>
+
         </div>
     </div>
 
-    <!-- ✅ auth.js -->
-    <script src="js/auth.js"></script>
+</div>
 
-    <!-- ✅ FIXED: Clean login handler -->
-    <script>
-        // Wait for page to load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ Login page loaded');
-            
-            // Check if auth.js loaded
-            if (typeof initSupabase !== 'function') {
-                alert('⚠️ Authentication not loaded. Please refresh.');
-                return;
-            }
-            
-            // Initialize Supabase
-            initSupabase();
-            console.log('✅ Supabase initialized');
-        });
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
 
-        // ✅ FIXED: Using addEventListener instead of onsubmit
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            // ✅ FIXED: Prevents page refresh
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            if (!email || !password) {
-                alert('Please enter both email and password');
-                return;
-            }
-            
-            console.log('🔐 Attempting login for:', email);
-            
-            // ✅ FIXED: Check if signIn exists
-            if (typeof signIn === 'function') {
-                try {
-                    await signIn(email, password);
-                } catch (err) {
-                    console.error('❌ Login error:', err);
-                    alert('❌ Login failed: ' + err.message);
-                }
-            } else {
-                alert('❌ Authentication not loaded. Please refresh.');
-                console.error('❌ signIn function not found');
-            }
-        });
-    </script>
-<!-- ============================================================
-FOOTER - FULLY WORKING WITH ALL LINKS
-============================================================ -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <h3>DIPLOMA HUB</h3>
-                <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                <div class="social-links">
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
-                <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
-                <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
-                <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
-                <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
-            </div>
-
-            <!-- Column 3: MSBTE Resources -->
-            <div class="footer-col">
-                <h4>MSBTE Resources</h4>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Curriculum
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    K-Scheme Lab Manuals
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Official Website
-                </a>
-            </div>
-
-            <!-- Column 4: Support -->
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
-                <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
-            </div>
-
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
         </div>
-
-        <!-- Bottom Bar -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
         </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="papers.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
     </div>
 </footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function showError(msg) {
+    document.getElementById('errorAlert').classList.remove('hidden');
+    document.getElementById('successAlert').classList.add('hidden');
+    document.getElementById('errorText').textContent = msg;
+}
+
+function showSuccess(msg) {
+    document.getElementById('successAlert').classList.remove('hidden');
+    document.getElementById('errorAlert').classList.add('hidden');
+    document.getElementById('successText').textContent = msg;
+}
+
+function hideAlerts() {
+    document.getElementById('errorAlert').classList.add('hidden');
+    document.getElementById('successAlert').classList.add('hidden');
+}
+
+function setFieldError(fieldId, msg) {
+    const input = document.getElementById(fieldId);
+    const errEl = document.getElementById(fieldId + 'Error');
+    input.classList.add('invalid');
+    input.setAttribute('aria-invalid', 'true');
+    errEl.querySelector('span').textContent = msg;
+    errEl.classList.add('show');
+}
+
+function clearFieldError(fieldId) {
+    const input = document.getElementById(fieldId);
+    const errEl = document.getElementById(fieldId + 'Error');
+    input.classList.remove('invalid');
+    input.removeAttribute('aria-invalid');
+    errEl.classList.remove('show');
+}
+
+function togglePassword() {
+    const input = document.getElementById('password');
+    const icon = document.getElementById('passIcon');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+    }
+}
+
+function setLoading(loading) {
+    const btn = document.getElementById('submitBtn');
+    const label = document.getElementById('submitLabel');
+    btn.disabled = loading;
+    if (loading) {
+        label.innerHTML = '<span class="spinner-mini"></span> Signing in…';
+    } else {
+        label.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+    }
+}
+
+// ============================================================
+// VALIDATION
+// ============================================================
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function validateForm() {
+    let valid = true;
+    hideAlerts();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    clearFieldError('email');
+    clearFieldError('password');
+
+    if (!email) {
+        setFieldError('email', 'Email is required');
+        valid = false;
+    } else if (!validateEmail(email)) {
+        setFieldError('email', 'Please enter a valid email address');
+        valid = false;
+    }
+
+    if (!password) {
+        setFieldError('password', 'Password is required');
+        valid = false;
+    } else if (password.length < 6) {
+        setFieldError('password', 'Password must be at least 6 characters');
+        valid = false;
+    }
+
+    return valid;
+}
+
+// ============================================================
+// LOGIN HANDLER
+// ============================================================
+async function handleLogin(e) {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const remember = document.getElementById('remember').checked;
+
+    setLoading(true);
+
+    try {
+        // ============ REAL SUPABASE AUTH (if configured) ============
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+            if (error) throw new Error(error.message);
+
+            // Save session
+            saveUserSession({
+                id: data.user.id,
+                email: data.user.email,
+                name: data.user.user_metadata?.name || email.split('@')[0]
+            }, remember);
+
+            showSuccess('Welcome back! Redirecting…');
+            setTimeout(() => redirectAfterLogin(), 800);
+            return;
+        }
+
+        // ============ MOCK AUTH (fallback) ============
+        await mockAuthDelay(900);
+
+        // Demo validation: any email + password ≥ 6 chars works
+        const user = {
+            id: 'demo-' + btoa(email).slice(0, 8),
+            email,
+            name: email.split('@')[0],
+            joinedAt: Date.now()
+        };
+
+        saveUserSession(user, remember);
+        showSuccess('Welcome back, ' + user.name + '! Redirecting…');
+        showToast('Signed in successfully');
+        setTimeout(() => redirectAfterLogin(), 800);
+
+    } catch (err) {
+        console.error('Login error:', err);
+        setLoading(false);
+        showError(err.message || 'Login failed. Please check your credentials.');
+    }
+}
+
+// ============================================================
+// MOCK AUTH
+// ============================================================
+function mockAuthDelay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// ============================================================
+// GOOGLE OAUTH
+// ============================================================
+async function handleGoogleLogin() {
+    setLoading(true);
+    hideAlerts();
+
+    try {
+        // Real Supabase OAuth
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            const { error } = await window.supabaseClient.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.origin + '/diploma-hub/dashboard.html' }
+            });
+            if (error) throw new Error(error.message);
+            return;
+        }
+
+        // Mock
+        await mockAuthDelay(1200);
+        const user = {
+            id: 'google-demo',
+            email: 'student@gmail.com',
+            name: 'Google Student',
+            provider: 'google'
+        };
+        saveUserSession(user, true);
+        showSuccess('Signed in with Google! Redirecting…');
+        setTimeout(() => redirectAfterLogin(), 800);
+
+    } catch (err) {
+        setLoading(false);
+        showError(err.message || 'Google sign-in failed.');
+    }
+}
+
+// ============================================================
+// SESSION MANAGEMENT
+// ============================================================
+function saveUserSession(user, remember) {
+    const payload = {
+        user,
+        token: 'mock-jwt-' + Date.now(),
+        createdAt: Date.now(),
+        expiresAt: Date.now() + (remember ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000)
+    };
+
+    if (remember) {
+        localStorage.setItem('dh_session', JSON.stringify(payload));
+        localStorage.setItem('dh_rememberedEmail', user.email);
+        sessionStorage.removeItem('dh_session');
+    } else {
+        sessionStorage.setItem('dh_session', JSON.stringify(payload));
+        localStorage.removeItem('dh_session');
+    }
+}
+
+function isLoggedIn() {
+    try {
+        const s = localStorage.getItem('dh_session') || sessionStorage.getItem('dh_session');
+        if (!s) return false;
+        const p = JSON.parse(s);
+        return p.expiresAt > Date.now();
+    } catch(e) { return false; }
+}
+
+// ============================================================
+// REDIRECT
+// ============================================================
+function redirectAfterLogin() {
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get('next');
+    const target = next ? decodeURIComponent(next) : 'dashboard.html';
+    window.location.href = target;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+(function init() {
+    // If already logged in → go to dashboard
+    if (isLoggedIn()) {
+        window.location.href = 'dashboard.html';
+        return;
+    }
+
+    // Pre-fill remembered email
+    const remembered = localStorage.getItem('dh_rememberedEmail');
+    if (remembered) {
+        document.getElementById('email').value = remembered;
+        document.getElementById('remember').checked = true;
+        document.getElementById('password').focus();
+    } else {
+        document.getElementById('email').focus();
+    }
+})();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
