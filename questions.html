@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Download free MSBTE Diploma textbooks, reference books, syllabus PDFs, and lab manuals for all subjects — Computer, Mechanical, Civil, Electrical Engineering.">
+<meta name="keywords" content="MSBTE Books PDF, Diploma Textbooks, Reference Books, Syllabus PDF, Lab Manual, K-Scheme Books">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Books & PDFs — DiplomaHub">
+<meta property="og:description" content="Free MSBTE Diploma textbooks, references, syllabus & lab manuals.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/books.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Books & PDFs — DiplomaHub">
+<meta name="twitter:description" content="Free MSBTE Diploma textbooks, references, syllabus & lab manuals.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/books.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Books & PDFs — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input { padding-left: 44px; }
+    .filter-bar select { max-width: 190px; }
+
+    /* ================= STATS ================= */
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 140px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i {
+        font-size: 1.4rem;
+        color: var(--primary);
+    }
+    .mini-stat .num { font-size: 1.3rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ================= BOOKS GRID ================= */
+    .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .book-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        display: flex;
+        gap: var(--space-md);
+        transition: var(--transition);
+        position: relative;
+    }
+    .book-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        box-shadow: var(--shadow-glow);
+    }
+
+    .book-cover {
+        width: 90px;
+        min-width: 90px;
+        height: 130px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--primary-glow), rgba(168,85,247,0.2));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: var(--primary);
+        flex-shrink: 0;
+        border: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+    }
+    .book-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .book-cover .spine {
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 5px;
+        background: var(--primary);
+        opacity: 0.6;
+    }
+
+    .book-info {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .book-type-badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        width: fit-content;
+    }
+    .book-type-badge.textbook { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .book-type-badge.reference { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .book-type-badge.syllabus { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .book-type-badge.manual { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+    .book-card h3 {
+        font-size: 1rem;
+        line-height: 1.4;
+        margin-bottom: 2px;
+    }
+    .book-card .author {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        font-style: italic;
+    }
+    .book-card .book-meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+    }
+    .book-card .book-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .book-actions {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+        flex-wrap: wrap;
+    }
+    .book-actions button, .book-actions a {
+        flex: 1;
+        min-width: 90px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: var(--radius-pill);
+        font-size: 0.78rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .book-actions button:hover, .book-actions a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .book-actions .primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .book-actions .primary:hover {
+        background: var(--primary-dark);
+        color: var(--bg);
+    }
+
+    .book-bookmark {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 1rem;
+        padding: 4px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .book-bookmark:hover { color: var(--primary); }
+    .book-bookmark.active { color: var(--primary); }
+
+    /* Empty state */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); }
+
+    /* ================= MODAL ================= */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(6px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        width: 100%;
+        max-width: 1000px;
+        height: 90vh;
+        max-height: 800px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+    }
+    .modal-header h3 {
+        font-size: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .modal-close {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.4rem;
+        cursor: pointer;
+        padding: 4px 10px;
+        border-radius: 6px;
+        transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--surface); color: var(--error); }
+    .modal-body {
+        flex: 1;
+        overflow: hidden;
+    }
+    .modal-body iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    .modal-body .no-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 40px;
+        text-align: center;
+        color: var(--text-muted);
+    }
+    .modal-body .no-preview i {
+        font-size: 3rem;
+        color: var(--warning);
+        margin-bottom: 16px;
+    }
+
+    @media (max-width: 600px) {
+        .books-grid { grid-template-columns: 1fr; }
+        .book-card { flex-direction: column; }
+        .book-cover { width: 100%; height: 140px; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="active">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="courses.html">Courses</a> ›
+        <a href="#" id="bcCourse">Course</a> ›
+        <a href="#" id="bcSubject">Subject</a> ›
+        <span>Books</span>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            📕 Books & PDFs Library
+        </h1>
+        <p class="text-muted" id="pageSubtitle" style="max-width:700px;margin:0 auto;">
+            Textbooks, references, syllabus, and lab manuals.
+        </p>
+    </div>
+
+    <!-- ================= LOADING ================= -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-tabs"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- ================= NOT FOUND ================= -->
+    <div id="notFound" class="empty-state" style="display:none;" role="alert">
+        <i class="fas fa-search"></i>
+        <h3>Subject Not Found</h3>
+        <p id="notFoundMsg">We couldn't find books for this subject.</p>
+        <a href="courses.html" class="btn btn-primary mt-2">
+            <i class="fas fa-arrow-left"></i> Browse Courses
+        </a>
+    </div>
+
+    <!-- ================= CONTENT ================= -->
+    <div id="content" style="display:none;">
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <i class="fas fa-book"></i>
+                <div>
+                    <div class="num" id="statCount">0</div>
+                    <div class="label">Total Books</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-file-pdf"></i>
+                <div>
+                    <div class="num" id="statPdf">0</div>
+                    <div class="label">PDF Files</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-download"></i>
+                <div>
+                    <div class="num" id="statDownloads">0</div>
+                    <div class="label">Downloads</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by title, author, or publisher…"
+                    oninput="applyFilters()"
+                    aria-label="Search books"
+                >
+            </div>
+            <select id="typeFilter" onchange="applyFilters()" aria-label="Filter by type">
+                <option value="all">All Types</option>
+                <option value="textbook">Textbook</option>
+                <option value="reference">Reference</option>
+                <option value="syllabus">Syllabus</option>
+                <option value="manual">Lab Manual</option>
+            </select>
+            <select id="sortSelect" onchange="applyFilters()" aria-label="Sort books">
+                <option value="default">Sort: Default</option>
+                <option value="az">A → Z</option>
+                <option value="za">Z → A</option>
+                <option value="year">Newest First</option>
+            </select>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="books-grid" id="booksGrid"></div>
+
+    </div>
+
+</div>
+
+<!-- ================= PDF MODAL ================= -->
+<div class="modal-overlay" id="pdfModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Book Preview</h3>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <a id="modalDownload" href="#" download class="btn btn-primary" style="padding:6px 14px;font-size:0.8rem;">
+                    <i class="fas fa-download"></i> Download
+                </a>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+            </div>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="papers.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const subjectCode = params.get('code') || '311302';
+let subjectData = null;
+let courseData = null;
+let allBooks = [];
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function formatBytes(bytes) {
+    if (!bytes) return '—';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+function findSubject(code) {
+    const data = window.courseData || {};
+    for (const slug in data) {
+        const course = data[slug];
+        for (const sem in course.semesters) {
+            const subs = course.semesters[sem].subjects || [];
+            const found = subs.find(s => s.code === code);
+            if (found) {
+                return {
+                    subject: found,
+                    course: { ...course, slug },
+                    semesterName: course.semesters[sem].name
+                };
+            }
+        }
+    }
+    return null;
+}
+
+// ============================================================
+// UI STATE
+// ============================================================
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+}
+function showNotFound(msg) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('notFound').style.display = 'block';
+    if (msg) document.getElementById('notFoundMsg').textContent = msg;
+}
+function showContent() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('notFound').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+}
+
+// ============================================================
+// PLACEHOLDER BOOKS
+// ============================================================
+function generateBooks(subject) {
+    return [
+        {
+            id: `book-${subject.code}-1`,
+            title: `${subject.name} — Textbook`,
+            author: 'MSBTE Recommended Author',
+            publisher: 'Technical Publications',
+            edition: '1st',
+            year: 2025,
+            type: 'textbook',
+            size: 4 * 1024 * 1024,
+            url: '#',
+            downloads: Math.floor(Math.random() * 800) + 100
+        },
+        {
+            id: `book-${subject.code}-2`,
+            title: `${subject.name} — Reference Guide`,
+            author: 'MSBTE Faculty',
+            publisher: 'Nirali Prakashan',
+            edition: '2nd',
+            year: 2024,
+            type: 'reference',
+            size: 3 * 1024 * 1024,
+            url: '#',
+            downloads: Math.floor(Math.random() * 600) + 80
+        },
+        {
+            id: `book-${subject.code}-3`,
+            title: `${subject.name} — MSBTE K-Scheme Syllabus`,
+            author: 'MSBTE',
+            publisher: 'MSBTE Official',
+            edition: '2026',
+            year: 2026,
+            type: 'syllabus',
+            size: 800 * 1024,
+            url: 'https://msbte.org.in/',
+            downloads: 0
+        },
+        {
+            id: `book-${subject.code}-4`,
+            title: `${subject.name} — Lab Manual`,
+            author: 'MSBTE Lab Committee',
+            publisher: 'MSBTE',
+            edition: '2025',
+            year: 2025,
+            type: 'manual',
+            size: 2 * 1024 * 1024,
+            url: '#',
+            downloads: Math.floor(Math.random() * 400) + 60
+        }
+    ];
+}
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadBooks() {
+    showLoading();
+    setTimeout(() => {
+        const found = findSubject(subjectCode);
+        if (!found) {
+            showNotFound(`No subject found with code "${subjectCode}".`);
+            return;
+        }
+        subjectData = found.subject;
+        courseData = found.course;
+
+        allBooks = subjectData.books && subjectData.books.length
+            ? subjectData.books
+            : generateBooks(subjectData);
+
+        // Breadcrumb
+        document.getElementById('bcCourse').textContent = courseData.name;
+        document.getElementById('bcCourse').href = `course-detail.html?course=${courseData.slug}`;
+        document.getElementById('bcSubject').textContent = subjectData.name;
+        document.getElementById('bcSubject').href = `subject.html?code=${subjectData.code}`;
+
+        // Title
+        document.title = `${subjectData.name} — Books — DiplomaHub`;
+        document.getElementById('pageSubtitle').textContent =
+            `Books & PDFs for ${subjectData.name} (${subjectData.code}) · ${found.semesterName}`;
+
+        // Stats
+        document.getElementById('statCount').textContent = allBooks.length;
+        document.getElementById('statPdf').textContent =
+            allBooks.filter(b => b.type !== 'manual').length;
+        document.getElementById('statDownloads').textContent =
+            allBooks.reduce((sum, b) => sum + (b.downloads || 0), 0);
+
+        showContent();
+        applyFilters();
+    }, 200);
+}
+
+// ============================================================
+// FILTERS + SORT + RENDER
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const type = document.getElementById('typeFilter').value;
+    const sort = document.getElementById('sortSelect').value;
+
+    let list = allBooks.filter(b => {
+        const matchQ = !q ||
+            b.title.toLowerCase().includes(q) ||
+            (b.author || '').toLowerCase().includes(q) ||
+            (b.publisher || '').toLowerCase().includes(q);
+        const matchT = type === 'all' || b.type === type;
+        return matchQ && matchT;
+    });
+
+    if (sort === 'az') list.sort((a,b) => a.title.localeCompare(b.title));
+    else if (sort === 'za') list.sort((a,b) => b.title.localeCompare(a.title));
+    else if (sort === 'year') list.sort((a,b) => (b.year || 0) - (a.year || 0));
+
+    renderBooks(list);
+}
+
+function renderBooks(list) {
+    const grid = document.getElementById('booksGrid');
+    if (!list.length) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-book"></i>
+                <h3>No books found</h3>
+                <p>Try a different search or filter.</p>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(b => {
+        const saved = isBookmarked(b.id);
+        const typeLabel = b.type === 'textbook' ? 'Textbook'
+                        : b.type === 'reference' ? 'Reference'
+                        : b.type === 'syllabus' ? 'Syllabus'
+                        : 'Lab Manual';
+
+        return `
+            <div class="book-card">
+                <button class="book-bookmark ${saved ? 'active' : ''}"
+                        onclick="toggleBookmark('${b.id}')"
+                        aria-label="Bookmark book">
+                    <i class="fas fa-bookmark"></i>
+                </button>
+
+                <div class="book-cover">
+                    <div class="spine"></div>
+                    <i class="fas fa-book"></i>
+                </div>
+
+                <div class="book-info">
+                    <span class="book-type-badge ${b.type}">${typeLabel}</span>
+                    <h3>${escapeHtml(b.title)}</h3>
+                    <div class="author">by ${escapeHtml(b.author || 'Unknown')}</div>
+                    <div class="book-meta">
+                        <span><i class="fas fa-building"></i> ${escapeHtml(b.publisher || '—')}</span>
+                        <span><i class="fas fa-bookmark"></i> ${escapeHtml(b.edition || '—')} Ed.</span>
+                        <span><i class="fas fa-calendar"></i> ${b.year || '—'}</span>
+                        <span><i class="fas fa-hdd"></i> ${formatBytes(b.size)}</span>
+                    </div>
+                    <div class="book-actions">
+                        <button onclick="openPreview('${b.id}')">
+                            <i class="fas fa-eye"></i> Read
+                        </button>
+                        <a href="${b.url}" download class="primary"
+                           onclick="trackDownload('${b.id}')">
+                            <i class="fas fa-download"></i> PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(id) {
+    try {
+        const list = JSON.parse(localStorage.getItem('bookBookmarks')) || [];
+        return list.includes(id);
+    } catch(e) { return false; }
+}
+function toggleBookmark(id) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('bookBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(id);
+    if (i > -1) list.splice(i, 1); else list.push(id);
+    localStorage.setItem('bookBookmarks', JSON.stringify(list));
+    applyFilters();
+}
+
+// ============================================================
+// PREVIEW MODAL
+// ============================================================
+function openPreview(id) {
+    const book = allBooks.find(b => b.id === id);
+    if (!book) return;
+
+    document.getElementById('modalTitle').textContent = book.title;
+    document.getElementById('modalDownload').href = book.url;
+
+    const body = document.getElementById('modalBody');
+    if (!book.url || book.url === '#') {
+        body.innerHTML = `
+            <div class="no-preview">
+                <i class="fas fa-book-open"></i>
+                <h3>Preview not available</h3>
+                <p>This book's PDF hasn't been uploaded yet.<br>Check back soon!</p>
+            </div>`;
+    } else {
+        body.innerHTML = `<iframe src="${book.url}#toolbar=1&navpanes=0" title="${escapeHtml(book.title)}"></iframe>`;
+    }
+
+    document.getElementById('pdfModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('pdfModal').classList.remove('show');
+    document.getElementById('modalBody').innerHTML = '';
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+});
+
+// ============================================================
+// DOWNLOAD TRACKER
+// ============================================================
+function trackDownload(id) {
+    const book = allBooks.find(b => b.id === id);
+    if (book) book.downloads = (book.downloads || 0) + 1;
+
+    let stat = {};
+    try { stat = JSON.parse(localStorage.getItem('bookDownloads')) || {}; } catch(e) {}
+    stat[id] = (stat[id] || 0) + 1;
+    localStorage.setItem('bookDownloads', JSON.stringify(stat));
+
+    document.getElementById('statDownloads').textContent =
+        allBooks.reduce((sum, b) => sum + (b.downloads || 0), 0);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadBooks();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>
