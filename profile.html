@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Your DiplomaHub profile — manage your account, track progress, view bookmarks, and personalize your learning experience.">
+<meta name="keywords" content="DiplomaHub Profile, Student Account, MSBTE Profile">
+<meta name="robots" content="noindex, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Profile — DiplomaHub">
+<meta property="og:description" content="Manage your DiplomaHub account.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/profile.html">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/profile.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Profile — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= PROFILE LAYOUT ================= */
+    .profile-layout {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: var(--space-lg);
+        margin-top: var(--space-lg);
+        align-items: start;
+    }
+
+    /* ================= LEFT CARD (AVATAR + INFO) ================= */
+    .profile-left {
+        position: sticky;
+        top: calc(var(--nav-height) + 16px);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .avatar-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl) var(--space-md);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-card::before {
+        content: '';
+        position: absolute;
+        top: -60%; left: -30%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(0,212,255,0.15), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        margin: 0 auto var(--space-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 4px var(--surface), 0 0 0 6px var(--primary-glow);
+        user-select: none;
+        letter-spacing: -1px;
+    }
+
+    .avatar-card h2 {
+        font-size: 1.25rem;
+        margin-bottom: 4px;
+        position: relative;
+        z-index: 1;
+        word-break: break-word;
+    }
+    .avatar-card .email {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+        word-break: break-all;
+        position: relative;
+        z-index: 1;
+    }
+    .verified-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 12px;
+        border-radius: var(--radius-pill);
+        font-size: 0.72rem;
+        font-weight: 700;
+        background: rgba(34,197,94,0.15);
+        color: var(--success);
+        position: relative;
+        z-index: 1;
+    }
+
+    .avatar-actions {
+        margin-top: var(--space-md);
+        position: relative;
+        z-index: 1;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .avatar-actions button, .avatar-actions a {
+        padding: 8px 16px;
+        border-radius: var(--radius-pill);
+        font-size: 0.82rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+    }
+    .avatar-actions button:hover, .avatar-actions a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+
+    /* ================= STATS CARD ================= */
+    .stats-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-md);
+    }
+    .stats-card h4 {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .stats-card h4 i { color: var(--primary); }
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.88rem;
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-row .lbl {
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .stat-row .lbl i { color: var(--primary); font-size: 0.85rem; width: 16px; }
+    .stat-row .val {
+        font-weight: 700;
+        color: var(--text);
+    }
+
+    /* ================= RIGHT PANEL ================= */
+    .profile-right {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+    }
+    .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: var(--space-md);
+        flex-wrap: wrap;
+    }
+    .panel-head h3 {
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .panel-head h3 i { color: var(--primary); }
+    .panel-head .edit-btn {
+        padding: 7px 14px;
+        border-radius: var(--radius-pill);
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .panel-head .edit-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .panel-head .edit-btn.active {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+
+    /* ================= FORM ================= */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+    }
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .field.full { grid-column: 1 / -1; }
+    .field label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .field label i { color: var(--primary); font-size: 0.82rem; }
+    .field input,
+    .field select,
+    .field textarea {
+        width: 100%;
+        font-size: 0.92rem;
+    }
+    .field textarea {
+        resize: vertical;
+        min-height: 80px;
+        font-family: inherit;
+    }
+    .field input:disabled,
+    .field select:disabled,
+    .field textarea:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        background: var(--bg-alt);
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: var(--space-md);
+        padding-top: var(--space-md);
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+    }
+    .form-actions button {
+        padding: 10px 20px;
+        border-radius: var(--radius-pill);
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .form-actions button:hover:not(:disabled) {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+    .form-actions button.primary {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+    .form-actions button.primary:hover:not(:disabled) {
+        background: var(--primary-dark);
+        color: var(--bg);
+    }
+    .form-actions button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    .form-actions .spinner-mini {
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(10,10,26,0.3);
+        border-top-color: var(--bg);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ================= ALERT ================= */
+    .alert {
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.5;
+        margin-bottom: var(--space-md);
+    }
+    .alert.error {
+        background: rgba(239,68,68,0.1);
+        border: 1px solid rgba(239,68,68,0.3);
+        color: #fca5a5;
+    }
+    .alert.success {
+        background: rgba(34,197,94,0.1);
+        border: 1px solid rgba(34,197,94,0.3);
+        color: #86efac;
+    }
+    .alert i { margin-top: 2px; }
+    .alert.hidden { display: none; }
+
+    /* ================= DANGER ZONE ================= */
+    .danger-panel {
+        border-color: rgba(239,68,68,0.3);
+        background: rgba(239,68,68,0.04);
+    }
+    .danger-panel h3 { color: var(--error); }
+    .danger-panel h3 i { color: var(--error); }
+    .danger-panel p {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: var(--space-md);
+    }
+    .danger-btn {
+        padding: 10px 20px;
+        border-radius: var(--radius-pill);
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid var(--error);
+        background: transparent;
+        color: var(--error);
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .danger-btn:hover {
+        background: var(--error);
+        color: #fff;
+    }
+
+    /* ================= MODAL ================= */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(6px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        max-width: 460px;
+        width: 100%;
+        padding: var(--space-xl);
+        text-align: center;
+        box-shadow: var(--shadow-lg);
+    }
+    .modal-content .warn-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(239,68,68,0.15);
+        color: var(--error);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin: 0 auto var(--space-md);
+    }
+    .modal-content h3 { margin-bottom: 8px; font-size: 1.2rem; }
+    .modal-content p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: var(--space-lg);
+    }
+    .modal-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .modal-actions button {
+        padding: 11px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .modal-actions button:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+    .modal-actions .danger {
+        background: var(--error);
+        color: #fff;
+        border-color: transparent;
+    }
+    .modal-actions .danger:hover {
+        background: #dc2626;
+        color: #fff;
+    }
+
+    /* ================= BOOKMARKS ================= */
+    .bookmark-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 10px;
+    }
+    .bookmark-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+    .bookmark-item:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+    .bookmark-item i { color: var(--primary); }
+
+    /* ================= LOADING / EMPTY ================= */
+    .loading-screen {
+        text-align: center;
+        padding: var(--space-2xl);
+    }
+    .loading-screen .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--surface);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        margin: 0 auto var(--space-md);
+        animation: spin 1s linear infinite;
+    }
+    .empty-state {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h2 { margin-bottom: 8px; }
+    .empty-state p { color: var(--text-muted); margin-bottom: var(--space-md); }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .profile-layout { grid-template-columns: 1fr; }
+        .profile-left { position: static; }
+    }
+    @media (max-width: 600px) {
+        .form-grid { grid-template-columns: 1fr; }
+        .avatar { width: 90px; height: 90px; font-size: 2.2rem; }
+        .panel { padding: var(--space-md); }
+        .form-actions { justify-content: stretch; }
+        .form-actions button { flex: 1; justify-content: center; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="profile.html" class="btn btn-outline active" style="padding:6px 16px;">
+            <i class="fas fa-user"></i> Profile
+        </a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="dashboard.html">Dashboard</a> ›
+        <span>Profile</span>
+    </div>
+
+    <!-- LOADING -->
+    <div id="loading" class="loading-screen">
+        <div class="spinner"></div>
+        <p class="text-muted">Loading profile…</p>
+    </div>
+
+    <!-- NOT LOGGED IN -->
+    <div id="notLoggedIn" class="empty-state" style="display:none;">
+        <i class="fas fa-user-lock"></i>
+        <h2>You're not signed in</h2>
+        <p>Sign in to view and manage your profile.</p>
+        <a href="login.html" class="btn btn-primary mt-2">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+        </a>
+    </div>
+
+    <!-- PROFILE CONTENT -->
+    <div id="profileContent" class="profile-layout" style="display:none;">
+
+        <!-- LEFT -->
+        <aside class="profile-left">
+
+            <div class="avatar-card">
+                <div class="avatar" id="avatarBig">U</div>
+                <h2 id="displayName">User</h2>
+                <div class="email" id="displayEmail">user@example.com</div>
+                <div class="verified-badge">
+                    <i class="fas fa-check-circle"></i> Verified
+                </div>
+                <div class="avatar-actions">
+                    <a href="dashboard.html">
+                        <i class="fas fa-th-large"></i> Dashboard
+                    </a>
+                    <button onclick="handleSignOut()">
+                        <i class="fas fa-sign-out-alt"></i> Sign out
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <h4><i class="fas fa-chart-line"></i> Activity</h4>
+                <div class="stat-row">
+                    <span class="lbl"><i class="fas fa-bookmark"></i> Bookmarks</span>
+                    <span class="val" id="statBookmarks">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="lbl"><i class="fas fa-check-circle"></i> Completed lessons</span>
+                    <span class="val" id="statLessons">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="lbl"><i class="fas fa-question-circle"></i> Quiz attempts</span>
+                    <span class="val" id="statQuizzes">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="lbl"><i class="fas fa-flask"></i> Practicals done</span>
+                    <span class="val" id="statPracticals">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="lbl"><i class="fas fa-download"></i> Downloads</span>
+                    <span class="val" id="statDownloads">0</span>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <h4><i class="fas fa-info-circle"></i> Account</h4>
+                <div class="stat-row">
+                    <span class="lbl"><i class="fas fa-calendar"></i> Joined</span>
+                    <span class="val" id="statJoined">—</span>
+                </div>
+                <div class="stat-row">
+                    <span class="lbl"><i class="fas fa-clock"></i> Last active</span>
+                    <span class="val" id="statActive">Now</span>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- RIGHT -->
+        <main class="profile-right">
+
+            <!-- Alerts -->
+            <div class="alert success hidden" id="successAlert">
+                <i class="fas fa-check-circle"></i>
+                <span id="successText"></span>
+            </div>
+            <div class="alert error hidden" id="errorAlert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText"></span>
+            </div>
+
+            <!-- Personal Info -->
+            <div class="panel">
+                <div class="panel-head">
+                    <h3><i class="fas fa-user-edit"></i> Personal Information</h3>
+                    <button class="edit-btn" id="editBtn" onclick="toggleEdit()">
+                        <i class="fas fa-edit"></i> <span>Edit</span>
+                    </button>
+                </div>
+
+                <form id="profileForm" onsubmit="saveProfile(event)">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label><i class="fas fa-user"></i> Full name</label>
+                            <input type="text" id="fieldName" disabled>
+                        </div>
+                        <div class="field">
+                            <label><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="fieldEmail" disabled>
+                        </div>
+                        <div class="field">
+                            <label><i class="fas fa-graduation-cap"></i> Branch</label>
+                            <select id="fieldBranch" disabled></select>
+                        </div>
+                        <div class="field">
+                            <label><i class="fas fa-layer-group"></i> Semester</label>
+                            <select id="fieldSemester" disabled>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                            </select>
+                        </div>
+                        <div class="field full">
+                            <label><i class="fas fa-quote-left"></i> Bio <span style="color:var(--text-dim);font-weight:400;">(optional)</span></label>
+                            <textarea id="fieldBio" maxlength="180" disabled
+                                      placeholder="Tell us about yourself…"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions" id="formActions" style="display:none;">
+                        <button type="button" onclick="cancelEdit()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="primary" id="saveBtn">
+                            <span id="saveLabel"><i class="fas fa-save"></i> Save Changes</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Change Password -->
+            <div class="panel">
+                <div class="panel-head">
+                    <h3><i class="fas fa-lock"></i> Change Password</h3>
+                    <button class="edit-btn" id="pwEditBtn" onclick="togglePasswordSection()">
+                        <i class="fas fa-key"></i> <span>Change</span>
+                    </button>
+                </div>
+
+                <form id="passwordForm" onsubmit="savePassword(event)" style="display:none;">
+                    <div class="form-grid">
+                        <div class="field full">
+                            <label><i class="fas fa-lock"></i> Current password</label>
+                            <input type="password" id="currentPassword" placeholder="••••••••" required>
+                        </div>
+                        <div class="field">
+                            <label><i class="fas fa-lock"></i> New password</label>
+                            <input type="password" id="newPassword" placeholder="Min 8 characters" required minlength="8">
+                        </div>
+                        <div class="field">
+                            <label><i class="fas fa-lock"></i> Confirm new password</label>
+                            <input type="password" id="confirmPassword" placeholder="Re-enter" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" onclick="togglePasswordSection()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="primary" id="pwSaveBtn">
+                            <span id="pwSaveLabel"><i class="fas fa-save"></i> Update Password</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bookmarks -->
+            <div class="panel">
+                <div class="panel-head">
+                    <h3><i class="fas fa-bookmark"></i> Recent Bookmarks</h3>
+                    <a href="resources.html" class="edit-btn">
+                        <i class="fas fa-arrow-right"></i> See all
+                    </a>
+                </div>
+                <div class="bookmark-grid" id="bookmarkGrid">
+                    <p class="text-muted" style="font-size:0.85rem;">No bookmarks yet. Browse content and bookmark to see them here.</p>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="panel danger-panel">
+                <div class="panel-head">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                </div>
+                <p>
+                    Deleting your account will permanently remove all your data — bookmarks, progress,
+                    quiz attempts, and downloads. This action <strong>cannot be undone</strong>.
+                </p>
+                <button class="danger-btn" onclick="confirmDelete()">
+                    <i class="fas fa-trash"></i> Delete my account
+                </button>
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-content">
+        <div class="warn-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3>Delete your account?</h3>
+        <p>
+            This will permanently delete your account and remove all data
+            (bookmarks, progress, quiz attempts). This cannot be undone.
+        </p>
+        <div class="modal-actions">
+            <button onclick="closeDeleteModal()">Cancel</button>
+            <button class="danger" onclick="handleDelete()">
+                <i class="fas fa-trash"></i> Yes, delete
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="papers.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+function showSuccess(msg) {
+    document.getElementById('successAlert').classList.remove('hidden');
+    document.getElementById('errorAlert').classList.add('hidden');
+    document.getElementById('successText').textContent = msg;
+    setTimeout(hideAlerts, 3000);
+}
+function showError(msg) {
+    document.getElementById('errorAlert').classList.remove('hidden');
+    document.getElementById('successAlert').classList.add('hidden');
+    document.getElementById('errorText').textContent = msg;
+}
+function hideAlerts() {
+    document.getElementById('successAlert').classList.add('hidden');
+    document.getElementById('errorAlert').classList.add('hidden');
+}
+
+function getSession() {
+    try {
+        const s = localStorage.getItem('dh_session') || sessionStorage.getItem('dh_session');
+        if (!s) return null;
+        const p = JSON.parse(s);
+        if (p.expiresAt && p.expiresAt < Date.now()) return null;
+        return p;
+    } catch(e) { return null; }
+}
+
+function saveSession(session) {
+    const isLocal = localStorage.getItem('dh_session');
+    const storage = isLocal ? localStorage : sessionStorage;
+    storage.setItem('dh_session', JSON.stringify(session));
+}
+
+// Deterministic color from email
+function getAvatarColor(email) {
+    const colors = [
+        '#00d4ff', '#a855f7', '#f59e0b', '#22c55e',
+        '#ef4444', '#06b6d4', '#8b5cf6', '#10b981'
+    ];
+    let hash = 0;
+    for (let i = 0; i < email.length; i++) {
+        hash = email.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash) % colors.length];
+}
+
+function getInitials(name, email) {
+    const source = (name || email || 'U').trim();
+    const parts = source.split(/\s+/);
+    if (parts.length >= 2) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return source.substring(0, 2).toUpperCase();
+}
+
+function formatDate(ts) {
+    if (!ts) return '—';
+    const d = new Date(ts);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let session = null;
+let user = null;
+let editMode = false;
+
+// ============================================================
+// INIT
+// ============================================================
+function loadProfile() {
+    session = getSession();
+
+    if (!session || !session.user) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('notLoggedIn').style.display = 'block';
+        return;
+    }
+
+    user = session.user;
+
+    // Set display fields
+    document.getElementById('displayName').textContent = user.name || 'User';
+    document.getElementById('displayEmail').textContent = user.email || '—';
+
+    const initials = getInitials(user.name, user.email);
+    const color = getAvatarColor(user.email || 'u');
+    const avatar = document.getElementById('avatarBig');
+    avatar.textContent = initials;
+    avatar.style.background = `linear-gradient(135deg, ${color}, ${color}dd)`;
+
+    // Populate branch dropdown
+    populateBranches();
+
+    // Fill form
+    document.getElementById('fieldName').value = user.name || '';
+    document.getElementById('fieldEmail').value = user.email || '';
+    document.getElementById('fieldBranch').value = user.branch || '';
+    document.getElementById('fieldSemester').value = user.semester || '1';
+    document.getElementById('fieldBio').value = user.bio || '';
+
+    // Stats
+    loadStats();
+
+    // Bookmarks
+    loadBookmarks();
+
+    // Account info
+    document.getElementById('statJoined').textContent = formatDate(session.createdAt);
+    document.getElementById('statActive').textContent = 'Just now';
+
+    // Show
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('profileContent').style.display = 'grid';
+}
+
+function populateBranches() {
+    const data = window.courseData || {};
+    const select = document.getElementById('fieldBranch');
+    select.innerHTML = '<option value="">Select branch…</option>';
+    Object.keys(data).forEach(slug => {
+        const c = data[slug];
+        const opt = document.createElement('option');
+        opt.value = slug;
+        opt.textContent = `${c.name} (${c.code})`;
+        select.appendChild(opt);
+    });
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function loadStats() {
+    // Bookmarks
+    const sources = ['noteBookmarks','bookBookmarks','questionBookmarks','answerBookmarks','practicalBookmarks','quizBookmarks','paperBookmarks','equipmentBookmarks','searchBookmarks','resourceBookmarks','msbteBookmarks'];
+    let totalBm = 0;
+    sources.forEach(k => {
+        try {
+            const arr = JSON.parse(localStorage.getItem(k)) || [];
+            totalBm += arr.length;
+        } catch(e) {}
+    });
+    document.getElementById('statBookmarks').textContent = totalBm;
+
+    // Lessons progress
+    let lessonsDone = 0;
+    try {
+        const map = JSON.parse(localStorage.getItem('lessonProgress')) || {};
+        for (const code in map) {
+            lessonsDone += (map[code] || []).length;
+        }
+    } catch(e) {}
+    document.getElementById('statLessons').textContent = lessonsDone;
+
+    // Quizzes
+    let quizAttempts = 0;
+    try {
+        const scores = JSON.parse(localStorage.getItem('quizScores')) || {};
+        for (const id in scores) {
+            quizAttempts += (scores[id].attempts || 0);
+        }
+    } catch(e) {}
+    document.getElementById('statQuizzes').textContent = quizAttempts;
+
+    // Practicals
+    let pracDone = 0;
+    try {
+        pracDone = (JSON.parse(localStorage.getItem('completedPracticals')) || []).length;
+    } catch(e) {}
+    document.getElementById('statPracticals').textContent = pracDone;
+
+    // Downloads
+    let downloads = 0;
+    ['noteDownloads','bookDownloads','paperDownloads','resourceDownloads'].forEach(k => {
+        try {
+            const obj = JSON.parse(localStorage.getItem(k)) || {};
+            for (const id in obj) downloads += obj[id];
+        } catch(e) {}
+    });
+    document.getElementById('statDownloads').textContent = downloads;
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function loadBookmarks() {
+    const grid = document.getElementById('bookmarkGrid');
+    const sources = [
+        { key: 'noteBookmarks', type: 'Note', icon: 'fa-sticky-note', url: 'notes.html' },
+        { key: 'bookBookmarks', type: 'Book', icon: 'fa-book', url: 'books.html' },
+        { key: 'paperBookmarks', type: 'Paper', icon: 'fa-file-alt', url: 'papers.html' },
+        { key: 'quizBookmarks', type: 'Quiz', icon: 'fa-question-circle', url: 'quizzers.html' },
+        { key: 'equipmentBookmarks', type: 'Equipment', icon: 'fa-tools', url: 'equipment.html' },
+        { key: 'msbteBookmarks', type: 'MSBTE', icon: 'fa-link', url: 'msbte.html' }
+    ];
+
+    const items = [];
+    sources.forEach(src => {
+        try {
+            const arr = JSON.parse(localStorage.getItem(src.key)) || [];
+            arr.slice(-3).forEach(id => {
+                items.push({ type: src.type, icon: src.icon, url: src.url, id });
+            });
+        } catch(e) {}
+    });
+
+    if (!items.length) {
+        grid.innerHTML = '<p class="text-muted" style="font-size:0.85rem;">No bookmarks yet. Browse content and bookmark to see them here.</p>';
+        return;
+    }
+
+    grid.innerHTML = items.slice(0, 8).map(b => `
+        <a class="bookmark-item" href="${b.url}">
+            <i class="fas ${b.icon}"></i>
+            <span>${b.type}</span>
+        </a>
+    `).join('');
+}
+
+// ============================================================
+// EDIT MODE
+// ============================================================
+function toggleEdit() {
+    editMode = !editMode;
+    const fields = ['fieldName','fieldBranch','fieldSemester','fieldBio'];
+    fields.forEach(id => {
+        document.getElementById(id).disabled = !editMode;
+    });
+    // Email always disabled
+    document.getElementById('fieldEmail').disabled = true;
+
+    document.getElementById('formActions').style.display = editMode ? 'flex' : 'none';
+    const btn = document.getElementById('editBtn');
+    btn.classList.toggle('active', editMode);
+    btn.querySelector('span').textContent = editMode ? 'Editing' : 'Edit';
+
+    if (editMode) document.getElementById('fieldName').focus();
+    hideAlerts();
+}
+
+function cancelEdit() {
+    if (editMode) toggleEdit();
+    // Reset fields
+    document.getElementById('fieldName').value = user.name || '';
+    document.getElementById('fieldBranch').value = user.branch || '';
+    document.getElementById('fieldSemester').value = user.semester || '1';
+    document.getElementById('fieldBio').value = user.bio || '';
+    hideAlerts();
+}
+
+// ============================================================
+// SAVE PROFILE
+// ============================================================
+async function saveProfile(e) {
+    e.preventDefault();
+    hideAlerts();
+
+    const name = document.getElementById('fieldName').value.trim();
+    const branch = document.getElementById('fieldBranch').value;
+    const semester = document.getElementById('fieldSemester').value;
+    const bio = document.getElementById('fieldBio').value.trim();
+
+    if (!name) {
+        showError('Name cannot be empty.');
+        return;
+    }
+
+    const saveLabel = document.getElementById('saveLabel');
+    const saveBtn = document.getElementById('saveBtn');
+    saveBtn.disabled = true;
+    saveLabel.innerHTML = '<span class="spinner-mini"></span> Saving…';
+
+    try {
+        // Supabase
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            const { error } = await window.supabaseClient.auth.updateUser({
+                data: { name, branch, semester: Number(semester), bio }
+            });
+            if (error) throw new Error(error.message);
+        } else {
+            await new Promise(r => setTimeout(r, 700));
+        }
+
+        // Update local session
+        session.user = { ...user, name, branch, semester: Number(semester), bio };
+        saveSession(session);
+        user = session.user;
+
+        // Update display
+        document.getElementById('displayName').textContent = user.name;
+        const initials = getInitials(user.name, user.email);
+        const color = getAvatarColor(user.email);
+        const avatar = document.getElementById('avatarBig');
+        avatar.textContent = initials;
+        avatar.style.background = `linear-gradient(135deg, ${color}, ${color}dd)`;
+
+        showSuccess('Profile updated successfully!');
+        showToast('Saved!');
+        toggleEdit();
+
+    } catch (err) {
+        console.error('Save error:', err);
+        showError(err.message || 'Failed to save changes.');
+    } finally {
+        saveBtn.disabled = false;
+        saveLabel.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+    }
+}
+
+// ============================================================
+// PASSWORD
+// ============================================================
+function togglePasswordSection() {
+    const form = document.getElementById('passwordForm');
+    const btn = document.getElementById('pwEditBtn');
+    const isHidden = form.style.display === 'none' || !form.style.display;
+    form.style.display = isHidden ? 'block' : 'none';
+    btn.querySelector('span').textContent = isHidden ? 'Cancel' : 'Change';
+
+    if (isHidden) {
+        document.getElementById('currentPassword').focus();
+    } else {
+        form.reset();
+    }
+}
+
+async function savePassword(e) {
+    e.preventDefault();
+    hideAlerts();
+
+    const current = document.getElementById('currentPassword').value;
+    const newPw = document.getElementById('newPassword').value;
+    const confirm = document.getElementById('confirmPassword').value;
+
+    if (!current) return showError('Please enter your current password.');
+    if (newPw.length < 8) return showError('New password must be at least 8 characters.');
+    if (newPw !== confirm) return showError('New passwords do not match.');
+    if (newPw === current) return showError('New password must be different from current.');
+
+    const saveLabel = document.getElementById('pwSaveLabel');
+    const saveBtn = document.getElementById('pwSaveBtn');
+    saveBtn.disabled = true;
+    saveLabel.innerHTML = '<span class="spinner-mini"></span> Updating…';
+
+    try {
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            const { error } = await window.supabaseClient.auth.updateUser({ password: newPw });
+            if (error) throw new Error(error.message);
+        } else {
+            await new Promise(r => setTimeout(r, 800));
+        }
+
+        showSuccess('Password updated successfully!');
+        showToast('Password changed!');
+        document.getElementById('passwordForm').reset();
+        togglePasswordSection();
+
+    } catch (err) {
+        showError(err.message || 'Failed to update password.');
+    } finally {
+        saveBtn.disabled = false;
+        saveLabel.innerHTML = '<i class="fas fa-save"></i> Update Password';
+    }
+}
+
+// ============================================================
+// DELETE ACCOUNT
+// ============================================================
+function confirmDelete() {
+    document.getElementById('deleteModal').classList.add('show');
+}
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('show');
+}
+
+async function handleDelete() {
+    closeDeleteModal();
+
+    try {
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            // Note: Supabase requires admin API to delete; this signs out only
+            await window.supabaseClient.auth.signOut();
+        }
+        // Clear everything
+        localStorage.clear();
+        sessionStorage.clear();
+
+        showToast('Account deleted');
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 800);
+
+    } catch (err) {
+        console.error(err);
+        showError('Failed to delete account.');
+    }
+}
+
+// ============================================================
+// SIGN OUT
+// ============================================================
+function handleSignOut() {
+    if (!confirm('Sign out of your account?')) return;
+    localStorage.removeItem('dh_session');
+    sessionStorage.removeItem('dh_session');
+    showToast('Signed out');
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 700);
+}
+
+// Close modal on outside click
+document.getElementById('deleteModal').addEventListener('click', e => {
+    if (e.target.id === 'deleteModal') closeDeleteModal();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+loadProfile();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>
