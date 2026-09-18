@@ -1,86 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Not Found - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        .error-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 100px 20px;
-        }
-        .error-content {
-            max-width: 600px;
-        }
-        .error-content .big-icon {
-            font-size: 6rem;
-            color: var(--cyan-400);
-            margin-bottom: 20px;
-        }
-        .error-content h1 {
-            font-size: 6rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--cyan-400), #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-        .error-content h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-        .error-content p {
-            color: var(--gray-400);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-        .error-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        @media (max-width: 768px) {
-            .error-content h1 {
-                font-size: 4rem;
-            }
-            .error-content h2 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Page not found — the link may be broken or the page may have moved. Search DiplomaHub or return home.">
+<meta name="robots" content="noindex, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Page Not Found — DiplomaHub">
+<meta property="og:description" content="The page you're looking for doesn't exist.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/404.html">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/404.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>404 — Page Not Found | DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= 404 PAGE ================= */
+    .error-wrap {
+        min-height: calc(100vh - var(--nav-height) - 300px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-2xl) var(--space-md);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Floating background orbs */
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(60px);
+        opacity: 0.4;
+        animation: floatOrb 12s ease-in-out infinite;
+    }
+    .orb-1 {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(0,212,255,0.5), transparent 70%);
+        top: 10%; left: 5%;
+    }
+    .orb-2 {
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, rgba(168,85,247,0.4), transparent 70%);
+        bottom: 5%; right: 5%;
+        animation-delay: -3s;
+    }
+    @keyframes floatOrb {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(30px, -30px) scale(1.1); }
+    }
+
+    .error-content {
+        text-align: center;
+        max-width: 640px;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Big 404 */
+    .error-code {
+        font-size: clamp(6rem, 18vw, 12rem);
+        font-weight: 900;
+        line-height: 0.9;
+        background: linear-gradient(135deg, var(--primary), #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -6px;
+        margin-bottom: var(--space-sm);
+        animation: bounceIn 0.8s ease;
+        user-select: none;
+        position: relative;
+        display: inline-block;
+    }
+    .error-code::before {
+        content: '404';
+        position: absolute;
+        top: 0; left: 0;
+        background: linear-gradient(135deg, var(--primary), #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: blur(30px);
+        opacity: 0.6;
+        z-index: -1;
+    }
+    @keyframes bounceIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        60% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(1); }
+    }
+
+    /* Animated emoji */
+    .error-emoji {
+        font-size: 3.5rem;
+        margin-bottom: var(--space-md);
+        display: inline-block;
+        animation: wobble 2s ease-in-out infinite;
+    }
+    @keyframes wobble {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-8deg); }
+        75% { transform: rotate(8deg); }
+    }
+
+    .error-title {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        margin-bottom: var(--space-sm);
+    }
+    .error-desc {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: var(--space-lg);
+    }
+    .error-path {
+        display: inline-block;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 6px 14px;
+        border-radius: var(--radius-pill);
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--primary);
+        margin-bottom: var(--space-lg);
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* ================= SEARCH BOX ================= */
+    .error-search {
+        max-width: 520px;
+        margin: 0 auto var(--space-lg);
+        display: flex;
+        gap: 8px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--radius-pill);
+        padding: 6px 6px 6px 20px;
+        transition: var(--transition);
+    }
+    .error-search:focus-within {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .error-search input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        padding: 12px 0;
+        font-size: 0.95rem;
+        color: var(--text);
+    }
+    .error-search input:focus { box-shadow: none; border: none; }
+    .error-search button {
+        padding: 12px 22px;
+        border-radius: var(--radius-pill);
+        background: var(--primary);
+        color: var(--bg);
+        border: none;
+        font-weight: 600;
+        font-size: 0.88rem;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+    .error-search button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+    }
+
+    /* ================= BUTTONS ================= */
+    .error-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-xl);
+    }
+    .error-actions .btn {
+        padding: 12px 22px;
+        font-size: 0.9rem;
+    }
+
+    /* ================= POPULAR LINKS ================= */
+    .popular-section {
+        margin-top: var(--space-2xl);
+    }
+    .popular-section h3 {
+        font-size: 1rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: var(--space-md);
+        font-weight: 700;
+    }
+    .popular-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+        max-width: 720px;
+        margin: 0 auto;
+    }
+    .popular-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 16px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        font-weight: 500;
+        transition: var(--transition);
+        text-align: center;
+    }
+    .popular-card:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+        transform: translateY(-3px);
+    }
+    .popular-card i {
+        font-size: 1.4rem;
+        color: var(--primary);
+    }
+
+    /* Report link */
+    .report-row {
+        margin-top: var(--space-xl);
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+    .report-row button {
+        background: transparent;
+        border: none;
+        color: var(--primary);
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.85rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: var(--transition);
+    }
+    .report-row button:hover {
+        background: var(--primary-glow);
+    }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .error-code { letter-spacing: -3px; }
+        .error-search { flex-direction: column; border-radius: var(--radius-md); padding: 8px; }
+        .error-search input { padding: 10px; text-align: center; }
+        .error-search button { width: 100%; justify-content: center; }
+        .popular-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+</style>
 </head>
 <body>
-    <div class="error-page">
-        <div class="error-content">
-            <div class="big-icon"><i class="fas fa-tools"></i></div>
-            <h1>404</h1>
-            <h2>Page Not Found</h2>
-            <p>Oops! The page you're looking for doesn't exist or has been moved. But don't worry, there's plenty to explore!</p>
-            <div class="error-buttons">
-                <a href="index.html" class="btn btn-primary btn-lg">
-                    <i class="fas fa-home"></i> Go Home
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="about.html">About</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<!-- ================= 404 CONTENT ================= -->
+<div class="error-wrap">
+
+    <!-- Background orbs -->
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+
+    <div class="error-content">
+
+        <div class="error-emoji">🧭</div>
+
+        <div class="error-code">404</div>
+
+        <h1 class="error-title">Page not found</h1>
+        <p class="error-desc">
+            Oops! The page you're looking for doesn't exist, or it may have moved.
+            Let's get you back on track.
+        </p>
+
+        <!-- Broken path -->
+        <div class="error-path" id="errorPath">
+            <i class="fas fa-link"></i> <span id="brokenPath">/unknown</span>
+        </div>
+
+        <!-- Search -->
+        <form class="error-search" onsubmit="handleSearch(event)">
+            <input type="text"
+                   id="searchInput"
+                   placeholder="Search for courses, notes, papers…"
+                   autocomplete="off"
+                   aria-label="Search">
+            <button type="submit">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </form>
+
+        <!-- Actions -->
+        <div class="error-actions">
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Go Home
+            </a>
+            <button class="btn btn-outline" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Go Back
+            </button>
+            <a href="courses.html" class="btn btn-outline">
+                <i class="fas fa-graduation-cap"></i> Browse Courses
+            </a>
+        </div>
+
+        <!-- Popular -->
+        <div class="popular-section">
+            <h3>Popular Pages</h3>
+            <div class="popular-grid">
+                <a class="popular-card" href="index.html">
+                    <i class="fas fa-home"></i> Home
                 </a>
-                <a href="courses.html" class="btn btn-outline btn-lg">
-                    <i class="fas fa-book"></i> Explore Courses
+                <a class="popular-card" href="courses.html">
+                    <i class="fas fa-graduation-cap"></i> Courses
                 </a>
-                <a href="equipment.html" class="btn btn-outline btn-lg">
-                    <i class="fas fa-microscope"></i> Equipment Library
+                <a class="popular-card" href="resources.html">
+                    <i class="fas fa-layer-group"></i> Resources
                 </a>
-            </div>
-            <div style="margin-top: 30px;">
-                <a href="search.html" style="color: var(--cyan-400);">
-                    <i class="fas fa-search"></i> Try searching instead
+                <a class="popular-card" href="notes.html">
+                    <i class="fas fa-sticky-note"></i> Notes
+                </a>
+                <a class="popular-card" href="books.html">
+                    <i class="fas fa-book"></i> Books
+                </a>
+                <a class="popular-card" href="papers.html">
+                    <i class="fas fa-file-alt"></i> Papers
+                </a>
+                <a class="popular-card" href="practicals.html">
+                    <i class="fas fa-flask"></i> Practicals
+                </a>
+                <a class="popular-card" href="quizzers.html">
+                    <i class="fas fa-question-circle"></i> Quizzes
+                </a>
+                <a class="popular-card" href="equipment.html">
+                    <i class="fas fa-tools"></i> Equipment
+                </a>
+                <a class="popular-card" href="search.html">
+                    <i class="fas fa-search"></i> Search
                 </a>
             </div>
         </div>
+
+        <!-- Report -->
+        <div class="report-row">
+            <button onclick="reportBroken()">
+                <i class="fas fa-flag"></i> Report a broken link
+            </button>
+        </div>
+
     </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>MSBTE Resources</h4>
+            <a href="https://msbte.ac.in/" target="_blank" rel="noopener">🏛️ MSBTE Official</a>
+            <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">📖 Curriculum</a>
+            <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">🔬 Lab Manuals</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ============================================================
+// SHOW BROKEN PATH
+// ============================================================
+(function showBrokenPath() {
+    const path = window.location.pathname + window.location.search;
+    const display = path.length > 60 ? path.slice(0, 57) + '…' : path;
+    document.getElementById('brokenPath').textContent = display || '/unknown';
+})();
+
+// ============================================================
+// SEARCH
+// ============================================================
+function handleSearch(e) {
+    e.preventDefault();
+    const q = document.getElementById('searchInput').value.trim();
+    if (!q) {
+        showToast('Type something to search');
+        return;
+    }
+    window.location.href = 'search.html?q=' + encodeURIComponent(q);
+}
+
+// ============================================================
+// GO BACK
+// ============================================================
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+
+// ============================================================
+// REPORT BROKEN LINK
+// ============================================================
+function reportBroken() {
+    const path = window.location.pathname + window.location.search;
+    const subject = encodeURIComponent('Bug Report — Broken Link');
+    const body = encodeURIComponent(
+        `Hi DiplomaHub team,\n\nI found a broken link:\n${window.location.href}\n\nPath: ${path}\nReferrer: ${document.referrer || 'direct'}\n\nPlease fix it. Thanks!`
+    );
+    window.location.href = `contact.html?subject=Bug%20Report&msg=${body}`;
+}
+
+// ============================================================
+// AUTO-FOCUS SEARCH ON DESKTOP
+// ============================================================
+if (window.innerWidth > 768) {
+    setTimeout(() => {
+        const input = document.getElementById('searchInput');
+        if (input) input.focus();
+    }, 400);
+}
+
+// ============================================================
+// KEYBOARD: ENTER → Search, ESC → Home
+// ============================================================
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        window.location.href = 'index.html';
+    }
+});
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
