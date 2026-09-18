@@ -1,178 +1,764 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipment Detail - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        .eq-detail-page { padding: 120px 20px 40px; max-width: 1100px; margin: 0 auto; }
-        .back-btn { color: var(--gray-400); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; transition: 0.3s; font-weight: 500; }
-        .back-btn:hover { color: var(--cyan-400); transform: translateX(-4px); }
-        .eq-header { display: flex; align-items: center; gap: 30px; margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px solid var(--glass-border); flex-wrap: wrap; }
-        .eq-header .icon { font-size: 4rem; }
-        .eq-header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 4px; }
-        .eq-header .badge { display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 0.85rem; background: rgba(6,182,212,0.15); color: var(--cyan-400); margin-right: 8px; }
-        .eq-header .status { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
-        .eq-header .status.pending { background: rgba(234,179,8,0.2); color: #eab308; }
-        .eq-header .status.verified { background: rgba(34,197,94,0.2); color: #22c55e; }
-        .eq-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
-        .eq-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; margin-bottom: 20px; }
-        .eq-card h3 { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: var(--cyan-400); font-size: 1.1rem; }
-        .eq-card p { color: var(--gray-300); line-height: 1.7; }
-        .eq-card ul { list-style: none; padding: 0; }
-        .eq-card ul li { padding: 8px 0; border-bottom: 1px solid var(--glass-border); color: var(--gray-300); }
-        .eq-card ul li:last-child { border-bottom: none; }
-        .eq-card ul li::before { content: "▸ "; color: var(--cyan-400); }
-        .bookmark-btn { background: transparent; border: 1px solid var(--glass-border); color: var(--gray-400); padding: 8px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .bookmark-btn:hover { border-color: var(--cyan-400); color: var(--cyan-400); }
-        .no-data { text-align: center; padding: 60px 20px; color: var(--gray-400); }
-        .no-data i { font-size: 3rem; display: block; margin-bottom: 15px; }
-        .footer { background: var(--darker-bg, #05050f); border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); padding: 60px 0 30px; margin-top: 20px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .footer-col h3 { font-size: 1.3rem; margin-bottom: 12px; }
-        .footer-col h4 { font-size: 1rem; color: var(--text-secondary, #8888bb); margin-bottom: 12px; }
-        .footer-col p { color: var(--text-secondary, #8888bb); font-size: 0.95rem; max-width: 300px; }
-        .footer-col a { display: block; color: var(--text-secondary, #8888bb); padding: 5px 0; transition: all 0.3s ease; font-size: 0.95rem; }
-        .footer-col a:hover { color: var(--neon-blue, #00d4ff); transform: translateX(4px); }
-        .social-links { display: flex; gap: 14px; margin-top: 16px; }
-        .social-links a { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: var(--glass-bg, rgba(255, 255, 255, 0.03)); border: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); transition: all 0.3s ease; }
-        .social-links a:hover { background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #7b2ffc)); border-color: transparent; color: #fff; box-shadow: 0 0 30px rgba(0, 212, 255, 0.15); }
-        .footer-bottom { border-top: 1px solid var(--glass-border, rgba(0, 212, 255, 0.08)); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; color: var(--text-secondary, #8888bb); font-size: 0.9rem; flex-wrap: wrap; gap: 10px; }
-        .footer-bottom i.fa-heart { color: #f43f5e; }
-        @media (max-width: 768px) {
-            .eq-header { flex-direction: column; text-align: center; }
-            .eq-header h1 { font-size: 1.8rem; }
-            .eq-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
-            .footer-bottom { flex-direction: column; text-align: center; }
-        }
-        @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Detailed information about engineering lab equipment — working principle, parts, applications, and safety precautions. MSBTE Diploma reference.">
+<meta name="keywords" content="Engineering Equipment Detail, Lab Equipment, Working Principle, MSBTE Lab">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Equipment Detail — DiplomaHub">
+<meta property="og:description" content="Detailed lab equipment information for MSBTE Diploma students.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/equipment-detail.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Equipment Detail — DiplomaHub">
+<meta name="twitter:description" content="Detailed lab equipment information.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/equipment-detail.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Equipment Detail — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= EQUIPMENT DETAIL LAYOUT ================= */
+    .eq-layout {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: var(--space-lg);
+        margin-top: var(--space-lg);
+        align-items: start;
+    }
+
+    /* HEADER */
+    .eq-hero {
+        background: linear-gradient(135deg, rgba(0,212,255,0.06), rgba(168,85,247,0.05));
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+        margin-bottom: var(--space-lg);
+        position: relative;
+        overflow: hidden;
+    }
+    .eq-hero::before {
+        content: '';
+        position: absolute;
+        top: -40%; right: -15%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(0,212,255,0.12), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    .eq-hero-inner {
+        display: flex;
+        gap: var(--space-lg);
+        align-items: flex-start;
+        position: relative;
+        z-index: 1;
+        flex-wrap: wrap;
+    }
+    .eq-hero-icon {
+        font-size: 4rem;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+    .eq-hero-info {
+        flex: 1;
+        min-width: 260px;
+    }
+    .eq-hero h1 {
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+        margin-bottom: 8px;
+    }
+    .eq-hero .eq-purpose {
+        color: var(--text-muted);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-top: 10px;
+        margin-bottom: 16px;
+    }
+
+    .eq-chip-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+    }
+    .eq-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 14px;
+        border-radius: var(--radius-pill);
+        font-size: 0.8rem;
+        font-weight: 600;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+    }
+    .eq-chip.primary { background: var(--primary-glow); color: var(--primary); border-color: transparent; }
+    .eq-chip.pending { background: rgba(245,158,11,0.15); color: #f59e0b; border-color: transparent; }
+    .eq-chip.verified { background: rgba(34,197,94,0.15); color: #22c55e; border-color: transparent; }
+
+    .eq-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+    }
+    .eq-actions button, .eq-actions a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 16px;
+        border-radius: var(--radius-pill);
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+    .eq-actions button:hover, .eq-actions a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .eq-actions button.active {
+        background: var(--primary);
+        color: var(--bg);
+        border-color: transparent;
+    }
+
+    /* SECTIONS */
+    .eq-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        margin-bottom: var(--space-md);
+    }
+    .eq-section h3 {
+        font-size: 1.05rem;
+        margin-bottom: 14px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+    }
+    .eq-section h3 i { font-size: 1rem; }
+    .eq-section p {
+        color: var(--text-muted);
+        line-height: 1.75;
+        font-size: 0.95rem;
+    }
+    .eq-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .eq-section ul li {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-muted);
+        line-height: 1.6;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 0.92rem;
+    }
+    .eq-section ul li:last-child { border-bottom: none; }
+    .eq-section ul li::before {
+        content: '▸';
+        color: var(--primary);
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 1px;
+    }
+
+    /* SPEC GRID */
+    .spec-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+    }
+    .spec-item {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 12px 14px;
+    }
+    .spec-item .spec-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--text-dim);
+        margin-bottom: 4px;
+        font-weight: 700;
+    }
+    .spec-item .spec-value {
+        font-size: 0.92rem;
+        color: var(--text);
+        font-weight: 600;
+        word-break: break-word;
+    }
+
+    /* SIDEBAR */
+    .eq-sidebar {
+        position: sticky;
+        top: calc(var(--nav-height) + 16px);
+    }
+    .eq-sidebar .eq-section { padding: var(--space-md); }
+    .eq-sidebar .eq-section h3 { font-size: 0.95rem; }
+
+    .related-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .related-item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 12px;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        color: var(--text);
+        transition: var(--transition);
+        font-size: 0.88rem;
+    }
+    .related-item:hover {
+        border-color: var(--primary);
+        background: var(--primary-glow);
+        color: var(--primary);
+    }
+    .related-item .rel-icon {
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+    .related-item .rel-name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    /* LOADING / ERROR */
+    .loading-screen {
+        text-align: center;
+        padding: var(--space-2xl);
+    }
+    .loading-screen .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--surface);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        margin: 0 auto var(--space-md);
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-state, .empty-state {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .error-state i, .empty-state i {
+        font-size: 3rem;
+        color: var(--warning);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .error-state h2, .empty-state h3 { margin-bottom: 8px; }
+    .error-state p, .empty-state p { color: var(--text-muted); margin-bottom: var(--space-md); }
+
+    /* TOAST */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+        .eq-layout { grid-template-columns: 1fr; }
+        .eq-sidebar { position: static; order: 2; }
+    }
+    @media (max-width: 600px) {
+        .eq-hero { padding: var(--space-md); }
+        .eq-hero-icon { font-size: 3rem; }
+        .eq-section { padding: var(--space-md); }
+        .spec-grid { grid-template-columns: 1fr 1fr; }
+    }
+</style>
+
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Engineering Lab Equipment",
+    "description": "Detailed lab equipment reference for MSBTE Diploma students.",
+    "educationalLevel": "Diploma",
+    "inLanguage": "en"
+}
+</script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo"><i class="fas fa-graduation-cap"></i><span>DIPLOMA<span class="highlight">HUB</span></span></div>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a><a href="courses.html">Courses</a><a href="equipment.html">Equipment</a>
-                <a href="practicals.html">Practicals</a><a href="quizzes.html">Quizzes</a>
-                <a href="resources.html">Resources</a><a href="about.html">About</a>
-            </div>
-            <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
-                <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-            </div>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html" class="active">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb" id="breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="equipment.html">Equipment</a> ›
+        <span id="bcName">Detail</span>
+    </div>
+
+    <!-- LOADING -->
+    <div id="loading" class="loading-screen">
+        <div class="spinner"></div>
+        <p class="text-muted">Loading equipment…</p>
+    </div>
+
+    <!-- ERROR -->
+    <div id="error" class="error-state" style="display:none;" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h2>Equipment Not Found</h2>
+        <p id="errorMsg">The equipment you're looking for could not be found.</p>
+        <a href="equipment.html" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Back to Equipment
+        </a>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="content" style="display:none;"></div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
         </div>
-    </nav>
-
-    <section class="eq-detail-page">
-        <div class="container">
-            <a href="equipment.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Equipment</a>
-            <div id="eqContent"></div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
         </div>
-    </section>
+        <div>
+            <h4>MSBTE Resources</h4>
+            <a href="https://msbte.ac.in/" target="_blank" rel="noopener">🏛️ MSBTE Official</a>
+            <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">📖 Curriculum Search</a>
+            <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">🔬 Lab Manuals</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col"><h3>DIPLOMA HUB</h3><p>"Understand Engineering. Learn Practically. Build the Future."</p><div class="social-links"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-linkedin"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div></div>
-                <div class="footer-col"><h4>Quick Links</h4><a href="courses.html">Courses</a><a href="equipment.html">Equipment</a><a href="practicals.html">Practicals</a><a href="quizzes.html">Quizzes</a><a href="resources.html">Resources</a></div>
-                <div class="footer-col"><h4>MSBTE Resources</h4><a href="https://msbte.ac.in/" target="_blank">MSBTE Official</a><a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">Curriculum Search</a><a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">Lab Manuals</a></div>
-                <div class="footer-col"><h4>Support</h4><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms</a></div>
+<!-- ================= SCRIPTS ================= -->
+<script src="js/equipment-data.js"></script>
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ============================================================
+// STATE
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+const slug = params.get('slug');
+let equipment = null;
+let equipmentList = [];
+
+// ============================================================
+// LOAD
+// ============================================================
+function loadEquipment() {
+    const loading = document.getElementById('loading');
+    const error = document.getElementById('error');
+    const content = document.getElementById('content');
+
+    if (!slug) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        document.getElementById('errorMsg').textContent = 'No equipment selected. Please pick one from the list.';
+        return;
+    }
+
+    const data = window.EQUIPMENT || window.equipment || window.equipmentData;
+    if (!Array.isArray(data) || !data.length) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        document.getElementById('errorMsg').textContent = 'Equipment data file is missing or empty.';
+        return;
+    }
+
+    equipmentList = data;
+    equipment = equipmentList.find(e => {
+        const eSlug = e.slug || (e.name || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+        return eSlug === slug;
+    });
+
+    if (!equipment) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        document.getElementById('errorMsg').textContent = `We couldn't find equipment "${slug}".`;
+        return;
+    }
+
+    renderEquipment();
+    loading.style.display = 'none';
+    content.style.display = 'block';
+    document.title = `${equipment.name} — Equipment — DiplomaHub`;
+    document.getElementById('bcName').textContent = equipment.name;
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderEquipment() {
+    const e = equipment;
+    const saved = isBookmarked(slug);
+    const status = e.verification_status || 'pending';
+    const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
+
+    // Build parts list
+    const parts = e.main_parts && e.main_parts.length ? e.main_parts : [];
+    const apps = e.applications && e.applications.length ? e.applications : [];
+    const safety = e.safety_precautions && e.safety_precautions.length ? e.safety_precautions : [];
+    const courses = e.course && e.course.length ? e.course : [];
+
+    // Related
+    const related = equipmentList
+        .filter(x => x !== e && x.category === e.category)
+        .slice(0, 5);
+
+    // Spec
+    const specHtml = e.specs
+        ? Object.entries(e.specs).map(([k, v]) => `
+            <div class="spec-item">
+                <div class="spec-label">${escapeHtml(k)}</div>
+                <div class="spec-value">${escapeHtml(v)}</div>
             </div>
-            <div class="footer-bottom"><p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p><p>Made with ❤️ for engineering students</p></div>
-        </div>
-    </footer>
+        `).join('')
+        : '';
 
-    <script src="js/equipment-data.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var params = new URLSearchParams(window.location.search);
-            var slug = params.get('slug');
-            var container = document.getElementById('eqContent');
+    const html = `
+        <!-- HERO -->
+        <section class="eq-hero">
+            <div class="eq-hero-inner">
+                <div class="eq-hero-icon">${e.icon || '🔧'}</div>
+                <div class="eq-hero-info">
+                    <h1>${escapeHtml(e.name)}</h1>
+                    <div class="eq-chip-row">
+                        <span class="eq-chip primary">
+                            <i class="fas fa-tag"></i> ${escapeHtml(e.category || 'Uncategorized')}
+                        </span>
+                        <span class="eq-chip ${status}">
+                            <i class="fas ${status === 'verified' ? 'fa-check-circle' : 'fa-clock'}"></i>
+                            ${statusLabel}
+                        </span>
+                        ${e.subcategory ? `<span class="eq-chip"><i class="fas fa-folder"></i> ${escapeHtml(e.subcategory)}</span>` : ''}
+                    </div>
+                    <p class="eq-purpose">${escapeHtml(e.purpose || 'No purpose description available.')}</p>
 
-            if (!slug) {
-                container.innerHTML = '<div class="no-data"><i class="fas fa-exclamation-circle"></i><h3>No equipment selected</h3><p>Please go back to the <a href="equipment.html" style="color:var(--cyan-400);">equipment list</a></p></div>';
-                return;
-            }
+                    <div class="eq-actions">
+                        <button class="${saved ? 'active' : ''}" id="bookmarkBtn" onclick="toggleBookmark()">
+                            <i class="fas fa-bookmark"></i> ${saved ? 'Bookmarked' : 'Bookmark'}
+                        </button>
+                        <button onclick="copySpecs()" title="Copy specifications">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button onclick="shareEquipment()" title="Share">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                        <a href="equipment.html">
+                            <i class="fas fa-th-large"></i> All Equipment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            var equipment = null;
-            if (typeof EQUIPMENT !== 'undefined' && Array.isArray(EQUIPMENT)) {
-                equipment = EQUIPMENT.find(function(e) { return e.slug === slug; });
-            }
+        <!-- MAIN + SIDEBAR -->
+        <div class="eq-layout">
 
-            if (!equipment) {
-                container.innerHTML = '<div class="no-data"><i class="fas fa-search"></i><h3>Equipment not found</h3><p>We couldn\'t find equipment with slug: <strong>' + slug + '</strong></p></div>';
-                return;
-            }
+            <!-- MAIN -->
+            <div>
+                ${e.working_principle ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-microchip"></i> Working Principle</h3>
+                        <p>${escapeHtml(e.working_principle)}</p>
+                    </section>
+                ` : ''}
 
-            var statusClass = equipment.verification_status || 'pending';
-            var statusText = statusClass.charAt(0).toUpperCase() + statusClass.slice(1);
+                ${e.how_it_works ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-cogs"></i> How It Works</h3>
+                        <p>${escapeHtml(e.how_it_works)}</p>
+                    </section>
+                ` : ''}
 
-            var partsHtml = equipment.main_parts && equipment.main_parts.length > 0 ?
-                equipment.main_parts.map(function(p) { return '<li>' + p + '</li>'; }).join('') :
-                '<li>No parts listed</li>';
+                ${parts.length ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-tools"></i> Main Parts</h3>
+                        <ul>${parts.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>
+                    </section>
+                ` : ''}
 
-            var appsHtml = equipment.applications && equipment.applications.length > 0 ?
-                equipment.applications.map(function(a) { return '<li>' + a + '</li>'; }).join('') :
-                '<li>No applications listed</li>';
+                ${e.how_used ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-info-circle"></i> How It Is Used</h3>
+                        <p>${escapeHtml(e.how_used)}</p>
+                    </section>
+                ` : ''}
 
-            var safetyHtml = equipment.safety_precautions && equipment.safety_precautions.length > 0 ?
-                equipment.safety_precautions.map(function(s) { return '<li>' + s + '</li>'; }).join('') :
-                '<li>No safety precautions listed</li>';
+                ${specHtml ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-clipboard-list"></i> Specifications</h3>
+                        <div class="spec-grid">${specHtml}</div>
+                    </section>
+                ` : ''}
+            </div>
 
-            container.innerHTML = `
-                <div class="eq-header">
-                    <div class="icon">🔧</div>
-                    <div>
-                        <h1>${equipment.name}</h1>
-                        <div>
-                            <span class="badge">${equipment.category || 'Uncategorized'}</span>
-                            <span class="status ${statusClass}">${statusText}</span>
+            <!-- SIDEBAR -->
+            <aside class="eq-sidebar">
+
+                ${apps.length ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-bullseye"></i> Applications</h3>
+                        <ul>${apps.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>
+                    </section>
+                ` : ''}
+
+                ${safety.length ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-shield-alt"></i> Safety Precautions</h3>
+                        <ul>${safety.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+                    </section>
+                ` : ''}
+
+                ${courses.length ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-graduation-cap"></i> Related Courses</h3>
+                        <ul>${courses.map(c => `<li>${escapeHtml(String(c).replace(/-/g, ' '))}</li>`).join('')}</ul>
+                    </section>
+                ` : ''}
+
+                ${related.length ? `
+                    <section class="eq-section">
+                        <h3><i class="fas fa-link"></i> Related Equipment</h3>
+                        <div class="related-list">
+                            ${related.map(r => {
+                                const rSlug = r.slug || (r.name || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+                                return `
+                                    <a class="related-item" href="equipment-detail.html?slug=${encodeURIComponent(rSlug)}">
+                                        <span class="rel-icon">${r.icon || '🔧'}</span>
+                                        <span class="rel-name">${escapeHtml(r.name)}</span>
+                                        <i class="fas fa-arrow-right" style="color:var(--primary);font-size:0.7rem;"></i>
+                                    </a>
+                                `;
+                            }).join('')}
                         </div>
-                        <p style="color:var(--gray-400);margin-top:8px;">${equipment.purpose || 'No purpose description available.'}</p>
-                        <button class="bookmark-btn" onclick="alert('Bookmark feature coming soon!')"><i class="fas fa-bookmark"></i> Bookmark</button>
-                    </div>
-                </div>
-                <div class="eq-grid">
-                    <div>
-                        <div class="eq-card"><h3><i class="fas fa-microchip"></i> Working Principle</h3><p>${equipment.working_principle || 'No working principle description available.'}</p></div>
-                        <div class="eq-card"><h3><i class="fas fa-cogs"></i> How It Works</h3><p>${equipment.how_it_works || 'No description available.'}</p></div>
-                        <div class="eq-card"><h3><i class="fas fa-tools"></i> Main Parts</h3><ul>${partsHtml}</ul></div>
-                        <div class="eq-card"><h3><i class="fas fa-info-circle"></i> How It Is Used</h3><p>${equipment.how_used || 'No usage information available.'}</p></div>
-                    </div>
-                    <div>
-                        <div class="eq-card"><h3><i class="fas fa-bullseye"></i> Applications</h3><ul>${appsHtml}</ul></div>
-                        <div class="eq-card"><h3><i class="fas fa-shield-alt"></i> Safety Precautions</h3><ul>${safetyHtml}</ul></div>
-                        <div class="eq-card"><h3><i class="fas fa-graduation-cap"></i> Related Courses</h3><ul>${equipment.course && equipment.course.length > 0 ? equipment.course.map(function(c) { return '<li>' + c.replace(/-/g, ' ') + '</li>'; }).join('') : '<li>No courses listed</li>'}</ul></div>
-                    </div>
-                </div>
-            `;
+                    </section>
+                ` : ''}
 
-            var savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') { document.body.setAttribute('data-theme', 'light'); var icon = document.getElementById('themeIcon'); if (icon) icon.className = 'fas fa-sun'; }
-        });
+            </aside>
 
-        function toggleTheme() {
-            var body = document.body;
-            var icon = document.getElementById('themeIcon');
-            if (body.getAttribute('data-theme') === 'light') {
-                body.removeAttribute('data-theme');
-                if (icon) icon.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                if (icon) icon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'light');
-            }
-        }
-        function toggleMobileMenu() {
-            var nav = document.getElementById('navLinks');
-            if (nav) nav.classList.toggle('open');
-        }
-    </script>
+        </div>
+    `;
+
+    document.getElementById('content').innerHTML = html;
+}
+
+// ============================================================
+// BOOKMARK
+// ============================================================
+function isBookmarked(slug) {
+    try {
+        const list = JSON.parse(localStorage.getItem('equipmentBookmarks')) || [];
+        return list.includes(slug);
+    } catch(e) { return false; }
+}
+function toggleBookmark() {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('equipmentBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(slug);
+    const btn = document.getElementById('bookmarkBtn');
+
+    if (i > -1) {
+        list.splice(i, 1);
+        btn.classList.remove('active');
+        btn.innerHTML = '<i class="fas fa-bookmark"></i> Bookmark';
+        showToast('Bookmark removed');
+    } else {
+        list.push(slug);
+        btn.classList.add('active');
+        btn.innerHTML = '<i class="fas fa-bookmark"></i> Bookmarked';
+        showToast('Bookmarked!');
+    }
+    localStorage.setItem('equipmentBookmarks', JSON.stringify(list));
+}
+
+// ============================================================
+// COPY SPECS
+// ============================================================
+function copySpecs() {
+    const e = equipment;
+    const lines = [
+        `🔧 ${e.name}`,
+        `Category: ${e.category || '—'}`,
+        `Purpose: ${e.purpose || '—'}`,
+        '',
+        e.working_principle ? `Working Principle:\n${e.working_principle}` : '',
+        e.how_it_works ? `How It Works:\n${e.how_it_works}` : '',
+        e.main_parts && e.main_parts.length ? `Main Parts:\n${e.main_parts.map(p => '• ' + p).join('\n')}` : '',
+        e.how_used ? `Usage:\n${e.how_used}` : '',
+        e.applications && e.applications.length ? `Applications:\n${e.applications.map(a => '• ' + a).join('\n')}` : '',
+        e.safety_precautions && e.safety_precautions.length ? `Safety:\n${e.safety_precautions.map(s => '• ' + s).join('\n')}` : '',
+        '',
+        '— via DiplomaHub'
+    ].filter(Boolean).join('\n\n');
+
+    navigator.clipboard.writeText(lines)
+        .then(() => showToast('Copied to clipboard!'))
+        .catch(() => showToast('Copy failed'));
+}
+
+// ============================================================
+// SHARE
+// ============================================================
+function shareEquipment() {
+    const e = equipment;
+    const data = {
+        title: `${e.name} — DiplomaHub`,
+        text: `Check out ${e.name} on DiplomaHub!`,
+        url: window.location.href
+    };
+    if (navigator.share) {
+        navigator.share(data).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(`${data.text} ${data.url}`)
+            .then(() => showToast('Link copied!'))
+            .catch(() => showToast('Share failed'));
+    }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadEquipment();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
