@@ -1,240 +1,1049 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- ✅ Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        .auth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 100px 20px 60px;
-        }
-        .auth-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 50px 40px;
-            max-width: 420px;
-            width: 100%;
-        }
-        .auth-card h1 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-        .auth-card p {
-            text-align: center;
-            color: var(--gray-400);
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            color: var(--gray-300);
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass);
-            color: var(--white);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--cyan-400);
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
-        }
-        .form-group input::placeholder {
-            color: var(--gray-500);
-        }
-        .btn-block {
-            width: 100%;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        .auth-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--gray-400);
-        }
-        .auth-footer a {
-            color: var(--cyan-400);
-            font-weight: 500;
-        }
-        .auth-footer a:hover {
-            text-decoration: underline;
-        }
-        .password-hint {
-            font-size: 0.8rem;
-            color: var(--gray-500);
-            margin-top: 5px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Create your free DiplomaHub account — access bookmarks, progress tracking, personalized study material, and more for MSBTE Diploma students.">
+<meta name="keywords" content="DiplomaHub Signup, Create Account, MSBTE Register, Student Signup">
+<meta name="robots" content="noindex, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Create Account — DiplomaHub">
+<meta property="og:description" content="Create your free DiplomaHub account.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/signup.html">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/signup.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Create Account — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= AUTH LAYOUT ================= */
+    .auth-wrap {
+        min-height: calc(100vh - var(--nav-height) - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-xl) var(--space-md);
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 520px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .auth-card::before {
+        content: '';
+        position: absolute;
+        top: -50%; right: -30%;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(168,85,247,0.15), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: var(--space-xl);
+        position: relative;
+        z-index: 1;
+    }
+    .auth-logo {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+        display: inline-block;
+    }
+    .auth-header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 6px;
+    }
+    .auth-header p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    /* ================= FORM ================= */
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+        position: relative;
+        z-index: 1;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .field label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .field label i {
+        color: var(--primary);
+        font-size: 0.85rem;
+    }
+    .field label .optional {
+        color: var(--text-dim);
+        font-weight: 400;
+        font-size: 0.78rem;
+        margin-left: auto;
+    }
+
+    .input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .input-wrap input,
+    .input-wrap select {
+        width: 100%;
+        padding-right: 44px;
+    }
+    .input-wrap select {
+        padding-right: 16px;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238888bb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 16px;
+    }
+    .input-wrap select option {
+        background: var(--bg-alt);
+        color: var(--text);
+        padding: 8px;
+    }
+    .input-wrap .toggle-pass {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 6px;
+        transition: var(--transition);
+        font-size: 0.9rem;
+        z-index: 2;
+    }
+    .input-wrap .toggle-pass:hover { color: var(--primary); background: var(--surface); }
+
+    .field input.invalid,
+    .field select.invalid {
+        border-color: var(--error);
+        box-shadow: 0 0 0 3px rgba(239,68,68,0.15);
+    }
+
+    .field-error {
+        font-size: 0.78rem;
+        color: var(--error);
+        display: none;
+        align-items: center;
+        gap: 4px;
+    }
+    .field-error.show { display: flex; }
+
+    /* ================= ROW ================= */
+    .form-row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+    }
+
+    /* ================= PASSWORD STRENGTH ================= */
+    .strength-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 4px;
+        font-size: 0.75rem;
+        color: var(--text-dim);
+    }
+    .strength-bar {
+        display: flex;
+        gap: 3px;
+        flex: 1;
+    }
+    .strength-bar span {
+        flex: 1;
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        transition: background 0.3s;
+    }
+    .strength-bar.weak span:nth-child(1) { background: #ef4444; }
+    .strength-bar.fair span:nth-child(-n+2) { background: #f59e0b; }
+    .strength-bar.good span:nth-child(-n+3) { background: #06b6d4; }
+    .strength-bar.strong span { background: #22c55e; }
+    .strength-label {
+        font-weight: 700;
+        min-width: 60px;
+        text-align: right;
+    }
+    .strength-label.weak { color: #ef4444; }
+    .strength-label.fair { color: #f59e0b; }
+    .strength-label.good { color: #06b6d4; }
+    .strength-label.strong { color: #22c55e; }
+
+    /* ================= CHECKBOX ================= */
+    .checkbox-wrap {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+    .checkbox-wrap input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        border: 2px solid var(--border);
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        transition: var(--transition);
+        background: var(--bg-alt);
+        padding: 0;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+    .checkbox-wrap input[type="checkbox"]:checked {
+        background: var(--primary);
+        border-color: var(--primary);
+    }
+    .checkbox-wrap input[type="checkbox"]:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--bg);
+        font-weight: 700;
+        font-size: 0.75rem;
+    }
+    .checkbox-wrap.invalid input[type="checkbox"] {
+        border-color: var(--error);
+    }
+    .checkbox-wrap a {
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+    /* ================= BUTTONS ================= */
+    .btn-block {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 0.95rem;
+    }
+    .btn-loading {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .btn-loading .spinner-mini {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(10,10,26,0.3);
+        border-top-color: var(--bg);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ================= DIVIDER ================= */
+    .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-dim);
+        font-size: 0.78rem;
+        margin: var(--space-sm) 0;
+    }
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+    }
+
+    /* ================= OAUTH ================= */
+    .oauth-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 20px;
+        background: #fff;
+        color: #1f1f1f;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        font-size: 0.92rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .oauth-btn:hover {
+        background: #f5f5f5;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .oauth-btn i { font-size: 1.1rem; }
+    .oauth-btn .google-icon {
+        background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: 1.2rem;
+        font-weight: 900;
+    }
+
+    /* ================= FOOTER ================= */
+    .auth-footer {
+        text-align: center;
+        margin-top: var(--space-lg);
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        position: relative;
+        z-index: 1;
+    }
+    .auth-footer a {
+        color: var(--primary);
+        font-weight: 600;
+    }
+    .auth-footer a:hover { text-decoration: underline; }
+
+    /* ================= ALERT ================= */
+    .alert {
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 0.88rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.5;
+        margin-bottom: var(--space-md);
+    }
+    .alert.error {
+        background: rgba(239,68,68,0.1);
+        border: 1px solid rgba(239,68,68,0.3);
+        color: #fca5a5;
+    }
+    .alert.success {
+        background: rgba(34,197,94,0.1);
+        border: 1px solid rgba(34,197,94,0.3);
+        color: #86efac;
+    }
+    .alert i { margin-top: 2px; }
+    .alert.hidden { display: none; }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 480px) {
+        .auth-card { padding: var(--space-lg); }
+        .auth-header h1 { font-size: 1.4rem; }
+        .auth-logo { font-size: 2rem; }
+        .form-row-2 { grid-template-columns: 1fr; }
+    }
+</style>
 </head>
 <body>
-    <div class="auth-page">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="signup.html" class="btn btn-outline active" style="padding:6px 16px;">Sign Up</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <span>Create Account</span>
+    </div>
+
+    <!-- AUTH -->
+    <div class="auth-wrap">
         <div class="auth-card">
-            <h1>Create Account</h1>
-            <p>Start your diploma engineering journey today</p>
 
-            <form onsubmit="handleSignup(event)">
-                <div class="form-group">
-                    <label for="signupName">Full Name</label>
-                    <input type="text" id="signupName" placeholder="Your full name" required>
+            <div class="auth-header">
+                <span class="auth-logo">🎓</span>
+                <h1>Create your account</h1>
+                <p>Free forever. No credit card required.</p>
+            </div>
+
+            <!-- ALERT -->
+            <div class="alert error hidden" id="errorAlert" role="alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText"></span>
+            </div>
+            <div class="alert success hidden" id="successAlert" role="alert">
+                <i class="fas fa-check-circle"></i>
+                <span id="successText"></span>
+            </div>
+
+            <!-- FORM -->
+            <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)" novalidate>
+
+                <!-- Full Name -->
+                <div class="field">
+                    <label for="name">
+                        <i class="fas fa-user"></i> Full name
+                    </label>
+                    <div class="input-wrap">
+                        <input type="text"
+                               id="name"
+                               name="name"
+                               placeholder="e.g. Aditya Sharma"
+                               autocomplete="name"
+                               required
+                               minlength="2"
+                               oninput="clearFieldError('name')">
+                    </div>
+                    <div class="field-error" id="nameError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="signupEmail">Email Address</label>
-                    <input type="email" id="signupEmail" placeholder="you@example.com" required>
+                <!-- Email -->
+                <div class="field">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email address
+                    </label>
+                    <div class="input-wrap">
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               placeholder="you@example.com"
+                               autocomplete="email"
+                               required
+                               oninput="clearFieldError('email')">
+                    </div>
+                    <div class="field-error" id="emailError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" placeholder="Create a password" required>
-                    <div class="password-hint">Password must be at least 6 characters</div>
+                <!-- Branch + Semester -->
+                <div class="form-row-2">
+                    <div class="field">
+                        <label for="branch">
+                            <i class="fas fa-graduation-cap"></i> Branch
+                        </label>
+                        <div class="input-wrap">
+                            <select id="branch" name="branch" required onchange="clearFieldError('branch')">
+                                <option value="">Select branch…</option>
+                            </select>
+                        </div>
+                        <div class="field-error" id="branchError">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="semester">
+                            <i class="fas fa-layer-group"></i> Semester
+                        </label>
+                        <div class="input-wrap">
+                            <select id="semester" name="semester" required onchange="clearFieldError('semester')">
+                                <option value="">Select sem…</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                            </select>
+                        </div>
+                        <div class="field-error" id="semesterError">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="signupConfirm">Confirm Password</label>
-                    <input type="password" id="signupConfirm" placeholder="Confirm your password" required>
+                <!-- Password -->
+                <div class="field">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <div class="input-wrap">
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               placeholder="Min. 8 characters"
+                               autocomplete="new-password"
+                               required
+                               minlength="8"
+                               oninput="onPasswordInput()">
+                        <button type="button"
+                                class="toggle-pass"
+                                onclick="togglePassword('password','passIcon1')"
+                                aria-label="Toggle password visibility">
+                            <i class="fas fa-eye" id="passIcon1"></i>
+                        </button>
+                    </div>
+                    <div class="strength-wrap" id="strengthWrap" style="display:none;">
+                        <div class="strength-bar" id="strengthBar">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="strength-label" id="strengthLabel">—</div>
+                    </div>
+                    <div class="field-error" id="passwordError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-user-plus"></i> Create Account
+                <!-- Confirm Password -->
+                <div class="field">
+                    <label for="confirm">
+                        <i class="fas fa-lock"></i> Confirm password
+                    </label>
+                    <div class="input-wrap">
+                        <input type="password"
+                               id="confirm"
+                               name="confirm"
+                               placeholder="Re-enter password"
+                               autocomplete="new-password"
+                               required
+                               oninput="clearFieldError('confirm')">
+                        <button type="button"
+                                class="toggle-pass"
+                                onclick="togglePassword('confirm','passIcon2')"
+                                aria-label="Toggle confirm password visibility">
+                            <i class="fas fa-eye" id="passIcon2"></i>
+                        </button>
+                    </div>
+                    <div class="field-error" id="confirmError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="field">
+                    <label class="checkbox-wrap" for="terms" style="font-weight:400;">
+                        <input type="checkbox" id="terms" name="terms" onchange="clearFieldError('terms')">
+                        <span>
+                            I agree to the
+                            <a href="terms.html" target="_blank">Terms of Service</a>
+                            and
+                            <a href="privacy.html" target="_blank">Privacy Policy</a>
+                        </span>
+                    </label>
+                    <div class="field-error" id="termsError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+                    <span class="btn-loading" id="submitLabel">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </span>
                 </button>
+
+                <!-- Divider -->
+                <div class="divider">or sign up with</div>
+
+                <!-- Google -->
+                <button type="button" class="oauth-btn" onclick="handleGoogleSignup()">
+                    <i class="fab fa-google google-icon"></i>
+                    Continue with Google
+                </button>
+
             </form>
 
+            <!-- Footer -->
             <div class="auth-footer">
-                Already have an account? <a href="login.html">Sign In</a>
+                Already have an account?
+                <a href="login.html">Sign in →</a>
             </div>
+
         </div>
     </div>
 
-    <!-- ✅ auth.js -->
-    <script src="js/auth.js"></script>
+</div>
 
-    <!-- ✅ Clean signup handler -->
-    <script>
-        // Initialize Supabase
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof initSupabase === 'function') {
-                initSupabase();
-            }
-        });
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
 
-        // Clean signup function
-        async function handleSignup(event) {
-            event.preventDefault();
-            
-            const fullName = document.getElementById('signupName').value.trim();
-            const email = document.getElementById('signupEmail').value.trim();
-            const password = document.getElementById('signupPassword').value;
-            const confirm = document.getElementById('signupConfirm').value;
-            
-            // Validation
-            if (!fullName) {
-                alert('Please enter your full name');
-                return;
-            }
-            if (!email) {
-                alert('Please enter your email address');
-                return;
-            }
-            if (password.length < 6) {
-                alert('Password must be at least 6 characters');
-                return;
-            }
-            if (password !== confirm) {
-                alert('Passwords do not match!');
-                return;
-            }
-            
-            // Call signUp from auth.js
-            if (typeof signUp === 'function') {
-                await signUp(email, password, fullName);
-            } else {
-                alert('Authentication not loaded. Please refresh.');
-            }
-        }
-    </script>
-<!-- ============================================================
-FOOTER - FULLY WORKING WITH ALL LINKS
-============================================================ -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <h3>DIPLOMA HUB</h3>
-                <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                <div class="social-links">
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <a href="courses.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Courses</a>
-                <a href="equipment.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Equipment</a>
-                <a href="practicals.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Practicals</a>
-                <a href="quizzes.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Quizzes</a>
-                <a href="resources.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Resources</a>
-            </div>
-
-            <!-- Column 3: MSBTE Resources -->
-            <div class="footer-col">
-                <h4>MSBTE Resources</h4>
-                <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Curriculum
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    K-Scheme Lab Manuals
-                    <span style="font-size:0.55rem;background:rgba(0,212,255,0.15);color:var(--neon-blue);padding:1px 8px;border-radius:10px;margin-left:4px;">Official</span>
-                </a>
-                <a href="https://msbte.ac.in/" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-right:5px;"></i> 
-                    MSBTE Official Website
-                </a>
-            </div>
-
-            <!-- Column 4: Support -->
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> About</a>
-                <a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Contact</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Privacy Policy</a>
-                <a href="#"><i class="fas fa-chevron-right" style="font-size:0.6rem;margin-right:6px;"></i> Terms</a>
-            </div>
-
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
         </div>
-
-        <!-- Bottom Bar -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart" style="color:#f43f5e;"></i> for engineering students</p>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
         </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="papers.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
     </div>
 </footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/msbte-k-scheme-data.js"></script>
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+function showError(msg) {
+    document.getElementById('errorAlert').classList.remove('hidden');
+    document.getElementById('successAlert').classList.add('hidden');
+    document.getElementById('errorText').textContent = msg;
+}
+function showSuccess(msg) {
+    document.getElementById('successAlert').classList.remove('hidden');
+    document.getElementById('errorAlert').classList.add('hidden');
+    document.getElementById('successText').textContent = msg;
+}
+function hideAlerts() {
+    document.getElementById('errorAlert').classList.add('hidden');
+    document.getElementById('successAlert').classList.add('hidden');
+}
+function setFieldError(id, msg) {
+    const input = document.getElementById(id);
+    const errEl = document.getElementById(id + 'Error');
+    if (input && input.classList) input.classList.add('invalid');
+    if (input) input.setAttribute('aria-invalid', 'true');
+    if (errEl) {
+        errEl.querySelector('span').textContent = msg;
+        errEl.classList.add('show');
+    }
+}
+function clearFieldError(id) {
+    const input = document.getElementById(id);
+    const errEl = document.getElementById(id + 'Error');
+    if (input && input.classList) input.classList.remove('invalid');
+    if (input) input.removeAttribute('aria-invalid');
+    if (errEl) errEl.classList.remove('show');
+}
+function togglePassword(fieldId, iconId) {
+    const input = document.getElementById(fieldId);
+    const icon = document.getElementById(iconId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+    }
+}
+function setLoading(loading) {
+    const btn = document.getElementById('submitBtn');
+    const label = document.getElementById('submitLabel');
+    btn.disabled = loading;
+    if (loading) {
+        label.innerHTML = '<span class="spinner-mini"></span> Creating account…';
+    } else {
+        label.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+    }
+}
+
+// ============================================================
+// VALIDATION HELPERS
+// ============================================================
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function getPasswordStrength(pw) {
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    if (pw.length >= 12) score++;
+    return Math.min(score, 4);
+}
+
+function onPasswordInput() {
+    const pw = document.getElementById('password').value;
+    const wrap = document.getElementById('strengthWrap');
+    const bar = document.getElementById('strengthBar');
+    const label = document.getElementById('strengthLabel');
+
+    clearFieldError('password');
+
+    if (!pw) {
+        wrap.style.display = 'none';
+        return;
+    }
+    wrap.style.display = 'flex';
+
+    const score = getPasswordStrength(pw);
+    bar.className = 'strength-bar';
+    label.className = 'strength-label';
+
+    if (score <= 1) {
+        bar.classList.add('weak');
+        label.classList.add('weak');
+        label.textContent = 'Weak';
+    } else if (score === 2) {
+        bar.classList.add('fair');
+        label.classList.add('fair');
+        label.textContent = 'Fair';
+    } else if (score === 3) {
+        bar.classList.add('good');
+        label.classList.add('good');
+        label.textContent = 'Good';
+    } else {
+        bar.classList.add('strong');
+        label.classList.add('strong');
+        label.textContent = 'Strong';
+    }
+}
+
+// ============================================================
+// POPULATE BRANCHES
+// ============================================================
+function populateBranches() {
+    const data = window.courseData || {};
+    const select = document.getElementById('branch');
+    Object.keys(data).forEach(slug => {
+        const c = data[slug];
+        const opt = document.createElement('option');
+        opt.value = slug;
+        opt.textContent = `${c.name} (${c.code})`;
+        select.appendChild(opt);
+    });
+}
+
+// ============================================================
+// FORM VALIDATION
+// ============================================================
+function validateForm() {
+    let valid = true;
+    hideAlerts();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const branch = document.getElementById('branch').value;
+    const semester = document.getElementById('semester').value;
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm').value;
+    const terms = document.getElementById('terms').checked;
+
+    ['name','email','branch','semester','password','confirm','terms'].forEach(clearFieldError);
+
+    if (!name) { setFieldError('name', 'Name is required'); valid = false; }
+    else if (name.length < 2) { setFieldError('name', 'Name is too short'); valid = false; }
+
+    if (!email) { setFieldError('email', 'Email is required'); valid = false; }
+    else if (!validateEmail(email)) { setFieldError('email', 'Please enter a valid email'); valid = false; }
+
+    if (!branch) { setFieldError('branch', 'Please select your branch'); valid = false; }
+    if (!semester) { setFieldError('semester', 'Please select your semester'); valid = false; }
+
+    if (!password) { setFieldError('password', 'Password is required'); valid = false; }
+    else if (password.length < 8) { setFieldError('password', 'Password must be at least 8 characters'); valid = false; }
+
+    if (!confirm) { setFieldError('confirm', 'Please confirm your password'); valid = false; }
+    else if (password && confirm !== password) { setFieldError('confirm', 'Passwords do not match'); valid = false; }
+
+    if (!terms) { setFieldError('terms', 'You must accept the Terms & Privacy Policy'); valid = false; }
+
+    return valid;
+}
+
+// ============================================================
+// SIGNUP HANDLER
+// ============================================================
+async function handleSignup(e) {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const branch = document.getElementById('branch').value;
+    const semester = document.getElementById('semester').value;
+    const password = document.getElementById('password').value;
+
+    setLoading(true);
+
+    try {
+        // ============ REAL SUPABASE AUTH ============
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            const { data, error } = await window.supabaseClient.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        name,
+                        branch,
+                        semester: Number(semester)
+                    },
+                    emailRedirectTo: window.location.origin + '/diploma-hub/dashboard.html'
+                }
+            });
+            if (error) throw new Error(error.message);
+
+            // If email confirmation is required
+            if (data.user && !data.session) {
+                savePendingUser({ name, email, branch, semester });
+                showSuccess('Check your email to verify your account! Redirecting…');
+                setTimeout(() => {
+                    window.location.href = 'verify-email.html?email=' + encodeURIComponent(email);
+                }, 1200);
+                return;
+            }
+
+            // Auto-confirmed
+            if (data.session) {
+                saveUserSession({
+                    id: data.user.id,
+                    email: data.user.email,
+                    name,
+                    branch,
+                    semester: Number(semester)
+                }, true);
+                showSuccess('Account created! Redirecting…');
+                setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+            }
+            return;
+        }
+
+        // ============ MOCK AUTH ============
+        await mockDelay(1000);
+
+        // Check if email already used (mock)
+        const existing = JSON.parse(localStorage.getItem('dh_mockUsers') || '[]');
+        if (existing.some(u => u.email === email)) {
+            throw new Error('An account with this email already exists.');
+        }
+
+        const user = {
+            id: 'user-' + Date.now(),
+            name,
+            email,
+            branch,
+            semester: Number(semester),
+            createdAt: Date.now()
+        };
+        existing.push({ ...user, password: '***' });
+        localStorage.setItem('dh_mockUsers', JSON.stringify(existing));
+
+        saveUserSession(user, true);
+
+        showSuccess('Account created! Check your email (mock) — redirecting…');
+        showToast('Welcome to DiplomaHub! 🎉');
+
+        setTimeout(() => {
+            window.location.href = 'verify-email.html?email=' + encodeURIComponent(email) + '&mock=1';
+        }, 1000);
+
+    } catch (err) {
+        console.error('Signup error:', err);
+        setLoading(false);
+        showError(err.message || 'Signup failed. Please try again.');
+    }
+}
+
+// ============================================================
+// GOOGLE SIGNUP
+// ============================================================
+async function handleGoogleSignup() {
+    setLoading(true);
+    hideAlerts();
+
+    try {
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            const { error } = await window.supabaseClient.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.origin + '/diploma-hub/dashboard.html' }
+            });
+            if (error) throw new Error(error.message);
+            return;
+        }
+
+        // Mock
+        await mockDelay(1200);
+        const user = {
+            id: 'google-' + Date.now(),
+            email: 'student@gmail.com',
+            name: 'Google Student',
+            branch: 'computer-engineering',
+            semester: 3,
+            provider: 'google'
+        };
+        saveUserSession(user, true);
+        showSuccess('Signed up with Google! Redirecting…');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+
+    } catch (err) {
+        setLoading(false);
+        showError(err.message || 'Google signup failed.');
+    }
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function mockDelay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function saveUserSession(user, remember) {
+    const payload = {
+        user,
+        token: 'mock-jwt-' + Date.now(),
+        createdAt: Date.now(),
+        expiresAt: Date.now() + (remember ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000)
+    };
+    if (remember) {
+        localStorage.setItem('dh_session', JSON.stringify(payload));
+    } else {
+        sessionStorage.setItem('dh_session', JSON.stringify(payload));
+    }
+}
+
+function savePendingUser(user) {
+    localStorage.setItem('dh_pending_signup', JSON.stringify(user));
+}
+
+function isLoggedIn() {
+    try {
+        const s = localStorage.getItem('dh_session') || sessionStorage.getItem('dh_session');
+        if (!s) return false;
+        const p = JSON.parse(s);
+        return p.expiresAt > Date.now();
+    } catch(e) { return false; }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+(function init() {
+    if (isLoggedIn()) {
+        window.location.href = 'dashboard.html';
+        return;
+    }
+
+    populateBranches();
+
+    // Pre-fill name if coming from a previous step
+    const nameInput = document.getElementById('name');
+    if (nameInput) nameInput.focus();
+})();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
