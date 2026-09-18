@@ -1,216 +1,586 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipment - DIPLOMA HUB</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        .page-header { padding: 120px 0 40px; text-align: center; }
-        .page-header h1 { font-size: 3rem; }
-        .page-header p { color: var(--gray-400); font-size: 1.1rem; }
-        .search-filter { max-width: 600px; margin: 20px auto 40px; }
-        .search-box { display: flex; align-items: center; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 50px; padding: 5px; }
-        .search-box input { flex: 1; background: transparent; border: none; padding: 15px 20px; color: var(--white); font-size: 1rem; outline: none; }
-        .search-box button { background: var(--cyan-500); border: none; color: white; padding: 12px 25px; border-radius: 50px; cursor: pointer; font-weight: 600; }
-        .search-box button:hover { background: var(--cyan-600); }
-        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
-        .equipment-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; cursor: pointer; transition: 0.3s; }
-        .equipment-card:hover { transform: translateY(-5px); border-color: var(--cyan-400); box-shadow: 0 8px 30px rgba(6,182,212,0.1); }
-        .equipment-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .equipment-card .badge { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 0.75rem; background: rgba(6,182,212,0.15); color: var(--cyan-400); margin: 8px 0; }
-        .equipment-card p { color: var(--gray-400); font-size: 0.9rem; margin: 8px 0; }
-        .equipment-card .card-link { color: var(--cyan-400); font-weight: 500; }
-        .no-results { text-align: center; color: var(--gray-400); padding: 40px; grid-column: 1 / -1; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Browse 200+ engineering lab equipment with detailed explanations, specifications, and practical usage for MSBTE Diploma students.">
+<meta name="keywords" content="Engineering Equipment, Lab Equipment, MSBTE Equipment, Diploma Lab, Equipment Guide">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Engineering Equipment — DiplomaHub">
+<meta property="og:description" content="Browse 200+ engineering lab equipment with detailed explanations.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/equipment.html">
+<meta property="og:image" content="https://alam-7.github.io/diploma-hub/assets/images/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Engineering Equipment — DiplomaHub">
+<meta name="twitter:description" content="Browse 200+ engineering lab equipment.">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/equipment.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Engineering Equipment — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= FILTER BAR ================= */
+    .filter-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .filter-bar .search-wrap {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+    }
+    .filter-bar .search-wrap i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .filter-bar input { padding-left: 44px; }
+    .filter-bar select { max-width: 200px; }
+
+    /* ================= STATS ================= */
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+    }
+    .mini-stat {
+        flex: 1;
+        min-width: 130px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mini-stat i { font-size: 1.3rem; color: var(--primary); }
+    .mini-stat .num { font-size: 1.25rem; font-weight: 700; }
+    .mini-stat .label { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ================= EQUIPMENT GRID ================= */
+    .equipment-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .equipment-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: var(--transition);
+        position: relative;
+        cursor: pointer;
+        text-decoration: none;
+        color: var(--text);
+    }
+    .equipment-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), #a855f7);
+        opacity: 0;
+        transition: opacity var(--transition);
+    }
+    .equipment-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+        background: var(--surface-hover);
+        box-shadow: var(--shadow-glow);
+    }
+    .equipment-card:hover::before { opacity: 1; }
+
+    .equip-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .equip-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: var(--primary-glow);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+    }
+    .equip-bookmark {
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 1rem;
+        padding: 4px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .equip-bookmark:hover { color: var(--primary); }
+    .equip-bookmark.active { color: var(--primary); }
+
+    .equip-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 0.72rem;
+        font-weight: 700;
+        background: var(--primary-glow);
+        color: var(--primary);
+        width: fit-content;
+    }
+
+    .equipment-card h3 {
+        font-size: 1rem;
+        line-height: 1.4;
+        margin-bottom: 2px;
+    }
+    .equipment-card p {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        flex: 1;
+    }
+
+    .equip-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+        font-size: 0.78rem;
+        color: var(--text-muted);
+    }
+    .equip-footer .link {
+        color: var(--primary);
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Empty */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-dim);
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    .empty-state h3 { margin-bottom: 6px; }
+    .empty-state p { color: var(--text-muted); }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 600px) {
+        .equipment-grid { grid-template-columns: 1fr; }
+    }
+</style>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>DIPLOMA<span class="highlight">HUB</span></span>
-            </div>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="courses.html">Courses</a>
-                <a href="equipment.html" class="active">Equipment</a>
-                <a href="practicals.html">Practicals</a>
-                <a href="quizzes.html">Quizzes</a>
-                <a href="resources.html">Resources</a>
-                <a href="about.html">About</a>
-            </div>
-            <div class="nav-right">
-                <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
-                <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-            </div>
-        </div>
-    </nav>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header">
-        <div class="container">
-            <h1>Engineering <span class="gradient-text">Equipment</span></h1>
-            <p>Browse 200+ engineering equipment with detailed explanations</p>
-            
-            <!-- ✅ SIMPLE SEARCH BOX -->
-            <div class="search-filter">
-                <div class="search-box">
-                    <input type="text" id="equipmentSearch" placeholder="Search equipment..." onkeyup="filterEquipment()">
-                    <button onclick="filterEquipment()"><i class="fas fa-search"></i> Search</button>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html" class="active">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <span>Equipment</span>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:2rem;margin-bottom:6px;">
+            🔧 Engineering Equipment
+        </h1>
+        <p class="text-muted" style="max-width:700px;margin:0 auto;">
+            Browse 200+ engineering equipment with detailed explanations, specs, and usage.
+        </p>
+    </div>
+
+    <!-- ================= LOADING ================= -->
+    <div id="loading" class="skeleton" aria-busy="true">
+        <div class="skeleton-tabs"></div>
+        <div class="skeleton-table"></div>
+    </div>
+
+    <!-- ================= NOT LOADED ================= -->
+    <div id="notFound" class="empty-state" style="display:none;" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h3>Equipment Data Not Loaded</h3>
+        <p>Make sure <code>js/equipment-data.js</code> exists and defines <code>window.EQUIPMENT</code>.</p>
+    </div>
+
+    <!-- ================= CONTENT ================= -->
+    <div id="content" style="display:none;">
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <i class="fas fa-tools"></i>
+                <div>
+                    <div class="num" id="statTotal">0</div>
+                    <div class="label">Total Equipment</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-tags"></i>
+                <div>
+                    <div class="num" id="statCategories">0</div>
+                    <div class="label">Categories</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-eye"></i>
+                <div>
+                    <div class="num" id="statShown">0</div>
+                    <div class="label">Currently Shown</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-bookmark"></i>
+                <div>
+                    <div class="num" id="statBookmarks">0</div>
+                    <div class="label">Bookmarked</div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- EQUIPMENT GRID -->
-    <section style="padding: 20px 0 60px;">
-        <div class="container">
-            <div class="equipment-grid" id="equipmentGrid"></div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>DIPLOMA HUB</h3>
-                    <p>"Understand Engineering. Learn Practically. Build the Future."</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="courses.html">Courses</a>
-                    <a href="equipment.html">Equipment</a>
-                    <a href="practicals.html">Practicals</a>
-                    <a href="quizzes.html">Quizzes</a>
-                    <a href="resources.html">Resources</a>
-                </div>
-                <div class="footer-col">
-                    <h4>MSBTE Resources</h4>
-                    <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank">📖 MSBTE Curriculum</a>
-                    <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank">🔬 Lab Manuals</a>
-                    <a href="https://msbte.ac.in/" target="_blank">🏛️ MSBTE Official</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms</a>
-                </div>
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput"
+                       placeholder="Search equipment by name, category, or purpose…"
+                       oninput="applyFilters()"
+                       aria-label="Search equipment">
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 DIPLOMA HUB. All rights reserved.</p>
-                <p>Made with ❤️ for engineering students</p>
-            </div>
+            <select id="categoryFilter" onchange="applyFilters()" aria-label="Category">
+                <option value="all">All Categories</option>
+            </select>
+            <select id="sortSelect" onchange="applyFilters()" aria-label="Sort">
+                <option value="default">Sort: Default</option>
+                <option value="az">A → Z</option>
+                <option value="za">Z → A</option>
+                <option value="category">By Category</option>
+            </select>
         </div>
-    </footer>
 
-    <!-- ✅ SCRIPTS - LOAD DATA FIRST -->
-    <script src="js/equipment-data.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/auth.js"></script>
+        <!-- Equipment Grid -->
+        <div class="equipment-grid" id="equipmentGrid"></div>
 
-    <script>
-        // ============================================
-        // SIMPLE SEARCH FUNCTION
-        // ============================================
-        function filterEquipment() {
-            var input = document.getElementById('equipmentSearch');
-            var query = input.value.toLowerCase().trim();
-            var grid = document.getElementById('equipmentGrid');
-            
-            console.log('🔍 Searching for:', query); // Debug
+    </div>
 
-            // Check if EQUIPMENT exists
-            if (typeof EQUIPMENT === 'undefined' || !Array.isArray(EQUIPMENT)) {
-                grid.innerHTML = '<div class="no-results"><p>⚠️ Equipment data not loaded. Refresh the page.</p></div>';
-                return;
-            }
+</div>
 
-            // Filter
-            var filtered = EQUIPMENT.filter(function(item) {
-                return item.name.toLowerCase().indexOf(query) !== -1 ||
-                       (item.category && item.category.toLowerCase().indexOf(query) !== -1) ||
-                       (item.purpose && item.purpose.toLowerCase().indexOf(query) !== -1);
-            });
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
 
-            console.log('📊 Found:', filtered.length); // Debug
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>MSBTE Resources</h4>
+            <a href="https://econtent.msbte.edu.in/curriculum_search/" target="_blank" rel="noopener">📖 MSBTE Curriculum</a>
+            <a href="https://curriculum.msbte.edu.in/msbteacmon/curdev/outer.php?q=get_lab_manuals_k" target="_blank" rel="noopener">🔬 Lab Manuals</a>
+            <a href="https://msbte.ac.in/" target="_blank" rel="noopener">🏛️ MSBTE Official</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
 
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="no-results"><p>❌ No equipment found for "<strong>' + query + '</strong>"</p></div>';
-                return;
-            }
+<!-- ================= SCRIPTS ================= -->
+<script src="js/equipment-data.js"></script>
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
 
-            grid.innerHTML = filtered.map(function(item) {
-                return '<div class="equipment-card" onclick="location.href=\'equipment-detail.html?slug=' + item.slug + '\'">' +
-                    '<h3>' + item.name + '</h3>' +
-                    '<span class="badge">' + (item.category || 'Uncategorized') + '</span>' +
-                    '<p>' + (item.purpose ? item.purpose.substring(0, 100) + '...' : 'No description') + '</p>' +
-                    '<span class="card-link">View Details →</span>' +
-                    '</div>';
-            }).join('');
-        }
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
 
-        // ============================================
-        // LOAD ALL EQUIPMENT ON PAGE LOAD
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            var grid = document.getElementById('equipmentGrid');
-            
-            if (typeof EQUIPMENT !== 'undefined' && Array.isArray(EQUIPMENT)) {
-                var items = EQUIPMENT.slice(0, 20);
-                grid.innerHTML = items.map(function(item) {
-                    return '<div class="equipment-card" onclick="location.href=\'equipment-detail.html?slug=' + item.slug + '\'">' +
-                        '<h3>' + item.name + '</h3>' +
-                        '<span class="badge">' + (item.category || 'Uncategorized') + '</span>' +
-                        '<p>' + (item.purpose ? item.purpose.substring(0, 100) + '...' : 'No description') + '</p>' +
-                        '<span class="card-link">View Details →</span>' +
-                        '</div>';
-                }).join('');
-                console.log('✅ Loaded', EQUIPMENT.length, 'equipment items');
-            } else {
-                grid.innerHTML = '<div class="no-results"><p>⚠️ Equipment data not loaded. Please refresh.</p></div>';
-            }
-        });
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
 
-        // Theme toggle
-        function toggleTheme() {
-            var body = document.body;
-            var icon = document.getElementById('themeIcon');
-            if (body.getAttribute('data-theme') === 'light') {
-                body.removeAttribute('data-theme');
-                if (icon) icon.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                if (icon) icon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'light');
-            }
-        }
+// ============================================================
+// STATE
+// ============================================================
+let equipmentList = [];
 
-        function toggleMobileMenu() {
-            var nav = document.getElementById('navLinks');
-            if (nav) nav.classList.toggle('open');
-        }
+// ============================================================
+// LOAD
+// ============================================================
+function loadEquipment() {
+    const loading = document.getElementById('loading');
+    const notFound = document.getElementById('notFound');
+    const content = document.getElementById('content');
 
-        var savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.body.setAttribute('data-theme', 'light');
-            var icon = document.getElementById('themeIcon');
-            if (icon) icon.className = 'fas fa-sun';
-        }
-    </script>
+    // Accept any global name for backward compat
+    const data = window.EQUIPMENT || window.equipment || window.equipmentData;
+
+    if (!Array.isArray(data) || data.length === 0) {
+        loading.style.display = 'none';
+        content.style.display = 'none';
+        notFound.style.display = 'block';
+        return;
+    }
+
+    equipmentList = data.slice();
+
+    // Populate category filter
+    const cats = [...new Set(equipmentList
+        .map(e => e.category)
+        .filter(Boolean))].sort();
+    const catFilter = document.getElementById('categoryFilter');
+    catFilter.innerHTML = '<option value="all">All Categories</option>' +
+        cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+
+    // Stats
+    document.getElementById('statTotal').textContent = equipmentList.length;
+    document.getElementById('statCategories').textContent = cats.length;
+    updateBookmarkStat();
+
+    // Show
+    loading.style.display = 'none';
+    content.style.display = 'block';
+
+    applyFilters();
+}
+
+function updateBookmarkStat() {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('equipmentBookmarks')) || []; } catch(e) {}
+    document.getElementById('statBookmarks').textContent = list.length;
+}
+
+// ============================================================
+// FILTERS + SORT + RENDER
+// ============================================================
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const cat = document.getElementById('categoryFilter').value;
+    const sort = document.getElementById('sortSelect').value;
+
+    let list = equipmentList.filter(e => {
+        const matchQ = !q ||
+            (e.name || '').toLowerCase().includes(q) ||
+            (e.category || '').toLowerCase().includes(q) ||
+            (e.purpose || '').toLowerCase().includes(q) ||
+            (e.description || '').toLowerCase().includes(q);
+        const matchC = cat === 'all' || e.category === cat;
+        return matchQ && matchC;
+    });
+
+    if (sort === 'az') list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    else if (sort === 'za') list.sort((a, b) => (b.name || '').localeCompare(a.name || ''));
+    else if (sort === 'category') list.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+
+    document.getElementById('statShown').textContent = list.length;
+
+    renderEquipment(list);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderEquipment(list) {
+    const grid = document.getElementById('equipmentGrid');
+    if (!list.length) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-search"></i>
+                <h3>No equipment found</h3>
+                <p>Try a different search term or filter.</p>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(e => {
+        const slug = e.slug || (e.name || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+        const saved = isBookmarked(slug);
+        const purpose = (e.purpose || e.description || 'No description available.').slice(0, 110);
+        const icon = e.icon || '🔧';
+
+        return `
+            <a class="equipment-card"
+               href="equipment-detail.html?slug=${encodeURIComponent(slug)}"
+               aria-label="View ${escapeHtml(e.name)}">
+                <div class="equip-head">
+                    <div class="equip-icon">${icon}</div>
+                    <button class="equip-bookmark ${saved ? 'active' : ''}"
+                            onclick="event.preventDefault();event.stopPropagation();toggleBookmark('${slug}')"
+                            aria-label="Bookmark equipment">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+                <span class="equip-badge">
+                    <i class="fas fa-tag"></i> ${escapeHtml(e.category || 'Uncategorized')}
+                </span>
+                <h3>${escapeHtml(e.name || 'Untitled')}</h3>
+                <p>${escapeHtml(purpose)}${purpose.length >= 110 ? '…' : ''}</p>
+                <div class="equip-footer">
+                    <span><i class="fas fa-eye"></i> View Details</span>
+                    <span class="link">Open <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+        `;
+    }).join('');
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function isBookmarked(slug) {
+    try {
+        const list = JSON.parse(localStorage.getItem('equipmentBookmarks')) || [];
+        return list.includes(slug);
+    } catch(e) { return false; }
+}
+function toggleBookmark(slug) {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('equipmentBookmarks')) || []; } catch(e) {}
+    const i = list.indexOf(slug);
+    if (i > -1) { list.splice(i, 1); showToast('Bookmark removed'); }
+    else { list.push(slug); showToast('Bookmarked!'); }
+    localStorage.setItem('equipmentBookmarks', JSON.stringify(list));
+    updateBookmarkStat();
+    applyFilters();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadEquipment();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
 </body>
 </html>
