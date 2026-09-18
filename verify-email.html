@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00d4ff">
+<meta name="description" content="Verify your email address to activate your DiplomaHub account.">
+<meta name="keywords" content="DiplomaHub Verify Email, Email Verification, MSBTE Account">
+<meta name="robots" content="noindex, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Verify Email — DiplomaHub">
+<meta property="og:description" content="Verify your email to activate your account.">
+<meta property="og:url" content="https://alam-7.github.io/diploma-hub/verify-email.html">
+
+<link rel="canonical" href="https://alam-7.github.io/diploma-hub/verify-email.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/images/icon-192.png">
+
+<title>Verify Email — DiplomaHub</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* ================= AUTH LAYOUT ================= */
+    .auth-wrap {
+        min-height: calc(100vh - var(--nav-height) - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-xl) var(--space-md);
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 460px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        text-align: center;
+    }
+    .auth-card::before {
+        content: '';
+        position: absolute;
+        top: -50%; right: -30%;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, rgba(0,212,255,0.15), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .auth-header {
+        position: relative;
+        z-index: 1;
+        margin-bottom: var(--space-lg);
+    }
+    .mail-icon {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: var(--primary-glow);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto var(--space-md);
+        animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+    .auth-header h1 {
+        font-size: 1.55rem;
+        margin-bottom: 8px;
+    }
+    .auth-header p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    .email-pill {
+        display: inline-block;
+        background: var(--primary-glow);
+        color: var(--primary);
+        padding: 6px 16px;
+        border-radius: var(--radius-pill);
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-top: 10px;
+        word-break: break-all;
+        max-width: 100%;
+    }
+
+    /* ================= OTP ================= */
+    .otp-wrap {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: var(--space-lg) 0;
+        position: relative;
+        z-index: 1;
+    }
+    .otp-input {
+        width: 52px;
+        height: 60px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--bg-alt);
+        border: 2px solid var(--border);
+        border-radius: var(--radius-md);
+        color: var(--text);
+        padding: 0;
+        transition: var(--transition);
+        outline: none;
+        font-family: var(--font-mono);
+    }
+    .otp-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-glow);
+        transform: translateY(-2px);
+    }
+    .otp-input.filled {
+        border-color: var(--primary);
+        background: var(--primary-glow);
+    }
+    .otp-input.error {
+        border-color: var(--error);
+        animation: shake 0.4s;
+    }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-6px); }
+        75% { transform: translateX(6px); }
+    }
+
+    /* ================= BUTTONS ================= */
+    .btn-block {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 0.95rem;
+    }
+    .btn-loading {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .btn-loading .spinner-mini {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(10,10,26,0.3);
+        border-top-color: var(--bg);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ================= HELPERS ================= */
+    .helper-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: var(--space-md);
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+    .helper-row a, .helper-row button {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 0.85rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: var(--transition);
+    }
+    .helper-row a:hover, .helper-row button:hover:not(:disabled) {
+        background: var(--primary-glow);
+    }
+    .helper-row button:disabled {
+        color: var(--text-dim);
+        cursor: not-allowed;
+    }
+
+    /* ================= SUCCESS ================= */
+    .success-state {
+        display: none;
+        position: relative;
+        z-index: 1;
+    }
+    .success-state.show { display: block; }
+    .success-icon {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        background: rgba(34,197,94,0.15);
+        color: var(--success);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.4rem;
+        margin: 0 auto var(--space-md);
+        animation: pop 0.5s ease;
+    }
+    @keyframes pop {
+        0% { transform: scale(0.4); opacity: 0; }
+        70% { transform: scale(1.15); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    .success-state h2 {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+    .success-state p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: var(--space-lg);
+    }
+    .progress-line {
+        height: 3px;
+        background: var(--border);
+        border-radius: 2px;
+        overflow: hidden;
+        margin: var(--space-md) 0;
+    }
+    .progress-line span {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--primary), var(--success));
+        animation: fillBar 1.2s forwards;
+    }
+    @keyframes fillBar {
+        to { width: 100%; }
+    }
+
+    /* ================= ALERT ================= */
+    .alert {
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 0.88rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.5;
+        margin-bottom: var(--space-md);
+        text-align: left;
+        position: relative;
+        z-index: 1;
+    }
+    .alert.error {
+        background: rgba(239,68,68,0.1);
+        border: 1px solid rgba(239,68,68,0.3);
+        color: #fca5a5;
+    }
+    .alert.info {
+        background: rgba(0,212,255,0.08);
+        border: 1px solid rgba(0,212,255,0.25);
+        color: #7dd3fc;
+    }
+    .alert i { margin-top: 2px; }
+    .alert.hidden { display: none; }
+
+    /* Polling indicator */
+    .polling-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--success);
+        margin-right: 6px;
+        animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* Toast */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-alt);
+        border: 1px solid var(--primary);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lg);
+        z-index: 3000;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    .toast i { color: var(--success); margin-right: 6px; }
+
+    @media (max-width: 480px) {
+        .auth-card { padding: var(--space-lg); }
+        .auth-header h1 { font-size: 1.3rem; }
+        .mail-icon { width: 64px; height: 64px; font-size: 1.6rem; }
+        .otp-input { width: 44px; height: 52px; font-size: 1.3rem; }
+        .otp-wrap { gap: 6px; }
+    }
+    @media (max-width: 360px) {
+        .otp-input { width: 38px; height: 46px; font-size: 1.1rem; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">🎓 DIPLOMA HUB</a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="practicals.html">Practicals</a>
+        <a href="quizzers.html">Quizzes</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai.html">AI</a>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 16px;">Sign In</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> ›
+        <a href="signup.html">Sign Up</a> ›
+        <span>Verify Email</span>
+    </div>
+
+    <!-- AUTH -->
+    <div class="auth-wrap">
+        <div class="auth-card">
+
+            <!-- ============ VERIFY STATE ============ -->
+            <div id="verifyState">
+
+                <div class="auth-header">
+                    <div class="mail-icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <h1>Verify your email</h1>
+                    <p>We've sent a 6-digit code to</p>
+                    <div class="email-pill" id="emailPill">you@example.com</div>
+                </div>
+
+                <!-- ALERT -->
+                <div class="alert error hidden" id="errorAlert" role="alert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorText"></span>
+                </div>
+                <div class="alert info hidden" id="infoAlert">
+                    <span class="polling-dot"></span>
+                    <span id="infoText">Waiting for verification…</span>
+                </div>
+
+                <!-- OTP -->
+                <div class="otp-wrap" id="otpWrap">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" data-idx="0" autocomplete="one-time-code" aria-label="Digit 1">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" data-idx="1" aria-label="Digit 2">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" data-idx="2" aria-label="Digit 3">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" data-idx="3" aria-label="Digit 4">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" data-idx="4" aria-label="Digit 5">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" data-idx="5" aria-label="Digit 6">
+                </div>
+
+                <!-- Verify -->
+                <button type="button" class="btn btn-primary btn-block" id="verifyBtn" onclick="handleVerify()">
+                    <span class="btn-loading" id="verifyLabel">
+                        <i class="fas fa-check-circle"></i> Verify Email
+                    </span>
+                </button>
+
+                <!-- Helper row -->
+                <div class="helper-row">
+                    <span>Didn't get the code?</span>
+                    <button id="resendBtn" onclick="handleResend()">
+                        <i class="fas fa-redo"></i> Resend
+                        <span id="cooldownText" style="display:none;color:var(--text-dim);"></span>
+                    </button>
+                </div>
+
+                <!-- Change email + skip -->
+                <div class="helper-row" style="justify-content:center;gap:16px;">
+                    <a href="signup.html">
+                        <i class="fas fa-envelope"></i> Change email
+                    </a>
+                    <a href="dashboard.html">
+                        <i class="fas fa-clock"></i> Skip for now
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- ============ SUCCESS STATE ============ -->
+            <div class="success-state" id="successState">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h2>Email verified!</h2>
+                <p>Your account is now active. Redirecting to your dashboard…</p>
+                <div class="progress-line"><span></span></div>
+                <a href="dashboard.html" class="btn btn-primary btn-block" style="margin-top:16px;">
+                    <i class="fas fa-arrow-right"></i> Go to Dashboard
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🎓 DIPLOMA HUB</h3>
+            <p>"Understand Engineering. Learn Practically. Build the Future."</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="courses.html">Courses</a>
+            <a href="equipment.html">Equipment</a>
+            <a href="practicals.html">Practicals</a>
+            <a href="quizzers.html">Quizzes</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="notes.html">Notes</a>
+            <a href="books.html">Books</a>
+            <a href="papers.html">Papers</a>
+            <a href="search.html">Search</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="msbte.html">MSBTE</a>
+            <a href="404.html">Help</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 DiplomaHub · MIT License · Made with ❤️ for Diploma students</p>
+    </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('show');
+    });
+});
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+function showError(msg) {
+    document.getElementById('errorAlert').classList.remove('hidden');
+    document.getElementById('errorText').textContent = msg;
+}
+function hideAlerts() {
+    document.getElementById('errorAlert').classList.add('hidden');
+    document.getElementById('infoAlert').classList.add('hidden');
+}
+function showInfo(msg) {
+    document.getElementById('infoAlert').classList.remove('hidden');
+    document.getElementById('infoText').textContent = msg;
+}
+
+// ============================================================
+// STATE
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+let userEmail = params.get('email') || 'you@example.com';
+let cooldownTimer = null;
+let pollTimer = null;
+
+// ============================================================
+// OTP INPUTS
+// ============================================================
+const otpInputs = document.querySelectorAll('.otp-input');
+
+otpInputs.forEach((input, idx) => {
+    // Only digits
+    input.addEventListener('input', e => {
+        let val = e.target.value.replace(/\D/g, '');
+        input.value = val.slice(-1);
+        input.classList.toggle('filled', !!input.value);
+        input.classList.remove('error');
+        hideAlerts();
+
+        if (input.value && idx < otpInputs.length - 1) {
+            otpInputs[idx + 1].focus();
+        }
+
+        if (getOtpValue().length === 6) {
+            // Auto-verify when all filled
+            setTimeout(() => handleVerify(), 150);
+        }
+    });
+
+    // Backspace
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Backspace' && !input.value && idx > 0) {
+            otpInputs[idx - 1].focus();
+            otpInputs[idx - 1].value = '';
+            otpInputs[idx - 1].classList.remove('filled');
+        }
+        if (e.key === 'ArrowLeft' && idx > 0) otpInputs[idx - 1].focus();
+        if (e.key === 'ArrowRight' && idx < otpInputs.length - 1) otpInputs[idx + 1].focus();
+    });
+
+    // Paste full OTP
+    input.addEventListener('paste', e => {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text');
+        const digits = text.replace(/\D/g, '').slice(0, 6);
+        if (!digits) return;
+
+        digits.split('').forEach((d, i) => {
+            if (otpInputs[i]) {
+                otpInputs[i].value = d;
+                otpInputs[i].classList.add('filled');
+            }
+        });
+
+        const nextIdx = Math.min(digits.length, otpInputs.length - 1);
+        otpInputs[nextIdx].focus();
+
+        if (digits.length === 6) {
+            setTimeout(() => handleVerify(), 150);
+        }
+    });
+
+    // Select on focus
+    input.addEventListener('focus', () => input.select());
+});
+
+function getOtpValue() {
+    return Array.from(otpInputs).map(i => i.value).join('');
+}
+
+function clearOtp() {
+    otpInputs.forEach(i => {
+        i.value = '';
+        i.classList.remove('filled', 'error');
+    });
+    otpInputs[0].focus();
+}
+
+function markOtpError() {
+    otpInputs.forEach(i => i.classList.add('error'));
+    setTimeout(() => otpInputs.forEach(i => i.classList.remove('error')), 600);
+}
+
+function setVerifyLoading(loading) {
+    const btn = document.getElementById('verifyBtn');
+    const label = document.getElementById('verifyLabel');
+    btn.disabled = loading;
+    if (loading) {
+        label.innerHTML = '<span class="spinner-mini"></span> Verifying…';
+    } else {
+        label.innerHTML = '<i class="fas fa-check-circle"></i> Verify Email';
+    }
+}
+
+// ============================================================
+// VERIFY
+// ============================================================
+async function handleVerify() {
+    hideAlerts();
+
+    const otp = getOtpValue();
+
+    if (otp.length !== 6) {
+        markOtpError();
+        showError('Please enter the full 6-digit code.');
+        return;
+    }
+
+    setVerifyLoading(true);
+
+    try {
+        // ============ SUPABASE ============
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            // Supabase verifyOtp (email code flow) or check current session
+            const { data: sess } = await window.supabaseClient.auth.getSession();
+            if (sess && sess.session) {
+                // Already verified
+                completeVerification();
+                return;
+            }
+
+            // Try OTP verification (requires type: 'signup')
+            const { data, error } = await window.supabaseClient.auth.verifyOtp({
+                email: userEmail,
+                token: otp,
+                type: 'signup'
+            });
+
+            if (error) throw new Error(error.message);
+            if (data && data.session) {
+                // Save session
+                localStorage.setItem('dh_session', JSON.stringify({
+                    user: {
+                        id: data.user.id,
+                        email: data.user.email,
+                        name: data.user.user_metadata?.name || userEmail.split('@')[0]
+                    },
+                    token: data.session.access_token,
+                    createdAt: Date.now(),
+                    expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000
+                }));
+                completeVerification();
+                return;
+            }
+
+            throw new Error('Verification failed. Please check the code.');
+
+        } else {
+            // ============ MOCK ============
+            await new Promise(r => setTimeout(r, 900));
+
+            // Mock: any 6 digits work EXCEPT '000000'
+            if (otp === '000000') {
+                throw new Error('Invalid code. Please try again.');
+            }
+
+            // Save mock session
+            const pending = JSON.parse(localStorage.getItem('dh_pending_signup') || '{}');
+            const user = {
+                id: 'user-' + Date.now(),
+                email: userEmail,
+                name: pending.name || userEmail.split('@')[0],
+                branch: pending.branch || 'computer-engineering',
+                semester: pending.semester || 1,
+                verified: true
+            };
+
+            localStorage.setItem('dh_session', JSON.stringify({
+                user,
+                token: 'mock-jwt-' + Date.now(),
+                createdAt: Date.now(),
+                expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000
+            }));
+            localStorage.removeItem('dh_pending_signup');
+
+            completeVerification();
+        }
+
+    } catch (err) {
+        console.error('Verify error:', err);
+        setVerifyLoading(false);
+        markOtpError();
+        showError(err.message || 'Verification failed. Please try again.');
+    }
+}
+
+function completeVerification() {
+    setVerifyLoading(false);
+    clearInterval(pollTimer);
+    document.getElementById('verifyState').style.display = 'none';
+    document.getElementById('successState').classList.add('show');
+    showToast('Email verified successfully!');
+
+    // Auto-redirect after 2.5s
+    setTimeout(() => {
+        window.location.href = 'dashboard.html';
+    }, 2500);
+}
+
+// ============================================================
+// RESEND
+// ============================================================
+async function handleResend() {
+    hideAlerts();
+
+    try {
+        if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+            const { error } = await window.supabaseClient.auth.resend({
+                type: 'signup',
+                email: userEmail
+            });
+            if (error) throw new Error(error.message);
+        } else {
+            await new Promise(r => setTimeout(r, 700));
+        }
+
+        showToast('Verification code resent!');
+        clearOtp();
+        startCooldown(60);
+
+    } catch (err) {
+        showError(err.message || 'Failed to resend. Try again later.');
+    }
+}
+
+function startCooldown(seconds) {
+    const btn = document.getElementById('resendBtn');
+    const cooldownText = document.getElementById('cooldownText');
+    btn.disabled = true;
+    cooldownText.style.display = 'inline';
+
+    let remaining = seconds;
+    clearInterval(cooldownTimer);
+
+    const update = () => {
+        if (remaining <= 0) {
+            clearInterval(cooldownTimer);
+            btn.disabled = false;
+            cooldownText.style.display = 'none';
+            return;
+        }
+        cooldownText.textContent = `(${remaining}s)`;
+        remaining--;
+    };
+    update();
+    cooldownTimer = setInterval(update, 1000);
+}
+
+// ============================================================
+// POLLING (auto-check if verified in another tab)
+// ============================================================
+function startPolling() {
+    clearInterval(pollTimer);
+    pollTimer = setInterval(async () => {
+        try {
+            if (window.supabaseClient && typeof window.supabaseClient.auth !== 'undefined') {
+                const { data: sess } = await window.supabaseClient.auth.getSession();
+                if (sess && sess.session) {
+                    completeVerification();
+                }
+            } else {
+                // Mock: check localStorage
+                const s = localStorage.getItem('dh_session');
+                if (s) {
+                    const p = JSON.parse(s);
+                    if (p.expiresAt > Date.now()) {
+                        completeVerification();
+                    }
+                }
+            }
+        } catch(e) {}
+    }, 10000); // every 10s
+}
+
+// ============================================================
+// INIT
+// ============================================================
+(function init() {
+    // Set email pill
+    document.getElementById('emailPill').textContent = userEmail;
+
+    // Focus first OTP input
+    otpInputs[0].focus();
+
+    // Show info alert
+    showInfo('Waiting for verification… Enter the code sent to your email.');
+
+    // Auto-detect mock vs real
+    if (!window.supabaseClient) {
+        showInfo('(Demo mode: any 6 digits work except 000000)');
+    }
+
+    // Start cooldown (60s from initial send)
+    startCooldown(60);
+
+    // Start polling
+    startPolling();
+})();
+
+// PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('✅ SW registered'))
+            .catch(err => console.warn('SW failed:', err));
+    });
+}
+</script>
+</body>
+</html>
