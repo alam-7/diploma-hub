@@ -1,0 +1,292 @@
+# ============================================================
+# DIPLOMA HUB — AUTO DEPLOY TO GITHUB PAGES
+# File: .github/workflows/deploy.yml
+# Version: 2.0.0
+# Updated: 2026-09
+#
+# What this does:
+#   - Triggers on every push to `main`
+#   - Validates HTML, JSON, and JS syntax
+#   - Checks for missing critical files
+#   - Uploads the site as a Pages artifact
+#   - Deploys to GitHub Pages
+#   - Posts a summary with the live URL
+#
+# Result:
+#   Every `git push` → automatic live update
+# ============================================================
+
+name: 🚀 Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # allow manual trigger from Actions tab
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Permissions required by Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # ============================================================
+  # JOB 1 — BUILD + VALIDATE
+  # ============================================================
+  build:
+    name: 📦 Build & Validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      # ---------- CHECKOUT ----------
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------- NODE ----------
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ---------- VERIFY CRITICAL FILES ----------
+      - name: 🔍 Verify critical files exist
+        run: |
+          echo "Checking required files..."
+          MISSING=0
+
+          REQUIRED=(
+            "index.html"
+            "404.html"
+            "manifest.json"
+            "service-worker.js"
+            "robots.txt"
+            "sitemap.xml"
+            "css/style.css"
+            "js/msbte-k-scheme-data.js"
+            "js/app.js"
+            "js/auth.js"
+            "js/api.js"
+            "js/quiz.js"
+            "js/search.js"
+            "config/supabase.js"
+            "LICENSE"
+          )
+
+          for f in "${REQUIRED[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Missing: $f"
+              MISSING=$((MISSING+1))
+            else
+              echo "✅ $f"
+            fi
+          done
+
+          if [ $MISSING -gt 0 ]; then
+            echo "::error::$MISSING required file(s) missing"
+            exit 1
+          fi
+          echo "✅ All critical files present"
+
+      # ---------- HTML VALIDATION ----------
+      - name: 🧪 Validate HTML structure
+        run: |
+          echo "Scanning HTML files..."
+          ERRORS=0
+          for f in *.html; do
+            if [ -f "$f" ]; then
+              # Check for <!DOCTYPE html>
+              if ! head -1 "$f" | grep -qi "<!DOCTYPE html>"; then
+                echo "::warning file=$f::Missing <!DOCTYPE html>"
+              fi
+              # Check for <html> tag
+              if ! grep -qi "<html" "$f"; then
+                echo "::error file=$f::Missing <html> tag"
+                ERRORS=$((ERRORS+1))
+              fi
+              # Check for </html>
+              if ! grep -qi "</html>" "$f"; then
+                echo "::error file=$f::Missing </html>"
+                ERRORS=$((ERRORS+1))
+              fi
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then
+            exit 1
+          fi
+          echo "✅ HTML files look good"
+
+      # ---------- JSON VALIDATION ----------
+      - name: 🧪 Validate JSON files
+        run: |
+          echo "Scanning JSON files..."
+          ERRORS=0
+          for f in $(find . -maxdepth 2 -name "*.json" -not -path "./node_modules/*"); do
+            if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
+              echo "::error file=$f::Invalid JSON"
+              ERRORS=$((ERRORS+1))
+            else
+              echo "✅ $f"
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then
+            exit 1
+          fi
+          echo "✅ All JSON valid"
+
+      # ---------- JS SYNTAX CHECK ----------
+      - name: 🧪 Check JS syntax
+        run: |
+          echo "Scanning JS files..."
+          ERRORS=0
+          for f in $(find js config -name "*.js" 2>/dev/null); do
+            if ! node --check "$f" 2>/dev/null; then
+              echo "::error file=$f::JavaScript syntax error"
+              ERRORS=$((ERRORS+1))
+            else
+              echo "✅ $f"
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then
+            exit 1
+          fi
+          echo "✅ All JS files valid"
+
+      # ---------- SERVICE WORKER CHECK ----------
+      - name: 🧪 Validate service-worker.js
+        run: |
+          if [ ! -f "service-worker.js" ]; then
+            echo "::error::service-worker.js is missing"
+            exit 1
+          fi
+          if ! grep -q "addEventListener('install'" service-worker.js; then
+            echo "::warning::service-worker.js missing install handler"
+          fi
+          if ! grep -q "addEventListener('fetch'" service-worker.js; then
+            echo "::warning::service-worker.js missing fetch handler"
+          fi
+          echo "✅ Service worker structure OK"
+
+      # ---------- SITEMAP CHECK ----------
+      - name: 🧪 Validate sitemap.xml
+        run: |
+          if [ ! -f "sitemap.xml" ]; then
+            echo "::warning::sitemap.xml missing"
+          else
+            if ! grep -q "urlset" sitemap.xml; then
+              echo "::error::sitemap.xml invalid — missing urlset"
+              exit 1
+            fi
+            URL_COUNT=$(grep -c "<loc>" sitemap.xml || echo 0)
+            echo "✅ sitemap.xml has $URL_COUNT URLs"
+          fi
+
+      # ---------- ROBOTS CHECK ----------
+      - name: 🧪 Validate robots.txt
+        run: |
+          if [ ! -f "robots.txt" ]; then
+            echo "::warning::robots.txt missing"
+          else
+            if ! grep -q "Sitemap:" robots.txt; then
+              echo "::warning::robots.txt missing Sitemap directive"
+            fi
+            echo "✅ robots.txt present"
+          fi
+
+      # ---------- MANIFEST CHECK ----------
+      - name: 🧪 Validate manifest.json
+        run: |
+          if ! node -e "
+            const m = JSON.parse(require('fs').readFileSync('manifest.json','utf8'));
+            const required = ['name','short_name','start_url','display','icons'];
+            const missing = required.filter(k => !m[k]);
+            if (missing.length) {
+              console.error('Missing manifest keys:', missing);
+              process.exit(1);
+            }
+            if (!Array.isArray(m.icons) || m.icons.length < 2) {
+              console.error('Need at least 2 icons (192 + 512)');
+              process.exit(1);
+            }
+            console.log('✅ Manifest valid:', m.name);
+          "; then
+            exit 1
+          fi
+
+      # ---------- FILE SIZE GUARD ----------
+      - name: 📏 Check for oversized files
+        run: |
+          echo "Looking for files >10MB..."
+          BIG=$(find . -type f -size +10M -not -path "./.git/*" -not -path "./node_modules/*" 2>/dev/null || true)
+          if [ -n "$BIG" ]; then
+            echo "::warning::Large files detected (may slow the site):"
+            echo "$BIG"
+          else
+            echo "✅ No oversized files"
+          fi
+
+      # ---------- SUMMARY ----------
+      - name: 📊 Build summary
+        run: |
+          {
+            echo "## 📊 Build Summary"
+            echo ""
+            echo "| Metric | Value |"
+            echo "|--------|-------|"
+            echo "| HTML pages | $(ls -1 *.html | wc -l) |"
+            echo "| CSS files | $(find css -name '*.css' 2>/dev/null | wc -l) |"
+            echo "| JS files | $(find js -name '*.js' 2>/dev/null | wc -l) |"
+            echo "| JSON files | $(find . -maxdepth 2 -name '*.json' -not -path './node_modules/*' 2>/dev/null | wc -l) |"
+            echo "| Sitemap URLs | $(grep -c '<loc>' sitemap.xml 2>/dev/null || echo 0) |"
+            echo "| Total size | $(du -sh --exclude=.git --exclude=node_modules . 2>/dev/null | cut -f1) |"
+            echo ""
+            echo "✅ All checks passed"
+          } >> $GITHUB_STEP_SUMMARY
+
+      # ---------- UPLOAD PAGES ARTIFACT ----------
+      - name: 📤 Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+          retention-days: 1
+
+  # ============================================================
+  # JOB 2 — DEPLOY
+  # ============================================================
+  deploy:
+    name: 🌐 Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: 🚀 Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: 📢 Deployment summary
+        run: |
+          {
+            echo "## 🌐 Deployment Successful"
+            echo ""
+            echo "**Live URL:** ${{ steps.deployment.outputs.page_url }}"
+            echo ""
+            echo "**Commit:** [\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+            echo ""
+            echo "**Triggered by:** ${{ github.actor }}"
+            echo ""
+            echo "⏱ **Deployed at:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          } >> $GITHUB_STEP_SUMMARY
+
+      # ---------- NOTIFY ON FAILURE ----------
+      - name: ❌ Notify on failure
+        if: failure()
+        run: |
+          echo "::error::Deployment failed. Check the logs above."
