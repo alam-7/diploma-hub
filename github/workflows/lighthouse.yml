@@ -1,0 +1,352 @@
+# ============================================================
+# DIPLOMA HUB — LIGHTHOUSE CI
+# File: .github/workflows/lighthouse.yml
+# Version: 2.0.0
+# Updated: 2026-09
+#
+# What this does:
+#   - Runs Google Lighthouse on every push + PR
+#   - Measures: Performance, Accessibility, Best Practices, SEO, PWA
+#   - Compares against thresholds (configurable below)
+#   - Comments results on the PR
+#   - Uploads HTML reports as artifacts
+#   - Can fail the build if scores drop below minimum
+#
+# Setup:
+#   1. Deploy your site to GitHub Pages first (deploy.yml)
+#   2. This workflow will test the LIVE site on every PR
+#   3. Optionally add LHCI_GITHUB_APP_TOKEN secret for richer PR comments
+# ============================================================
+
+name: 🔍 Lighthouse CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Cancel duplicate runs on the same branch
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+  checks: write
+
+jobs:
+  # ============================================================
+  # JOB — LIGHTHOUSE AUDIT
+  # ============================================================
+  lighthouse:
+    name: 🔦 Audit Performance & SEO
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # ---------- CHECKOUT ----------
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------- NODE ----------
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ---------- CACHE ----------
+      - name: 💾 Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # ---------- WAIT FOR DEPLOY (on main) ----------
+      - name: ⏳ Wait for GitHub Pages to update
+        if: github.event_name == 'push'
+        run: |
+          echo "Waiting 30s for GitHub Pages to serve the new build..."
+          sleep 30
+
+      # ---------- RUN LIGHTHOUSE ----------
+      - name: 🔦 Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          # Test the live site (GitHub Pages)
+          urls: |
+            https://alam-7.github.io/diploma-hub/
+            https://alam-7.github.io/diploma-hub/courses.html
+            https://alam-7.github.io/diploma-hub/equipment.html
+            https://alam-7.github.io/diploma-hub/notes.html
+            https://alam-7.github.io/diploma-hub/quizzers.html
+            https://alam-7.github.io/diploma-hub/about.html
+            https://alam-7.github.io/diploma-hub/contact.html
+
+          # Number of runs per URL (median is used)
+          runs: 2
+
+          # Upload reports as artifacts
+          uploadArtifacts: true
+
+          # Temporary public storage for reports (7 days)
+          temporaryPublicStorage: true
+
+          # Score thresholds (see comment below)
+          # Format: [performance, accessibility, best-practices, seo, pwa]
+          assertions: |
+            {
+              "categories:performance": ["warn", { "minScore": 0.75 }],
+              "categories:accessibility": ["error", { "minScore": 0.85 }],
+              "categories:best-practices": ["warn", { "minScore": 0.85 }],
+              "categories:seo": ["error", { "minScore": 0.85 }],
+              "categories:pwa": ["warn", { "minScore": 0.70 }],
+              "resource-summary:script:size": ["warn", { "maxNumericValue": 500000 }],
+              "resource-summary:stylesheet:size": ["warn", { "maxNumericValue": 250000 }],
+              "resource-summary:image:size": ["warn", { "maxNumericValue": 1500000 }],
+              "resource-summary:total:size": ["warn", { "maxNumericValue": 3000000 }]
+            }
+
+      # ---------- SUMMARY IN ACTIONS TAB ----------
+      - name: 📊 Write summary
+        if: always()
+        run: |
+          {
+            echo "## 🔦 Lighthouse Results"
+            echo ""
+            echo "| Category | Threshold | Status |"
+            echo "|----------|-----------|--------|"
+            echo "| Performance | ≥ 75 | ⚠️ Warning |"
+            echo "| Accessibility | ≥ 85 | ❌ Must pass |"
+            echo "| Best Practices | ≥ 85 | ⚠️ Warning |"
+            echo "| SEO | ≥ 85 | ❌ Must pass |"
+            echo "| PWA | ≥ 70 | ⚠️ Warning |"
+            echo ""
+            echo "### 📄 Tested URLs"
+            echo "- Homepage"
+            echo "- Courses"
+            echo "- Equipment"
+            echo "- Notes"
+            echo "- Quizzers"
+            echo "- About"
+            echo "- Contact"
+            echo ""
+            echo "### 📦 Reports"
+            echo "Download the HTML reports from the **Artifacts** section below."
+            echo ""
+            echo "### 🎯 Scores Guide"
+            echo ""
+            echo "| Score | Rating |"
+            echo "|-------|--------|"
+            echo "| 90–100 | 🟢 Good |"
+            echo "| 50–89 | 🟠 Needs improvement |"
+            echo "| 0–49 | 🔴 Poor |"
+          } >> $GITHUB_STEP_SUMMARY
+
+      # ---------- FAIL ON CRITICAL FAILURES ----------
+      - name: ✅ All checks passed
+        if: success()
+        run: echo "::notice::Lighthouse passed all critical checks ✅"
+
+      - name: ❌ Failed checks
+        if: failure()
+        run: |
+          echo "::error::Lighthouse found issues that must be fixed (see report)."
+          exit 1
+
+  # ============================================================
+  # JOB — BUNDLE SIZE CHECK
+  # ============================================================
+  bundle-size:
+    name: 📏 Check Bundle Sizes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📏 Measure total site size
+        run: |
+          echo "### 📏 Bundle Size Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Size | Limit | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|------|-------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          CSS_SIZE=$(du -sk css 2>/dev/null | cut -f1 || echo 0)
+          JS_SIZE=$(du -sk js 2>/dev/null | cut -f1 || echo 0)
+          HTML_SIZE=$(du -ck *.html 2>/dev/null | tail -1 | cut -f1 || echo 0)
+          ASSETS_SIZE=$(du -sk assets 2>/dev/null | cut -f1 || echo 0)
+          TOTAL=$(du -sk --exclude=.git --exclude=node_modules --exclude=.github . 2>/dev/null | cut -f1 || echo 0)
+
+          echo "| CSS | ${CSS_SIZE} KB | 500 KB | $([ $CSS_SIZE -lt 500 ] && echo '✅' || echo '⚠️') |" >> $GITHUB_STEP_SUMMARY
+          echo "| JS | ${JS_SIZE} KB | 800 KB | $([ $JS_SIZE -lt 800 ] && echo '✅' || echo '⚠️') |" >> $GITHUB_STEP_SUMMARY
+          echo "| HTML | ${HTML_SIZE} KB | 500 KB | $([ $HTML_SIZE -lt 500 ] && echo '✅' || echo '⚠️') |" >> $GITHUB_STEP_SUMMARY
+          echo "| Assets | ${ASSETS_SIZE} KB | 5000 KB | $([ $ASSETS_SIZE -lt 5000 ] && echo '✅' || echo '⚠️') |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Total** | **${TOTAL} KB** | **10000 KB** | $([ $TOTAL -lt 10000 ] && echo '✅' || echo '⚠️') |" >> $GITHUB_STEP_SUMMARY
+
+          echo ""
+          echo "### 📊 Largest files:"
+          echo ""
+          echo '```'
+          find . -type f -not -path './.git/*' -not -path './node_modules/*' -not -path './.github/*' -exec du -k {} + 2>/dev/null | sort -rn | head -10
+          echo '```'
+          find . -type f -not -path './.git/*' -not -path './node_modules/*' -not -path './.github/*' -exec du -k {} + 2>/dev/null | sort -rn | head -10 >> $GITHUB_STEP_SUMMARY
+
+      - name: ⚠️ Warn if too large
+        run: |
+          TOTAL=$(du -sk --exclude=.git --exclude=node_modules --exclude=.github . 2>/dev/null | cut -f1 || echo 0)
+          if [ $TOTAL -gt 10000 ]; then
+            echo "::warning::Total site is ${TOTAL}KB (>10MB). Consider optimizing images or lazy-loading."
+          else
+            echo "::notice::Total site size: ${TOTAL}KB ✅"
+          fi
+
+  # ============================================================
+  # JOB — HTML/CSS/JS QUALITY (LIGHT CHECKS)
+  # ============================================================
+  quality:
+    name: 🧹 Code Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 🔍 Check for common issues
+        run: |
+          echo "### 🧹 Code Quality Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          ISSUES=0
+
+          # 1. Check for console.log left in production
+          CONSOLE_COUNT=$(grep -rn "console\.log" js/ 2>/dev/null | wc -l || echo 0)
+          echo "- \`console.log\` calls in js/: **${CONSOLE_COUNT}**" >> $GITHUB_STEP_SUMMARY
+          if [ "$CONSOLE_COUNT" -gt 30 ]; then
+            echo "  ⚠️ Many debug logs — consider removing before release" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # 2. Check for TODO comments
+          TODO_COUNT=$(grep -rn "TODO\|FIXME" --include="*.js" --include="*.html" --include="*.css" . 2>/dev/null | grep -v node_modules | wc -l || echo 0)
+          echo "- TODO/FIXME comments: **${TODO_COUNT}**" >> $GITHUB_STEP_SUMMARY
+
+          # 3. Check for inline styles in HTML (too many is bad)
+          INLINE_STYLE=$(grep -c 'style="' *.html 2>/dev/null | awk -F: '{s+=$2} END {print s+0}')
+          echo "- Inline style attributes: **${INLINE_STYLE}**" >> $GITHUB_STEP_SUMMARY
+
+          # 4. Check for missing alt attributes
+          IMG_NO_ALT=0
+          for f in *.html; do
+            if [ -f "$f" ]; then
+              COUNT=$(grep -o '<img[^>]*>' "$f" 2>/dev/null | grep -v 'alt=' | wc -l || echo 0)
+              IMG_NO_ALT=$((IMG_NO_ALT + COUNT))
+            fi
+          done
+          echo "- \`<img>\` without alt: **${IMG_NO_ALT}**" >> $GITHUB_STEP_SUMMARY
+          if [ "$IMG_NO_ALT" -gt 0 ]; then
+            echo "  ⚠️ Add alt text to images for accessibility" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # 5. Check for deprecated HTML tags
+          DEPRECATED=$(grep -rniE "<(font|center|marquee|blink)[ >]" *.html 2>/dev/null | wc -l || echo 0)
+          echo "- Deprecated tags: **${DEPRECATED}**" >> $GITHUB_STEP_SUMMARY
+          if [ "$DEPRECATED" -gt 0 ]; then
+            echo "  ⚠️ Replace deprecated HTML tags" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # 6. Check for missing lang attribute
+          NO_LANG=0
+          for f in *.html; do
+            if [ -f "$f" ]; then
+              if ! grep -q '<html[^>]*lang=' "$f"; then
+                NO_LANG=$((NO_LANG + 1))
+              fi
+            fi
+          done
+          echo "- HTML files missing \`lang\`: **${NO_LANG}**" >> $GITHUB_STEP_SUMMARY
+          if [ "$NO_LANG" -gt 0 ]; then
+            echo "  ⚠️ Add \`lang=\"en\"\` to \`<html>\` for accessibility" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # 7. Check for missing meta description
+          NO_DESC=0
+          for f in *.html; do
+            if [ -f "$f" ]; then
+              if ! grep -q '<meta name="description"' "$f"; then
+                NO_DESC=$((NO_DESC + 1))
+              fi
+            fi
+          done
+          echo "- HTML files missing meta description: **${NO_DESC}**" >> $GITHUB_STEP_SUMMARY
+          if [ "$NO_DESC" -gt 3 ]; then
+            echo "  ⚠️ Add meta descriptions for SEO" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Quality scan complete" >> $GITHUB_STEP_SUMMARY
+
+      - name: ✅ Quality checks done
+        run: echo "::notice::Quality scan complete (non-blocking)"
+
+  # ============================================================
+  # JOB — PR COMMENT (only on PRs)
+  # ============================================================
+  comment:
+    name: 💬 Comment on PR
+    needs: [lighthouse]
+    if: github.event_name == 'pull_request' && always()
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: 💬 Post PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ needs.lighthouse.result }}';
+            const emoji = status === 'success' ? '✅' : '⚠️';
+            const msg = status === 'success'
+              ? 'All Lighthouse checks passed!'
+              : 'Some Lighthouse checks failed — see workflow for details.';
+
+            const body = `## 🔦 Lighthouse CI
+
+            ${emoji} **Status:** \`${status}\`
+
+            ${msg}
+
+            ### 📊 Scores Guide
+
+            | Category | Target | Notes |
+            |----------|--------|-------|
+            | 🚀 Performance | ≥ 75 | Load speed, interactivity |
+            | ♿ Accessibility | ≥ 85 | Screen readers, keyboard |
+            | 🛡 Best Practices | ≥ 85 | Security, modern APIs |
+            | 🔍 SEO | ≥ 85 | Meta, sitemap, robots |
+            | 📱 PWA | ≥ 70 | Installability, offline |
+
+            ### 🔗 Full report
+            View the workflow run: [Actions #${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+            *This comment is auto-generated by Lighthouse CI.*
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
