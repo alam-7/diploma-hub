@@ -1,0 +1,234 @@
+{
+  "name": "DiplomaHub — MSBTE Diploma Learning",
+  "short_name": "DiplomaHub",
+  "description": "Free MSBTE Diploma study platform — notes, books, question papers, practicals, quizzes, and equipment reference for all branches. Works offline.",
+
+  "id": "/diploma-hub/",
+  "start_url": "/diploma-hub/index.html",
+  "scope": "/diploma-hub/",
+
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+
+  "background_color": "#0a0a1a",
+  "theme_color": "#00d4ff",
+
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["education", "books", "productivity", "utilities"],
+
+  "prefer_related_applications": false,
+
+  "icons": [
+    {
+      "src": "assets/images/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "assets/images/screenshot-mobile-1.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home — browse all courses"
+    },
+    {
+      "src": "assets/images/screenshot-mobile-2.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Subject dashboard"
+    },
+    {
+      "src": "assets/images/screenshot-desktop-1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop — courses overview"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Browse Courses",
+      "short_name": "Courses",
+      "description": "View all MSBTE Diploma branches",
+      "url": "/diploma-hub/courses.html",
+      "icons": [
+        {
+          "src": "assets/images/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Take a Quiz",
+      "short_name": "Quiz",
+      "description": "Practice MCQs",
+      "url": "/diploma-hub/quizzers.html",
+      "icons": [
+        {
+          "src": "assets/images/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Notes Library",
+      "short_name": "Notes",
+      "description": "Browse all notes PDFs",
+      "url": "/diploma-hub/notes.html",
+      "icons": [
+        {
+          "src": "assets/images/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "short_name": "Search",
+      "description": "Search everything on DiplomaHub",
+      "url": "/diploma-hub/search.html",
+      "icons": [
+        {
+          "src": "assets/images/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "MSBTE Resources",
+      "short_name": "MSBTE",
+      "description": "Official MSBTE links",
+      "url": "/diploma-hub/msbte.html",
+      "icons": [
+        {
+          "src": "assets/images/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+
+  "share_target": {
+    "action": "/diploma-hub/search.html",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+
+  "protocol_handlers": [
+    {
+      "protocol": "web+diplomahub",
+      "url": "/diploma-hub/search.html?q=%s"
+    }
+  ],
+
+  "file_handlers": [
+    {
+      "action": "/diploma-hub/notes.html",
+      "accept": {
+        "application/pdf": [".pdf"]
+      }
+    }
+  ],
+
+  "related_applications": [],
+
+  "iarc_rating_id": "",
+
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+
+  "handle_links": "preferred",
+
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+
+  "scope_extensions": [
+    {
+      "type": "origin",
+      "origin": "https://alam-7.github.io"
+    }
+  ],
+
+  "shortcuts_hint": "Long-press the app icon for quick actions",
+
+  "serviceworker": {
+    "src": "service-worker.js",
+    "scope": "/diploma-hub/",
+    "type": "classic",
+    "update_via_cache": "none"
+  }
+}
