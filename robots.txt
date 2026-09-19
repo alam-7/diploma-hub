@@ -1,0 +1,280 @@
+# ============================================================
+# DIPLOMA HUB — ROBOTS.TXT
+# File: robots.txt
+# Version: 2.0.0
+# Updated: 2026-09
+#
+# Purpose:
+#   - Allow all public pages to be indexed
+#   - Block admin, config, test, and internal files
+#   - Point crawlers to the sitemap
+#
+# Learn more: https://www.robotstxt.org/robotstxt.html
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1. ALL CRAWLERS (default)
+# ------------------------------------------------------------
+User-agent: *
+Allow: /
+
+# Homepage & core
+Allow: /diploma-hub/
+Allow: /diploma-hub/index.html
+Allow: /diploma-hub/courses.html
+Allow: /diploma-hub/course-detail.html
+Allow: /diploma-hub/subject.html
+Allow: /diploma-hub/lessons.html
+Allow: /diploma-hub/notes.html
+Allow: /diploma-hub/books.html
+Allow: /diploma-hub/papers.html
+Allow: /diploma-hub/questions.html
+Allow: /diploma-hub/answers.html
+Allow: /diploma-hub/practicals.html
+Allow: /diploma-hub/quizzers.html
+Allow: /diploma-hub/equipment.html
+Allow: /diploma-hub/resources.html
+Allow: /diploma-hub/search.html
+Allow: /diploma-hub/msbte.html
+Allow: /diploma-hub/about.html
+Allow: /diploma-hub/contact.html
+
+# Assets — allow
+Allow: /diploma-hub/css/
+Allow: /diploma-hub/js/
+Allow: /diploma-hub/assets/
+Allow: /diploma-hub/manifest.json
+
+# ------------------------------------------------------------
+# BLOCK — Admin / Auth / Private
+# ------------------------------------------------------------
+Disallow: /diploma-hub/admin-*.html
+Disallow: /diploma-hub/admin-login.html
+Disallow: /diploma-hub/admin-users.html
+Disallow: /diploma-hub/admin-equipment.html
+Disallow: /diploma-hub/admin-verify.html
+Disallow: /diploma-hub/dashboard.html
+Disallow: /diploma-hub/profile.html
+Disallow: /diploma-hub/signup.html
+Disallow: /diploma-hub/verify-email.html
+Disallow: /diploma-hub/forgot-password.html
+
+# ------------------------------------------------------------
+# BLOCK — Config / Secrets
+# ------------------------------------------------------------
+Disallow: /diploma-hub/config/
+Disallow: /diploma-hub/.env
+Disallow: /diploma-hub/.env.*
+Disallow: /diploma-hub/node_modules/
+Disallow: /diploma-hub/backend/
+Disallow: /diploma-hub/middleware/
+Disallow: /diploma-hub/routes/
+Disallow: /diploma-hub/database/
+
+# ------------------------------------------------------------
+# BLOCK — Test / Dev files
+# ------------------------------------------------------------
+Disallow: /diploma-hub/test.html
+Disallow: /diploma-hub/test/
+Disallow: /diploma-hub/*.test.*
+Disallow: /diploma-hub/scratch.*
+Disallow: /diploma-hub/tmp/
+
+# ------------------------------------------------------------
+# BLOCK — API endpoints (not for indexing)
+# ------------------------------------------------------------
+Disallow: /api/
+Disallow: /diploma-hub/api/
+
+# ------------------------------------------------------------
+# BLOCK — 404 page (useless in search results)
+# ------------------------------------------------------------
+Disallow: /diploma-hub/404.html
+
+# ------------------------------------------------------------
+# BLOCK — AI assistant (avoid indexing chat logs)
+# ------------------------------------------------------------
+Disallow: /diploma-hub/ai.html
+
+# ------------------------------------------------------------
+# CRAWL DELAY
+# ------------------------------------------------------------
+Crawl-delay: 1
+
+
+# ------------------------------------------------------------
+# 2. GOOGLE BOT
+# ------------------------------------------------------------
+User-agent: Googlebot
+Allow: /
+Disallow: /diploma-hub/admin-*.html
+Disallow: /diploma-hub/dashboard.html
+Disallow: /diploma-hub/profile.html
+Disallow: /diploma-hub/config/
+Disallow: /diploma-hub/backend/
+
+# Google Images
+User-agent: Googlebot-Image
+Allow: /diploma-hub/assets/images/
+Allow: /diploma-hub/assets/icons/
+
+# Google Ads
+User-agent: AdsBot-Google
+Allow: /
+
+
+# ------------------------------------------------------------
+# 3. BING
+# ------------------------------------------------------------
+User-agent: Bingbot
+Allow: /
+Disallow: /diploma-hub/admin-*.html
+Disallow: /diploma-hub/dashboard.html
+Disallow: /diploma-hub/config/
+
+
+# ------------------------------------------------------------
+# 4. YANDEX
+# ------------------------------------------------------------
+User-agent: Yandex
+Allow: /
+Disallow: /diploma-hub/admin-*.html
+Disallow: /diploma-hub/dashboard.html
+Disallow: /diploma-hub/config/
+
+
+# ------------------------------------------------------------
+# 5. DUCKDUCKGO
+# ------------------------------------------------------------
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /diploma-hub/admin-*.html
+Disallow: /diploma-hub/dashboard.html
+
+
+# ------------------------------------------------------------
+# 6. BAIDU
+# ------------------------------------------------------------
+User-agent: Baiduspider
+Allow: /
+Disallow: /diploma-hub/admin-*.html
+
+
+# ------------------------------------------------------------
+# 7. SOCIAL MEDIA CRAWLERS (open graph previews)
+# ------------------------------------------------------------
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+
+# ------------------------------------------------------------
+# 8. SEO TOOLS
+# ------------------------------------------------------------
+User-agent: AhrefsBot
+Crawl-delay: 10
+Allow: /
+
+User-agent: SemrushBot
+Crawl-delay: 10
+Allow: /
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+
+# ------------------------------------------------------------
+# 9. BLOCK AGGRESSIVE / UNWANTED BOTS
+# ------------------------------------------------------------
+User-agent: AhrefsBot
+Crawl-delay: 5
+
+User-agent: SemrushBot
+Crawl-delay: 5
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: MauiBot
+Disallow: /
+
+User-agent: MegaIndex.ru
+Disallow: /
+
+User-agent: ZoominfoBot
+Disallow: /
+
+User-agent: SeznamBot
+Disallow: /
+
+User-agent: petalbot
+Crawl-delay: 10
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+
+# ------------------------------------------------------------
+# 10. SITEMAP
+# ------------------------------------------------------------
+Sitemap: https://alam-7.github.io/diploma-hub/sitemap.xml
+
+
+# ============================================================
+# NOTES
+# ============================================================
+# - `Allow: /` allows everything by default
+# - `Disallow:` overrides allow for specific paths
+# - Patterns support * (wildcard) and $ (end of URL)
+# - Crawl-delay is in seconds between requests
+# - To test: https://www.google.com/webmasters/tools/robots-txt
+# - To verify indexing: Google Search Console
+# ============================================================
