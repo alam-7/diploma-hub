@@ -1,0 +1,446 @@
+# ============================================================
+# DIPLOMA HUB — GIT IGNORE
+# File: .gitignore
+# Version: 2.0.0
+# Updated: 2026-09
+#
+# Rules:
+#   Lines starting with # are comments
+#   `folder/`   → ignore entire folder
+#   `*.ext`     → ignore files with that extension
+#   `!file`     → exception (don't ignore)
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1. ENVIRONMENT & SECRETS
+# ------------------------------------------------------------
+# NEVER commit real keys
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+# Supabase keys used by frontend
+config/keys.js
+config/secrets.js
+
+# Server private keys
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# AWS / GCP / Azure creds
+.aws/
+.gcp/
+.azure/
+
+
+# ------------------------------------------------------------
+# 2. DEPENDENCIES
+# ------------------------------------------------------------
+node_modules/
+jspm_packages/
+bower_components/
+
+# Yarn
+.yarn/
+.yarn/cache
+.yarn/install-state.gz
+.pnp.*
+.yarnrc.yml
+
+# pnpm
+.pnpm-store/
+.pnpm-debug.log
+
+# npm
+.npm/
+package-lock.json.bak
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+
+# ------------------------------------------------------------
+# 3. BUILD OUTPUT
+# ------------------------------------------------------------
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+.output/
+.vercel/
+.netlify/
+.parcel-cache/
+.temp/
+.tmp/
+.cache/
+*.tsbuildinfo
+
+
+# ------------------------------------------------------------
+# 4. LOGS
+# ------------------------------------------------------------
+logs/
+*.log
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+firebase-debug.log*
+firebase-debug.*.log*
+
+
+# ------------------------------------------------------------
+# 5. RUNTIME DATA
+# ------------------------------------------------------------
+pids/
+*.pid
+*.seed
+*.pid.lock
+lib-cov/
+coverage/
+.nyc_output/
+.grunt/
+
+
+# ------------------------------------------------------------
+# 6. EDITOR / IDE
+# ------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+.idea/
+*.iml
+*.ipr
+*.iws
+.atom/
+.history/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*.swn
+*~
+
+
+# ------------------------------------------------------------
+# 7. OPERATING SYSTEM
+# ------------------------------------------------------------
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+Icon?
+.fseventsd
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.stackdump
+
+# Linux
+*~
+.directory
+.Trash-*
+
+
+# ------------------------------------------------------------
+# 8. TEMPORARY FILES
+# ------------------------------------------------------------
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.tmp
+*.temp
+*.part
+*.pid
+*.lock
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml
+
+
+# ------------------------------------------------------------
+# 9. TESTING
+# ------------------------------------------------------------
+coverage/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+.hypothesis/
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+*.lcov
+test-results/
+playwright-report/
+cypress/videos/
+cypress/screenshots/
+
+
+# ------------------------------------------------------------
+# 10. DATABASE
+# ------------------------------------------------------------
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+dump.sql
+*.dump
+
+
+# ------------------------------------------------------------
+# 11. FONTS / ASSETS (huge files)
+# ------------------------------------------------------------
+# Uncomment if you have >10MB fonts in assets
+# assets/fonts/*.ttf
+# assets/fonts/*.woff
+# assets/fonts/*.woff2
+
+
+# ------------------------------------------------------------
+# 12. USER-SPECIFIC
+# ------------------------------------------------------------
+# Personal notes, scratchpads
+TODO.txt
+NOTES.txt
+scratch.*
+test-local.*
+my-*
+*-local.*
+!*-local.example.*
+
+
+# ------------------------------------------------------------
+# 13. DEPLOYMENT PLATFORMS
+# ------------------------------------------------------------
+.vercel/
+.netlify/
+.railway/
+.render/
+.firebase/
+.heroku/
+.appengine/
+.elasticbeanstalk/
+now.json
+.zeit/
+.surge/
+
+
+# ------------------------------------------------------------
+# 14. NODE / JAVASCRIPT
+# ------------------------------------------------------------
+node_modules/
+node_modules
+jspm_packages/
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional npm cache
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+.env.local
+
+# parcel-bundler cache
+.cache
+.parcel-cache
+
+# Next.js
+.next
+out/
+
+# Nuxt.js
+dist/
+
+# Gatsby
+.cache/
+public/
+
+
+# ------------------------------------------------------------
+# 15. PYTHON (for future Python backend)
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+ENV/
+env/
+.python-version
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+pep8speaks.yml
+
+
+# ------------------------------------------------------------
+# 16. CACHE DIRECTORIES
+# ------------------------------------------------------------
+.cache/
+.temp/
+.tmp/
+.sass-cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+
+# ------------------------------------------------------------
+# 17. PWA / SERVICE WORKER ARTIFACTS
+# ------------------------------------------------------------
+# Don't ignore service-worker.js — we WANT that committed
+!service-worker.js
+!manifest.json
+
+# But ignore generated PWA files
+sw-precache/
+workbox-*.js
+*.workbox.js
+precache-manifest.*.js
+
+
+# ------------------------------------------------------------
+# 18. GITHUB PAGES
+# ------------------------------------------------------------
+# Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+# Ignore Jekyll config if not using it
+# _config.yml
+
+
+# ------------------------------------------------------------
+# 19. ARCHIVES / BACKUPS
+# ------------------------------------------------------------
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.bak
+*.bkp
+
+
+# ------------------------------------------------------------
+# 20. LARGE MEDIA (uncomment if you use Git LFS)
+# ------------------------------------------------------------
+# *.mp4
+# *.mov
+# *.avi
+# *.mp3
+# *.wav
+
+
+# ============================================================
+# EXCEPTIONS — DO commit these
+# ============================================================
+!package.json
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml
+!.env.example
+!config/keys.example.js
+!README.md
+!LICENSE
+!CONTRIBUTING.md
+!CHANGELOG.md
+!manifest.json
+!service-worker.js
+!robots.txt
+!sitemap.xml
+!.gitignore
+
+
+# ============================================================
+# NOTES
+# ============================================================
+# If you accidentally committed a file that should be ignored:
+#
+#   git rm --cached filename
+#   git commit -m "Remove ignored file"
+#
+# If a whole folder:
+#
+#   git rm -r --cached folder/
+#   git commit -m "Remove ignored folder"
+#
+# To see which files are currently ignored:
+#
+#   git status --ignored
+#
+# ============================================================
