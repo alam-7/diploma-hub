@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================
+  DIPLOMA HUB — SITEMAP
+  File: sitemap.xml
+  Version: 2.0.0
+  Updated: 2026-09
+  
+  Purpose:
+    - List all public pages for search engines
+    - Include priority + change frequency hints
+    - Includes static pages, course URLs, subject URLs
+  
+  Format:
+    https://www.sitemaps.org/protocol.html
+  ============================================================
+-->
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ============================================================
+       HOMEPAGE
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ============================================================
+       CORE PAGES
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/courses.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/resources.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/search.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/practicals.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/quizzers.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/notes.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/books.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/papers.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/questions.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/answers.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/msbte.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- ============================================================
+       ABOUT & SUPPORT
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/about.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/contact.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- ============================================================
+       COMPUTER ENGINEERING COURSE
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/course-detail.html?course=computer-engineering</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ============================================================
+       MECHANICAL ENGINEERING COURSE
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/course-detail.html?course=mechanical-engineering</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ============================================================
+       CIVIL ENGINEERING COURSE
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/course-detail.html?course=civil-engineering</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ============================================================
+       ELECTRICAL ENGINEERING COURSE
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/course-detail.html?course=electrical-engineering</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ============================================================
+       ELECTRONICS & TELECOMMUNICATION COURSE
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/course-detail.html?course=electronics-telecommunication</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ============================================================
+       COMPUTER ENGINEERING — SUBJECTS
+       ============================================================ -->
+
+  <!-- Semester 1 -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=311302</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=311303</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=311305</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- Semester 2 -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=312303</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=312301</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- Semester 3 -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313301</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313302</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313303</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313304</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- Semester 4 -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=314318</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=314317</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- Semester 5 -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=315319</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=315325</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- Semester 6 -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=316313</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=316316</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- ============================================================
+       MECHANICAL ENGINEERING — SUBJECTS
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=312312</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313311</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313312</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ============================================================
+       CIVIL ENGINEERING — SUBJECTS
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=312339</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313321</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ============================================================
+       ELECTRICAL ENGINEERING — SUBJECTS
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=312310</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313331</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ============================================================
+       ELECTRONICS & TELECOM — SUBJECTS
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=312314</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/subject.html?code=313341</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ============================================================
+       EQUIPMENT DETAIL PAGES
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=digital-multimeter</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=cro</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=function-generator</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=breadboard</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=soldering-iron</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=vernier-caliper</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=micrometer</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=logic-probe</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=dso</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/equipment-detail.html?slug=variac</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+
+  <!-- ============================================================
+       QUIZ TAKE PAGES (most popular quizzes)
+       ============================================================ -->
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/quiz-take.html?id=quiz-311302-1&amp;code=311302</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/quiz-take.html?id=quiz-312303-1&amp;code=312303</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://alam-7.github.io/diploma-hub/quiz-take.html?id=quiz-313301-1&amp;code=313301</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- ============================================================
+       LAST
+       ============================================================ -->
+</urlset>
